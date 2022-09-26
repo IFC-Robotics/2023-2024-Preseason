@@ -10,3 +10,8 @@ View all branches ------------------------ git branch
 Switch branch ---------------------------- git checkout [branch name]
 Create new branch ------------------------ git checkout -b [branch name]
 Delete local branch ---------------------- git branch -d [branch name]
+
+ConceptExternalHardwareClass
+BasicOmniOpMode_Linear
+BasicOpMode_Iterative
+BasicOpMode_Linear
