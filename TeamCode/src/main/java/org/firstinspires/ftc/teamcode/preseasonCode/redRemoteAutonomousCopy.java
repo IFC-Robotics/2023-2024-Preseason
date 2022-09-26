@@ -1,9 +1,8 @@
-package org.firstinspires.ftc.teamcode.charlieTesting;
+package org.firstinspires.ftc.teamcode.preseasonCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.charlieTesting.robot;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Hardware Test - Red Remote Autonomous Copy")

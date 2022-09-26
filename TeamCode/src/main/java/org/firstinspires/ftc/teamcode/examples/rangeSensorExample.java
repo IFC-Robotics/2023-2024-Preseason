@@ -1,9 +1,4 @@
-/*
-    EXAMPLE RANGE SENSOR CODE
-    DO NOT EDIT
-*/
-
-package org.firstinspires.ftc.teamcode.code2122;
+package org.firstinspires.ftc.teamcode.examples;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;

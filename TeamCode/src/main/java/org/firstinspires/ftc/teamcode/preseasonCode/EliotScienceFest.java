@@ -1,17 +1,17 @@
-package org.firstinspires.ftc.teamcode.code2122;
+package org.firstinspires.ftc.teamcode.preseasonCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
-@TeleOp(name="Advanced TeleOp", group="Linear Opmode")
-public class AdvancedTeleOp extends LinearOpMode {
+@TeleOp(name="Eliot Science Fest Program")
+public class EliotScienceFest extends LinearOpMode {
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -42,28 +42,21 @@ public class AdvancedTeleOp extends LinearOpMode {
     double strafe;
     double turn;
 
-    double FrontRight;
-    double FrontLeft;
-    double BackRight;
-    double BackLeft;
-    
     boolean collecting = false;
     boolean depositing = false;
-    boolean bumperRelease = true;
-    boolean assistMode = true;
-    boolean assistRelease = true;
-    boolean dpadPress = false;
-    boolean autoDrop = true;
-    boolean dropRelease = true;
-
     int armDown = 0;
     int transferOpen = 0;
     int liftOut = 0;
     int droppingFreight = 0;
-    
     double linearLiftDepositorHeight = 0.63;
     double transferServoPosition = 0.63;
-    
+    boolean bumperRelease = true;
+    boolean assistMode = true;
+    boolean assistRelease = true;
+    boolean dpadPress = false;
+    boolean autoDrop = false;
+    boolean dropRelease = true;
+
     double linearLiftDist;
     double linearLift;
     double armDist;
@@ -77,7 +70,7 @@ public class AdvancedTeleOp extends LinearOpMode {
     int armMax = 2000;
     int armMin = 0;
 
-    // angling servo
+    //angling servo
     double currLength = 10;
     double moveTime = 0;
     int anglePower = 1;
@@ -85,34 +78,46 @@ public class AdvancedTeleOp extends LinearOpMode {
     double targetX = 45;
     double targetY = 45;
 
+    double FrontRight;
+    double FrontLeft;
+    double BackRight;
+    double BackLeft;
+
     double spinPower = 0;
 
+
     double pause = 0;
-    private ElapsedTime runtime   = new ElapsedTime();
-    public  ElapsedTime angleTime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
+    public ElapsedTime angleTime = new ElapsedTime();
 
     public void runOpMode() {
 
-        motorFrontRight   = hardwareMap.get(DcMotor.class, "motor_front_right");
-        motorFrontLeft    = hardwareMap.get(DcMotor.class, "motor_front_left");
-        motorBackLeft     = hardwareMap.get(DcMotor.class, "motor_back_left");
-        motorBackRight    = hardwareMap.get(DcMotor.class, "motor_back_right");
+        motorFrontRight = hardwareMap.get(DcMotor.class, "motor_front_right");
+        motorFrontLeft  = hardwareMap.get(DcMotor.class, "motor_front_left");
+        motorBackLeft   = hardwareMap.get(DcMotor.class, "motor_back_left");
+        motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
 
         motorCollector    = hardwareMap.get(DcMotor.class, "motor_collector");
         motorCollectorArm = hardwareMap.get(DcMotor.class, "motor_arm");
         motorSpinner      = hardwareMap.get(DcMotor.class, "motor_spinner");
         motorLinearLift   = hardwareMap.get(DcMotor.class, "motor_linear_lift");
 
-        servoLinearLift   = hardwareMap.get(Servo.class, "servo_linear_lift");
-        servoTransfer     = hardwareMap.get(Servo.class, "servo_transfer");
-        servoArm          = hardwareMap.get(CRServo.class, "CRServo_linear_lift");
+        servoLinearLift = hardwareMap.get(Servo.class, "servo_linear_lift");
+        servoTransfer   = hardwareMap.get(Servo.class, "servo_transfer");
+        servoArm        = hardwareMap.get(CRServo.class, "CRServo_linear_lift");
 
         leftRangeSensor   = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "left_range_sensor");
         rightRangeSensor  = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "right_range_sensor");
         bottomRangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class, "bottom_range_sensor");
-        
+
+        motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
+        motorBackRight.setDirection(DcMotor.Direction.FORWARD);
         motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorCollector.setDirection(DcMotor.Direction.FORWARD);
+        motorCollectorArm.setDirection(DcMotor.Direction.FORWARD);
+        motorSpinner.setDirection(DcMotor.Direction.FORWARD);
+        motorLinearLift.setDirection(DcMotor.Direction.FORWARD);
 
         motorLinearLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLinearLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -152,22 +157,22 @@ public class AdvancedTeleOp extends LinearOpMode {
 
             // driving
 
-            motorFrontRight.setPower(FrontRight);
-            motorFrontLeft.setPower(FrontLeft);
-            motorBackRight.setPower(BackRight);
-            motorBackLeft.setPower(BackLeft);
+            motorFrontRight.setPower(FrontRight * 0.5);
+            motorFrontLeft.setPower(FrontLeft * 0.5);
+            motorBackRight.setPower(BackRight * 0.5);
+            motorBackLeft.setPower(BackLeft * 0.5);
 
-            if (gamepad2.dpad_left){
-                targetX = targetX - 0.1;
-            } else if (gamepad2.dpad_right){
-                targetX = targetX + 0.1;
-            }
-
-            if (gamepad2.dpad_down){
-                targetY = targetY - 0.1;
-            } else if (gamepad2.dpad_up){
-                targetY = targetY + 0.1;
-            }
+//            if (gamepad2.dpad_left){
+//                targetX = targetX - 0.1;
+//            } else if (gamepad2.dpad_right){
+//                targetX = targetX + 0.1;
+//            }
+//
+//            if (gamepad2.dpad_down){
+//                targetY = targetY - 0.1;
+//            } else if (gamepad2.dpad_up){
+//                targetY = targetY + 0.1;
+//            }
 
             // collecting
 
@@ -189,7 +194,7 @@ public class AdvancedTeleOp extends LinearOpMode {
 
             // depositing
 
-            else if (gamepad1.left_trigger > 0) {
+            else if (gamepad1.left_bumper) {
                 if(bumperRelease) {
                     if (depositing) {
                         motorCollector.setPower(0);
@@ -209,37 +214,43 @@ public class AdvancedTeleOp extends LinearOpMode {
 
             // Carousel spinner
 
-            spinPower = 0;
-            if (gamepad2.left_bumper) {
-                spinPower -= 0.45;
-            }
-            if (gamepad2.right_bumper) {
-                spinPower += 0.45;
-            }
-            motorSpinner.setPower(-spinPower);
+//            spinPower = 0;
+//            if (gamepad2.left_bumper) {
+//                spinPower -= 0.45;
+//            }
+//            if (gamepad2.right_bumper) {
+//                spinPower += 0.45;
+//            }
+//            motorSpinner.setPower(-spinPower);
 
             // arm variables
             armDist = motorCollectorArm.getCurrentPosition();
-            armPower = -gamepad2.left_stick_y;
+            if(gamepad1.dpad_up){
+                armPower = -1;
+            } else if (gamepad1.dpad_down){
+                armPower = 1;
+            } else {
+                armPower = 0;
+            }
             telemetry.addData("arm dist: ", armDist);
 
-            if(gamepad2.back) {
-                if(assistRelease) {
-                    assistMode = !assistMode;
-                }
-                assistRelease = false;
-            } else {
-                assistRelease = true;
-            }
+//            if(gamepad2.back) {
+//                if(assistRelease) {
+//                    assistMode = !assistMode;
+//                }
+//                assistRelease = false;
+//            } else {
+//                assistRelease = true;
+//            }
 
-            if(gamepad2.start) {
-                if(dropRelease) {
-                    autoDrop = !autoDrop;
-                }
-                dropRelease = false;
-            } else {
-                dropRelease = true;
-            }
+//            if(gamepad2.start) {
+//                if(dropRelease) {
+//                    autoDrop = !autoDrop;
+//                }
+//                dropRelease = false;
+//            } else {
+//                dropRelease = true;
+//            }
 
 //            if(gamepad2.dpad_up){
 //                servoArm.setPower(1);
@@ -266,34 +277,34 @@ public class AdvancedTeleOp extends LinearOpMode {
                     }
                 }
 
-                if(moveTime > angleTime.milliseconds()){
-                    servoArm.setPower(anglePower);
-                } else {
-                    servoArm.setPower(0);
-                    if(dpadPress == false) {
-                        if (gamepad2.dpad_left) {
-                            targetX = targetX - 5;
-                            getTurns(targetX, targetY);
-                            dpadPress = true;
-                        } else if (gamepad2.dpad_right) {
-                            targetX = targetX + 5;
-                            getTurns(targetX, targetY);
-                            dpadPress = true;
-                        } else if (gamepad2.dpad_down) {
-                            targetY = targetY - 5;
-                            getTurns(targetX, targetY);
-                            dpadPress = true;
-                        } else if (gamepad2.dpad_up) {
-                            targetY = targetY + 5;
-                            getTurns(targetX, targetY);
-                            dpadPress = true;
-                        }
-                    } else {
-                        if(gamepad2.dpad_left == false && gamepad2.dpad_right == false && gamepad2.dpad_up == false && gamepad2.dpad_down == false){
-                            dpadPress = false;
-                        }
-                    }
-                }
+//                if(moveTime > angleTime.milliseconds()){
+//                    servoArm.setPower(anglePower);
+//                } else {
+//                    servoArm.setPower(0);
+//                    if(dpadPress == false) {
+//                        if (gamepad2.dpad_left) {
+//                            targetX = targetX - 5;
+//                            getTurns(targetX, targetY);
+//                            dpadPress = true;
+//                        } else if (gamepad2.dpad_right) {
+//                            targetX = targetX + 5;
+//                            getTurns(targetX, targetY);
+//                            dpadPress = true;
+//                        } else if (gamepad2.dpad_down) {
+//                            targetY = targetY - 5;
+//                            getTurns(targetX, targetY);
+//                            dpadPress = true;
+//                        } else if (gamepad2.dpad_up) {
+//                            targetY = targetY + 5;
+//                            getTurns(targetX, targetY);
+//                            dpadPress = true;
+//                        }
+//                    } else {
+//                        if(gamepad2.dpad_left == false && gamepad2.dpad_right == false && gamepad2.dpad_up == false && gamepad2.dpad_down == false){
+//                            dpadPress = false;
+//                        }
+//                    }
+//                }
 
                 // move arm
 
@@ -306,7 +317,11 @@ public class AdvancedTeleOp extends LinearOpMode {
                 // extend linear lift
 
                 linearLiftDist = motorLinearLift.getCurrentPosition();
-                linearLift = 0.5 * -gamepad2.right_stick_y;
+                if(gamepad1.a){
+                    linearLift = 0.5;
+                } else {
+                    linearLift = 0;
+                }
                 telemetry.addData("linear lift dist: ", linearLiftDist);
                 telemetry.addData("linear lift: ", linearLift);
 
@@ -350,17 +365,17 @@ public class AdvancedTeleOp extends LinearOpMode {
 
                 // deposit freight
 
-                if (gamepad2.a) {
-                    droppingFreight = 5;
-                } else if (gamepad2.y) {
-                    droppingFreight = 4;
-                }
-
-                if (gamepad2.x) {
-                    transferOpen = 5;
-                } else if (gamepad2.b) {
-                    transferOpen = 4;
-                }
+//                if (gamepad2.a) {
+//                    droppingFreight = 5;
+//                } else if (gamepad2.y) {
+//                    droppingFreight = 4;
+//                }
+//
+//                if (gamepad2.x) {
+//                    transferOpen = 5;
+//                } else if (gamepad2.b) {
+//                    transferOpen = 4;
+//                }
 
                 if(FrontLeft < 0 && FrontRight <0 && BackLeft < 0 && BackRight < 0 && collecting == false && armDown == 1){
                     armDown = 4;
