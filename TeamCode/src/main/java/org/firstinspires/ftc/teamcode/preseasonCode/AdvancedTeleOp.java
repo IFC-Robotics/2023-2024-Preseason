@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
 @TeleOp(name="Advanced TeleOp", group="Linear Opmode")
+@Disabled
 public class AdvancedTeleOp extends LinearOpMode {
 
     DcMotor motorFrontRight;

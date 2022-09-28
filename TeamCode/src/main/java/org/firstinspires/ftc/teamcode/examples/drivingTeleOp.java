@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Driving TeleOp Code")
+@Disabled
 public class drivingTeleOp extends LinearOpMode {
 
     DcMotor motorFrontRight;

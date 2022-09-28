@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 @Autonomous(name="Hardware Test - Red Remote Autonomous Copy")
+@Disabled
 public class redRemoteAutonomousCopy extends LinearOpMode {
 
     robot robot = new robot();

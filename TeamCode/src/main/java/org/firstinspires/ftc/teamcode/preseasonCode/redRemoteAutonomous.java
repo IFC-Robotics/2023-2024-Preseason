@@ -11,6 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
 @Autonomous(name="Red Remote Autonomous")
+@Disabled
 public class redRemoteAutonomous extends LinearOpMode {
 
     DcMotor motorFrontRight;
