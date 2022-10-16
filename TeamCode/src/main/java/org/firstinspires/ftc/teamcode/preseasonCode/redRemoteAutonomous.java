@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
-@Autonomous(name="Red Remote Autonomous")
+@Autonomous(name="Red Remote Autonomous", group="Preseason Code")
 @Disabled
 public class redRemoteAutonomous extends LinearOpMode {
 
@@ -364,7 +364,7 @@ public class redRemoteAutonomous extends LinearOpMode {
 
         double wheelRot = inch / (Math.PI * dia);
         double motorRot = wheelRot * ratio;
-        double finalTic = tics*motorRot;
+        double finalTic = tics * motorRot;
         return finalTic;
 
     }

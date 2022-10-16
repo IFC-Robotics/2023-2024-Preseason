@@ -13,8 +13,8 @@ public class javaExample {
     String[] fruits = {"apple", "orange", "grape"}; // an array; the beginning type is the type of every element of the array
 
     // public = other classes can use the variable
-    // static = the variable belongs to this class only
-    // final  = the variable is constant (can't change)
+    // static = the variable belongs to the class, not each instance of the class
+    // final  = the variable is constant (can't be reassigned)
 
     public static final String name = "Charlie";
 

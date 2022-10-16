@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
-@TeleOp(name="Eliot Science Fest Program")
+@TeleOp(name="Eliot Science Fest Program", group="Preseason Code")
 @Disabled
 public class EliotScienceFest extends LinearOpMode {
 
