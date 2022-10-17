@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import java.lang.Math;
 
 @Autonomous(name="Autonomous w/ Encoder", group="Examples")
-@Disabled
+// @Disabled
 public class autonomousWithEncoder extends LinearOpMode {
 
     private DcMotor motor;
@@ -27,13 +27,12 @@ public class autonomousWithEncoder extends LinearOpMode {
 
         waitForStart();
 
-        // Movement is relative, b/c encoders are not reset
-
-        int target = motor.getCurrentPosition() + (inches * COUNTS_PER_INCH);
-
-        motor.setTargetPosition(target);
+        int inches = 24;
+        int power = 0.5;
+        
+        motor.setTargetPosition(inches * COUNTS_PER_INCH);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setPower(0.5);
+        motor.setPower(power);
 
         while (opModeIsActive() && motor.isBusy()) {
             telemetry.addData("Target", target);
