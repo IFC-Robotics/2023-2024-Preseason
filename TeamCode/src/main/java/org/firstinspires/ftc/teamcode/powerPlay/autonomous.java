@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="autonomous")
+@Autonomous(name="autonomous", group="powerPlay")
 public class autonomous extends LinearOpMode {
 
     robotClass robot = new robotClass();
@@ -22,7 +22,7 @@ public class autonomous extends LinearOpMode {
         waitForStart();
         runtime.reset();
 
-        robot.moveMotorOne(DRIVE_SPEED, 600, -1); // move forward
+        robot.moveMotorOne(DRIVE_SPEED, 24);
 
     }
 

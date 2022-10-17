@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cRangeSensor;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-@TeleOp(name = "Range Sensor Example", group = "Sensor")
+@TeleOp(name = "Range Sensor Example", group = "Examples")
 @Disabled
 public class rangeSensorExample extends LinearOpMode {
 
