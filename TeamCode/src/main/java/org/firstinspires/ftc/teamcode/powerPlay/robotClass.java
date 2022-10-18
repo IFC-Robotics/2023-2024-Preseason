@@ -45,7 +45,10 @@ public class robotClass extends LinearOpMode {
 
         motorOne.setMode(DcMotor.RunMode.RUN_TO_POSITION); // moves the motor
         motorOne.setPower(direction * speed);
-        while (motorOne.isBusy() && opModeIsActive()) {}
+        while (motorOne.isBusy() && opModeIsActive()) {
+            telemetry.addData("Hello", "Initialized");
+            telemetry.update();
+        }
 
         resetMotor(motorOne); // resets the motor
 
