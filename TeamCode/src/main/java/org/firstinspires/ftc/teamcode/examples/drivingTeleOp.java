@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Driving TeleOp Code")
+@TeleOp(name="Driving TeleOp Code", group = "Examples")
 @Disabled
 public class drivingTeleOp extends LinearOpMode {
 

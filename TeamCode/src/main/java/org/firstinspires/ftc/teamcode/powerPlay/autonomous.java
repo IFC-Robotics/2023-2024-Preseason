@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name="autonomous")
+@Autonomous(name="autonomous", group="powerPlay")
 public class autonomous extends LinearOpMode {
 
 //    robotClass robot = new robotClass();
@@ -24,6 +24,7 @@ public class autonomous extends LinearOpMode {
 
         waitForStart();
         runtime.reset();
+
 
 //        robot.moveMotorOne(DRIVE_SPEED, 6000, -1); // move forward
 
@@ -50,6 +51,8 @@ public class autonomous extends LinearOpMode {
         motorOne.setPower(0); // stops the motor
         motorOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // resets the encoder
         motorOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // makes it so the encoder can receive a target position
+
+
 
     }
 

@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 import java.lang.Math;
 
-@TeleOp(name="Advanced TeleOp", group="Linear Opmode")
+@TeleOp(name="Advanced TeleOp", group="Preseason Code")
 @Disabled
 public class AdvancedTeleOp extends LinearOpMode {
 
