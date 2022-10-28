@@ -1,13 +1,11 @@
 package org.firstinspires.ftc.teamcode.examples;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import java.lang.Math;
 
 @Autonomous(name="Autonomous w/ Encoder", group="Examples")
-// @Disabled
 public class autonomousWithEncoder extends LinearOpMode {
 
     private DcMotor motor;
@@ -16,7 +14,7 @@ public class autonomousWithEncoder extends LinearOpMode {
     static final double GEAR_RATIO               = 1.0;
     static final double WHEEL_DIAMETER_IN_INCHES = 1.0;
     static final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
-    
+
     @Override
     public void runOpMode() {
 
@@ -26,7 +24,7 @@ public class autonomousWithEncoder extends LinearOpMode {
 
         waitForStart();
 
-        int inches = 24;
+        int inches = 96;
         double power = 0.5;
         double target = inches * COUNTS_PER_INCH;
 

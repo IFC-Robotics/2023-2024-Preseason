@@ -4,8 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-// after the autonomous and teleOp programs work correctly, learn how to make program asynchronous
-// add second motor, run it after first motor, and remove/change while loop in moveMotorOne()
+// learn how to make program asynchronous (add second motor, run it after first motor, and remove/change while loop in moveMotorOne())
 
 public class robotClass extends LinearOpMode {
 
@@ -20,6 +19,7 @@ public class robotClass extends LinearOpMode {
 
     public robotClass(){}
 
+    @Override
     public void runOpMode(){}
 
     public void init(HardwareMap hardwareMapParameter) {
@@ -27,42 +27,33 @@ public class robotClass extends LinearOpMode {
         hardwareMap = hardwareMapParameter;
 
         motorOne = hardwareMap.get(DcMotor.class, "motor_one");
-        // motorOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorOne.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        resetMotor(motorOne);
-
-    }
-
-    public void resetMotor(DcMotor motor) {
-
-        motor.setPower(0); // stops the motor
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // resets the encoder
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // makes it so the encoder can receive a target position
+        motorOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorOne.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
-    public void moveMotorOne(double speed, int distance, int direction) {
+//    public void resetMotor(DcMotor motor) {
+//
+//        motor.setPower(0); // stops the motor
+//        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER); // resets the encoder
+//        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER); // makes it so the encoder can receive a target position
+//
+//    }
 
-        resetMotor(motorOne);
+    public void moveMotorOne(double speed, int inches) {
 
+        motorOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        motorOne.setTargetPosition(direction * distance); // sets the position the motor will move to
-
-        motorOne.setMode(DcMotor.RunMode.RUN_TO_POSITION); // moves the motor
-        motorOne.setPower(direction * speed);
-        while (motorOne.isBusy() && opModeIsActive()) {
-            telemetry.addData("Hello", "Initialized");
-            telemetry.update();
-        }
-
-        motorOne.setTargetPosition((int)(distance * MOTOR_ONE_COUNTS_PER_INCH));
+        motorOne.setTargetPosition((int)(inches * MOTOR_ONE_COUNTS_PER_INCH));
         motorOne.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorOne.setPower(speed);
-        
-        while (motorOne.isBusy() && opModeIsActive()) {}
 
+        while (opModeIsActive() && motorOne.isBusy()) {}
 
-        resetMotor(motorOne);
+        motorOne.setPower(0);
+        motorOne.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
     }
 
