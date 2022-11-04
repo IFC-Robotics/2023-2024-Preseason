@@ -56,9 +56,6 @@ public class autonomousNoRobotClass extends LinearOpMode {
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
     }
         public void drive(double speed, int distance, int direction) {
 
@@ -93,20 +90,49 @@ public class autonomousNoRobotClass extends LinearOpMode {
             }
 
         }
+
+        public void lift(double speed, double height) {
+            double ticHeight = inchToTics(height);
+
+            motorLift.setTargetPosition((int) ticHeight);
+            motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            motorLift.setPower(speed);
+
+            while (motorLift.isBusy() && opModeIsActive()) {
+
+            }
+
+            motorLift.setPower(0);
+        }
+
+        public void moveClaw() {
+            //Test this later, we don't know the amount
+            claw.setPosition(0.33);
+            lift(1, 0);
+            claw.setPosition(0);
+
+            //Lifting up to a random position, remember to change
+            double liftRandomPosition = Math.random() * 100;
+            lift(2, liftRandomPosition);
+        }
+
         public double inchToTics(double inch) {
 
-            int tics = 1129;
-            int dia = 4;
-            double ratio = 0.64;
-//            final double COUNTS_PER_REVOLUTION    = 28.0;
-//            final double GEAR_RATIO               = 1.0;
-//            final double WHEEL_DIAMETER_IN_INCHES = 1.0;
-//            final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
+//            int tics = 1129;
+//            int dia = 4;
+//            double ratio = 0.64;
+            final double COUNTS_PER_REVOLUTION    = 28.0;
+            final double GEAR_RATIO               = 20.0;
+            final double WHEEL_DIAMETER_IN_INCHES = 1.0;
+            final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
 
-            double wheelRot = inch / (Math.PI * dia);
-            double motorRot = wheelRot * ratio;
-            double finalTic = tics * motorRot;
-            return finalTic;
+            return COUNTS_PER_INCH;
+
+//            double wheelRot = inch / (Math.PI * dia);
+//            double motorRot = wheelRot * ratio;
+//            double finalTic = tics * motorRot;
+//            return finalTic;
 
         }
 
