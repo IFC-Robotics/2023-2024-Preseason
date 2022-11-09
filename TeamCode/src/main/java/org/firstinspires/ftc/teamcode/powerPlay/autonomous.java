@@ -4,11 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="autonomous competition", group = "PowerPlay")
-public class autonomousNoRobotClass extends LinearOpMode {
+public class autonomous extends LinearOpMode {
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -16,14 +14,7 @@ public class autonomousNoRobotClass extends LinearOpMode {
     DcMotor motorBackLeft;
     DcMotor motorLift;
 
-    Servo claw;
-
-    double FrontRight;
-    double FrontLeft;
-    double BackRight;
-    double BackLeft;
-
-    private ElapsedTime runtime = new ElapsedTime();
+    Servo servoClaw;
 
     public void runOpMode () {
 
@@ -37,13 +28,12 @@ public class autonomousNoRobotClass extends LinearOpMode {
 
         motorLift = hardwareMap.get(DcMotor.class, "motor_lift");
 
-        claw = hardwareMap.get(Servo.class, "servo_claw");
+        servoClaw = hardwareMap.get(Servo.class, "servo_claw");
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
-        runtime.reset();
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -58,7 +48,7 @@ public class autonomousNoRobotClass extends LinearOpMode {
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // code goes here
-        strafe(1, 37, -1 );
+        strafe(1, 37, -1);
         drive(1,44,1);
         lift("high junction");
         moveClaw("open");
@@ -115,8 +105,8 @@ public class autonomousNoRobotClass extends LinearOpMode {
     }
 
     public void moveClaw(String direction) {
-        if (direction == "open") claw.setPosition(0.33); // Test this later, we don't know the amount
-        if (direction == "close") claw.setPosition(0);
+        if (direction == "open") servoClaw.setPosition(0.33); // Test this later, we don't know the amount
+        if (direction == "close") servoClaw.setPosition(0);
     }
 
     public double inchToTics(double inches) {
