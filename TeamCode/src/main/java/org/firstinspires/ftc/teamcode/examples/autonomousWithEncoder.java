@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.examples;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import java.lang.Math;
 
 @Autonomous(name="Autonomous w/ Encoder", group="Examples")
+@Disabled
 public class autonomousWithEncoder extends LinearOpMode {
 
     private DcMotor motor;
@@ -29,6 +31,7 @@ public class autonomousWithEncoder extends LinearOpMode {
         double target = inches * COUNTS_PER_INCH;
 
         motor.setTargetPosition((int)(target));
+        
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(power);
 
