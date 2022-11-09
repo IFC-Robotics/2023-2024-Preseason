@@ -27,11 +27,15 @@ public class autonomous extends LinearOpMode {
         motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
 
         motorLift = hardwareMap.get(DcMotor.class, "motor_lift");
-
         servoClaw = hardwareMap.get(Servo.class, "servo_claw");
 
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         waitForStart();
 
@@ -48,12 +52,19 @@ public class autonomous extends LinearOpMode {
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // code goes here
-        strafe(1, 37, -1);
-        drive(1,44,1);
-        lift("high junction");
-        moveClaw("open");
-        lift("ground junction");
-        strafe(1,8,1);
+
+        drive(0.5, (int)inchToTics(12), 1);
+
+        // 6 -> 27
+        // 12 -> 39
+
+//        moveClaw("close");
+//        strafe(1, 37, -1);
+//        drive(1, 44, 1);
+//        lift("high junction");
+//        moveClaw("open");
+//        lift("ground junction");
+//        strafe(1, 8, 1);
 
     }
 

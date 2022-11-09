@@ -45,8 +45,8 @@ public class teleOp extends LinearOpMode {
 
         servoClaw = hardwareMap.get(Servo.class, "servo_claw");
 
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
 
