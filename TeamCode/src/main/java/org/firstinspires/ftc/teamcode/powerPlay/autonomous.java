@@ -55,9 +55,6 @@ public class autonomous extends LinearOpMode {
 
         drive(0.5, (int)inchToTics(12), 1);
 
-        // 6 -> 27
-        // 12 -> 39
-
 //        moveClaw("close");
 //        strafe(1, 37, -1);
 //        drive(1, 44, 1);
@@ -122,21 +119,26 @@ public class autonomous extends LinearOpMode {
 
     public double inchToTics(double inches) {
 
+        // 6 -> 27
+        // 12 -> 39
+        
         final double COUNTS_PER_REVOLUTION    = 28.0;
         final double GEAR_RATIO               = 20.0;
         final double WHEEL_DIAMETER_IN_INCHES = 1.0;
-        final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
+        final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI); // 178.253536
+ 
+        // c * inches * COUNTS_PER_INCH = 2 * inches + 15
+        // actualDistance = 0.01122 * inches + 15;
+        // inches = (actualDistance - 15) / 0.01122;
+        
+        return (inches * COUNTS_PER_INCH - 15) / 0.01122;
 
-        return inches * COUNTS_PER_INCH;
-
-//        int tics = 1129;
-//        int dia = 4;
-//        double ratio = 0.64;
-//
-//        double wheelRot = inch / (Math.PI * dia);
-//        double motorRot = wheelRot * ratio;
-//        double finalTic = tics * motorRot;
-//        return finalTic;
+//        double COUNTS_PER_REVOLUTION    = 1120.0;
+//        double ratio                    = 0.64;
+//        double WHEEL_DIAMETER_IN_INCHES = 4.0;
+//        double COUNTS_PER_INCH          = COUNTS_PER_REVOLUTION * ratio / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
+//        
+//        return inches * COUNTS_PER_INCH;
 
     }
 
