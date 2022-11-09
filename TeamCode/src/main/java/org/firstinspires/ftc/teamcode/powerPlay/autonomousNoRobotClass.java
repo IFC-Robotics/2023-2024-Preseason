@@ -58,6 +58,12 @@ public class autonomousNoRobotClass extends LinearOpMode {
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // code goes here
+        strafe(1, 37, -1 );
+        drive(1,44,1);
+        lift("high junction");
+        moveClaw("open");
+        lift("ground junction");
+        strafe(1,8,1);
 
     }
 
@@ -95,7 +101,7 @@ public class autonomousNoRobotClass extends LinearOpMode {
         if (target == "high junction") inches = 33.5;
         else if (target == "middle junction") inches = 23.5;
         else if (target == "low junction") inches = 13.5;
-//        else if (target == "ground junction") inches = 0;
+        else if (target == "ground junction") inches = 0;
 
         motorLift.setTargetPosition((int)inchToTics(inches));
         motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
