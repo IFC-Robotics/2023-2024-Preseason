@@ -124,14 +124,15 @@ public class autonomous extends LinearOpMode {
         
         final double COUNTS_PER_REVOLUTION    = 28.0;
         final double GEAR_RATIO               = 20.0;
-        final double WHEEL_DIAMETER_IN_INCHES = 1.0;
+        final double WHEEL_DIAMETER_IN_INCHES = 1.0; // maybe we need to increase this?
         final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI); // 178.253536
  
         // c * inches * COUNTS_PER_INCH = 2 * inches + 15
         // actualDistance = 0.01122 * inches + 15;
         // inches = (actualDistance - 15) / 0.01122;
-        
-        return (inches * COUNTS_PER_INCH - 15) / 0.01122;
+
+        return inches * COUNTS_PER_INCH;
+//        return (inches * COUNTS_PER_INCH - 15) / 2;
 
 //        double COUNTS_PER_REVOLUTION    = 1120.0;
 //        double ratio                    = 0.64;
