@@ -56,26 +56,26 @@ public class autonomous extends LinearOpMode {
         final double DRIVE_SPEED = 0.5;
 
 //        moveClaw("close");
-        strafe(DRIVE_SPEED, (int)inchToTics(36), 1);
+        strafe(DRIVE_SPEED, 36, 1);
         sleep(100);
-        drive(DRIVE_SPEED, (int)inchToTics(24), -1);
-        sleep(100);
+        drive(DRIVE_SPEED, 24, -1);
         lift("high junction");
-//        drive(DRIVE_SPEED, (int)inchToTics(2), 1);
-//        moveClaw("open");
-//        lift("ground junction");
-//        strafe(1, 8, 1);
+        drive(DRIVE_SPEED, 2, 1);
+        moveClaw("open");
+        drive(DRIVE_SPEED, -2, 1);
+        lift("ground junction");
+        strafe(1, 8, 1);
 
     }
 
-    public void drive(double speed, int distance, int direction) {
-        int target = direction * distance;
+    public void drive(double speed, int inches, int direction) {
+        int target = direction * (int)inchToTics(inches);
         double power = direction * speed;
         moveDriveTrain(target, target, target, target, power, power, power, power);
     }
 
-    public void strafe(double speed, int distance, int direction) {
-        int target = direction * distance;
+    public void strafe(double speed, int inches, int direction) {
+        int target = direction * (int)inchToTics(inches);
         double power = direction * speed;
         moveDriveTrain(-target, target, target, -target, -power, power, power, -power);
     }
