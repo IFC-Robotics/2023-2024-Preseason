@@ -53,12 +53,15 @@ public class autonomous extends LinearOpMode {
 
         // code goes here
 
-        drive(0.5, (int)inchToTics(12), 1);
+        final double DRIVE_SPEED = 0.5;
 
 //        moveClaw("close");
-//        strafe(1, 37, -1);
-//        drive(1, 44, 1);
-//        lift("high junction");
+        strafe(DRIVE_SPEED, (int)inchToTics(36), 1);
+        sleep(100);
+        drive(DRIVE_SPEED, (int)inchToTics(24), -1);
+        sleep(100);
+        lift("high junction");
+//        drive(DRIVE_SPEED, (int)inchToTics(2), 1);
 //        moveClaw("open");
 //        lift("ground junction");
 //        strafe(1, 8, 1);
@@ -118,28 +121,13 @@ public class autonomous extends LinearOpMode {
     }
 
     public double inchToTics(double inches) {
-
-        // 6 -> 27
-        // 12 -> 39
         
         final double COUNTS_PER_REVOLUTION    = 28.0;
         final double GEAR_RATIO               = 20.0;
-        final double WHEEL_DIAMETER_IN_INCHES = 1.0; // maybe we need to increase this?
-        final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI); // 178.253536
- 
-        // c * inches * COUNTS_PER_INCH = 2 * inches + 15
-        // actualDistance = 0.01122 * inches + 15;
-        // inches = (actualDistance - 15) / 0.01122;
+        final double WHEEL_DIAMETER_IN_INCHES = 4.0;
+        final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
 
         return inches * COUNTS_PER_INCH;
-//        return (inches * COUNTS_PER_INCH - 15) / 2;
-
-//        double COUNTS_PER_REVOLUTION    = 1120.0;
-//        double ratio                    = 0.64;
-//        double WHEEL_DIAMETER_IN_INCHES = 4.0;
-//        double COUNTS_PER_INCH          = COUNTS_PER_REVOLUTION * ratio / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
-//        
-//        return inches * COUNTS_PER_INCH;
 
     }
 

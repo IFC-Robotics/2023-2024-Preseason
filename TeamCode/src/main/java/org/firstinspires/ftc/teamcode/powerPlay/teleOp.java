@@ -21,15 +21,23 @@ public class teleOp extends LinearOpMode {
     double strafe;
     double turn;
 
-    double FrontRight;
-    double FrontLeft;
-    double BackRight;
-    double BackLeft;
+    double frontRightSpeed;
+    double frontLeftSpeed;
+    double backRightSpeed;
+    double backLeftSpeed;
+    double linearLiftSpeed;
 
     double linearLift;
     boolean waitingForLiftEncoder = false;
 
     double claw;
+
+    final double MAX_DRIVETRAIN_SPEED = 0.7;
+
+    final double LIFT_SPEED = 0.7;
+
+    final double MAX_LIFT_HEIGHT = 1500.0;
+    final double MIN_LIFT_HEIGHT = 0.0;
 
     public void runOpMode () {
 
@@ -45,7 +53,7 @@ public class teleOp extends LinearOpMode {
 
         servoClaw = hardwareMap.get(Servo.class, "servo_claw");
 
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
@@ -61,20 +69,25 @@ public class teleOp extends LinearOpMode {
             strafe = gamepad1.left_stick_x;
             turn = gamepad1.right_stick_x;
 
-            FrontRight = Range.clip(drive - turn - strafe, -1.0, 1.0);
-            FrontLeft = Range.clip(drive + turn + strafe, -1.0, 1.0);
-            BackRight = Range.clip(drive - turn + strafe, -1.0, 1.0);
-            BackLeft = Range.clip(drive + turn - strafe, -1.0, 1.0);
+            frontRightSpeed = Range.clip(drive - turn - strafe, -MAX_DRIVETRAIN_SPEED, MAX_DRIVETRAIN_SPEED);
+            frontLeftSpeed = Range.clip(drive + turn + strafe, -MAX_DRIVETRAIN_SPEED, MAX_DRIVETRAIN_SPEED);
+            backRightSpeed = Range.clip(drive - turn + strafe, -MAX_DRIVETRAIN_SPEED, MAX_DRIVETRAIN_SPEED);
+            backLeftSpeed = Range.clip(drive + turn - strafe, -MAX_DRIVETRAIN_SPEED, MAX_DRIVETRAIN_SPEED);
 
-            motorFrontRight.setPower(FrontRight);
-            motorFrontLeft.setPower(FrontLeft);
-            motorBackRight.setPower(BackRight);
-            motorBackLeft.setPower(BackLeft);
+            motorFrontRight.setPower(frontRightSpeed);
+            motorFrontLeft.setPower(frontLeftSpeed);
+            motorBackRight.setPower(backRightSpeed);
+            motorBackLeft.setPower(backLeftSpeed);
 
             // linear lift
 
-            linearLift = -gamepad2.left_stick_y;
-            motorLift.setPower(linearLift);
+            linearLift = gamepad2.left_stick_y;
+
+            if ((motorLift.getCurrentPosition() > MAX_LIFT_HEIGHT && linearLift < 0) ||
+                (motorLift.getCurrentPosition() < MIN_LIFT_HEIGHT && linearLift > 0)) {
+                linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
+                motorLift.setPower(linearLiftSpeed);
+            }
 
             if (gamepad2.a || gamepad2.b || gamepad2.y) {
 
