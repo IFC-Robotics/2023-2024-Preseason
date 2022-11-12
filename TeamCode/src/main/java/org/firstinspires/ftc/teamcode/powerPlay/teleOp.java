@@ -9,13 +9,12 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="teleOp competition", group = "PowerPlay")
 public class teleOp extends OpMode {
 
+    // drivetrain variables
+
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
     DcMotor motorBackRight;
     DcMotor motorBackLeft;
-    DcMotor motorLift;
-
-    Servo servoClaw;
 
     double drive;
     double strafe;
@@ -26,20 +25,32 @@ public class teleOp extends OpMode {
     double backRightSpeed;
     double backLeftSpeed;
 
-    double linearLiftSpeed;
-    double servoClawPosition;
-
-    double linearLift;
-    boolean waitingForLiftEncoder = false;
-
-    double claw;
-
     final double MAX_DRIVETRAIN_SPEED = 0.7;
 
+    // lift variables
+
+    DcMotor motorLift;
+
+    double linearLift;
+    double linearLiftSpeed;
+
+    boolean waitingForLiftEncoder = false;
+
+    final double MAX_LIFT_HEIGHT = 3000.0; // 3300.0
+    final double MIN_LIFT_HEIGHT = 0.0;
     final double LIFT_SPEED = 0.3;
 
-    final double MAX_LIFT_HEIGHT = 3300.0;
-    final double MIN_LIFT_HEIGHT = 0.0;
+    // claw variables
+
+    Servo servoClaw;
+
+    double clawActualPosition;
+    double claw;
+
+    boolean dpadButtonsPressed = false;
+
+    final double MAX_SERVO_CLAW_POSITION = 0.35;
+    final double CLAW_SPEED = 0.002;
 
     @Override
     public void init () {
@@ -59,16 +70,17 @@ public class teleOp extends OpMode {
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
         motorLift.setDirection(DcMotor.Direction.REVERSE);
+        servoClaw.setDirection(Servo.Direction.REVERSE);
 
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
-//    @Override
-//    public void start() {
-//        servoClaw.setPosition(0);
-//    }
+    @Override
+    public void start() {
+        clawActualPosition = servoClaw.getPosition();
+    }
 
     @Override
     public void loop() {
@@ -89,22 +101,25 @@ public class teleOp extends OpMode {
         motorBackRight.setPower(backRightSpeed);
         motorBackLeft.setPower(backLeftSpeed);
 
-        // linear lift joystick
+        // linear lift
 
         if (!waitingForLiftEncoder) {
 
-            linearLift = gamepad2.left_stick_y;
-            linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
-            motorLift.setPower(linearLiftSpeed);
+            linearLift = -gamepad2.right_stick_y;
 
-//            if ((motorLift.getCurrentPosition() >= MAX_LIFT_HEIGHT && linearLift < 0) || (motorLift.getCurrentPosition() <= MIN_LIFT_HEIGHT && linearLift > 0)) {
-//                linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
-//                motorLift.setPower(linearLiftSpeed);
-//            }
+            telemetry.addData("linearLift", linearLift);
+            telemetry.addData("lift position", motorLift.getCurrentPosition());
+            telemetry.update();
+
+            if ((motorLift.getCurrentPosition() <= MAX_LIFT_HEIGHT && linearLift > 0.1) || (motorLift.getCurrentPosition() >= MIN_LIFT_HEIGHT && linearLift < 0.1)) {
+                linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
+                motorLift.setPower(linearLiftSpeed);
+            }
 
         }
 
-        // linear lift buttons
+        telemetry.addData("lift position", motorLift.getCurrentPosition());
+        telemetry.update();
 
         if (gamepad2.a || gamepad2.b || gamepad2.y || gamepad2.x) {
 
@@ -135,28 +150,37 @@ public class teleOp extends OpMode {
 
         // claw
 
-//        claw = -gamepad2.right_stick_y;
-//        servoClawPosition = Range.clip(claw, 0, 1);
-//        servoClaw.setPosition(servoClawPosition);
+        if (!dpadButtonsPressed) {
 
-        telemetry.addData("claw joystick position", servoClawPosition);
-        telemetry.addData("claw position", servoClaw.getPosition());
-        telemetry.update();
+            claw = -gamepad2.left_stick_y;
 
-//        if (gamepad2.dpad_up) {
-//            servoClaw.setPosition(1);
-//        } else if (gamepad2.dpad_right) {
-//            servoClaw.setPosition(0.67);
-//        } else if (gamepad2.dpad_down) {
-//            servoClaw.setPosition(0.33);
-//        } else if (gamepad2.dpad_left) {
-//            servoClaw.setPosition(0);
-//        }
+            if (claw < 0 && clawActualPosition < MAX_SERVO_CLAW_POSITION) {
+                clawActualPosition += CLAW_SPEED;
+            } else if (claw > 0 && clawActualPosition > 0) {
+                clawActualPosition -= CLAW_SPEED;
+            }
+
+        }
+
+        if (gamepad2.dpad_up || gamepad2.dpad_down) {
+
+            if (gamepad2.dpad_up) {
+                clawActualPosition = MAX_SERVO_CLAW_POSITION;
+            } else if (gamepad2.dpad_down) {
+                clawActualPosition = 0;
+            }
+
+            dpadButtonsPressed = true;
+
+        }
+
+        if (dpadButtonsPressed && servoClaw.getPosition() == clawActualPosition) {
+            dpadButtonsPressed = false;
+        }
+
+        servoClaw.setPosition(clawActualPosition);
 
     }
-
-//    @Override
-//    public void stop() {}
 
     public double inchToTics(double inches) {
 
