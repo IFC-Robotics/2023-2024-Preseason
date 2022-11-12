@@ -36,7 +36,7 @@ public class teleOp extends OpMode {
 
     boolean waitingForLiftEncoder = false;
 
-    final double MAX_LIFT_HEIGHT = 3000.0; // 3300.0
+    final double MAX_LIFT_HEIGHT = 1000.0; // 3300.0
     final double MIN_LIFT_HEIGHT = 0.0;
     final double LIFT_SPEED = 0.3;
 
@@ -111,10 +111,10 @@ public class teleOp extends OpMode {
             telemetry.addData("lift position", motorLift.getCurrentPosition());
             telemetry.update();
 
-            if ((motorLift.getCurrentPosition() <= MAX_LIFT_HEIGHT && linearLift > 0.1) || (motorLift.getCurrentPosition() >= MIN_LIFT_HEIGHT && linearLift < 0.1)) {
+//            if ((motorLift.getCurrentPosition() <= MAX_LIFT_HEIGHT && linearLift > 0.1) || (motorLift.getCurrentPosition() >= MIN_LIFT_HEIGHT && linearLift < -0.1)) {
                 linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
                 motorLift.setPower(linearLiftSpeed);
-            }
+//            }
 
         }
 
