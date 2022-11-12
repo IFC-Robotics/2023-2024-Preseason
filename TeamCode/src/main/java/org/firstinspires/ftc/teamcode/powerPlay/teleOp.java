@@ -36,8 +36,9 @@ public class teleOp extends OpMode {
     double liftCurrentPosition;
 
     boolean waitingForLiftEncoder = false;
+    boolean enableLiftLimits = true;
 
-    final double MAX_LIFT_HEIGHT = 1000.0; // 3300.0
+    final double MAX_LIFT_HEIGHT = 3300.0;
     final double MIN_LIFT_HEIGHT = 0.0;
     final double LIFT_SPEED = 0.3;
 
@@ -50,7 +51,7 @@ public class teleOp extends OpMode {
 
     boolean dpadButtonsPressed = false;
 
-    final double MAX_SERVO_CLAW_POSITION = 0.35;
+    final double MAX_SERVO_CLAW_POSITION = 0.40; // increase this
     final double CLAW_SPEED = 0.002;
 
     @Override
@@ -65,7 +66,6 @@ public class teleOp extends OpMode {
         motorBackRight = hardwareMap.get(DcMotor.class, "motor_back_right");
 
         motorLift = hardwareMap.get(DcMotor.class, "motor_lift");
-
         servoClaw = hardwareMap.get(Servo.class, "servo_claw");
 
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
@@ -108,28 +108,27 @@ public class teleOp extends OpMode {
 
             linearLift = -gamepad2.right_stick_y;
             linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
-
             liftCurrentPosition = motorLift.getCurrentPosition();
 
-            telemetry.addData("attempted linearLiftSpeed", linearLiftSpeed);
-            telemetry.addData("lift position", liftCurrentPosition);
-
-            if (((liftCurrentPosition > MAX_LIFT_HEIGHT) && (linearLiftSpeed > 0)) || ((liftCurrentPosition < MIN_LIFT_HEIGHT) && (linearLiftSpeed < 0))) {
+            if (enableLiftLimits && ((liftCurrentPosition > MAX_LIFT_HEIGHT && linearLiftSpeed > 0) || (liftCurrentPosition < MIN_LIFT_HEIGHT && linearLiftSpeed < 0))) {
                 linearLiftSpeed = 0;
             }
 
-            telemetry.addData("actual linearLiftSpeed", linearLiftSpeed);
-            telemetry.update();
-
             motorLift.setPower(linearLiftSpeed);
-
-//            if ((motorLift.getCurrentPosition() <= MAX_LIFT_HEIGHT && linearLift > 0.1) || (motorLift.getCurrentPosition() >= MIN_LIFT_HEIGHT && linearLift < -0.1)) {
-//                linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
-//                motorLift.setPower(linearLiftSpeed);
-//            }
 
         }
 
+        if (gamepad2.right_bumper) {
+            enableLiftLimits = !enableLiftLimits;
+        }
+
+        if (gamepad2.left_bumper) {
+            motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+        telemetry.addData("enableLiftLimits", enableLiftLimits);
+        telemetry.addData("MAX_LIFT_HEIGHT", MAX_LIFT_HEIGHT);
         telemetry.addData("lift position", motorLift.getCurrentPosition());
         telemetry.update();
 
@@ -137,15 +136,10 @@ public class teleOp extends OpMode {
 
             int tics = 0;
 
-            if (gamepad2.y) {
-                tics = 3000; // 33.5 inches
-            } else if (gamepad2.b) {
-                tics = 2300; // 23.5 inches
-            } else if (gamepad2.a) {
-                tics = 1500; // 13.5 inches
-            } else if (gamepad2.x) {
-                tics = 0;
-            }
+            if (gamepad2.y) tics = 3000; // 33.5 inches
+            if (gamepad2.b) tics = 2300; // 23.5 inches
+            if (gamepad2.a) tics = 1500; // 13.5 inches
+            if (gamepad2.x) tics = 0;
 
             motorLift.setTargetPosition(tics);
             motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -176,11 +170,8 @@ public class teleOp extends OpMode {
 
         if (gamepad2.dpad_up || gamepad2.dpad_down) {
 
-            if (gamepad2.dpad_up) {
-                clawActualPosition = MAX_SERVO_CLAW_POSITION;
-            } else if (gamepad2.dpad_down) {
-                clawActualPosition = 0;
-            }
+            if (gamepad2.dpad_up)   clawActualPosition = MAX_SERVO_CLAW_POSITION;
+            if (gamepad2.dpad_down) clawActualPosition = 0;
 
             dpadButtonsPressed = true;
 
@@ -191,17 +182,6 @@ public class teleOp extends OpMode {
         }
 
         servoClaw.setPosition(clawActualPosition);
-
-    }
-
-    public double inchToTics(double inches) {
-
-        final double COUNTS_PER_REVOLUTION    = 28.0;
-        final double GEAR_RATIO               = 20.0;
-        final double WHEEL_DIAMETER_IN_INCHES = 4.0;
-        final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI); // 44.5633841
-
-        return inches * COUNTS_PER_INCH;
 
     }
 

@@ -16,6 +16,9 @@ public class autonomous extends LinearOpMode {
 
     Servo servoClaw;
 
+    final double DRIVE_SPEED = 0.3;
+    final double LIFT_SPEED = 0.5;
+
     public void runOpMode () {
 
         telemetry.addData("Status", "Initialized");
@@ -31,6 +34,8 @@ public class autonomous extends LinearOpMode {
 
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorLift.setDirection(DcMotor.Direction.REVERSE);
+        servoClaw.setDirection(Servo.Direction.REVERSE);
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -43,28 +48,43 @@ public class autonomous extends LinearOpMode {
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // code goes here
 
-        final double DRIVE_SPEED = 0.5;
+        int shortPause = 200;
+        int longPause = 1000;
 
-//        moveClaw("close");
-        strafe(DRIVE_SPEED, 36, 1);
-        sleep(100);
+        moveClaw("close");
+        sleep(longPause);
+        lift("low junction");
+        sleep(shortPause);
+        strafe(DRIVE_SPEED, 37, 1);
+        sleep(shortPause);
         drive(DRIVE_SPEED, 24, -1);
+        sleep(shortPause);
         lift("high junction");
-        drive(DRIVE_SPEED, 2, 1);
+        sleep(shortPause);
+        drive(DRIVE_SPEED, 7, -1);
+        sleep(shortPause);
+        lift("high junction");
+        sleep(shortPause);
         moveClaw("open");
-        drive(DRIVE_SPEED, -2, 1);
+        sleep(longPause);
+        moveClaw("close");
+        sleep(shortPause);
+        drive(DRIVE_SPEED, 5, 1);
+        sleep(shortPause);
         lift("ground junction");
-        strafe(1, 8, 1);
+        sleep(shortPause);
+        strafe(DRIVE_SPEED, 14, -1);
 
     }
 
@@ -96,17 +116,16 @@ public class autonomous extends LinearOpMode {
 
     public void lift(String target) {
 
-        double speed = 0.5;
-        double inches = 0;
+        int tics = 0;
 
-        if (target == "high junction") inches = 33.5;
-        else if (target == "middle junction") inches = 23.5;
-        else if (target == "low junction") inches = 13.5;
-        else if (target == "ground junction") inches = 0;
+        if (target == "high junction") tics = 3600;
+        if (target == "middle junction") tics = 2300; // estimate for middle junction
+        if (target == "low junction") tics = 1000; // doesn't actually go to the low junction
+        if (target == "ground junction") tics = 0;
 
-        motorLift.setTargetPosition((int)inchToTics(inches));
+        motorLift.setTargetPosition(tics);
         motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorLift.setPower(speed);
+        motorLift.setPower(LIFT_SPEED);
 
         while (motorLift.isBusy() && opModeIsActive()) {}
 
@@ -116,8 +135,8 @@ public class autonomous extends LinearOpMode {
     }
 
     public void moveClaw(String direction) {
-        if (direction == "open") servoClaw.setPosition(0.33); // Test this later, we don't know the amount
-        if (direction == "close") servoClaw.setPosition(0);
+        if (direction == "open")  servoClaw.setPosition(0);
+        if (direction == "close") servoClaw.setPosition(0.40);
     }
 
     public double inchToTics(double inches) {
