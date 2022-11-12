@@ -33,6 +33,7 @@ public class teleOp extends OpMode {
 
     double linearLift;
     double linearLiftSpeed;
+    double liftCurrentPosition;
 
     boolean waitingForLiftEncoder = false;
 
@@ -106,14 +107,25 @@ public class teleOp extends OpMode {
         if (!waitingForLiftEncoder) {
 
             linearLift = -gamepad2.right_stick_y;
+            linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
 
-            telemetry.addData("linearLift", linearLift);
-            telemetry.addData("lift position", motorLift.getCurrentPosition());
+            liftCurrentPosition = motorLift.getCurrentPosition();
+
+            telemetry.addData("attempted linearLiftSpeed", linearLiftSpeed);
+            telemetry.addData("lift position", liftCurrentPosition);
+
+            if (((liftCurrentPosition > MAX_LIFT_HEIGHT) && (linearLiftSpeed > 0)) || ((liftCurrentPosition < MIN_LIFT_HEIGHT) && (linearLiftSpeed < 0))) {
+                linearLiftSpeed = 0;
+            }
+
+            telemetry.addData("actual linearLiftSpeed", linearLiftSpeed);
             telemetry.update();
 
+            motorLift.setPower(linearLiftSpeed);
+
 //            if ((motorLift.getCurrentPosition() <= MAX_LIFT_HEIGHT && linearLift > 0.1) || (motorLift.getCurrentPosition() >= MIN_LIFT_HEIGHT && linearLift < -0.1)) {
-                linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
-                motorLift.setPower(linearLiftSpeed);
+//                linearLiftSpeed = Range.clip(linearLift, -LIFT_SPEED, LIFT_SPEED);
+//                motorLift.setPower(linearLiftSpeed);
 //            }
 
         }
