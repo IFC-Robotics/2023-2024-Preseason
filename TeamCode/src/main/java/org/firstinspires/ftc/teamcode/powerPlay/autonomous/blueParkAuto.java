@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay;
+package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
         import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
         import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
