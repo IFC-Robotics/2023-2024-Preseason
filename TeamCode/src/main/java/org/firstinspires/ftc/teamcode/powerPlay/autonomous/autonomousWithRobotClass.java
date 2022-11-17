@@ -2,17 +2,17 @@ package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
 @Autonomous(name="Autonomous With Robot Class", group="powerPlay")
 public class autonomousWithRobotClass extends LinearOpMode {
 
     robotClass robot = new robotClass();
-    double DRIVE_SPEED = 0.5;
 
     @Override
     public void runOpMode() {
+
+        // initializing
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -20,7 +20,9 @@ public class autonomousWithRobotClass extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
 
-        robot.moveMotorOne(DRIVE_SPEED, 200);
+        // code goes here
+
+        robot.strafe(robot.DRIVE_SPEED, 28, 1);
 
     }
 

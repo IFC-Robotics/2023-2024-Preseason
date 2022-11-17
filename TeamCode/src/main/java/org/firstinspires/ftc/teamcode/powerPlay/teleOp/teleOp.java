@@ -25,7 +25,7 @@ public class teleOp extends OpMode {
     double backRightSpeed;
     double backLeftSpeed;
 
-    final double MAX_DRIVETRAIN_SPEED = 0.7;
+    final double MAX_DRIVE_SPEED = 0.7;
 
     // lift variables
 
@@ -61,15 +61,16 @@ public class teleOp extends OpMode {
         telemetry.update();
 
         motorFrontRight = hardwareMap.get(DcMotor.class, "motor_front_right");
-        motorFrontLeft = hardwareMap.get(DcMotor.class, "motor_front_left");
-        motorBackLeft = hardwareMap.get(DcMotor.class, "motor_back_left");
-        motorBackRight = hardwareMap.get(DcMotor.class, "motor_back_right");
+        motorFrontLeft  = hardwareMap.get(DcMotor.class, "motor_front_left");
+        motorBackLeft   = hardwareMap.get(DcMotor.class, "motor_back_left");
+        motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
 
         motorLift = hardwareMap.get(DcMotor.class, "motor_lift");
         servoClaw = hardwareMap.get(Servo.class, "servo_claw");
 
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+
         motorLift.setDirection(DcMotor.Direction.REVERSE);
         servoClaw.setDirection(Servo.Direction.REVERSE);
 
@@ -79,9 +80,7 @@ public class teleOp extends OpMode {
     }
 
     @Override
-    public void start() {
-        clawActualPosition = servoClaw.getPosition();
-    }
+    public void start() { clawActualPosition = servoClaw.getPosition(); }
 
     @Override
     public void loop() {
@@ -92,10 +91,10 @@ public class teleOp extends OpMode {
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
 
-        frontRightSpeed = Range.clip(drive - turn - strafe, -MAX_DRIVETRAIN_SPEED, MAX_DRIVETRAIN_SPEED);
-        frontLeftSpeed = Range.clip(drive + turn + strafe, -MAX_DRIVETRAIN_SPEED, MAX_DRIVETRAIN_SPEED);
-        backRightSpeed = Range.clip(drive - turn + strafe, -MAX_DRIVETRAIN_SPEED, MAX_DRIVETRAIN_SPEED);
-        backLeftSpeed = Range.clip(drive + turn - strafe, -MAX_DRIVETRAIN_SPEED, MAX_DRIVETRAIN_SPEED);
+        frontRightSpeed = Range.clip(drive - turn - strafe, -MAX_DRIVE_SPEED, MAX_DRIVE_SPEED);
+        frontLeftSpeed = Range.clip(drive + turn + strafe, -MAX_DRIVE_SPEED, MAX_DRIVE_SPEED);
+        backRightSpeed = Range.clip(drive - turn + strafe, -MAX_DRIVE_SPEED, MAX_DRIVE_SPEED);
+        backLeftSpeed = Range.clip(drive + turn - strafe, -MAX_DRIVE_SPEED, MAX_DRIVE_SPEED);
 
         motorFrontRight.setPower(frontRightSpeed);
         motorFrontLeft.setPower(frontLeftSpeed);
