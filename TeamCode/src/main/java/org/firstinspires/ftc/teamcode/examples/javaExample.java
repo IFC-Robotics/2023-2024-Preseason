@@ -22,6 +22,12 @@ public class javaExample {
 
     public String sayHello(String name) {
 
+        // if statement
+
+        if (true) {
+            // ...
+        }
+
         // for loops
 
         for (String fruit : fruits) {
