@@ -1,0 +1,16 @@
+To Do:
+
+- run redGroundJunction
+- run blueGroundJunction
+- run redHighJunction
+
+- run AprilTagAutonomousInitDetectionExample (in examples folder)
+- run AprilTagAutonomousInitDetectionExample2 (in examples folder)
+
+- In robot class:
+    - test turn method
+    - test linear lift method w/ count-to-inch conversion factor
+    - learn how to make methods asynchronous
+    - test computer vision helper methods
+
+- update all programs for new robot

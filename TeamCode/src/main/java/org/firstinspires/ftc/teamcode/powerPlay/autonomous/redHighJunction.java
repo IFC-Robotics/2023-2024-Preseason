@@ -5,13 +5,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-@Autonomous(name="red high junction", group = "PowerPlay")
+@Autonomous(name="Red High Junction")
 public class redHighJunction extends LinearOpMode {
 
     robotClass robot = new robotClass();
 
     final double DRIVE_SPEED = 0.3;
-    final double LIFT_SPEED = 0.5;
+    final int SHORT_PAUSE = 200;
+    final int LONG_PAUSE = 1000;
 
     public void runOpMode () {
 
@@ -19,35 +20,32 @@ public class redHighJunction extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        waitForStart();
+        robot.waitForStart();
 
         // code goes here
 
-        int shortPause = 200;
-        int longPause = 1000;
-
         robot.moveClaw("close");
-        sleep(longPause);
+        sleep(LONG_PAUSE);
         robot.lift("low junction");
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.strafe(DRIVE_SPEED, 37, 1);
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 24, -1);
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.lift("high junction");
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 7, -1);
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.lift("high junction");
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.moveClaw("open");
-        sleep(longPause);
+        sleep(LONG_PAUSE);
         robot.moveClaw("close");
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 5, 1);
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.lift("ground junction");
-        sleep(shortPause);
+        sleep(SHORT_PAUSE);
         robot.parkInCorrectZone(-1);
 
     }

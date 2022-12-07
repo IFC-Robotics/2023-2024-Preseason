@@ -5,10 +5,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-@Autonomous(name="red ground junction", group = "PowerPlay")
+@Autonomous(name="Red Ground Junction")
 public class redGroundJunction extends LinearOpMode {
 
     robotClass robot = new robotClass();
+
+    final double DRIVE_SPEED = 0.5;
+    final int SHORT_PAUSE = 200;
 
     public void runOpMode() {
 
@@ -16,12 +19,9 @@ public class redGroundJunction extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        waitForStart();
+        robot.waitForStart();
 
         // code goes here
-
-        final double DRIVE_SPEED = 0.5;
-        final int SHORT_PAUSE = 200;
 
         robot.moveClaw("close");
         sleep(SHORT_PAUSE);

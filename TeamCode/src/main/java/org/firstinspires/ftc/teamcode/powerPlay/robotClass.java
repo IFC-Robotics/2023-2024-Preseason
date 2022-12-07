@@ -1,9 +1,20 @@
 package org.firstinspires.ftc.teamcode.powerPlay;
 
+import androidx.annotation.NonNull;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.teamcode.powerPlay.teleOp.AprilTagDetectionPipeline;
+import org.openftc.apriltag.AprilTagDetection;
+import org.openftc.easyopencv.OpenCvCamera;
+import org.openftc.easyopencv.OpenCvCameraFactory;
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
+import java.util.ArrayList;
 
 /*
 
@@ -53,6 +64,31 @@ public class robotClass extends LinearOpMode {
     public static final double MAX_CLAW_POSITION = 0.4;
     public static final double CLAW_SPEED = 0.002;
 
+    // camera vision variables
+
+    public OpenCvCamera camera;
+    AprilTagDetectionPipeline aprilTagDetectionPipeline;
+
+    static final double FEET_PER_METER = 3.28084;
+
+    // Lens intrinsics
+    //  - Units are pixels
+    //  - This calibration is for the C920 webcam at 800x448. You will need to do your own calibration for other configurations!
+    double fx = 578.272;
+    double fy = 578.272;
+    double cx = 402.145;
+    double cy = 221.506;
+
+    // UNITS ARE METERS
+    double tagsize = 0.166;
+
+    //  Tag ID 1, 2, 3 from the 36h11 family
+    int LEFT = 1;
+    int MIDDLE = 2;
+    int RIGHT = 3;
+
+    AprilTagDetection tagOfInterest = null;
+
     // other
 
     HardwareMap hardwareMap;
@@ -101,7 +137,25 @@ public class robotClass extends LinearOpMode {
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        // camera vision initialization
+
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+
+        camera.setPipeline(aprilTagDetectionPipeline);
+        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+            @Override
+            public void onOpened() { camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT); }
+            @Override
+            public void onError(int errorCode) {}
+        });
+
+        telemetry.setMsTransmissionInterval(50);
+
     }
+
+    // driving helper methods
 
     public void drive(double speed, int inches, int direction) {
         int target = direction * inches * DRIVETRAIN_COUNTS_PER_INCH;
@@ -125,47 +179,6 @@ public class robotClass extends LinearOpMode {
             moveDriveTrain(intDistRot, -intDistRot, intDistRot, -intDistRot, speed, -speed, speed, -speed);
         } else if (angle >= 0) {
             moveDriveTrain(intDistRot, -intDistRot, intDistRot, -intDistRot, -speed, speed, -speed, speed);
-        }
-
-    }
-
-    public void lift(String target) {
-
-        int tics = 0;
-
-        // values don't correspond w/ LIFT_COUNTS_PER_INCH right now
-
-        if (target == "high junction") tics = 3600;
-        if (target == "middle junction") tics = 2300; // estimate for middle junction
-        if (target == "low junction") tics = 1000; // doesn't actually go to the low junction
-        if (target == "ground junction") tics = 0;
-
-        motorLift.setTargetPosition(tics);
-        motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorLift.setPower(LIFT_SPEED);
-
-        while (motorLift.isBusy() && opModeIsActive()) {}
-
-        motorLift.setPower(0);
-        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    }
-
-    public void moveClaw(String direction) {
-        if (direction == "open")  servoClaw.setPosition(MIN_CLAW_POSITION);
-        if (direction == "close") servoClaw.setPosition(MAX_CLAW_POSITION);
-    }
-
-    public void parkInCorrectZone(int direction) {
-
-        int zone = 10; // to be replaced with camera vision
-
-        if (zone == 0 || zone == 1) {
-            strafe(1, 14, direction);
-        } else if (zone == 2) {
-            strafe(1, 28, direction);
-        } else if (zone == 3) {
-            strafe(1, 42, direction);
         }
 
     }
@@ -203,6 +216,126 @@ public class robotClass extends LinearOpMode {
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
+    // scoring helper methods
+
+    public void lift(String target) {
+
+        int tics = 0;
+
+        // values don't correspond w/ LIFT_COUNTS_PER_INCH right now
+
+        if (target == "high junction") tics = 3600;
+        if (target == "middle junction") tics = 2300; // estimate for middle junction
+        if (target == "low junction") tics = 1000; // doesn't actually go to the low junction
+        if (target == "ground junction") tics = 0;
+
+        motorLift.setTargetPosition(tics);
+        motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorLift.setPower(LIFT_SPEED);
+
+        while (motorLift.isBusy() && opModeIsActive()) {}
+
+        motorLift.setPower(0);
+        motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
+    public void moveClaw(String direction) {
+        if (direction == "open")  servoClaw.setPosition(MIN_CLAW_POSITION);
+        if (direction == "close") servoClaw.setPosition(MAX_CLAW_POSITION);
+    }
+
+    // camera vision helper methods
+
+    public void waitForStart() {
+
+        while (!isStarted() && !isStopRequested()) {
+            getAprilTagDetections();
+        }
+
+        if(tagOfInterest != null) {
+            telemetry.addLine("Tag snapshot:\n");
+            tagToTelemetry(tagOfInterest);
+            telemetry.update();
+        } else {
+            telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
+            telemetry.update();
+        }
+
+    }
+
+    public void getAprilTagDetections() {
+
+        ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+
+        if(currentDetections.size() != 0) {
+
+            boolean tagFound = false;
+
+            for(AprilTagDetection tag : currentDetections) {
+                if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                    tagOfInterest = tag;
+                    tagFound = true;
+                    break;
+                }
+            }
+
+            if(tagFound) {
+                telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
+                tagToTelemetry(tagOfInterest);
+            } else {
+
+                telemetry.addLine("Don't see tag of interest :(");
+
+                if(tagOfInterest == null) {
+                    telemetry.addLine("(The tag has never been seen)");
+                } else {
+                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                    tagToTelemetry(tagOfInterest);
+                }
+
+            }
+
+        } else {
+
+            telemetry.addLine("Don't see tag of interest :(");
+
+            if(tagOfInterest == null) {
+                telemetry.addLine("(The tag has never been seen)");
+            } else {
+                telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
+                tagToTelemetry(tagOfInterest);
+            }
+
+        }
+
+        telemetry.update();
+        sleep(20);
+
+    }
+
+    public void tagToTelemetry(@NonNull AprilTagDetection detection) {
+        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x * FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y * FEET_PER_METER));
+        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z * FEET_PER_METER));
+        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
+        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
+        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
+    }
+
+    public void parkInCorrectZone(int direction) {
+
+        if (tagOfInterest == null || tagOfInterest.id == 1) {
+            strafe(1, 14, direction);
+        } else if (tagOfInterest.id == 2) {
+            strafe(1, 28, direction);
+        } else if (tagOfInterest.id == 3) {
+            strafe(1, 42, direction);
+        }
 
     }
 
