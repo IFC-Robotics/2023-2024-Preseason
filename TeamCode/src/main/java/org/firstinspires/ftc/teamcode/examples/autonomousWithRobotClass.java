@@ -1,7 +1,8 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.examples;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
 @Autonomous(name="Autonomous With Robot Class", group="powerPlay")
@@ -22,7 +23,7 @@ public class autonomousWithRobotClass extends LinearOpMode {
 
         // code goes here
 
-//        robot.strafe(robot.DRIVE_SPEED, 28, 1);
+        robot.strafe(robot.DRIVE_SPEED, 28, 1);
 
     }
 

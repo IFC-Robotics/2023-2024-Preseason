@@ -7,10 +7,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /*
 
-To Do
-
-- test autonomousWithRobotClass.java
-- test teleOpWithRobotClass.java
 - test turn method
 - test linear lift method w/ count-to-inch conversion factor
 - learn how to make methods asynchronous
@@ -101,12 +97,11 @@ public class robotClass extends LinearOpMode {
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
+
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
-
 
     public void drive(double speed, int inches, int direction) {
         int target = direction * inches * DRIVETRAIN_COUNTS_PER_INCH;
@@ -150,15 +145,29 @@ public class robotClass extends LinearOpMode {
         motorLift.setPower(LIFT_SPEED);
 
         while (motorLift.isBusy() && opModeIsActive()) {}
-//
+
         motorLift.setPower(0);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//
+
     }
 
     public void moveClaw(String direction) {
         if (direction == "open")  servoClaw.setPosition(MIN_CLAW_POSITION);
         if (direction == "close") servoClaw.setPosition(MAX_CLAW_POSITION);
+    }
+
+    public void parkInCorrectZone(int direction) {
+
+        int zone = 10; // to be replaced with camera vision
+
+        if (zone == 0 || zone == 1) {
+            strafe(1, 14, direction);
+        } else if (zone == 2) {
+            strafe(1, 28, direction);
+        } else if (zone == 3) {
+            strafe(1, 42, direction);
+        }
+
     }
 
     public void moveDriveTrain(int frontRightTarget, int frontLeftTarget, int backRightTarget, int backLeftTarget, double frontRightSpeed, double frontLeftSpeed, double backRightSpeed, double backLeftSpeed) {

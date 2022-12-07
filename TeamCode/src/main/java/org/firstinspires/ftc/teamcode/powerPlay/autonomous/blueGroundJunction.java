@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
@@ -12,52 +10,42 @@ public class blueGroundJunction extends LinearOpMode {
 
     robotClass robot = new robotClass();
 
-    public void runOpMode () {
+    public void runOpMode() {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-
         robot.init(hardwareMap);
         waitForStart();
-
-
 
         // code goes here
 
         final double DRIVE_SPEED = 0.5;
+        final int SHORT_PAUSE = 200;
 
-//        moveClaw("close");
-        robot.strafe(DRIVE_SPEED, (int)inchToTics(24), -1);
-        sleep(100);
-        robot.drive(DRIVE_SPEED, (int)inchToTics(13), 1);
-        sleep(100);
+        robot.moveClaw("close");
+        sleep(SHORT_PAUSE);
+        robot.strafe(DRIVE_SPEED, 24, -1);
+        sleep(SHORT_PAUSE);
+        robot.drive(DRIVE_SPEED, 13, 1);
+        sleep(SHORT_PAUSE);
         robot.moveClaw("open");
-        sleep(100);
-        robot.drive(DRIVE_SPEED, (int)inchToTics(13), -1);
-        sleep(100);
-        robot.strafe(DRIVE_SPEED, (int)inchToTics(12), -1);
-        sleep(100);
-        robot.drive(DRIVE_SPEED, (int)inchToTics(24), 1);
-        sleep(100);
-//        drive(DRIVE_SPEED, (int)inchToTics(2), 1);
-//        moveClaw("open");
-//        lift("ground junction");
-//        strafe(1, 8, 1);
+        sleep(SHORT_PAUSE);
+        robot.drive(DRIVE_SPEED, 13, -1);
+        sleep(SHORT_PAUSE);
+        robot.strafe(DRIVE_SPEED, 12, -1);
+        sleep(SHORT_PAUSE);
+        robot.drive(DRIVE_SPEED, 24, 1);
+        sleep(SHORT_PAUSE);
+
+//        robot.drive(DRIVE_SPEED, 2, 1);
+//        sleep(SHORT_PAUSE);
+//        robot.moveClaw("open");
+//        sleep(SHORT_PAUSE);
+//        robot.lift("ground junction");
+//        sleep(SHORT_PAUSE);
+//        robot.strafe(1, 8, 1);
 
     }
-
-
-    public double inchToTics(double inches) {
-
-        final double COUNTS_PER_REVOLUTION    = 28.0;
-        final double GEAR_RATIO               = 20.0;
-        final double WHEEL_DIAMETER_IN_INCHES = 4.0;
-        final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
-
-        return inches * COUNTS_PER_INCH;
-
-    }
-
 
 }
