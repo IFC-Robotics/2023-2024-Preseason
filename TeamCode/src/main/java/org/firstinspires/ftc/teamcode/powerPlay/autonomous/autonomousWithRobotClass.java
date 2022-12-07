@@ -22,7 +22,7 @@ public class autonomousWithRobotClass extends LinearOpMode {
 
         // code goes here
 
-        robot.strafe(robot.DRIVE_SPEED, 28, 1);
+//        robot.strafe(robot.DRIVE_SPEED, 28, 1);
 
     }
 

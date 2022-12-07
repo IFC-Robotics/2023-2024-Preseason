@@ -59,7 +59,7 @@ public class robotClass extends LinearOpMode {
 
     // other
 
-//    HardwareMap hardwareMap;
+    HardwareMap hardwareMap;
 
     public robotClass(){}
 
@@ -101,11 +101,12 @@ public class robotClass extends LinearOpMode {
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+//
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
+
 
     public void drive(double speed, int inches, int direction) {
         int target = direction * inches * DRIVETRAIN_COUNTS_PER_INCH;
@@ -149,10 +150,10 @@ public class robotClass extends LinearOpMode {
         motorLift.setPower(LIFT_SPEED);
 
         while (motorLift.isBusy() && opModeIsActive()) {}
-
+//
         motorLift.setPower(0);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+//
     }
 
     public void moveClaw(String direction) {
