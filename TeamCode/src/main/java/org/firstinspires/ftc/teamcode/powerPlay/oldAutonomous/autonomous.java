@@ -1,12 +1,12 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.oldAutonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@Autonomous(name="blue park autonomous", group = "PowerPlay")
-public class blueParkAuto extends LinearOpMode {
+@Autonomous(name="autonomous competition", group = "PowerPlay")
+public class autonomous extends LinearOpMode {
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -59,10 +59,32 @@ public class blueParkAuto extends LinearOpMode {
 
         // code goes here
 
-//        int shortPause = 200;
-//        int longPause = 1000;
+        int shortPause = 200;
+        int longPause = 1000;
 
-        strafe(DRIVE_SPEED, 28, 1);
+        moveClaw("close");
+        sleep(longPause);
+        lift("low junction");
+        sleep(shortPause);
+        strafe(DRIVE_SPEED, 37, 1);
+        sleep(shortPause);
+        drive(DRIVE_SPEED, 24, -1);
+        sleep(shortPause);
+        lift("high junction");
+        sleep(shortPause);
+        drive(DRIVE_SPEED, 7, -1);
+        sleep(shortPause);
+        lift("high junction");
+        sleep(shortPause);
+        moveClaw("open");
+        sleep(longPause);
+        moveClaw("close");
+        sleep(shortPause);
+        drive(DRIVE_SPEED, 5, 1);
+        sleep(shortPause);
+        lift("ground junction");
+        sleep(shortPause);
+        strafe(DRIVE_SPEED, 14, -1);
 
     }
 
@@ -118,7 +140,7 @@ public class blueParkAuto extends LinearOpMode {
     }
 
     public double inchToTics(double inches) {
-
+        
         final double COUNTS_PER_REVOLUTION    = 28.0;
         final double GEAR_RATIO               = 20.0;
         final double WHEEL_DIAMETER_IN_INCHES = 4.0;
