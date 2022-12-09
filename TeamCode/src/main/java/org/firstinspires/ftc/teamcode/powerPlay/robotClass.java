@@ -87,7 +87,7 @@ public class robotClass extends LinearOpMode {
     int MIDDLE = 2;
     int RIGHT = 3;
 
-    AprilTagDetection tagOfInterest = null;
+    public AprilTagDetection tagOfInterest = null;
 
     // other
 
@@ -327,16 +327,16 @@ public class robotClass extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 
-    public void parkInCorrectZone(int direction) {
-
-        if (tagOfInterest == null || tagOfInterest.id == 1) {
-            strafe(1, 14, direction);
-        } else if (tagOfInterest.id == 2) {
-            strafe(1, 28, direction);
-        } else if (tagOfInterest.id == 3) {
-            strafe(1, 42, direction);
-        }
-
-    }
+//    public void parkInCorrectZone(int direction) {
+//
+//        if (tagOfInterest == null || tagOfInterest.id == 1) {
+//            strafe(1, 14, direction);
+//        } else if (tagOfInterest.id == 2) {
+//            strafe(1, 28, direction);
+//        } else if (tagOfInterest.id == 3) {
+//            strafe(1, 42, direction);
+//        }
+//
+//    }
 
 }
