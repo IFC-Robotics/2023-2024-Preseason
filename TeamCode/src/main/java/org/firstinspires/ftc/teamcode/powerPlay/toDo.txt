@@ -1,15 +1,14 @@
 To Do:
 
-- run redGroundJunction
-- run blueGroundJunction
-- run redHighJunction
+- test autonomous programs
+- update robotClass & teleOp to make linear lift the forward direction and claw the backwards direction
 
 - run AprilTagAutonomousInitDetectionExample (in examples folder)
 - run AprilTagAutonomousInitDetectionExample2 (in examples folder)
 
 - In robot class:
     - test turn method
-    - test linear lift method w/ count-to-inch conversion factor
+    - configure linear lift method w/ count-to-inch conversion factor
     - learn how to make methods asynchronous
     - test computer vision helper methods
 

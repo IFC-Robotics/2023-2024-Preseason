@@ -1,12 +1,12 @@
 package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-@Autonomous(name="Red Opponent Side Ground Junction")
-public class redOpponentSideGroundJunction extends LinearOpMode {
+@Autonomous(name="Right Side Ground Junction")
+public class rightSideGroundJunction extends LinearOpMode {
 
     robotClass robot = new robotClass();
 
@@ -22,30 +22,34 @@ public class redOpponentSideGroundJunction extends LinearOpMode {
         robot.init(hardwareMap);
         robot.waitForStart();
 
-        // code goes here
-
-//        robot.moveClaw("close");
+//        robot.lift("pickup cone");
 //        sleep(SHORT_PAUSE);
-        robot.strafe(DRIVE_SPEED, 9, 1);
+//        robot.moveHook("extend");
+//        sleep(SHORT_PAUSE);
+//        robot.lift("ground junction");
+//        sleep(SHORT_PAUSE);
+        robot.strafe(DRIVE_SPEED, 12, 1);
         sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 6, 1);
         sleep(SHORT_PAUSE);
-//        robot.moveClaw("open");
+//        robot.moveHook("retract");
 //        sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 6, -1);
         sleep(SHORT_PAUSE);
         robot.strafe(DRIVE_SPEED, 12, -1);
         sleep(SHORT_PAUSE);
-        robot.drive(DRIVE_SPEED, 30, 1);
+        robot.drive(DRIVE_SPEED, 36, 1);
+        sleep(SHORT_PAUSE);
+        robot.drive(DRIVE_SPEED, 9, -1);
         sleep(SHORT_PAUSE);
 
-        if (robot.tagOfInterest == null || robot.tagOfInterest.id == 1) {
-            robot.strafe(1, 24, -1);
-        } else if (robot.tagOfInterest.id == 2) {
-            // already there
-        } else if (robot.tagOfInterest.id == 3) {
-            robot.strafe(1, 24, 1);
-        }
+//        if (robot.tagOfInterest == null || robot.tagOfInterest.id == 1) {
+//            robot.strafe(1, 24, -1);
+//        } else if (robot.tagOfInterest.id == 2) {
+//            // already there
+//        } else if (robot.tagOfInterest.id == 3) {
+//            robot.strafe(1, 24, 1);
+//        }
 
     }
 
