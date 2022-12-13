@@ -24,7 +24,7 @@ package org.firstinspires.ftc.teamcode.examples;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.powerPlay.teleOp.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.powerPlay.AprilTagDetectionPipeline;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
@@ -34,7 +34,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@TeleOp(name="AprilTagDetection")
+@TeleOp(name="AprilTagDetection2")
 public class AprilTagAutonomousInitDetectionExample2 extends LinearOpMode {
 
     public OpenCvCamera camera;
