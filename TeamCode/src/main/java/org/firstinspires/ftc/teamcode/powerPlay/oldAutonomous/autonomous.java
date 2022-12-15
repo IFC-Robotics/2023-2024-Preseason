@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.oldAutonomous;
 
 import androidx.annotation.NonNull;
 
@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.powerPlay.teleOp.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.powerPlay.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;

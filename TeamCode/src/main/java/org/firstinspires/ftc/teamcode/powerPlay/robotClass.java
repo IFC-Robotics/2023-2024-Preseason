@@ -8,21 +8,13 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.powerPlay.teleOp.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.powerPlay.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
 import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
-
-/*
-
-- test turn method
-- test linear lift method w/ count-to-inch conversion factor
-- learn how to make methods asynchronous
-
-*/
 
 public class robotClass extends LinearOpMode {
 
@@ -64,6 +56,14 @@ public class robotClass extends LinearOpMode {
     public static final double MAX_CLAW_POSITION = 0.4;
     public static final double CLAW_SPEED = 0.002;
 
+    // hook variables
+
+    public static Servo servoHook;
+
+    public static final double MIN_HOOK_POSITION = 0;
+    public static final double MAX_HOOK_POSITION = 1;
+    public static final double HOOK_SPEED = 0.002;
+
     // camera vision variables
 
     public OpenCvCamera camera;
@@ -87,7 +87,7 @@ public class robotClass extends LinearOpMode {
     int MIDDLE = 2;
     int RIGHT = 3;
 
-    AprilTagDetection tagOfInterest = null;
+    public AprilTagDetection tagOfInterest = null;
 
     // other
 
@@ -113,8 +113,10 @@ public class robotClass extends LinearOpMode {
         motorLift = hardwareMap.get(DcMotor.class, "motor_lift");
         servoClaw = hardwareMap.get(Servo.class, "servo_claw");
 
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+//        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+//        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
         motorLift.setDirection(DcMotor.Direction.REVERSE);
         servoClaw.setDirection(Servo.Direction.REVERSE);
@@ -230,7 +232,8 @@ public class robotClass extends LinearOpMode {
         if (target == "high junction") tics = 3600;
         if (target == "middle junction") tics = 2300; // estimate for middle junction
         if (target == "low junction") tics = 1000; // doesn't actually go to the low junction
-        if (target == "ground junction") tics = 0;
+        if (target == "ground junction") tics = 500; // estimate for ground junction (the cone should be hovering right above the ground)
+        if (target == "pickup cone") tics = 0; // for picking up cones on the ground
 
         motorLift.setTargetPosition(tics);
         motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -246,6 +249,11 @@ public class robotClass extends LinearOpMode {
     public void moveClaw(String direction) {
         if (direction == "open")  servoClaw.setPosition(MIN_CLAW_POSITION);
         if (direction == "close") servoClaw.setPosition(MAX_CLAW_POSITION);
+    }
+
+    public void moveHook(String direction) {
+        if (direction == "extend")  servoHook.setPosition(MIN_HOOK_POSITION);
+        if (direction == "retract") servoHook.setPosition(MAX_HOOK_POSITION);
     }
 
     // camera vision helper methods
@@ -327,16 +335,16 @@ public class robotClass extends LinearOpMode {
         telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 
-    public void parkInCorrectZone(int direction) {
-
-        if (tagOfInterest == null || tagOfInterest.id == 1) {
-            strafe(1, 14, direction);
-        } else if (tagOfInterest.id == 2) {
-            strafe(1, 28, direction);
-        } else if (tagOfInterest.id == 3) {
-            strafe(1, 42, direction);
-        }
-
-    }
+//    public void parkInCorrectZone(int direction) {
+//
+//        if (tagOfInterest == null || tagOfInterest.id == 1) {
+//            strafe(1, 14, direction);
+//        } else if (tagOfInterest.id == 2) {
+//            strafe(1, 28, direction);
+//        } else if (tagOfInterest.id == 3) {
+//            strafe(1, 42, direction);
+//        }
+//
+//    }
 
 }
