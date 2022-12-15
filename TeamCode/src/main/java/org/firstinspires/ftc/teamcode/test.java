@@ -18,9 +18,30 @@ public class test extends LinearOpMode {
         robot.init(hardwareMap);
         robot.waitForStart();
 
-        robot.lift("ground junction");
         robot.moveClaw("open");
+        sleep(1000);
+        robot.rotateClaw("transfer");
+        sleep(1000);
+        robot.moveHook("extend");
+        sleep(1000);
+        robot.moveClaw("open");
+        sleep(1000);
+        robot.rotateClaw("collect");
+        sleep(1000);
+
+        robot.lift("high");
+        sleep(1000);
+        robot.rotateHook("deposit");
+        sleep(1000);
         robot.moveHook("retract");
+        sleep(1000);
+
+        robot.rotateHook("deposit");
+        sleep(1000);
+        robot.lift("transfer");
+
+//        robot.transferCone();
+//        robot.liftTransfer("high");
 
     }
 

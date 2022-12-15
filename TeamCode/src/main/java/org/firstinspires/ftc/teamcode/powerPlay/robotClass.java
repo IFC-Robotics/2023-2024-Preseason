@@ -51,18 +51,26 @@ public class robotClass extends LinearOpMode {
     // claw variables
 
     public static Servo servoClaw;
+    public static DcMotor motorRotationClaw;
 
     public static final double MIN_CLAW_POSITION = 0;
     public static final double MAX_CLAW_POSITION = 0.4;
     public static final double CLAW_SPEED = 0.002;
 
+    public static final int MIN_ROTATION_CLAW_POSITION = 0; // names to be fixed later
+    public static final int MAX_ROTATION_CLAW_POSITION = 1000; // to be tested (this value is in tics)
+    public static final double ROTATION_CLAW_SPEED = 0.5;
+
     // hook variables
 
     public static Servo servoHook;
+    public static Servo servoRotationHook;
 
     public static final double MIN_HOOK_POSITION = 0;
     public static final double MAX_HOOK_POSITION = 1;
-    public static final double HOOK_SPEED = 0.002;
+
+    public static final double MIN_ROTATION_HOOK_POSITION = 0; // to test later
+    public static final double MAX_ROTATION_HOOK_POSITION = 0.85;
 
     // camera vision variables
 
@@ -111,15 +119,19 @@ public class robotClass extends LinearOpMode {
         motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
 
         motorLift = hardwareMap.get(DcMotor.class, "motor_lift");
-        servoClaw = hardwareMap.get(Servo.class, "servo_claw");
+        motorRotationClaw = hardwareMap.get(DcMotor.class, "motor_rotation_claw"); // also names to reconsider (but its fine rn)
 
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-//        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-//        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        servoClaw = hardwareMap.get(Servo.class, "servo_claw");
+        servoHook = hardwareMap.get(Servo.class, "servo_hook"); // consider reversing these directions too?
+        servoRotationHook = hardwareMap.get(Servo.class, "servo_rotation_hook");
+
+//        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+//        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
         motorLift.setDirection(DcMotor.Direction.REVERSE);
-        servoClaw.setDirection(Servo.Direction.REVERSE);
+        servoClaw.setDirection(Servo.Direction.REVERSE); // do these really need to be reversed?
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -142,7 +154,7 @@ public class robotClass extends LinearOpMode {
         // camera vision initialization
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
@@ -223,17 +235,76 @@ public class robotClass extends LinearOpMode {
 
     // scoring helper methods
 
-    public void lift(String target) {
+    public void transferCone() {
+
+        lift("transfer");
+        rotateHook("transfer");
+        moveHook("retract");
+
+        rotateClaw("transfer");
+        moveHook("extend");
+        moveClaw("open");
+        rotateClaw("collect");
+
+    }
+
+    public void liftTransfer(String direction) {
+
+        lift(direction);
+        rotateHook("deposit");
+        moveHook("retract");
+
+        sleep(500);
+
+        rotateHook("deposit");
+        lift("transfer");
+
+    }
+
+    public void moveClaw(String direction) {
+        if (direction == "open")  servoClaw.setPosition(MIN_CLAW_POSITION);
+        if (direction == "close") servoClaw.setPosition(MAX_CLAW_POSITION);
+    }
+
+    public void rotateClaw(String direction) {
+
+        int tics = 0;
+
+        if (direction == "collect")  tics = MIN_ROTATION_CLAW_POSITION;
+        if (direction == "transfer") tics = MAX_ROTATION_CLAW_POSITION;
+
+        motorRotationClaw.setTargetPosition(tics);
+        motorRotationClaw.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorRotationClaw.setPower(ROTATION_CLAW_SPEED);
+
+        while (motorRotationClaw.isBusy() && opModeIsActive()) {}
+
+        motorRotationClaw.setPower(0);
+        motorRotationClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
+    public void moveHook(String direction) {
+        if (direction == "extend")  servoHook.setPosition(MIN_HOOK_POSITION);
+        if (direction == "retract") servoHook.setPosition(MAX_HOOK_POSITION);
+    }
+
+    public void rotateHook(String direction) {
+        if (direction == "transfer") servoRotationHook.setPosition(MIN_ROTATION_HOOK_POSITION);
+        if (direction == "deposit")  servoRotationHook.setPosition(MAX_ROTATION_HOOK_POSITION);
+    }
+
+    public void lift(String direction) {
 
         int tics = 0;
 
         // values don't correspond w/ LIFT_COUNTS_PER_INCH right now
 
-        if (target == "high junction") tics = 3600;
-        if (target == "middle junction") tics = 2300; // estimate for middle junction
-        if (target == "low junction") tics = 1000; // doesn't actually go to the low junction
-        if (target == "ground junction") tics = 500; // estimate for ground junction (the cone should be hovering right above the ground)
-        if (target == "pickup cone") tics = 0; // for picking up cones on the ground
+        if (direction == "high") tics = 3600;
+        if (direction == "middle") tics = 2300; // estimate for middle junction
+        if (direction == "low") tics = 1000; // doesn't actually go to the low junction
+        if (direction == "ground") tics = 500; // estimate for ground junction (the cone should be hovering right above the ground)
+        if (direction == "transfer") tics = 0; // for picking up cones on the ground
 
         motorLift.setTargetPosition(tics);
         motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -244,16 +315,6 @@ public class robotClass extends LinearOpMode {
         motorLift.setPower(0);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-    }
-
-    public void moveClaw(String direction) {
-        if (direction == "open")  servoClaw.setPosition(MIN_CLAW_POSITION);
-        if (direction == "close") servoClaw.setPosition(MAX_CLAW_POSITION);
-    }
-
-    public void moveHook(String direction) {
-        if (direction == "extend")  servoHook.setPosition(MIN_HOOK_POSITION);
-        if (direction == "retract") servoHook.setPosition(MAX_HOOK_POSITION);
     }
 
     // camera vision helper methods
