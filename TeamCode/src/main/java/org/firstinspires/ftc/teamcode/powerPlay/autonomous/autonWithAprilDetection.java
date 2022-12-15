@@ -132,12 +132,12 @@ public class autonWithAprilDetection extends LinearOpMode {
 //        if (tagOfInterest != null) {
 ////             tagOfInterest.id;
 //        }
-
-        // code goes here
-
-        int shortPause = 200;
-        int longPause = 1000;
-
+//
+////         code goes here
+//
+//        int shortPause = 200;
+//        int longPause = 1000;
+//
 //        moveClaw("close");
 //        sleep(longPause);
 //        lift("low junction");

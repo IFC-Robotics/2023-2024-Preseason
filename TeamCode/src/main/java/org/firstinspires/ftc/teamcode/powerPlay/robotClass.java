@@ -99,7 +99,7 @@ public class robotClass extends LinearOpMode {
 
     // other
 
-    HardwareMap hardwareMap;
+//    HardwareMap hardwareMap;
 
     public robotClass(){}
 
@@ -118,11 +118,11 @@ public class robotClass extends LinearOpMode {
         motorBackLeft   = hardwareMap.get(DcMotor.class, "motor_back_left");
         motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
 
-        motorLift = hardwareMap.get(DcMotor.class, "motor_lift");
+        motorLift         = hardwareMap.get(DcMotor.class, "motor_lift");
         motorRotationClaw = hardwareMap.get(DcMotor.class, "motor_rotation_claw"); // also names to reconsider (but its fine rn)
 
-        servoClaw = hardwareMap.get(Servo.class, "servo_claw");
-        servoHook = hardwareMap.get(Servo.class, "servo_hook"); // consider reversing these directions too?
+        servoClaw         = hardwareMap.get(Servo.class, "servo_claw"); // consider reversing the directions of these servos
+        servoHook         = hardwareMap.get(Servo.class, "servo_hook");
         servoRotationHook = hardwareMap.get(Servo.class, "servo_rotation_hook");
 
 //        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -326,8 +326,7 @@ public class robotClass extends LinearOpMode {
         }
 
         if(tagOfInterest != null) {
-            telemetry.addLine("Tag snapshot:\n");
-            tagToTelemetry(tagOfInterest);
+            telemetry.addLine(String.format("Tag snapshot:\n ID=%d", tagOfInterest.id));
             telemetry.update();
         } else {
             telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
@@ -340,43 +339,26 @@ public class robotClass extends LinearOpMode {
 
         ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-        if(currentDetections.size() != 0) {
+        boolean tagFound = false;
 
-            boolean tagFound = false;
-
-            for(AprilTagDetection tag : currentDetections) {
-                if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
-                    tagOfInterest = tag;
-                    tagFound = true;
-                    break;
-                }
+        for(AprilTagDetection tag : currentDetections) {
+            if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                tagOfInterest = tag;
+                tagFound = true;
+                break;
             }
+        }
 
-            if(tagFound) {
-                telemetry.addLine("Tag of interest is in sight!\n\nLocation data:");
-                tagToTelemetry(tagOfInterest);
-            } else {
-
-                telemetry.addLine("Don't see tag of interest :(");
-
-                if(tagOfInterest == null) {
-                    telemetry.addLine("(The tag has never been seen)");
-                } else {
-                    telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                    tagToTelemetry(tagOfInterest);
-                }
-
-            }
-
+        if(tagFound) {
+            telemetry.addLine(String.format("Tag of interest is in sight!\n\nLocation data: ID=%d", tagOfInterest.id));
         } else {
 
             telemetry.addLine("Don't see tag of interest :(");
 
-            if(tagOfInterest == null) {
-                telemetry.addLine("(The tag has never been seen)");
+            if(tagOfInterest != null) {
+                telemetry.addLine(String.format("\nBut we HAVE seen the tag before; last seen at: ID=%d", tagOfInterest.id));
             } else {
-                telemetry.addLine("\nBut we HAVE seen the tag before; last seen at:");
-                tagToTelemetry(tagOfInterest);
+                telemetry.addLine("(The tag has never been seen)");
             }
 
         }
@@ -386,26 +368,14 @@ public class robotClass extends LinearOpMode {
 
     }
 
-    public void tagToTelemetry(@NonNull AprilTagDetection detection) {
-        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x * FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y * FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z * FEET_PER_METER));
-        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
-        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
-        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
-    }
-
-//    public void parkInCorrectZone(int direction) {
-//
-//        if (tagOfInterest == null || tagOfInterest.id == 1) {
-//            strafe(1, 14, direction);
-//        } else if (tagOfInterest.id == 2) {
-//            strafe(1, 28, direction);
-//        } else if (tagOfInterest.id == 3) {
-//            strafe(1, 42, direction);
-//        }
-//
+//    public void tagToTelemetry(@NonNull AprilTagDetection detection) {
+//        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
+////        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x * FEET_PER_METER));
+////        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y * FEET_PER_METER));
+////        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z * FEET_PER_METER));
+////        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
+////        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
+////        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
 //    }
 
 }
