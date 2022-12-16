@@ -144,6 +144,86 @@ public class teleOpWithRobotClass extends OpMode {
 
         robot.servoClaw.setPosition(clawActualPosition);
 
+        if (gamepad1.left_bumper || gamepad1.right_bumper) {
+            transferCone();
+        }
+        if (gamepad1.x) {
+            liftTransfer("ground");
+        }
+        else if (gamepad1.a) {
+            liftTransfer("low");
+        }
+        else if (gamepad1.b) {
+            liftTransfer("middle");
+        }
+        else if (gamepad1.y) {
+            liftTransfer("high");
+        }
     }
 
+    public void transferCone() {
+
+        lift("transfer");
+        robot.rotateHook("transfer");
+        robot.moveHook("retract");
+
+        rotateClaw("transfer");
+        robot.moveHook("extend");
+        robot.moveClaw("open");
+        rotateClaw("collect");
+
+    }
+
+    public void liftTransfer(String direction) {
+
+        lift(direction);
+        robot.rotateHook("deposit");
+        robot.moveHook("retract");
+
+//        sleep(500);
+
+        robot.rotateHook("deposit");
+        lift("transfer");
+
+    }
+
+    // lift function
+
+    public void lift(String direction) {
+
+        int tics = 0;
+        double LIFT_SPEED = 0.3;
+
+        // values don't correspond w/ LIFT_COUNTS_PER_INCH right now
+
+        if (direction == "high") tics = 3600;
+        if (direction == "middle") tics = 2300; // estimate for middle junction
+        if (direction == "low") tics = 1000; // doesn't actually go to the low junction
+        if (direction == "ground") tics = 500; // estimate for ground junction (the cone should be hovering right above the ground)
+        if (direction == "transfer") tics = 0; // for picking up cones on the ground
+
+        robot.motorLift.setTargetPosition(tics);
+        robot.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorLift.setPower(LIFT_SPEED);
+
+    }
+
+    // rotate claw function
+
+    public void rotateClaw(String direction) {
+
+        int tics = 0;
+
+        int MIN_ROTATION_CLAW_POSITION = 0;
+        int MAX_ROTATION_CLAW_POSITION = 1000;
+        double ROTATION_CLAW_SPEED = 0.5;
+
+        if (direction == "collect")  tics = MIN_ROTATION_CLAW_POSITION;
+        if (direction == "transfer") tics = MAX_ROTATION_CLAW_POSITION;
+
+        robot.motorRotationClaw.setTargetPosition(tics);
+        robot.motorRotationClaw.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRotationClaw.setPower(ROTATION_CLAW_SPEED);
+
+    }
 }
