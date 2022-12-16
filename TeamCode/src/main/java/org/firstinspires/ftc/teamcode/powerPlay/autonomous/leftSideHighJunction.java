@@ -5,8 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-// also works for blue opponent-side high junction
-
 @Autonomous(name="Left Side High Junction")
 public class leftSideHighJunction extends LinearOpMode {
 
@@ -24,34 +22,34 @@ public class leftSideHighJunction extends LinearOpMode {
         robot.init(hardwareMap);
         robot.waitForStart();
 
-//        robot.lift("pickup cone");
-//        sleep(SHORT_PAUSE);
-//        robot.moveHook("extend");
-//        sleep(SHORT_PAUSE);
-//        robot.lift("ground junction");
-//        sleep(SHORT_PAUSE);
-        robot.strafe(DRIVE_SPEED, 36, 1);
+        robot.moveHook("extend");
+        robot.drive(DRIVE_SPEED, 60, -1);
         sleep(SHORT_PAUSE);
-        robot.drive(DRIVE_SPEED, 24, 1);
-        sleep(SHORT_PAUSE);
-//        robot.lift("high junction");
-//        sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 6, 1);
         sleep(SHORT_PAUSE);
-//        robot.moveHook("retract");
-//        sleep(SHORT_PAUSE);
-        robot.drive(DRIVE_SPEED, 6, -1);
-        sleep(SHORT_PAUSE);
-//        robot.lift("ground junction");
-//        sleep(SHORT_PAUSE);
+        robot.strafe(DRIVE_SPEED, 12, -1); // for right side program, switch direction to 1
 
-//        if (robot.tagOfInterest == null || robot.tagOfInterest.id == 1) {
-//            robot.strafe(1, 60, -1);
-//        } else if (robot.tagOfInterest.id == 2) {
-//            robot.strafe(1, 36, -1);
-//        } else if (robot.tagOfInterest.id == 3) {
-//            robot.strafe(1, 12, -1);
-//        }
+        robot.lift("high");
+        sleep(SHORT_PAUSE);
+        robot.rotateHook("deposit");
+        robot.moveHook("retract");
+        sleep(LONG_PAUSE);
+        robot.rotateHook("deposit");
+        robot.lift("transfer");
+        sleep(SHORT_PAUSE);
+
+        robot.strafe(DRIVE_SPEED, 12, 1); // for right side program, switch direction to -1
+        sleep(SHORT_PAUSE);
+        robot.drive(DRIVE_SPEED, 30, 1);
+        sleep(SHORT_PAUSE);
+
+        if (robot.tagOfInterest == null || robot.tagOfInterest.id == 3) {
+            robot.strafe(DRIVE_SPEED, 0, 1);
+        } else if (robot.tagOfInterest.id == 2) {
+            // already there
+        } else if (robot.tagOfInterest.id == 1) {
+            robot.strafe(DRIVE_SPEED, 0, -1);
+        }
 
     }
 

@@ -1,6 +1,22 @@
-To Do:
+To do ASAP:
 
-- test autonomous programs
+- run testAprilTagDetection.java
+- run testTransferSystem.java
+- run leftSideHighJunction.java, but only the driving movements (comment out the scoring* code, since it isn't finished yet)
+- run rightSideHighJunction.java, but only the driving movements (comment out the scoring* code, since it isn't finished yet)
+- finish configuring buttons in teleOpWithRobotClass.java
+- update robotClass.java for new pulley-system for rotating the claw
+
+- Once you update robotClass.java
+    - run leftSideHighJunction.java (including scoring code)
+    - run rightSideHighJunction.java (including scoring code)
+
+- Once you update teleOpWithRobotClass.java
+    - run teleOpWithRobotClass.java (make sure everything works)
+
+* "scoring code" = code that has to do with collecting, transferring, or depositing
+
+To do eventually:
 
 - In robot class:
     - test turn method

@@ -125,13 +125,14 @@ public class robotClass extends LinearOpMode {
         servoHook         = hardwareMap.get(Servo.class, "servo_hook");
         servoRotationHook = hardwareMap.get(Servo.class, "servo_rotation_hook");
 
-//        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-//        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
+        // do these really need to be reversed?
         motorLift.setDirection(DcMotor.Direction.REVERSE);
-        servoClaw.setDirection(Servo.Direction.REVERSE); // do these really need to be reversed?
+        servoClaw.setDirection(Servo.Direction.REVERSE);
+//        servoHook.setDirection(Servo.Direction.REVERSE);
+        servoRotationHook.setDirection(Servo.Direction.REVERSE);
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -234,32 +235,6 @@ public class robotClass extends LinearOpMode {
     }
 
     // scoring helper methods
-
-    public void transferCone() {
-
-        lift("transfer");
-        rotateHook("transfer");
-        moveHook("retract");
-
-        rotateClaw("transfer");
-        moveHook("extend");
-        moveClaw("open");
-        rotateClaw("collect");
-
-    }
-
-    public void liftTransfer(String direction) {
-
-        lift(direction);
-        rotateHook("deposit");
-        moveHook("retract");
-
-        sleep(500);
-
-        rotateHook("deposit");
-        lift("transfer");
-
-    }
 
     public void moveClaw(String direction) {
         if (direction == "open")  servoClaw.setPosition(MIN_CLAW_POSITION);

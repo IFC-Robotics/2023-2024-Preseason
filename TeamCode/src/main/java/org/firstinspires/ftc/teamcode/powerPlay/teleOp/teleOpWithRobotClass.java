@@ -144,21 +144,22 @@ public class teleOpWithRobotClass extends OpMode {
 
         robot.servoClaw.setPosition(clawActualPosition);
 
+        // automated transferring (collect -> transfer and transfer -> deposit)
+
         if (gamepad1.left_bumper || gamepad1.right_bumper) {
             transferCone();
         }
+
         if (gamepad1.x) {
             liftTransfer("ground");
-        }
-        else if (gamepad1.a) {
+        } else if (gamepad1.a) {
             liftTransfer("low");
-        }
-        else if (gamepad1.b) {
+        } else if (gamepad1.b) {
             liftTransfer("middle");
-        }
-        else if (gamepad1.y) {
+        } else if (gamepad1.y) {
             liftTransfer("high");
         }
+
     }
 
     public void transferCone() {
@@ -187,8 +188,6 @@ public class teleOpWithRobotClass extends OpMode {
 
     }
 
-    // lift function
-
     public void lift(String direction) {
 
         int tics = 0;
@@ -207,8 +206,6 @@ public class teleOpWithRobotClass extends OpMode {
         robot.motorLift.setPower(LIFT_SPEED);
 
     }
-
-    // rotate claw function
 
     public void rotateClaw(String direction) {
 
