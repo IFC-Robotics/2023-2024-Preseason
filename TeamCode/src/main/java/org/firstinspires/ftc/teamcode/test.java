@@ -16,9 +16,9 @@ public class test extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        robot.waitForStart();
+        waitForStart();
 
-        robot.moveClaw("open");
+        robot.moveClaw("close");
         sleep(1000);
         robot.rotateClaw("transfer");
         sleep(1000);

@@ -69,8 +69,8 @@ public class robotClass extends LinearOpMode {
     public static final double MIN_HOOK_POSITION = 0;
     public static final double MAX_HOOK_POSITION = 1;
 
-    public static final double MIN_ROTATION_HOOK_POSITION = 0; // to test later
-    public static final double MAX_ROTATION_HOOK_POSITION = 0.85;
+    public static final double MIN_ROTATION_HOOK_POSITION = 0.5; // to test later
+    public static final double MAX_ROTATION_HOOK_POSITION = 1;
 
     // camera vision variables
 
@@ -248,14 +248,18 @@ public class robotClass extends LinearOpMode {
         if (direction == "collect")  tics = MIN_ROTATION_CLAW_POSITION;
         if (direction == "transfer") tics = MAX_ROTATION_CLAW_POSITION;
 
+
+
         motorRotationClaw.setTargetPosition(tics);
         motorRotationClaw.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorRotationClaw.setPower(ROTATION_CLAW_SPEED);
 
+        telemetry.addLine("claw is rotating");
+
         while (motorRotationClaw.isBusy() && opModeIsActive()) {}
 
-        motorRotationClaw.setPower(0);
-        motorRotationClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //motorRotationClaw.setPower(0);
+        //motorRotationClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 

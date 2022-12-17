@@ -16,8 +16,8 @@ public class testTransferSystem extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        robot.waitForStart();
-
+        //robot.waitForStart();
+        waitForStart();
         robot.moveHook("extend");
         sleep(500);
         robot.lift("high");

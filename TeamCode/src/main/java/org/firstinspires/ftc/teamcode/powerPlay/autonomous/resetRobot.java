@@ -16,7 +16,7 @@ public class resetRobot extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        robot.waitForStart();
+        waitForStart();
 
         robot.moveClaw("open");
         robot.rotateClaw("collect");
