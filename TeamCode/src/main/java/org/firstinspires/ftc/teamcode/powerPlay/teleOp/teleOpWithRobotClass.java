@@ -30,22 +30,42 @@ public class teleOpWithRobotClass extends OpMode {
     boolean waitingForLiftEncoder = false;
     boolean enableLiftLimits = true;
 
-    // claw variables
+    // claw servo variables
 
-    double clawActualPosition;
-    double claw;
+    double servoClawActualPosition;
+    double servoClawDesiredPosition;
+    boolean clawIsMovingHorizontally = false;
 
-    boolean dpadButtonsPressed = false;
+    // claw motor variables
+
+    boolean waitingforClawEncoder = false;
+
+    // hook variables
+
+    double servoHookActualPosition;
+    double servoHookDesiredPosition;
+    boolean hookisMoving = false;
+
+    // rotate hook variables
+
+    double servoRotationHookActualPosition;
+    double servoRotationHookDesiredPosition;
+    boolean rotationHookIsMoving = false;
 
     // other
 
     robotClass robot = new robotClass();
 
     @Override
-    public void init () { robot.init(hardwareMap); }
+    public void init () {
+        robot.init(hardwareMap);
+    }
 
     @Override
-    public void start() { clawActualPosition = robot.servoClaw.getPosition(); }
+    public void start() {
+        servoClawActualPosition = robot.servoClaw.getPosition();
+        motorClawActualPosition = robot.motorClaw.getCurrentPosition();
+    }
 
     @Override
     public void loop() {
@@ -118,109 +138,126 @@ public class teleOpWithRobotClass extends OpMode {
             waitingForLiftEncoder = false;
         }
 
-        // claw
+        // opening/closing claw
 
-        if (!dpadButtonsPressed) {
+        if (!clawIsMovingHorizontally) {
 
-            claw = -gamepad2.left_stick_y;
+            servoClawDesiredPosition = -gamepad2.left_stick_y;
 
-            if (claw < 0 && clawActualPosition < robot.MAX_CLAW_POSITION) {
-                clawActualPosition += robot.CLAW_SPEED;
-            } else if (claw > 0 && clawActualPosition > robot.MIN_CLAW_POSITION) {
-                clawActualPosition -= robot.CLAW_SPEED;
+            if (servoClawDesiredPosition < 0 && servoClawActualPosition < robot.MAX_CLAW_POSITION) {
+                servoClawActualPosition += robot.CLAW_SPEED;
+            } else if (servoClawDesiredPosition > 0 && servoClawActualPosition > robot.MIN_CLAW_POSITION) {
+                servoClawActualPosition -= robot.CLAW_SPEED;
             }
 
         }
 
         if (gamepad2.dpad_up || gamepad2.dpad_down) {
-            if (gamepad2.dpad_up)   clawActualPosition = robot.MAX_CLAW_POSITION;
-            if (gamepad2.dpad_down) clawActualPosition = robot.MIN_CLAW_POSITION;
-            dpadButtonsPressed = true;
+            if (gamepad2.dpad_up)   servoClawActualPosition = robot.MAX_CLAW_POSITION;
+            if (gamepad2.dpad_down) servoClawActualPosition = robot.MIN_CLAW_POSITION;
+            clawIsMovingHorizontally = true;
         }
 
-        if (dpadButtonsPressed && robot.servoClaw.getPosition() == clawActualPosition) {
-            dpadButtonsPressed = false;
+        if (clawIsMovingHorizontally && robot.servoClaw.getPosition() == servoClawActualPosition) {
+            clawIsMovingHorizontally = false;
         }
 
-        robot.servoClaw.setPosition(clawActualPosition);
+        robot.servoClaw.setPosition(servoClawActualPosition);
 
-        // automated transferring (collect -> transfer and transfer -> deposit)
+        // raising/lowering the claw
 
-        if (gamepad1.left_bumper || gamepad1.right_bumper) {
-            transferCone();
+        if (gamepad2.dpad_up || gamepad2.dpad_down) {
+
+            int tics = 0;
+
+            if (gamepad2.dpad_up)   tics = 0;
+            if (gamepad2.dpad_down) tics = 1000;
+
+            robot.motorClaw.setTargetPosition(tics);
+            robot.motorClaw.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorClaw.setPower(0.5);
+
+            waitingForClawEncoder = true;
+
         }
 
-        if (gamepad1.x) {
-            liftTransfer("ground");
-        } else if (gamepad1.a) {
-            liftTransfer("low");
-        } else if (gamepad1.b) {
-            liftTransfer("middle");
-        } else if (gamepad1.y) {
-            liftTransfer("high");
+        if (waitingForClawEncoder && !robot.motorClaw.isBusy()) {
+            robot.motorClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            waitingForClawEncoder = false;
         }
 
-    }
+        // extending/retracting the hook
 
-    public void transferCone() {
+        // double servoHookActualPosition;
+        // double servoHookDesiredPosition;
+        // boolean hookisMoving = false;
 
-        lift("transfer");
-        robot.rotateHook("transfer");
-        robot.moveHook("retract");
+        // if (!hookisMoving) {
 
-        rotateClaw("transfer");
-        robot.moveHook("extend");
-        robot.moveClaw("open");
-        rotateClaw("collect");
+        //     servoHookDesiredPosition = -gamepad2.left_stick_y;
 
-    }
+        //     _ MAX_HOOK_POSITION = _;
+        //     _ MAX_HOOK_POSITION = _;
+        //     _ MAX_HOOK_POSITION = _;
 
-    public void liftTransfer(String direction) {
+        //     if (servoHookDesiredPosition < 0 && servoHookActualPosition < MAX_HOOK_POSITION) {
+        //         servoHookActualPosition += HOOK_SPEED;
+        //     } else if (servoHookDesiredPosition > 0 && servoHookActualPosition > MIN_HOOK_POSITION) {
+        //         servoHookActualPosition -= HOOK_SPEED;
+        //     }
 
-        lift(direction);
-        robot.rotateHook("deposit");
-        robot.moveHook("retract");
+        // }
 
-//        sleep(500);
+        // if (gamepad2.dpad_up || gamepad2.dpad_down) {
+        //     if (gamepad2.dpad_up)   servoHookActualPosition = MAX_HOOK_POSITION;
+        //     if (gamepad2.dpad_down) servoHookActualPosition = MIN_HOOK_POSITION;
+        //     hookisMoving = true;
+        // }
 
-        robot.rotateHook("deposit");
-        lift("transfer");
+        // if (hookisMoving && robot.servoHook.getPosition() == servoHookActualPosition) {
+        //     hookisMoving = false;
+        // }
 
-    }
+        // robot.servoHook.setPosition(servoHookActualPosition);
 
-    public void lift(String direction) {
+        // if (direction == "extend")  servoHook.setPosition(0); // MIN_HOOK_POSITION
+        // if (direction == "retract") servoHook.setPosition(1); // MAX_HOOK_POSITION
 
-        int tics = 0;
-        double LIFT_SPEED = 0.3;
+        // if (direction == "transfer") servoRotationHook.setPosition(0.5); // MIN_ROTATION_HOOK_POSITION
+        // if (direction == "deposit")  servoRotationHook.setPosition(1); // MAX_ROTATION_HOOK_POSITION
 
-        // values don't correspond w/ LIFT_COUNTS_PER_INCH right now
+        // rotating the hook
 
-        if (direction == "high") tics = 3600;
-        if (direction == "middle") tics = 2300; // estimate for middle junction
-        if (direction == "low") tics = 1000; // doesn't actually go to the low junction
-        if (direction == "ground") tics = 500; // estimate for ground junction (the cone should be hovering right above the ground)
-        if (direction == "transfer") tics = 0; // for picking up cones on the ground
-
-        robot.motorLift.setTargetPosition(tics);
-        robot.motorLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.motorLift.setPower(LIFT_SPEED);
-
-    }
-
-    public void rotateClaw(String direction) {
-
-        int tics = 0;
-
-        int MIN_ROTATION_CLAW_POSITION = 0;
-        int MAX_ROTATION_CLAW_POSITION = 1000;
-        double ROTATION_CLAW_SPEED = 0.5;
-
-        if (direction == "collect")  tics = MIN_ROTATION_CLAW_POSITION;
-        if (direction == "transfer") tics = MAX_ROTATION_CLAW_POSITION;
-
-        robot.motorRotationClaw.setTargetPosition(tics);
-        robot.motorRotationClaw.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        robot.motorRotationClaw.setPower(ROTATION_CLAW_SPEED);
+        // double servoRotationHookActualPosition;
+        // double servoRotationHookDesiredPosition;
+        // boolean rotationHookIsMoving = false;
 
     }
+
+//     public void transferCone() {
+
+//         lift("transfer");
+//         robot.rotateHook("transfer");
+//         robot.moveHook("retract");
+
+//         rotateClaw("transfer");
+//         robot.moveHook("extend");
+//         robot.moveClaw("open");
+//         rotateClaw("collect");
+
+//     }
+
+//     public void liftTransfer(String direction) {
+
+//         lift(direction);
+//         robot.rotateHook("deposit");
+//         robot.moveHook("retract");
+
+// //        sleep(500);
+
+//         robot.rotateHook("deposit");
+//         lift("transfer");
+
+//     }
+
 }
