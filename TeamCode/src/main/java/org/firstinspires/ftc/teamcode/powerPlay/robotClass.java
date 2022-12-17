@@ -59,7 +59,7 @@ public class robotClass extends LinearOpMode {
 
     public static final int MIN_ROTATION_CLAW_POSITION = 0; // names to be fixed later
     public static final int MAX_ROTATION_CLAW_POSITION = 1000; // to be tested (this value is in tics)
-    public static final double ROTATION_CLAW_SPEED = 0.5;
+    public static final double ROTATION_CLAW_SPEED = 1.0;
 
     // hook variables
 
@@ -154,19 +154,19 @@ public class robotClass extends LinearOpMode {
 
         // camera vision initialization
 
-        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
-        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+//        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+//        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+//        aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
+//
+//        camera.setPipeline(aprilTagDetectionPipeline);
+//        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
+//            @Override
+//            public void onOpened() { camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT); }
+//            @Override
+//            public void onError(int errorCode) {}
+//        });
 
-        camera.setPipeline(aprilTagDetectionPipeline);
-        camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
-            @Override
-            public void onOpened() { camera.startStreaming(800,448, OpenCvCameraRotation.UPRIGHT); }
-            @Override
-            public void onError(int errorCode) {}
-        });
-
-        telemetry.setMsTransmissionInterval(50);
+//        telemetry.setMsTransmissionInterval(50);
 
     }
 
@@ -245,32 +245,28 @@ public class robotClass extends LinearOpMode {
 
         int tics = 0;
 
-        if (direction == "collect")  tics = MIN_ROTATION_CLAW_POSITION;
-        if (direction == "transfer") tics = MAX_ROTATION_CLAW_POSITION;
-
-
+        if (direction == "collect")  tics = 0; // MIN_ROTATION_CLAW_POSITION
+        if (direction == "transfer") tics = 1000; // MAX_ROTATION_CLAW_POSITION
 
         motorRotationClaw.setTargetPosition(tics);
         motorRotationClaw.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorRotationClaw.setPower(ROTATION_CLAW_SPEED);
-
-        telemetry.addLine("claw is rotating");
+        motorRotationClaw.setPower(1); // ROTATION_CLAW_SPEED
 
         while (motorRotationClaw.isBusy() && opModeIsActive()) {}
 
-        //motorRotationClaw.setPower(0);
-        //motorRotationClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorRotationClaw.setPower(0);
+        motorRotationClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
     public void moveHook(String direction) {
-        if (direction == "extend")  servoHook.setPosition(MIN_HOOK_POSITION);
-        if (direction == "retract") servoHook.setPosition(MAX_HOOK_POSITION);
+        if (direction == "extend")  servoHook.setPosition(0); // MIN_HOOK_POSITION
+        if (direction == "retract") servoHook.setPosition(1); // MAX_HOOK_POSITION
     }
 
     public void rotateHook(String direction) {
-        if (direction == "transfer") servoRotationHook.setPosition(MIN_ROTATION_HOOK_POSITION);
-        if (direction == "deposit")  servoRotationHook.setPosition(MAX_ROTATION_HOOK_POSITION);
+        if (direction == "transfer") servoRotationHook.setPosition(0.5); // MIN_ROTATION_HOOK_POSITION
+        if (direction == "deposit")  servoRotationHook.setPosition(1); // MAX_ROTATION_HOOK_POSITION
     }
 
     public void lift(String direction) {
