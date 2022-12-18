@@ -20,14 +20,14 @@ public class test extends LinearOpMode {
 
 //        robot.moveClaw("close");
 //        sleep(1000);
-        robot.rotateClaw("transfer");
-        sleep(2000);
+//        robot.rotateClaw("transfer");
+//        sleep(2000);
         robot.moveHook("extend");
         sleep(2000);
 //        robot.moveClaw("open");
 //        sleep(1000);
-//        robot.rotateClaw("collect");
-//        sleep(1000);
+        robot.rotateClaw("collect");
+        sleep(2000);
 
         robot.lift("high");
         sleep(2000);
