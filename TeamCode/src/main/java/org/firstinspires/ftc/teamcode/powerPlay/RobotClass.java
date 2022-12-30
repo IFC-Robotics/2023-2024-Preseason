@@ -42,21 +42,17 @@ public class NewRobotClass extends LinearOpMode {
     // claw variables
 
     public static Servo servoClaw;
-    public static Servo servoRotateClaw;
 
     public static final double CLAW_OPEN_POSITION = 0.0; // to test
     public static final double CLAW_CLOSE_POSITION = 0.4; // to test
-
-    public static final double ROTATE_CLAW_INTAKE_POSITION = 0.0; // to test
-    public static final double ROTATE_CLAW_TRANSFER_POSITION = 0.4; // to test
 
     // horizontal lift variables
 
     public static DcMotor motorHorizontalLift;
 
-    public static final double HORIZONTAL_LIFT_INTAKE_DIST = 0.0; // to test
-    public static final double HORIZONTAL_LIFT_TRANSFER_DIST = 1000.0; // to test
-    public static final double HORIZONTAL_LIFT_SPEED = 0.3; // to test
+    public static final double HORIZONTAL_LIFT_MIN_DIST = 0.0; // to test
+    public static final double HORIZONTAL_LIFT_MAX_DIST = 1000.0; // to test
+    public static final double HORIZONTAL_LIFT_SPEED = 0.5; // to test
 
     // hook variables
 
@@ -64,7 +60,7 @@ public class NewRobotClass extends LinearOpMode {
     public static Servo servoRotateHook;
 
     public static final double HOOK_EXTEND_POSITION = 0.33; // to test
-    public static final double HOOK_RETACT_POSITION = 0.66; // to test
+    public static final double HOOK_RETRACT_POSITION = 0.66; // to test
 
     public static final double ROTATE_HOOK_TRANSFER_POSITION = 0.33; // to test
     public static final double ROTATE_HOOK_DEPOSIT_POSITION = 0.66; // to test
@@ -73,8 +69,8 @@ public class NewRobotClass extends LinearOpMode {
 
     public static DcMotor motorVerticalLift;
 
-    public static final double MIN_VERTICAL_LIFT_DIST = 0.0; // to test
-    public static final double MAX_VERTICAL_LIFT_DIST = 3300.0; // to test
+    public static final double VERTICAL_LIFT_MIN_DIST = 0.0; // to test
+    public static final double VERTICAL_LIFT_MAX_DIST = 3300.0; // to test
     public static final double VERTICAL_LIFT_SPEED = 0.3; // to test
 
     // camera vision variables
@@ -95,6 +91,10 @@ public class NewRobotClass extends LinearOpMode {
     int RIGHT = 3;
 
     AprilTagDetection tagOfInterest = null;
+
+    // other variables
+
+    public static boolean assistMode = true;
 
     public robotClass(){}
 
@@ -134,10 +134,8 @@ public class NewRobotClass extends LinearOpMode {
         // intake
 
         servoClaw           = hardwareMap.get(Servo.class, "servo_claw");
-        servoRotateClaw     = hardwareMap.get(Servo.class, "servo_rotate_claw");
         motorHorizontalLift = hardwareMap.get(DcMotor.class, "motor_horizontal_lift");
 
-        servoClaw.setDirection(Servo.Direction.REVERSE); // to test
         servoClaw.setDirection(Servo.Direction.REVERSE); // to test
         motorHorizontalLift.setDirection(DcMotor.Direction.REVERSE); // to test
 

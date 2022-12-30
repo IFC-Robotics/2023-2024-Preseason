@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
+import org.firstinspires.ftc.teamcode.powerPlay.RobotClass;
 
 @Autonomous(name="Test Automatic Scoring Sequence", group="Test")
 public class TestAutomaticScoringSequence extends LinearOpMode {
 
-    robotClass robot = new robotClass();
+    robotClass robot = new RobotClass();
 
     public void runOpMode() {
 

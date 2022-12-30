@@ -16,7 +16,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-public class robotClass extends LinearOpMode {
+public class OldRobotClass extends LinearOpMode {
 
     // DcMotor variables
 
