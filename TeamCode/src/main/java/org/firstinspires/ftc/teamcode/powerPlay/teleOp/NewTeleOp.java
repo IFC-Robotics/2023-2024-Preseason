@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.powerPlay.RobotClass;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClass;
 
 // import java.lang.Math;
 
@@ -15,9 +15,9 @@ public class NewTeleOp extends LinearOpMode {
 
     RobotClass robot = new RobotClass();
 
-    double servoClawPosition;
-    double servoHookPosition;
-    double servoRotateHookPosition;
+    double servoClawPosition = robot.CLAW_OPEN_POSITION;
+    double servoHookPosition = robot.HOOK_RETRACT_POSITION;
+    double servoRotateHookPosition = robot.ROTATE_HOOK_TRANSFER_POSITION;
 
     boolean servoClawIsMoving = false;
     boolean servoHookIsMoving = false;
@@ -32,15 +32,16 @@ public class NewTeleOp extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
 
-        servoClawPosition = robot.servoClaw.getPosition();
-        servoHookPosition = robot.servoHook.getPosition();
-        servoRotateHookPosition = robot.servoRotateHook.getPosition();
+        servoClawPosition = robot.CLAW_CLOSE_POSITION;
+        servoHookPosition = robot.HOOK_EXTEND_POSITION;
 
         while (opModeIsActive()) {
 
             if (gamepad2.start) robot.assistMode = !robot.assistMode;
 
             controlMovement();
+
+            // make sure this code actually works, aka if you pass a variable into a method and change the variable inside the method, the variable also changes outside the method.
 
             controlServo(robot.servoClaw, servoClawPosition, servoClawIsMoving, gamepad2.dpad_left, gamepad2.dpad_right, robot.CLAW_OPEN_POSITION, robot.CLAW_CLOSE_POSITION);
             controlServo(robot.servoHook, servoHookPosition, servoHookIsMoving, gamepad2.y, gamepad2.a, robot.HOOK_EXTEND_POSITION, robot.HOOK_RETRACT_POSITION);

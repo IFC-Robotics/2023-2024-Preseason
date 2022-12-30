@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay;
+package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-// import org.firstinspires.ftc.teamcode.powerPlay.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -137,8 +137,11 @@ public class RobotClass extends LinearOpMode {
         motorHorizontalLift = hardwareMap.get(DcMotor.class, "motor_horizontal_lift");
 
         servoClaw.setDirection(Servo.Direction.REVERSE); // to test
-        motorHorizontalLift.setDirection(DcMotor.Direction.REVERSE); // to test
+        servoClaw.setPosition(CLAW_CLOSE_POSITION); // to test
 
+        // add "Warning: Robot Moves On Initialization" sticker (https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf)
+
+        motorHorizontalLift.setDirection(DcMotor.Direction.REVERSE); // to test
         motorHorizontalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorHorizontalLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -149,9 +152,13 @@ public class RobotClass extends LinearOpMode {
         motorVerticalLift = hardwareMap.get(DcMotor.class, "motor_vertical_lift");
 
         servoHook.setDirection(Servo.Direction.REVERSE); // to test
-        servoRotateHook.setDirection(Servo.Direction.REVERSE); // to test
-        motorVerticalLift.setDirection(DcMotor.Direction.REVERSE); // to test
+        servoHook.setPosition(HOOK_EXTEND_POSITION); // to test
 
+        // add "Warning: Robot Moves On Initialization" sticker (https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf)
+
+        servoRotateHook.setDirection(Servo.Direction.REVERSE); // to test
+
+        motorVerticalLift.setDirection(DcMotor.Direction.REVERSE); // to test
         motorVerticalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorVerticalLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
