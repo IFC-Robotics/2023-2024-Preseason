@@ -94,7 +94,7 @@ public class NewRobotClass extends LinearOpMode {
     int MIDDLE = 2;
     int RIGHT = 3;
 
-    public AprilTagDetection tagOfInterest = null;
+    AprilTagDetection tagOfInterest = null;
 
     public robotClass(){}
 
@@ -291,55 +291,35 @@ public class NewRobotClass extends LinearOpMode {
 
     }
 
-    // camera vision helper methods
+    // AprilTag helper methods
 
-    // public void waitForStart() {
+    public int getTag() {
 
-    //     while (!isStarted() && !isStopRequested()) {
-    //         getAprilTagDetections();
-    //     }
+        while (!isStarted() && !isStopRequested()) {
+            
+            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-    //     if(tagOfInterest != null) {
-    //         telemetry.addLine(String.format("Tag snapshot:\n ID=%d", tagOfInterest.id));
-    //         telemetry.update();
-    //     } else {
-    //         telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
-    //         telemetry.update();
-    //     }
+            for(AprilTagDetection tag : currentDetections) {
+                if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                    tagOfInterest = tag;
+                    break;
+                }
+            }
 
-    // }
+            sleep(20);
 
-    // public void getAprilTagDetections() {
+        }
 
-    //     ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+        if(tagOfInterest != null) {
+            telemetry.addData("Tag of interest is in sight! Tag ID", tagOfInterest.id);
+            telemetry.update();
+            return tagOfInterest.id;
+        } else {
+            telemetry.addLine("No tag available, it was never sighted during the init loop :(");
+            telemetry.update();
+            return 0;
+        }
 
-    //     boolean tagFound = false;
-
-    //     for(AprilTagDetection tag : currentDetections) {
-    //         if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
-    //             tagOfInterest = tag;
-    //             tagFound = true;
-    //             break;
-    //         }
-    //     }
-
-    //     if(tagFound) {
-    //         telemetry.addLine(String.format("Tag of interest is in sight!\n\nLocation data: ID=%d", tagOfInterest.id));
-    //     } else {
-
-    //         telemetry.addLine("Don't see tag of interest :(");
-
-    //         if(tagOfInterest != null) {
-    //             telemetry.addLine(String.format("\nBut we HAVE seen the tag before; last seen at: ID=%d", tagOfInterest.id));
-    //         } else {
-    //             telemetry.addLine("(The tag has never been seen)");
-    //         }
-
-    //     }
-
-    //     telemetry.update();
-    //     sleep(20);
-
-    // }
+    }
 
 }

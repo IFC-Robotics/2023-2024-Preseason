@@ -16,14 +16,17 @@ public class TestAprilTagDetection extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        waitForStart();
-
         int tag = robot.getTag();
 
-        telemetry.addData("Tag", tag);
+        telemetry.addData("Tag before start", tag);
         telemetry.update();
 
-        sleep(5000);
+        waitForStart();
+
+        telemetry.addData("Tag after start", tag);
+        telemetry.update();
+
+        sleep(2000);
 
     }
 
