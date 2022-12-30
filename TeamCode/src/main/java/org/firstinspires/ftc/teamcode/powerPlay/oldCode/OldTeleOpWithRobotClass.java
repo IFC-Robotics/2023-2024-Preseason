@@ -1,14 +1,12 @@
-package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.powerPlay.OldRobotClass;
-
-@TeleOp(name="teleOp")
-public class TeleOp extends OpMode {
+@TeleOp(name="old teleOp with robot class")
+public class OldTeleOpWithRobotClass extends OpMode {
 
     // drivetrain variables
 
@@ -38,7 +36,8 @@ public class TeleOp extends OpMode {
 
     // claw motor variables
 
-    boolean waitingforClawEncoder = false;
+    double motorClawActualPosition;
+    boolean waitingForClawEncoder = false;
 
     // hook variables
 
@@ -54,7 +53,7 @@ public class TeleOp extends OpMode {
 
     // other
 
-    robotClass robot = new robotClass();
+    OldRobotClass robot = new OldRobotClass();
 
     @Override
     public void init () {

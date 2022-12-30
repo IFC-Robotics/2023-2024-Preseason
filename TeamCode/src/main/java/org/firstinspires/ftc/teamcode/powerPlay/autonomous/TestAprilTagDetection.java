@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.powerPlay.RobotClass;
 @Autonomous(name="Test AprilTag Detection", group="Test")
 public class TestAprilTagDetection extends LinearOpMode {
 
-    robotClass robot = new RobotClass();
+    RobotClass robot = new RobotClass();
 
     public void runOpMode() {
 

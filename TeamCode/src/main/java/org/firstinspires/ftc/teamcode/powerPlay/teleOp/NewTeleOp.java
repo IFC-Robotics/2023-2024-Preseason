@@ -1,6 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -8,12 +8,12 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.powerPlay.RobotClass;
 
-import java.lang.Math;
+// import java.lang.Math;
 
-@TeleOp(name="teleOp")
-public class TeleOp extends OpMode {
+@TeleOp(name="new teleOp")
+public class NewTeleOp extends LinearOpMode {
 
-    robotClass robot = new RobotClass();
+    RobotClass robot = new RobotClass();
 
     double servoClawPosition;
     double servoHookPosition;
@@ -21,36 +21,35 @@ public class TeleOp extends OpMode {
 
     boolean servoClawIsMoving = false;
     boolean servoHookIsMoving = false;
-    boolean servoRotateHookIsMoving = false
+    boolean servoRotateHookIsMoving = false;
 
     boolean motorHorizontalLiftIsMoving = false;
     boolean motorVerticalLiftIsMoving = false;
 
     @Override
-    public void init() {
-        robot.init(hardwareMap);
-    }
+    public void runOpMode() {
 
-    @Override
-    public void start() {
+        robot.init(hardwareMap);
+        waitForStart();
+
         servoClawPosition = robot.servoClaw.getPosition();
         servoHookPosition = robot.servoHook.getPosition();
         servoRotateHookPosition = robot.servoRotateHook.getPosition();
-    }
 
-    @Override
-    public void loop() {
+        while (opModeIsActive()) {
 
-        if (gamepad2.start) robot.assistMode = !robot.assistMode;
+            if (gamepad2.start) robot.assistMode = !robot.assistMode;
 
-        controlMovement();
+            controlMovement();
 
-        controlServo(robot.servoClaw, servoClawPosition, servoClawIsMoving, gamepad2.dpad_left, gamepad2.dpad_right, robot.CLAW_OPEN_POSITION, robot.CLAW_CLOSE_POSITION);
-        controlServo(robot.servoHook, servoHookPosition, servoHookIsMoving, gamepad2.y, gamepad2.a, robot.HOOK_EXTEND_POSITION, robot.HOOK_RETRACT_POSITION);
-        controlServo(robot.servoRotateHook, servoRotateHookPosition, servoRotateHookIsMoving, gamepad2.x, gamepad2.b, robot.ROTATE_HOOK_TRANSFER_POSITION, robot.ROTATE_HOOK_DEPOSIT_POSITION);
+            controlServo(robot.servoClaw, servoClawPosition, servoClawIsMoving, gamepad2.dpad_left, gamepad2.dpad_right, robot.CLAW_OPEN_POSITION, robot.CLAW_CLOSE_POSITION);
+            controlServo(robot.servoHook, servoHookPosition, servoHookIsMoving, gamepad2.y, gamepad2.a, robot.HOOK_EXTEND_POSITION, robot.HOOK_RETRACT_POSITION);
+            controlServo(robot.servoRotateHook, servoRotateHookPosition, servoRotateHookIsMoving, gamepad2.x, gamepad2.b, robot.ROTATE_HOOK_TRANSFER_POSITION, robot.ROTATE_HOOK_DEPOSIT_POSITION);
 
-        controlMotor(robot.motorHorizontalLift, motorHorizontalLiftIsMoving, -gamepad2.left_stick_y, robot.HORIZONTAL_LIFT_MIN_DIST, robot.HORIZONTAL_LIFT_MAX_DIST, robot.HORIZONTAL_LIFT_SPEED, gamepad2.dpad_down, gamepad2.dpad_up, false, false, false, 0.0, 18.0, 0.0, 0.0, 0.0); // change values (18 -> distance to auto collect)
-        controlMotor(robot.motorVerticalLift, motorVerticalLiftIsMoving, -gamepad2.right_stick_y, robot.VERTICAL_LIFT_MIN_DIST, robot.VERTICAL_LIFT_MAX_DIST, robot.VERTICAL_LIFT_SPEED, gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.left_bumper, 0.0, 2.0, 15.0, 25.0, 35.0); // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions, respectively)
+            controlMotor(robot.motorHorizontalLift, motorHorizontalLiftIsMoving, -gamepad2.left_stick_y, robot.HORIZONTAL_LIFT_MIN_DIST, robot.HORIZONTAL_LIFT_MAX_DIST, robot.HORIZONTAL_LIFT_SPEED, gamepad2.dpad_down, gamepad2.dpad_up, false, false, false, 0.0, 18.0, 0.0, 0.0, 0.0); // change values (18 -> distance to auto collect)
+            controlMotor(robot.motorVerticalLift, motorVerticalLiftIsMoving, -gamepad2.right_stick_y, robot.VERTICAL_LIFT_MIN_DIST, robot.VERTICAL_LIFT_MAX_DIST, robot.VERTICAL_LIFT_SPEED, gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.left_bumper, 0.0, 2.0, 15.0, 25.0, 35.0); // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions, respectively)
+
+        }
 
     }
 
@@ -99,12 +98,12 @@ public class TeleOp extends OpMode {
 
     }
 
-    public void controlMotor(DcMotor motor, boolean motorIsMoving, double joystick, double motorMinDist, double motorMaxDist, double motorMaxSpeed, boolean button1, boolean button2, boolean button3, boolean button4, boolean button5, double button1Dist, double button2Dist, double button3Dist, double button4Dist, double button5Dist) {
+    public void controlMotor(DcMotor motor, boolean motorIsMoving, double joystick, int motorMinDist, int motorMaxDist, double motorMaxSpeed, boolean button1, boolean button2, boolean button3, boolean button4, boolean button5, double button1Dist, double button2Dist, double button3Dist, double button4Dist, double button5Dist) {
 
         if (!motorIsMoving) {
 
             double motorSpeed = Range.clip(joystick, -motorMaxSpeed, motorMaxSpeed);
-            double motorCurrentPosition = motor.getCurrentPosition();
+            int motorCurrentPosition = motor.getCurrentPosition();
 
             if ((motorCurrentPosition > motorMaxDist && motorSpeed > 0) || (motorCurrentPosition < motorMinDist && motorSpeed < 0)) {
                 motorSpeed = 0;
@@ -116,11 +115,11 @@ public class TeleOp extends OpMode {
 
         if (button1 || button2 || button3 || button4 || button5) {
 
-            if (button1) motor.setTargetPosition(button1Dist * LIFT_COUNTS_PER_INCH);
-            if (button2) motor.setTargetPosition(button2Dist * LIFT_COUNTS_PER_INCH);
-            if (button3) motor.setTargetPosition(button3Dist * LIFT_COUNTS_PER_INCH);
-            if (button4) motor.setTargetPosition(button4Dist * LIFT_COUNTS_PER_INCH);
-            if (button5) motor.setTargetPosition(button5Dist * LIFT_COUNTS_PER_INCH);
+            if (button1) motor.setTargetPosition((int) button1Dist * robot.LIFT_COUNTS_PER_INCH);
+            if (button2) motor.setTargetPosition((int) button2Dist * robot.LIFT_COUNTS_PER_INCH);
+            if (button3) motor.setTargetPosition((int) button3Dist * robot.LIFT_COUNTS_PER_INCH);
+            if (button4) motor.setTargetPosition((int) button4Dist * robot.LIFT_COUNTS_PER_INCH);
+            if (button5) motor.setTargetPosition((int) button5Dist * robot.LIFT_COUNTS_PER_INCH);
 
             motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             motor.setPower(motorMaxSpeed);

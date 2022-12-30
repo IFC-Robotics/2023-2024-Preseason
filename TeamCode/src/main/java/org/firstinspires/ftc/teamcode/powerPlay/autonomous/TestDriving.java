@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.powerPlay.RobotClass;
 @Autonomous(name="Test Driving", group="Test")
 public class TestDriving extends LinearOpMode {
 
-    robotClass robot = new RobotClass();
+    RobotClass robot = new RobotClass();
 
     public void runOpMode() {
 
@@ -18,11 +18,11 @@ public class TestDriving extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
 
-        robot.drive(AUTONOMOUS_DRIVE_SPEED, 24, 1);
+        robot.drive(robot.AUTONOMOUS_DRIVE_SPEED, 24, 1);
         sleep(1000);
-        robot.strafe(AUTONOMOUS_DRIVE_SPEED, 24, 1);
+        robot.strafe(robot.AUTONOMOUS_DRIVE_SPEED, 24, 1);
         sleep(1000);
-        robot.turn(AUTONOMOUS_DRIVE_SPEED, 90);
+        robot.turn(robot.AUTONOMOUS_DRIVE_SPEED, 90);
 
     }
 

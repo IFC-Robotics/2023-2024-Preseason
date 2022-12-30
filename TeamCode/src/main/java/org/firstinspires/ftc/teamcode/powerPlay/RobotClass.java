@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.powerPlay.AprilTagDetectionPipeline;
+// import org.firstinspires.ftc.teamcode.powerPlay.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -15,7 +15,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 import java.lang.Math;
 
-public class NewRobotClass extends LinearOpMode {
+public class RobotClass extends LinearOpMode {
 
     // COUNTS_PER_INCH variables
 
@@ -50,8 +50,8 @@ public class NewRobotClass extends LinearOpMode {
 
     public static DcMotor motorHorizontalLift;
 
-    public static final double HORIZONTAL_LIFT_MIN_DIST = 0.0; // to test
-    public static final double HORIZONTAL_LIFT_MAX_DIST = 1000.0; // to test
+    public static final int HORIZONTAL_LIFT_MIN_DIST = 0; // to test
+    public static final int HORIZONTAL_LIFT_MAX_DIST = 1000; // to test
     public static final double HORIZONTAL_LIFT_SPEED = 0.5; // to test
 
     // hook variables
@@ -69,8 +69,8 @@ public class NewRobotClass extends LinearOpMode {
 
     public static DcMotor motorVerticalLift;
 
-    public static final double VERTICAL_LIFT_MIN_DIST = 0.0; // to test
-    public static final double VERTICAL_LIFT_MAX_DIST = 3300.0; // to test
+    public static final int VERTICAL_LIFT_MIN_DIST = 0; // to test
+    public static final int VERTICAL_LIFT_MAX_DIST = 3300; // to test
     public static final double VERTICAL_LIFT_SPEED = 0.3; // to test
 
     // camera vision variables
@@ -96,7 +96,7 @@ public class NewRobotClass extends LinearOpMode {
 
     public static boolean assistMode = true;
 
-    public robotClass(){}
+    public RobotClass(){}
 
     @Override
     public void runOpMode(){}
@@ -191,7 +191,7 @@ public class NewRobotClass extends LinearOpMode {
         int circumference = 66; // what does this even mean? circumference of the wheels? must test
         int inches = (int)(circumference * angle / 360);
         int distance = inches * DRIVETRAIN_COUNTS_PER_INCH;
-        int power = Math.signum(angle) * speed;
+        double power = Math.signum(angle) * speed;
         moveDrivetrain(distance, -distance, distance, -distance, -power, power, -power, power);
     }
 
@@ -241,9 +241,9 @@ public class NewRobotClass extends LinearOpMode {
     public void moveHorizontalLift(String direction) {
 
         if (direction == "intake") {
-            motorVerticalLift.setTargetPosition(HORIZONTAL_LIFT_INTAKE_DIST);
+            motorVerticalLift.setTargetPosition(HORIZONTAL_LIFT_MAX_DIST);
         } else if (direction == "transfer") {
-            motorVerticalLift.setTargetPosition(HORIZONTAL_LIFT_TRANSFER_DIST);
+            motorVerticalLift.setTargetPosition(HORIZONTAL_LIFT_MIN_DIST);
         }
 
         motorVerticalLift.setMode(DcMotor.RunMode.RUN_TO_POSITION);

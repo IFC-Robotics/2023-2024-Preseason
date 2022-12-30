@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.powerPlay.RobotClass;
 @Autonomous(name="Test Automatic Scoring Sequence", group="Test")
 public class TestAutomaticScoringSequence extends LinearOpMode {
 
-    robotClass robot = new RobotClass();
+    RobotClass robot = new RobotClass();
 
     public void runOpMode() {
 

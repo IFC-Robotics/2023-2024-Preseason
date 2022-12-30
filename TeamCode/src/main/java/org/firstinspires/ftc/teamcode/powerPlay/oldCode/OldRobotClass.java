@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode;
 
 import androidx.annotation.NonNull;
 
@@ -55,6 +55,7 @@ public class OldRobotClass extends LinearOpMode {
 
     public static final double MIN_CLAW_POSITION = 0;
     public static final double MAX_CLAW_POSITION = 0.4;
+    public static final double CLAW_SPEED = 1.0;
 
     public static final int MIN_ROTATION_CLAW_POSITION = 0; // names to be fixed later
     public static final int MAX_ROTATION_CLAW_POSITION = 1000; // to be tested (this value is in tics)
@@ -100,7 +101,7 @@ public class OldRobotClass extends LinearOpMode {
 
 //    HardwareMap hardwareMap;
 
-    public robotClass(){}
+    public OldRobotClass(){}
 
     @Override
     public void runOpMode(){}

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay.oldAutonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -6,9 +6,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-@Autonomous(name="Left Side Ground Junction")
+@Autonomous(name="Right Side Ground Junction")
 @Disabled
-public class leftSideGroundJunction extends LinearOpMode {
+public class rightSideGroundJunction extends LinearOpMode {
 
     robotClass robot = new robotClass();
 
@@ -30,7 +30,7 @@ public class leftSideGroundJunction extends LinearOpMode {
 //        sleep(SHORT_PAUSE);
 //        robot.lift("ground junction");
 //        sleep(SHORT_PAUSE);
-        robot.strafe(DRIVE_SPEED, 12, -1);
+        robot.strafe(DRIVE_SPEED, 12, 1);
         sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 6, 1);
         sleep(SHORT_PAUSE);
@@ -38,7 +38,7 @@ public class leftSideGroundJunction extends LinearOpMode {
 //        sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 6, -1);
         sleep(SHORT_PAUSE);
-        robot.strafe(DRIVE_SPEED, 12, 1);
+        robot.strafe(DRIVE_SPEED, 12, -1);
         sleep(SHORT_PAUSE);
         robot.drive(DRIVE_SPEED, 36, 1);
         sleep(SHORT_PAUSE);
