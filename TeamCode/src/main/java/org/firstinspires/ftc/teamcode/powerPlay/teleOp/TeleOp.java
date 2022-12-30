@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-@TeleOp(name="teleOp with Robot Class", group="powerPlay")
-public class teleOpWithRobotClass extends OpMode {
+@TeleOp(name="teleOp")
+public class TeleOp extends OpMode {
 
     // drivetrain variables
 
@@ -243,7 +243,7 @@ public class teleOpWithRobotClass extends OpMode {
 //         rotateClaw("transfer");
 //         robot.moveHook("extend");
 //         robot.moveClaw("open");
-//         rotateClaw("collect");
+//         rotateClaw("intake");
 
 //     }
 

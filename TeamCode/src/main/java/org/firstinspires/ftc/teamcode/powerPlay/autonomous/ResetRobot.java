@@ -5,14 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-@Autonomous(name="Test AprilTag Detection")
-public class testAprilTagDetection extends LinearOpMode {
+@Autonomous(name="Reset Robot")
+public class ResetRobot extends LinearOpMode {
 
     robotClass robot = new robotClass();
-
-    final double DRIVE_SPEED = 0.5;
-    final int SHORT_PAUSE = 200;
-    final int LONG_PAUSE = 1000;
 
     public void runOpMode() {
 
@@ -20,9 +16,13 @@ public class testAprilTagDetection extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        robot.waitForStart();
+        waitForStart();
 
-        sleep(1000);
+        robot.moveClaw("open");
+        robot.moveHorizontalLift("transfer");
+        robot.rotateHook("transfer");
+        robot.moveHook("retract");
+        robot.moveVerticalLift("transfer");
 
     }
 

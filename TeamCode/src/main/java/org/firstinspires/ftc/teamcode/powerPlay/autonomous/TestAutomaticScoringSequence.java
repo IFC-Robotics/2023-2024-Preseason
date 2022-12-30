@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-@Autonomous(name="Test Transfer System")
-public class testTransferSystem extends LinearOpMode {
+@Autonomous(name="Test Automatic Scoring Sequence", group="Test")
+public class TestAutomaticScoringSequence extends LinearOpMode {
 
     robotClass robot = new robotClass();
 
@@ -16,19 +16,14 @@ public class testTransferSystem extends LinearOpMode {
         telemetry.update();
 
         robot.init(hardwareMap);
-        //robot.waitForStart();
         waitForStart();
+
+        robot.moveHorizontalLift("intake");
+        robot.moveClaw("close");
+        robot.moveHorizontalLift("transfer");
         robot.moveHook("extend");
-        sleep(500);
-        robot.lift("high");
-        sleep(500);
         robot.rotateHook("deposit");
-        sleep(500);
-        robot.rotateHook("transfer");
-        sleep(500);
-        robot.lift("transfer");
-        sleep(500);
-        robot.moveHook("retract");
+        robot.moveVerticalLift("deposit");
 
     }
 

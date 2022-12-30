@@ -177,13 +177,13 @@ public class robotClass extends LinearOpMode {
     public void drive(double speed, int inches, int direction) {
         int target = direction * inches * DRIVETRAIN_COUNTS_PER_INCH;
         double power = direction * speed;
-        moveDriveTrain(target, target, target, target, power, power, power, power);
+        moveDrivetrain(target, target, target, target, power, power, power, power);
     }
 
     public void strafe(double speed, int inches, int direction) {
         int target = direction * inches * DRIVETRAIN_COUNTS_PER_INCH;
         double power = direction * speed;
-        moveDriveTrain(-target, target, target, -target, -power, power, power, -power);
+        moveDrivetrain(-target, target, target, -target, -power, power, power, -power);
     }
 
     // public void turn(double speed, double angle) {
@@ -193,14 +193,14 @@ public class robotClass extends LinearOpMode {
     //     int intDistRot = inches * DRIVETRAIN_COUNTS_PER_INCH;
 
     //     if (angle < 0) {
-    //         moveDriveTrain(intDistRot, -intDistRot, intDistRot, -intDistRot, speed, -speed, speed, -speed);
+    //         moveDrivetrain(intDistRot, -intDistRot, intDistRot, -intDistRot, speed, -speed, speed, -speed);
     //     } else if (angle >= 0) {
-    //         moveDriveTrain(intDistRot, -intDistRot, intDistRot, -intDistRot, -speed, speed, -speed, speed);
+    //         moveDrivetrain(intDistRot, -intDistRot, intDistRot, -intDistRot, -speed, speed, -speed, speed);
     //     }
 
     // }
 
-    public void moveDriveTrain(int frontRightTarget, int frontLeftTarget, int backRightTarget, int backLeftTarget, double frontRightSpeed, double frontLeftSpeed, double backRightSpeed, double backLeftSpeed) {
+    public void moveDrivetrain(int frontRightTarget, int frontLeftTarget, int backRightTarget, int backLeftTarget, double frontRightSpeed, double frontLeftSpeed, double backRightSpeed, double backLeftSpeed) {
 
         motorFrontRight.setTargetPosition(frontRightTarget);
         motorFrontLeft.setTargetPosition(frontLeftTarget);

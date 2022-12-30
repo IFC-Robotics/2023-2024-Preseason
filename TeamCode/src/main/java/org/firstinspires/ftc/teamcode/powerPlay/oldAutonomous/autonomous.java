@@ -1,9 +1,10 @@
-package org.firstinspires.ftc.teamcode.powerPlay.oldAutonomous;
+moveDrivetrainpackage org.firstinspires.ftc.teamcode.powerPlay.oldAutonomous;
 
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -17,6 +18,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 import java.util.ArrayList;
 
 @Autonomous(name="Autonomous From Meet 0 (w/ camera vision code)")
+@Disabled
 public class autonomous extends LinearOpMode {
 
     DcMotor motorFrontRight;

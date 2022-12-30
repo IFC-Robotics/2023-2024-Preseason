@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
-@Autonomous(name="Reset Robot")
-public class resetRobot extends LinearOpMode {
+@Autonomous(name="Test Driving", group="Test")
+public class TestDriving extends LinearOpMode {
 
     robotClass robot = new robotClass();
 
@@ -18,11 +18,11 @@ public class resetRobot extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
 
-        robot.moveClaw("open");
-        robot.rotateClaw("collect");
-        robot.rotateHook("transfer");
-        robot.moveHook("retract");
-        robot.lift("transfer");
+        robot.drive(AUTONOMOUS_DRIVE_SPEED, 24, 1);
+        sleep(1000);
+        robot.strafe(AUTONOMOUS_DRIVE_SPEED, 24, 1);
+        sleep(1000);
+        robot.turn(AUTONOMOUS_DRIVE_SPEED, 90);
 
     }
 
