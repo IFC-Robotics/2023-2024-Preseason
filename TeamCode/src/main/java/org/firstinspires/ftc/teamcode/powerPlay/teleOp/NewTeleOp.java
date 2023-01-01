@@ -93,6 +93,8 @@ public class NewTeleOp extends LinearOpMode {
 
         }
 
+        // remember that servo.getPosition() returns the position that the servo is currently moving to (target position)
+
         if (servoIsMoving && servo.getPosition() == servoPosition) {
             servoIsMoving = false;
         }
