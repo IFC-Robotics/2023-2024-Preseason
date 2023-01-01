@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClass;
 
-// import java.lang.Math;
+import java.lang.Math;
 
 @TeleOp(name="new teleOp")
 public class NewTeleOp extends LinearOpMode {
@@ -60,15 +60,17 @@ public class NewTeleOp extends LinearOpMode {
         double strafe = gamepad1.left_stick_x;
         double turn = gamepad1.right_stick_x;
 
-        double frontRightSpeed = Range.clip(drive - turn - strafe, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
-        double frontLeftSpeed = Range.clip(drive + turn + strafe, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
-        double backRightSpeed = Range.clip(drive - turn + strafe, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
-        double backLeftSpeed = Range.clip(drive + turn - strafe, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
+        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
 
-        robot.motorFrontRight.setPower(frontRightSpeed);
-        robot.motorFrontLeft.setPower(frontLeftSpeed);
-        robot.motorBackRight.setPower(backRightSpeed);
-        robot.motorBackLeft.setPower(backLeftSpeed);
+        double frontLeftPower  = Range.clip((drive + turn + strafe) / denominator, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
+        double backLeftPower   = Range.clip((drive + turn - strafe) / denominator, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
+        double frontRightPower = Range.clip((drive - turn - strafe) / denominator, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
+        double backRightPower  = Range.clip((drive - turn + strafe) / denominator, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
+
+        robot.motorFrontLeft.setPower(frontLeftPower);
+        robot.motorBackLeft.setPower(backLeftPower);
+        robot.motorFrontRight.setPower(frontRightPower);
+        robot.motorBackRight.setPower(backRightPower);
 
     }
 
