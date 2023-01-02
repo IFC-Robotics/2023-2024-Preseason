@@ -67,10 +67,15 @@ public class NewTeleOp extends LinearOpMode {
         double frontRightPower = Range.clip((drive - turn - strafe) / denominator, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
         double backRightPower  = Range.clip((drive - turn + strafe) / denominator, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
 
+        // if this doesn't work, get rid of the variable "denominator"
+
         robot.motorFrontLeft.setPower(frontLeftPower);
         robot.motorBackLeft.setPower(backLeftPower);
         robot.motorFrontRight.setPower(frontRightPower);
         robot.motorBackRight.setPower(backRightPower);
+
+        // replace .setPower() with .setVelocity() throughout the code, including here
+        // explanation: https://docs.revrobotics.com/duo-control/programming/using-encoder-feedback
 
     }
 
