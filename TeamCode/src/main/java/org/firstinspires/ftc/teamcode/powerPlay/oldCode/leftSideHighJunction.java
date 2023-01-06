@@ -1,11 +1,13 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
 
 @Autonomous(name="Left Side High Junction")
+@Disabled
 public class leftSideHighJunction extends LinearOpMode {
 
     robotClass robot = new robotClass();

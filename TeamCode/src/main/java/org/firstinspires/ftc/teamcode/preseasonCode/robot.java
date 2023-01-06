@@ -99,13 +99,13 @@ public class robot extends LinearOpMode {
     public void drive(double speed, int distance, int direction) {
         int target = direction * distance;
         double power = direction * speed;
-        moveDriveTrain(target, target, target, target, power, power, power, power);
+        moveDrivetrain(target, target, target, target, power, power, power, power);
     }
 
     public void strafe(double speed, int distance, int direction) {
         int target = direction * distance;
         double power = direction * speed;
-        moveDriveTrain(-target, target, target, -target, -power, power, power, -power);
+        moveDrivetrain(-target, target, target, -target, -power, power, power, -power);
     }
 
     // TURN FUNCTION BELOW. Radius = 7.7862 in; Circumference = 48.92217 in = 360 degrees
@@ -118,9 +118,9 @@ public class robot extends LinearOpMode {
         int intDistrot = (int)inchToTics(distance);
 
         if (angle < 0) {
-            moveDriveTrain(intDistrot, -intDistrot, intDistrot, -intDistrot, speed, -speed, speed, -speed);
+            moveDrivetrain(intDistrot, -intDistrot, intDistrot, -intDistrot, speed, -speed, speed, -speed);
         } else if (angle >= 0) {
-            moveDriveTrain(intDistrot, -intDistrot, intDistrot, -intDistrot, -speed, speed, -speed, speed);
+            moveDrivetrain(intDistrot, -intDistrot, intDistrot, -intDistrot, -speed, speed, -speed, speed);
         }
 
     }
@@ -264,7 +264,7 @@ public class robot extends LinearOpMode {
 
     }
 
-    public void moveDriveTrain(int frontRightTarget, int frontLeftTarget, int backRightTarget, int backLeftTarget, double frontRightSpeed, double frontLeftSpeed, double backRightSpeed, double backLeftSpeed) {
+    public void moveDrivetrain(int frontRightTarget, int frontLeftTarget, int backRightTarget, int backLeftTarget, double frontRightSpeed, double frontLeftSpeed, double backRightSpeed, double backLeftSpeed) {
 
         motorFrontRight.setTargetPosition(frontRightTarget);
         motorFrontLeft.setTargetPosition(frontLeftTarget);

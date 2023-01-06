@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="teleOp competition", group = "PowerPlay")
-public class teleOp extends OpMode {
+@TeleOp(name="old teleOp")
+public class OldTeleOp extends OpMode {
 
     // drivetrain variables
 

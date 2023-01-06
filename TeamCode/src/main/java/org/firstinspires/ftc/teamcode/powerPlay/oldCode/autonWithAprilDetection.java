@@ -1,14 +1,15 @@
-package org.firstinspires.ftc.teamcode.powerPlay.oldAutonomous;
+moveDrivetrainpackage org.firstinspires.ftc.teamcode.powerPlay.oldAutonomous;
 
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.powerPlay.AprilTagDetectionPipeline;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.AprilTagDetectionPipeline;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
 import org.openftc.easyopencv.OpenCvCameraFactory;
@@ -16,8 +17,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@Autonomous(name="Autonomous From Meet 0 (w/ camera vision code)")
-public class autonomous extends LinearOpMode {
+@Autonomous(name="Iyan Autonomous From Meet 0 (w/ camera vision code)")
+@Disabled
+public class autonWithAprilDetection extends LinearOpMode {
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
@@ -82,7 +84,7 @@ public class autonomous extends LinearOpMode {
         // cv code
 
         int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
@@ -132,36 +134,36 @@ public class autonomous extends LinearOpMode {
 //        if (tagOfInterest != null) {
 ////             tagOfInterest.id;
 //        }
-
-        // code goes here
-
-        int shortPause = 200;
-        int longPause = 1000;
-
-        moveClaw("close");
-        sleep(longPause);
-        lift("low junction");
-        sleep(shortPause);
-        strafe(DRIVE_SPEED, 37, 1);
-        sleep(shortPause);
-        drive(DRIVE_SPEED, 24, -1);
-        sleep(shortPause);
-        lift("high junction");
-        sleep(shortPause);
-        drive(DRIVE_SPEED, 7, -1);
-        sleep(shortPause);
-        lift("high junction");
-        sleep(shortPause);
-        moveClaw("open");
-        sleep(longPause);
-        moveClaw("close");
-        sleep(shortPause);
-        drive(DRIVE_SPEED, 5, 1);
-        sleep(shortPause);
-        lift("ground junction");
-        sleep(shortPause);
-        strafe(DRIVE_SPEED, 14, -1);
-        ParkByTag(tagOfInterest.id);
+//
+////         code goes here
+//
+//        int shortPause = 200;
+//        int longPause = 1000;
+//
+//        moveClaw("close");
+//        sleep(longPause);
+//        lift("low junction");
+//        sleep(shortPause);
+//        strafe(DRIVE_SPEED, 37, 1);
+//        sleep(shortPause);
+//        drive(DRIVE_SPEED, 24, -1);
+//        sleep(shortPause);
+//        lift("high junction");
+//        sleep(shortPause);
+//        drive(DRIVE_SPEED, 7, -1);
+//        sleep(shortPause);
+//        lift("high junction");
+//        sleep(shortPause);
+//        moveClaw("open");
+//        sleep(longPause);
+//        moveClaw("close");
+//        sleep(shortPause);
+//        drive(DRIVE_SPEED, 5, 1);
+//        sleep(shortPause);
+//        lift("ground junction");
+//        sleep(shortPause);
+//        strafe(DRIVE_SPEED, 14, -1);
+//        ParkByTag(tagOfInterest.id);
 
     }
 
@@ -218,12 +220,12 @@ public class autonomous extends LinearOpMode {
     void tagToTelemetry(@NonNull AprilTagDetection detection)
     {
         telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));
-        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
-        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
-        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
-        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
-        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
+//        telemetry.addLine(String.format("Translation X: %.2f feet", detection.pose.x*FEET_PER_METER));
+//        telemetry.addLine(String.format("Translation Y: %.2f feet", detection.pose.y*FEET_PER_METER));
+//        telemetry.addLine(String.format("Translation Z: %.2f feet", detection.pose.z*FEET_PER_METER));
+//        telemetry.addLine(String.format("Rotation Yaw: %.2f degrees", Math.toDegrees(detection.pose.yaw)));
+//        telemetry.addLine(String.format("Rotation Pitch: %.2f degrees", Math.toDegrees(detection.pose.pitch)));
+//        telemetry.addLine(String.format("Rotation Roll: %.2f degrees", Math.toDegrees(detection.pose.roll)));
     }
 
     public void ParkByTag(int tag) {

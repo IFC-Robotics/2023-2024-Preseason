@@ -1,22 +1,11 @@
-package org.firstinspires.ftc.teamcode.powerPlay;
-
-import androidx.annotation.NonNull;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.teamcode.powerPlay.AprilTagDetectionPipeline;
-import org.openftc.apriltag.AprilTagDetection;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvCameraRotation;
-
-import java.util.ArrayList;
-
-public class robotClass extends LinearOpMode {
+public class OldRobotClass extends LinearOpMode {
 
     // DcMotor variables
 
@@ -51,11 +40,11 @@ public class robotClass extends LinearOpMode {
     // claw variables
 
     public static Servo servoClaw;
-    public static DcMotor motorRotationClaw;
+    public static DcMotor motorClaw;
 
     public static final double MIN_CLAW_POSITION = 0;
     public static final double MAX_CLAW_POSITION = 0.4;
-    public static final double CLAW_SPEED = 0.002;
+    public static final double CLAW_SPEED = 1.0;
 
     public static final int MIN_ROTATION_CLAW_POSITION = 0; // names to be fixed later
     public static final int MAX_ROTATION_CLAW_POSITION = 1000; // to be tested (this value is in tics)
@@ -74,34 +63,34 @@ public class robotClass extends LinearOpMode {
 
     // camera vision variables
 
-    public OpenCvCamera camera;
-    AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    // public OpenCvCamera camera;
+    // AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
-    static final double FEET_PER_METER = 3.28084;
+    // static final double FEET_PER_METER = 3.28084;
 
-    // Lens intrinsics
-    //  - Units are pixels
-    //  - This calibration is for the C920 webcam at 800x448. You will need to do your own calibration for other configurations!
-    double fx = 578.272;
-    double fy = 578.272;
-    double cx = 402.145;
-    double cy = 221.506;
+    // // Lens intrinsics
+    // //  - Units are pixels
+    // //  - This calibration is for the C920 webcam at 800x448. You will need to do your own calibration for other configurations!
+    // double fx = 578.272;
+    // double fy = 578.272;
+    // double cx = 402.145;
+    // double cy = 221.506;
 
-    // UNITS ARE METERS
-    double tagsize = 0.166;
+    // // UNITS ARE METERS
+    // double tagsize = 0.166;
 
-    //  Tag ID 1, 2, 3 from the 36h11 family
-    int LEFT = 1;
-    int MIDDLE = 2;
-    int RIGHT = 3;
+    // //  Tag ID 1, 2, 3 from the 36h11 family
+    // int LEFT = 1;
+    // int MIDDLE = 2;
+    // int RIGHT = 3;
 
-    public AprilTagDetection tagOfInterest = null;
+    // public AprilTagDetection tagOfInterest = null;
 
     // other
 
 //    HardwareMap hardwareMap;
 
-    public robotClass(){}
+    public OldRobotClass(){}
 
     @Override
     public void runOpMode(){}
@@ -118,8 +107,8 @@ public class robotClass extends LinearOpMode {
         motorBackLeft   = hardwareMap.get(DcMotor.class, "motor_back_left");
         motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
 
-        motorLift         = hardwareMap.get(DcMotor.class, "motor_lift");
-        motorRotationClaw = hardwareMap.get(DcMotor.class, "motor_rotation_claw"); // also names to reconsider (but its fine rn)
+        motorLift = hardwareMap.get(DcMotor.class, "motor_lift");
+        motorClaw = hardwareMap.get(DcMotor.class, "motor_rotation_claw"); // also names to reconsider (but its fine rn)
 
         servoClaw         = hardwareMap.get(Servo.class, "servo_claw"); // consider reversing the directions of these servos
         servoHook         = hardwareMap.get(Servo.class, "servo_hook");
@@ -128,11 +117,11 @@ public class robotClass extends LinearOpMode {
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
-        // do these really need to be reversed?
         motorLift.setDirection(DcMotor.Direction.REVERSE);
         servoClaw.setDirection(Servo.Direction.REVERSE);
-//        servoHook.setDirection(Servo.Direction.REVERSE);
-        servoRotationHook.setDirection(Servo.Direction.REVERSE);
+        // motorClaw.setDirection(DcMotor.Direction.REVERSE);
+        // servoHook.setDirection(Servo.Direction.REVERSE);
+        // servoRotationHook.setDirection(Servo.Direction.REVERSE);
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -151,6 +140,9 @@ public class robotClass extends LinearOpMode {
 
         motorLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorLift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        motorClaw.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         // camera vision initialization
 
@@ -175,30 +167,30 @@ public class robotClass extends LinearOpMode {
     public void drive(double speed, int inches, int direction) {
         int target = direction * inches * DRIVETRAIN_COUNTS_PER_INCH;
         double power = direction * speed;
-        moveDriveTrain(target, target, target, target, power, power, power, power);
+        moveDrivetrain(target, target, target, target, power, power, power, power);
     }
 
     public void strafe(double speed, int inches, int direction) {
         int target = direction * inches * DRIVETRAIN_COUNTS_PER_INCH;
         double power = direction * speed;
-        moveDriveTrain(-target, target, target, -target, -power, power, power, -power);
+        moveDrivetrain(-target, target, target, -target, -power, power, power, -power);
     }
 
-    public void turn(double speed, double angle) {
+    // public void turn(double speed, double angle) {
 
-        int circumference = 66; // what does this even mean? circumference of the wheels? must test
-        int inches = (int)(circumference * angle / 360);
-        int intDistRot = inches * DRIVETRAIN_COUNTS_PER_INCH;
+    //     int circumference = 66; // what does this even mean? circumference of the wheels? must test
+    //     int inches = (int)(circumference * angle / 360);
+    //     int intDistRot = inches * DRIVETRAIN_COUNTS_PER_INCH;
 
-        if (angle < 0) {
-            moveDriveTrain(intDistRot, -intDistRot, intDistRot, -intDistRot, speed, -speed, speed, -speed);
-        } else if (angle >= 0) {
-            moveDriveTrain(intDistRot, -intDistRot, intDistRot, -intDistRot, -speed, speed, -speed, speed);
-        }
+    //     if (angle < 0) {
+    //         moveDrivetrain(intDistRot, -intDistRot, intDistRot, -intDistRot, speed, -speed, speed, -speed);
+    //     } else if (angle >= 0) {
+    //         moveDrivetrain(intDistRot, -intDistRot, intDistRot, -intDistRot, -speed, speed, -speed, speed);
+    //     }
 
-    }
+    // }
 
-    public void moveDriveTrain(int frontRightTarget, int frontLeftTarget, int backRightTarget, int backLeftTarget, double frontRightSpeed, double frontLeftSpeed, double backRightSpeed, double backLeftSpeed) {
+    public void moveDrivetrain(int frontRightTarget, int frontLeftTarget, int backRightTarget, int backLeftTarget, double frontRightSpeed, double frontLeftSpeed, double backRightSpeed, double backLeftSpeed) {
 
         motorFrontRight.setTargetPosition(frontRightTarget);
         motorFrontLeft.setTargetPosition(frontLeftTarget);
@@ -237,8 +229,8 @@ public class robotClass extends LinearOpMode {
     // scoring helper methods
 
     public void moveClaw(String direction) {
-        if (direction == "open")  servoClaw.setPosition(MIN_CLAW_POSITION);
-        if (direction == "close") servoClaw.setPosition(MAX_CLAW_POSITION);
+        if (direction == "open")  servoClaw.setPosition(0); // MIN_CLAW_PSITION
+        if (direction == "close") servoClaw.setPosition(0.4); // MAX_CLAW_PSITION
     }
 
     public void rotateClaw(String direction) {
@@ -248,14 +240,14 @@ public class robotClass extends LinearOpMode {
         if (direction == "collect")  tics = 0; // MIN_ROTATION_CLAW_POSITION
         if (direction == "transfer") tics = 1000; // MAX_ROTATION_CLAW_POSITION
 
-        motorRotationClaw.setTargetPosition(tics);
-        motorRotationClaw.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorRotationClaw.setPower(1); // ROTATION_CLAW_SPEED
+        motorClaw.setTargetPosition(tics);
+        motorClaw.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorClaw.setPower(1); // ROTATION_CLAW_SPEED
 
-        while (motorRotationClaw.isBusy() && opModeIsActive()) {}
+        while (motorClaw.isBusy() && opModeIsActive()) {}
 
-        motorRotationClaw.setPower(0);
-        motorRotationClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorClaw.setPower(0);
+        motorClaw.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -294,54 +286,54 @@ public class robotClass extends LinearOpMode {
 
     // camera vision helper methods
 
-    public void waitForStart() {
+    // public void waitForStart() {
 
-        while (!isStarted() && !isStopRequested()) {
-            getAprilTagDetections();
-        }
+    //     while (!isStarted() && !isStopRequested()) {
+    //         getAprilTagDetections();
+    //     }
 
-        if(tagOfInterest != null) {
-            telemetry.addLine(String.format("Tag snapshot:\n ID=%d", tagOfInterest.id));
-            telemetry.update();
-        } else {
-            telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
-            telemetry.update();
-        }
+    //     if(tagOfInterest != null) {
+    //         telemetry.addLine(String.format("Tag snapshot:\n ID=%d", tagOfInterest.id));
+    //         telemetry.update();
+    //     } else {
+    //         telemetry.addLine("No tag snapshot available, it was never sighted during the init loop :(");
+    //         telemetry.update();
+    //     }
 
-    }
+    // }
 
-    public void getAprilTagDetections() {
+    // public void getAprilTagDetections() {
 
-        ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+    //     ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-        boolean tagFound = false;
+    //     boolean tagFound = false;
 
-        for(AprilTagDetection tag : currentDetections) {
-            if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
-                tagOfInterest = tag;
-                tagFound = true;
-                break;
-            }
-        }
+    //     for(AprilTagDetection tag : currentDetections) {
+    //         if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+    //             tagOfInterest = tag;
+    //             tagFound = true;
+    //             break;
+    //         }
+    //     }
 
-        if(tagFound) {
-            telemetry.addLine(String.format("Tag of interest is in sight!\n\nLocation data: ID=%d", tagOfInterest.id));
-        } else {
+    //     if(tagFound) {
+    //         telemetry.addLine(String.format("Tag of interest is in sight!\n\nLocation data: ID=%d", tagOfInterest.id));
+    //     } else {
 
-            telemetry.addLine("Don't see tag of interest :(");
+    //         telemetry.addLine("Don't see tag of interest :(");
 
-            if(tagOfInterest != null) {
-                telemetry.addLine(String.format("\nBut we HAVE seen the tag before; last seen at: ID=%d", tagOfInterest.id));
-            } else {
-                telemetry.addLine("(The tag has never been seen)");
-            }
+    //         if(tagOfInterest != null) {
+    //             telemetry.addLine(String.format("\nBut we HAVE seen the tag before; last seen at: ID=%d", tagOfInterest.id));
+    //         } else {
+    //             telemetry.addLine("(The tag has never been seen)");
+    //         }
 
-        }
+    //     }
 
-        telemetry.update();
-        sleep(20);
+    //     telemetry.update();
+    //     sleep(20);
 
-    }
+    // }
 
 //    public void tagToTelemetry(@NonNull AprilTagDetection detection) {
 //        telemetry.addLine(String.format("\nDetected tag ID=%d", detection.id));

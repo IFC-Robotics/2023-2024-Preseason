@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Driving TeleOp Code", group = "Examples")
+@TeleOp(name="Ex: Driving TeleOp", group = "Examples")
 @Disabled
 public class drivingTeleOp extends LinearOpMode {
 
@@ -24,19 +24,19 @@ public class drivingTeleOp extends LinearOpMode {
     double strafe;
     double turn;
 
-    public void runOpMode (){
+    public void runOpMode () {
 
         motorFrontRight = hardwareMap.get(DcMotor.class, "motor_front_right");
         motorFrontLeft = hardwareMap.get(DcMotor.class, "motor_front_left");
         motorBackLeft = hardwareMap.get(DcMotor.class, "motor_back_left");
         motorBackRight = hardwareMap.get(DcMotor.class, "motor_back_right");
 
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
         waitForStart();
 
-        while(opModeIsActive()){
+        while(opModeIsActive()) {
 
             drive = -gamepad1.left_stick_y;
             strafe = gamepad1.left_stick_x;
@@ -53,5 +53,6 @@ public class drivingTeleOp extends LinearOpMode {
             motorBackLeft.setPower(BackLeft);
 
         }
+
     }
 }

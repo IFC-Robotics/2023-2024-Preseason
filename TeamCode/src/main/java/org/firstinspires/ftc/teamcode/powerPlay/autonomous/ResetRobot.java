@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClass;
 
 @Autonomous(name="Reset Robot")
-public class resetRobot extends LinearOpMode {
+public class ResetRobot extends LinearOpMode {
 
-    robotClass robot = new robotClass();
+    RobotClass robot = new RobotClass();
 
     public void runOpMode() {
 
@@ -19,10 +19,10 @@ public class resetRobot extends LinearOpMode {
         waitForStart();
 
         robot.moveClaw("open");
-        robot.rotateClaw("collect");
+        robot.moveHorizontalLift("transfer");
         robot.rotateHook("transfer");
         robot.moveHook("retract");
-        robot.lift("transfer");
+        robot.moveVerticalLift("transfer");
 
     }
 
