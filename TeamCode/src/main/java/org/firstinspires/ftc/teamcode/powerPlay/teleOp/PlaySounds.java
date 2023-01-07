@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.powerPlay.robot;
+package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.ftccommon.SoundPlayer;
@@ -34,6 +35,7 @@ import com.qualcomm.ftccommon.SoundPlayer;
  */
 
 @TeleOp(name="OpMode that plays sound")
+@Disabled
 public class PlaySounds extends LinearOpMode {
 
     private boolean goldIsFound;

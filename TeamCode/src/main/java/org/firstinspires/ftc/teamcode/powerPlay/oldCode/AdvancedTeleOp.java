@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 @TeleOp(name="Advanced TeleOp Code")
+@Disabled
 public class AdvancedTeleOp extends LinearOpMode {
 
     DcMotor motorFrontRight;

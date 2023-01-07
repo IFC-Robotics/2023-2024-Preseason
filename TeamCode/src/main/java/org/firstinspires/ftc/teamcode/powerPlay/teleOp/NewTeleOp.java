@@ -48,7 +48,7 @@ public class NewTeleOp extends LinearOpMode {
             controlServo(robot.servoRotateHook, servoRotateHookPosition, servoRotateHookIsMoving, gamepad2.x, gamepad2.b);
 
             controlMotor(robot.motorHorizontalLift, motorHorizontalLiftIsMoving, -gamepad2.left_stick_y, robot.HORIZONTAL_LIFT_MIN_DIST, robot.HORIZONTAL_LIFT_MAX_DIST, robot.HORIZONTAL_LIFT_SPEED, gamepad2.left_bumper, gamepad2.right_bumper, false, false, false, 0.0, 18.0, 0.0, 0.0, 0.0); // change values (18 -> distance to auto collect)
-            controlMotor(robot.motorVerticalLift, motorVerticalLiftIsMoving, -gamepad2.right_stick_y, robot.VERTICAL_LIFT_MIN_DIST, robot.VERTICAL_LIFT_MAX_DIST, robot.VERTICAL_LIFT_SPEED, gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.left_bumper, 0.0, 2.0, 15.0, 25.0, 35.0); // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions, respectively)
+            controlMotor(robot.motorVerticalLift, motorVerticalLiftIsMoving, -gamepad2.right_stick_y, robot.VERTICAL_LIFT_MIN_DIST, robot.VERTICAL_LIFT_MAX_DIST, robot.VERTICAL_LIFT_SPEED, gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper, 0.0, 2.0, 15.0, 25.0, 35.0); // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions, respectively)
 
         }
 
@@ -156,8 +156,8 @@ gamepad1.right_stick_x: turning
 gamepad1.a:             move vertical lift to transfer
 gamepad1.x:             move vertical lift to ground junction
 gamepad1.b:             move vertical lift to low junction
-gamepad1.y:             move vertical lift to medium junction       
-gamepad1.left_bumper:   move vertical lift to high junction
+gamepad1.y:             move vertical lift to medium junction
+gamepad1.right_bumper:  move vertical lift to high junction
 
 gamepad2.left_stick_y:  moving horizontal lift
 gamepad2.right_stick_y: moving vertical lift
@@ -171,7 +171,7 @@ gamepad2.dpad_down:     rotate claw down
 gamepad2.dpad_left:     open claw
 gamepad2.left_bumper:   move horizontal lift to collect
 gamepad2.right_bumper:  move horizontal lift to transfer
-gamepad2.start:         turn assist mode on/off
+gamepad2.back:          turn assist mode on/off
 
 Controls not being used:
 
@@ -182,8 +182,8 @@ Controls not being used:
 - gamepad1.dpad_right
 - gamepad1.dpad_down
 - gamepad1.dpad_left
+- gamepad1.left_bumper
 - gamepad1.left_trigger
-- gamepad1.right_bumper
 - gamepad1.right_trigger
 - gamepad1.back
 - gamepad1.start
@@ -197,7 +197,7 @@ Controls not being used:
 - gamepad2.left_trigger
 - gamepad2.right_bumper
 - gamepad2.right_trigger
-- gamepad2.back
+- gamepad2.start
 - gamepad2.guide
 
 */
