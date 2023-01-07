@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode.examples;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClass;
 
 @Autonomous(name="Autonomous With Robot Class", group="powerPlay")
 public class autonomousWithRobotClass extends LinearOpMode {
 
-    robotClass robot = new robotClass();
+    RobotClass robot = new RobotClass();
 
     @Override
     public void runOpMode() {
@@ -23,7 +23,7 @@ public class autonomousWithRobotClass extends LinearOpMode {
 
         // code goes here
 
-        robot.strafe(robot.DRIVE_SPEED, 28, 1);
+        robot.strafe(robot.AUTONOMOUS_DRIVE_SPEED, 28, 1);
 
     }
 

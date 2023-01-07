@@ -42,9 +42,13 @@ public class RobotClass extends LinearOpMode {
     // claw variables
 
     public static Servo servoClaw;
+    public static Servo servoRotateClaw;
 
     public static final double CLAW_OPEN_POSITION = 0.0; // to test
     public static final double CLAW_CLOSE_POSITION = 0.4; // to test
+
+    public static final double CLAW_UP_POSITION = 0.0; // to test
+    public static final double CLAW_DOWN_POSITION = 0.3; // to test
 
     // horizontal lift variables
 
@@ -117,9 +121,9 @@ public class RobotClass extends LinearOpMode {
         motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // test what this does
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // test what this does
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // test what this does
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // test what this does
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -134,10 +138,14 @@ public class RobotClass extends LinearOpMode {
         // intake
 
         servoClaw           = hardwareMap.get(Servo.class, "servo_claw");
+        servoRotateClaw     = hardwareMap.get(Servo.class, "servo_rotate_claw");
         motorHorizontalLift = hardwareMap.get(DcMotor.class, "motor_horizontal_lift");
 
         servoClaw.setDirection(Servo.Direction.REVERSE); // to test
-        servoClaw.setPosition(CLAW_CLOSE_POSITION); // to test
+        servoClaw.scaleRange(CLAW_OPEN_POSITION, CLAW_CLOSE_POSITION);
+
+        servoRotateClaw.setDirection(Servo.Direction.REVERSE); // to test
+        servoRotateClaw.scaleRange(CLAW_UP_POSITION, CLAW_DOWN_POSITION);
 
         // add "Warning: Robot Moves On Initialization" sticker (https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf)
 
@@ -152,11 +160,13 @@ public class RobotClass extends LinearOpMode {
         motorVerticalLift = hardwareMap.get(DcMotor.class, "motor_vertical_lift");
 
         servoHook.setDirection(Servo.Direction.REVERSE); // to test
-        servoHook.setPosition(HOOK_EXTEND_POSITION); // to test
+//        servoHook.setPosition(HOOK_EXTEND_POSITION); // to test
+        servoHook.scaleRange(HOOK_EXTEND_POSITION, HOOK_RETRACT_POSITION);
 
         // add "Warning: Robot Moves On Initialization" sticker (https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf)
 
         servoRotateHook.setDirection(Servo.Direction.REVERSE); // to test
+        servoRotateHook.scaleRange(ROTATE_HOOK_TRANSFER_POSITION, ROTATE_HOOK_DEPOSIT_POSITION);
 
         motorVerticalLift.setDirection(DcMotor.Direction.REVERSE); // to test
         motorVerticalLift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -241,8 +251,13 @@ public class RobotClass extends LinearOpMode {
     // scoring helper methods
 
     public void moveClaw(String direction) {
-        if (direction == "open")  servoClaw.setPosition(CLAW_OPEN_POSITION);
-        if (direction == "close") servoClaw.setPosition(CLAW_CLOSE_POSITION);
+        if (direction == "open")  servoClaw.setPosition(0);
+        if (direction == "close") servoClaw.setPosition(1);
+    }
+
+    public void rotateClaw(String direction) {
+        if (direction == "up")   servoRotateClaw.setPosition(0);
+        if (direction == "down") servoRotateClaw.setPosition(1);
     }
 
     public void moveHorizontalLift(String direction) {
@@ -264,13 +279,13 @@ public class RobotClass extends LinearOpMode {
     }
 
     public void moveHook(String direction) {
-        if (direction == "extend")  servoHook.setPosition(HOOK_EXTEND_POSITION);
-        if (direction == "retract") servoHook.setPosition(HOOK_RETRACT_POSITION);
+        if (direction == "extend")  servoHook.setPosition(0);
+        if (direction == "retract") servoHook.setPosition(1);
     }
 
     public void rotateHook(String direction) {
-        if (direction == "transfer") servoRotateHook.setPosition(ROTATE_HOOK_TRANSFER_POSITION);
-        if (direction == "deposit")  servoRotateHook.setPosition(ROTATE_HOOK_DEPOSIT_POSITION);
+        if (direction == "transfer") servoRotateHook.setPosition(0);
+        if (direction == "deposit")  servoRotateHook.setPosition(1);
     }
 
     public void moveVerticalLift(String direction) {

@@ -15,11 +15,13 @@ public class NewTeleOp extends LinearOpMode {
 
     RobotClass robot = new RobotClass();
 
-    double servoClawPosition = robot.CLAW_OPEN_POSITION;
-    double servoHookPosition = robot.HOOK_RETRACT_POSITION;
-    double servoRotateHookPosition = robot.ROTATE_HOOK_TRANSFER_POSITION;
+    double servoClawPosition = 0;
+    double servoRotateClawPosition = 0;
+    double servoHookPosition = 1;
+    double servoRotateHookPosition = 0;
 
     boolean servoClawIsMoving = false;
+    boolean servoRotateClawIsMoving = false;
     boolean servoHookIsMoving = false;
     boolean servoRotateHookIsMoving = false;
 
@@ -32,9 +34,6 @@ public class NewTeleOp extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
 
-        servoClawPosition = robot.CLAW_CLOSE_POSITION;
-        servoHookPosition = robot.HOOK_EXTEND_POSITION;
-
         while (opModeIsActive()) {
 
             if (gamepad2.start) robot.assistMode = !robot.assistMode;
@@ -43,11 +42,12 @@ public class NewTeleOp extends LinearOpMode {
 
             // make sure this code actually works, aka if you pass a variable into a method and change the variable inside the method, the variable also changes outside the method.
 
-            controlServo(robot.servoClaw, servoClawPosition, servoClawIsMoving, gamepad2.dpad_left, gamepad2.dpad_right, robot.CLAW_OPEN_POSITION, robot.CLAW_CLOSE_POSITION);
-            controlServo(robot.servoHook, servoHookPosition, servoHookIsMoving, gamepad2.y, gamepad2.a, robot.HOOK_EXTEND_POSITION, robot.HOOK_RETRACT_POSITION);
-            controlServo(robot.servoRotateHook, servoRotateHookPosition, servoRotateHookIsMoving, gamepad2.x, gamepad2.b, robot.ROTATE_HOOK_TRANSFER_POSITION, robot.ROTATE_HOOK_DEPOSIT_POSITION);
+            controlServo(robot.servoClaw, servoClawPosition, servoClawIsMoving, gamepad2.dpad_left, gamepad2.dpad_right);
+            controlServo(robot.servoRotateClaw, servoRotateClawPosition, servoRotateClawIsMoving, gamepad2.dpad_up, gamepad2.dpad_down);
+            controlServo(robot.servoHook, servoHookPosition, servoHookIsMoving, gamepad2.y, gamepad2.a);
+            controlServo(robot.servoRotateHook, servoRotateHookPosition, servoRotateHookIsMoving, gamepad2.x, gamepad2.b);
 
-            controlMotor(robot.motorHorizontalLift, motorHorizontalLiftIsMoving, -gamepad2.left_stick_y, robot.HORIZONTAL_LIFT_MIN_DIST, robot.HORIZONTAL_LIFT_MAX_DIST, robot.HORIZONTAL_LIFT_SPEED, gamepad2.dpad_down, gamepad2.dpad_up, false, false, false, 0.0, 18.0, 0.0, 0.0, 0.0); // change values (18 -> distance to auto collect)
+            controlMotor(robot.motorHorizontalLift, motorHorizontalLiftIsMoving, -gamepad2.left_stick_y, robot.HORIZONTAL_LIFT_MIN_DIST, robot.HORIZONTAL_LIFT_MAX_DIST, robot.HORIZONTAL_LIFT_SPEED, gamepad2.left_bumper, gamepad2.right_bumper, false, false, false, 0.0, 18.0, 0.0, 0.0, 0.0); // change values (18 -> distance to auto collect)
             controlMotor(robot.motorVerticalLift, motorVerticalLiftIsMoving, -gamepad2.right_stick_y, robot.VERTICAL_LIFT_MIN_DIST, robot.VERTICAL_LIFT_MAX_DIST, robot.VERTICAL_LIFT_SPEED, gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.left_bumper, 0.0, 2.0, 15.0, 25.0, 35.0); // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions, respectively)
 
         }
@@ -79,21 +79,21 @@ public class NewTeleOp extends LinearOpMode {
 
     }
 
-    public void controlServo(Servo servo, double servoPosition, boolean servoIsMoving, boolean button1, boolean button2, double button1Position, double button2Position) {
+    public void controlServo(Servo servo, double servoPosition, boolean servoIsMoving, boolean button1, boolean button2) {
 
         if (robot.assistMode) {
 
             if (button1 || button2) {
-                if (button1) servo.setPosition(button1Position);
-                if (button2) servo.setPosition(button2Position);
+                if (button1) servo.setPosition(0);
+                if (button2) servo.setPosition(1);
                 servoIsMoving = true;
             }
 
         } else {
 
             if (!servoIsMoving) {
-                if (button1 && servoPosition > button1Position) servoPosition -= 0.001; // test this value
-                if (button2 && servoPosition < button2Position) servoPosition += 0.001; // test this value
+                if (button1 && servoPosition > 0) servoPosition -= 0.001; // test this value
+                if (button2 && servoPosition < 1) servoPosition += 0.001; // test this value
             }
 
             servo.setPosition(servoPosition);
@@ -165,10 +165,12 @@ gamepad2.a:             retract hook
 gamepad2.x:             move rotate hook to transfer
 gamepad2.b:             move rotate hook to deposit
 gamepad2.y:             extend hook
-gamepad2.dpad_up:       move horizontal lift to collect
+gamepad2.dpad_up:       rotate claw up
 gamepad2.dpad_right:    close claw
-gamepad2.dpad_down:     move horizontal lift to transfer
+gamepad2.dpad_down:     rotate claw down
 gamepad2.dpad_left:     open claw
+gamepad2.left_bumper:   move horizontal lift to collect
+gamepad2.right_bumper:  move horizontal lift to transfer
 gamepad2.start:         turn assist mode on/off
 
 Controls not being used:

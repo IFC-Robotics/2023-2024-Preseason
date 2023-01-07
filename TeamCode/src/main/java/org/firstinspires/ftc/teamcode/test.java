@@ -3,12 +3,12 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robotClass;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClass;
 
 @Autonomous(name="test")
 public class test extends LinearOpMode {
 
-    robotClass robot = new robotClass();
+    RobotClass robot = new RobotClass();
 
     public void runOpMode() {
 
@@ -18,18 +18,20 @@ public class test extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
 
+        // add robot.moveHorizontalLift() where necessary
+
 //        robot.moveClaw("close");
 //        sleep(1000);
-//        robot.rotateClaw("transfer");
+//        robot.rotateClaw("up");
 //        sleep(2000);
         robot.moveHook("extend");
         sleep(2000);
 //        robot.moveClaw("open");
 //        sleep(1000);
-        robot.rotateClaw("collect");
+        robot.rotateClaw("down");
         sleep(2000);
 
-        robot.lift("high");
+        robot.moveVerticalLift("high");
         sleep(2000);
         robot.rotateHook("deposit");
 //        sleep(1000);
@@ -38,10 +40,7 @@ public class test extends LinearOpMode {
 //
 //        robot.rotateHook("deposit");
 //        sleep(1000);
-//        robot.lift("transfer");
-
-//        robot.transferCone();
-//        robot.liftTransfer("high");
+//        robot.moveVerticalLift("transfer");
 
     }
 
