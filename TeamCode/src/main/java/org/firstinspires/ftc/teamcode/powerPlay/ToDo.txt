@@ -1,0 +1,22 @@
+To Do:
+
+- test servo class auton
+- test lift class auton & teleOp
+- test drivetrain auton & teleOp
+- test camera getTags() method
+
+- fix issue w/ initializing servos
+- find out why telemetry doesn't work in the robot class(es)
+
+- test finite state machine
+    - test switch statement
+    - test switching between robot modes (FSM, assist, manual)
+    - test initial strafe to FSM position
+
+- test rightHighAuton.java
+    - if it works, create a copy for the left side (see comments)
+
+- think about what the controls should be (joysticks, buttons, etc.)
+
+- if necessary, add "Warning: Robot Moves On Initialization" sticker
+    - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf

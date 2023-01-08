@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import java.lang.Math;
 
-public class DrivetrainSubsystem extends LinearOpMode {
+public class Drivetrain extends LinearOpMode {
 
     public static DcMotor motorFrontRight;
     public static DcMotor motorFrontLeft;
@@ -20,7 +20,7 @@ public class DrivetrainSubsystem extends LinearOpMode {
     public static double MAX_TELEOP_SPEED = 0.7;
     public static int COUNTS_PER_INCH;
 
-    public DrivetrainSubsystem() {}
+    public Drivetrain() {}
 
     @Override
     public void runOpMode() {}

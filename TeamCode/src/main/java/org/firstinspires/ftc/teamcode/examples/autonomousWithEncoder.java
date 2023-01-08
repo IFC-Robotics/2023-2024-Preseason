@@ -23,6 +23,7 @@ public class autonomousWithEncoder extends LinearOpMode {
         motor = hardwareMap.get(DcMotor.class, "motor_one");
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         waitForStart();
 
@@ -30,7 +31,7 @@ public class autonomousWithEncoder extends LinearOpMode {
         double power = 0.5;
         double target = inches * COUNTS_PER_INCH;
 
-        motor.setTargetPosition((int)(target));
+        motor.setTargetPosition((int) target);
         
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(power);

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-public class LiftSubsystem extends LinearOpMode {
+public class LiftClass extends LinearOpMode {
 
     public DcMotor motor;
     public boolean liftIsMoving = false;
@@ -18,7 +18,7 @@ public class LiftSubsystem extends LinearOpMode {
     public String[] PRESET_POSITION_NAMES;
     public double[] PRESET_POSITIONS;
 
-    public LiftSubsystem() {}
+    public LiftClass() {}
 
     @Override
     public void runOpMode() {}

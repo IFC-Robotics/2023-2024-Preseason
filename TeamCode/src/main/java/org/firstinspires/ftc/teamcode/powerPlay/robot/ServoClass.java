@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-public class ServoSubsystem extends LinearOpMode {
+public class ServoClass extends LinearOpMode {
 
     public Servo servo;
     public double servoPosition = 0;
@@ -15,7 +15,7 @@ public class ServoSubsystem extends LinearOpMode {
     public double SPEED;
     public double TIME;
 
-    public ServoSubsystem() {}
+    public ServoClass() {}
 
     @Override
     public void runOpMode() {}

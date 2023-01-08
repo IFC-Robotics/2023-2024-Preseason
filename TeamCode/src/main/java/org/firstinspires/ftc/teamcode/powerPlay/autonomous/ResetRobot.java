@@ -3,27 +3,25 @@ package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClassWithSubsystems;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @Autonomous(name="Reset Robot")
 public class ResetRobot extends LinearOpMode {
-
-    RobotClassWithSubsystems robot = new RobotClassWithSubsystems();
 
     public void runOpMode() {
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        robot.init(hardwareMap);
+        Robot.init(hardwareMap);
         waitForStart();
 
-        robot.servoClaw.runToPosition("open");
-        robot.servoRotateClaw.runToPosition("up");
-        robot.horizontalLift.autonomousRunToPosition("transfer");
-        robot.servoRotateHook.runToPosition("transfer");
-        robot.servoHook.runToPosition("retract");
-        robot.verticalLift.autonomousRunToPosition("transfer");
+        Robot.servoClaw.runToPosition("open");
+        Robot.servoRotateClaw.runToPosition("up");
+        Robot.horizontalLift.autonomousRunToPosition("transfer");
+        Robot.servoRotateHook.runToPosition("transfer");
+        Robot.servoHook.runToPosition("retract");
+        Robot.verticalLift.autonomousRunToPosition("transfer");
 
     }
 

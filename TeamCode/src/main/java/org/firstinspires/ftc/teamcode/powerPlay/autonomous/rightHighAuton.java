@@ -3,13 +3,10 @@ package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClassWithSubsystems;
-import org.firstinspires.ftc.teamcode.powerPlay.robot.Storage;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @Autonomous(name="Right side High junction", group="competition")
 public class rightHighAuton extends OpMode {
-
-    RobotClassWithSubsystems robot = new RobotClassWithSubsystems();
 
     @Override
     public void init() {
@@ -17,14 +14,13 @@ public class rightHighAuton extends OpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        robot.init(hardwareMap);
-        robot.cameraSubsystem.getTag();
+        Robot.init(hardwareMap);
+        Robot.tag = Robot.camera.getTag();
+        Robot.side = "right";
 
-        telemetry.addData("Tag before start", robot.cameraSubsystem.tag);
+        telemetry.addData("AprilTag", Robot.tag);
+        telemetry.addData("Side", Robot.side);
         telemetry.update();
-
-        Storage.side = "right";
-        Storage.tag = robot.cameraSubsystem.tag;
 
     }
 
@@ -33,62 +29,62 @@ public class rightHighAuton extends OpMode {
 
         // secure preloaded cone
 
-        robot.servoHook.runToPosition("extend");
-        robot.servoRotateHook.runToPosition("score");
-        robot.verticalLift.runToPosition("ground");
+        Robot.servoHook.runToPosition("extend");
+        Robot.servoRotateHook.runToPosition("score");
+        Robot.verticalLift.runToPosition("ground");
 
         // drive to high junction
 
-        robot.drivetrain.drive(-75);
-        robot.drivetrain.turn(45);
+        Robot.drivetrain.drive(-75);
+        Robot.drivetrain.turn(45); // left side: -45
 
         // score on high junction
 
-        robot.verticalLift.runToPosition("high");
-        robot.drivetrain.drive(-3);
-        robot.servoHook.runToPosition("retract");
+        Robot.verticalLift.runToPosition("high");
+        Robot.drivetrain.drive(-3);
+        Robot.servoHook.runToPosition("retract");
 
         // reset scoring system
 
-        robot.drivetrain.drive(3);
-        robot.verticalLift.runToPosition("transfer");
+        Robot.drivetrain.drive(3);
+        Robot.verticalLift.runToPosition("transfer");
 
         // drive to cone stack
 
-        robot.drivetrain.turn(-135);
-        robot.drivetrain.drive(-24);
+        Robot.drivetrain.turn(-135); // left side: 135
+        Robot.drivetrain.drive(-24);
 
         // pick up cone
 
-        robot.verticalLift.runToPosition("low"); // height of just above the cone stack
-        robot.drivetrain.drive(-3);
-        robot.verticalLift.runToPosition("ground"); // height of the cone stack
-        robot.servoHook.runToPosition("extend");
-        robot.drivetrain.drive(3);
-        robot.verticalLift.runToPosition("low");
+        Robot.verticalLift.runToPosition("low"); // height of just above the cone stack
+        Robot.drivetrain.drive(-3);
+        Robot.verticalLift.runToPosition("ground"); // height of the cone stack
+        Robot.servoHook.runToPosition("extend");
+        Robot.drivetrain.drive(3);
+        Robot.verticalLift.runToPosition("low");
 
         // drive to high junction (again)
 
-        robot.drivetrain.drive(24);
-        robot.drivetrain.turn(135);
+        Robot.drivetrain.drive(24);
+        Robot.drivetrain.turn(135); // left side: -135
 
         // score on high junction (again)
 
-        robot.verticalLift.runToPosition("high");
-        robot.drivetrain.drive(-3);
-        robot.servoHook.runToPosition("retract");
+        Robot.verticalLift.runToPosition("high");
+        Robot.drivetrain.drive(-3);
+        Robot.servoHook.runToPosition("retract");
 
         // reset scoring system (again)
 
-        robot.drivetrain.drive(3);
-        robot.verticalLift.runToPosition("transfer");
+        Robot.drivetrain.drive(3);
+        Robot.verticalLift.runToPosition("transfer");
 
         // park
 
-        robot.drivetrain.turn(-45);
+        Robot.drivetrain.turn(-45); // left side: 45
 
-        if (robot.cameraSubsystem.tag == 1) robot.drivetrain.strafe(-24);
-        if (robot.cameraSubsystem.tag == 3) robot.drivetrain.strafe(24);
+        if (Robot.tag == 1) Robot.drivetrain.strafe(-24); // left side: 24
+        if (Robot.tag == 3) Robot.drivetrain.strafe(24); // left side: -24
 
     }
 

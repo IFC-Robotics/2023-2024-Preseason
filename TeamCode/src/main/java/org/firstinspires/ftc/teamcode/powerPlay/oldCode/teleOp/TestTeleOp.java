@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClassWithSubsystems;
-import org.firstinspires.ftc.teamcode.powerPlay.robot.ServoSubsystem;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.ServoClass;
 
 /*
 
@@ -29,11 +29,11 @@ To Do:
 @TeleOp(name="test teleOp")
 public class TestTeleOp extends OpMode {
 
-    RobotClassWithSubsystems robot = new RobotClassWithSubsystems();
+    Robot robot = new Robot();
 
     @Override
     public void init() {
-        robot.init(hardwareMap, false);
+        robot.init(hardwareMap);
     }
 
     @Override
@@ -58,7 +58,7 @@ public class TestTeleOp extends OpMode {
 
     }
 
-    public void printServoPosition(ServoSubsystem servoSubsystem) {
+    public void printServoPosition(ServoClass servoSubsystem) {
         telemetry.addData(String.format("%s position", servoSubsystem.NAME), servoSubsystem.servoPosition);
     }
 

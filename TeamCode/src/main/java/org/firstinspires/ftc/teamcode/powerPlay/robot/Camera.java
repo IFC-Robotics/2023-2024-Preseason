@@ -11,7 +11,7 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-public class CameraSubsystem extends LinearOpMode {
+public class Camera extends LinearOpMode {
 
     static int cameraMonitorViewId;
     public static OpenCvCamera camera;
@@ -29,9 +29,8 @@ public class CameraSubsystem extends LinearOpMode {
     static int RIGHT = 3;
 
     static AprilTagDetection tagOfInterest = null;
-    public static int tag;
 
-    public CameraSubsystem() {}
+    public Camera() {}
 
     @Override
     public void runOpMode() {}
@@ -54,7 +53,7 @@ public class CameraSubsystem extends LinearOpMode {
 
     }
 
-    public void getTag() {
+    public int getTag() {
 
         while (!isStarted() && !isStopRequested()) {
 
@@ -73,10 +72,10 @@ public class CameraSubsystem extends LinearOpMode {
 
         if(tagOfInterest != null) {
             telemetry.addData("Tag ID", tagOfInterest.id);
-            tag = tagOfInterest.id;
+            return tagOfInterest.id;
         } else {
             telemetry.addLine("No tag available");
-            tag = 0;
+            return 0;
         }
 
     }
