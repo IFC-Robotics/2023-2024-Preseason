@@ -9,20 +9,21 @@ public class RobotClassWithSubsystems extends LinearOpMode {
 
     // conversions
 
-    public static final int DC_MOTOR_COUNTS_PER_REV  = 28;
-    public static final int DC_MOTOR_GEAR_RATIO      = 20;
-    public static final int DC_MOTOR_COUNTS_PER_INCH = (int)((DC_MOTOR_COUNTS_PER_REV * DC_MOTOR_GEAR_RATIO) / Math.PI);
+    static final int DC_MOTOR_COUNTS_PER_REV  = 28;
+    static final int DC_MOTOR_GEAR_RATIO      = 20;
+    static final int DC_MOTOR_COUNTS_PER_INCH = (int)((DC_MOTOR_COUNTS_PER_REV * DC_MOTOR_GEAR_RATIO) / Math.PI);
 
     // drivetrain subsystem
 
-    public static final int DRIVETRAIN_WHEEL_DIAMETER  = 4;
-    public static final int DRIVETRAIN_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / DRIVETRAIN_WHEEL_DIAMETER;
+    static final int DRIVETRAIN_WHEEL_DIAMETER  = 4;
+    static final int DRIVETRAIN_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / DRIVETRAIN_WHEEL_DIAMETER;
 
     public static DrivetrainSubsystem drivetrain = new DrivetrainSubsystem();
 
     // servo subsystems
 
-    public static final double SERVO_SPEED = 0.002;
+    static final double SERVO_SPEED = 0.002;
+    static final double SERVO_TIME = 0.5;
 
     public static ServoSubsystem servoClaw = new ServoSubsystem();
     public static ServoSubsystem servoRotateClaw = new ServoSubsystem();
@@ -36,14 +37,14 @@ public class RobotClassWithSubsystems extends LinearOpMode {
 
     public static final double MAX_LIFT_SPEED = 0.5;
 
-    String[] horizontalLiftPresetPositionNames = { "transfer", "intake" };
-    double[] horizontalLiftPresetPositions = { 0.0, 18.0 }; // change values (18 -> distance to auto collect)
+    static String[] horizontalLiftPresetPositionNames = { "transfer", "collect" };
+    static double[] horizontalLiftPresetPositions = { 0.0, 18.0 }; // change values (18 -> distance to auto collect)
 
-    String[] verticalLiftPresetPositionNames = { "transfer", "ground", "low", "middle", "high" };
-    double[] verticalLiftPresetPositions = {0.0, 2.0, 15.0, 25.0, 35.0 };  // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions)
+    static String[] verticalLiftPresetPositionNames = { "transfer", "ground", "low", "middle", "high" };
+    static double[] verticalLiftPresetPositions = {0.0, 2.0, 15.0, 25.0, 35.0 };  // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions)
 
-    public static LiftSubsystem motorHorizontalLift = new LiftSubsystem();
-    public static LiftSubsystem motorVerticalLift = new LiftSubsystem();
+    public static LiftSubsystem horizontalLift = new LiftSubsystem();
+    public static LiftSubsystem verticalLift = new LiftSubsystem();
 
     // camera subsystem
 
@@ -51,7 +52,8 @@ public class RobotClassWithSubsystems extends LinearOpMode {
 
     // other variables
 
-    public static boolean assistMode = true;
+
+    public static String mode = "assist";
 
     // initialize
 
@@ -67,13 +69,13 @@ public class RobotClassWithSubsystems extends LinearOpMode {
 
         drivetrain.init(hardwareMap, DRIVETRAIN_COUNTS_PER_INCH);
 
-        servoClaw.init(hardwareMap, "servo_claw", 0.0, 0.2, SERVO_SPEED, false);
-        servoRotateClaw.init(hardwareMap, "servo_rotate_claw", 0.0, 0.3, SERVO_SPEED, true);
-        servoHook.init(hardwareMap, "servo_hook", 0.0, 1, SERVO_SPEED, false);
-        servoRotateHook.init(hardwareMap, "servo_rotate_hook", 0.0, 1, SERVO_SPEED, false);
+        servoClaw.init(hardwareMap, "servo_claw", 0.0, 0.2, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateClaw.init(hardwareMap, "servo_rotate_claw", 0.0, 0.3, SERVO_SPEED, SERVO_TIME, true);
+        servoHook.init(hardwareMap, "servo_hook", 0.0, 1, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateHook.init(hardwareMap, "servo_rotate_hook", 0.0, 1, SERVO_SPEED, SERVO_TIME, false);
 
-        motorHorizontalLift.init(hardwareMap, "motor_horizontal_lift", 0, 1000, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, "stop, reset, run", horizontalLiftPresetPositionNames, horizontalLiftPresetPositions);
-        motorVerticalLift.init(hardwareMap, "motor_vertical_lift", 0, 3300, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, "stop & reset, run", verticalLiftPresetPositionNames, verticalLiftPresetPositions);
+        horizontalLift.init(hardwareMap, "motor_horizontal_lift", 0, 1000, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, horizontalLiftPresetPositionNames, horizontalLiftPresetPositions);
+        verticalLift.init(hardwareMap, "motor_vertical_lift", 0, 3300, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, verticalLiftPresetPositionNames, verticalLiftPresetPositions);
 
         cameraSubsystem.init(hardwareMap);
 

@@ -33,5 +33,7 @@ dependencies {
 }
 
 dependencies {
+
+    implementation 'androidx.datastore:datastore-core-android:+'
     implementation 'org.openftc:apriltag:1.1.0'
 }

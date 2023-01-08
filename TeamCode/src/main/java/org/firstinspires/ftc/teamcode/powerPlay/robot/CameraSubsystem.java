@@ -13,24 +13,23 @@ import java.util.ArrayList;
 
 public class CameraSubsystem extends LinearOpMode {
 
-    int cameraMonitorViewId;
-    public OpenCvCamera camera;
-    AprilTagDetectionPipeline aprilTagDetectionPipeline;
+    static int cameraMonitorViewId;
+    public static OpenCvCamera camera;
+    static AprilTagDetectionPipeline aprilTagDetectionPipeline;
 
-    double fx = 578.272;
-    double fy = 578.272;
-    double cx = 402.145;
-    double cy = 221.506;
+    static double fx = 578.272;
+    static double fy = 578.272;
+    static double cx = 402.145;
+    static double cy = 221.506;
 
-    double tagsize = 0.166; // measured in meters
+    static double tagsize = 0.166; // measured in meters
 
-    int LEFT = 1; // tag ID from the 36h11 family
-    int MIDDLE = 2;
-    int RIGHT = 3;
+    static int LEFT = 1; // tag ID from the 36h11 family
+    static int MIDDLE = 2;
+    static int RIGHT = 3;
 
-    AprilTagDetection tagOfInterest = null;
-
-    // initialize
+    static AprilTagDetection tagOfInterest = null;
+    public static int tag;
 
     public CameraSubsystem() {}
 
@@ -55,7 +54,7 @@ public class CameraSubsystem extends LinearOpMode {
 
     }
 
-    public int getTag() {
+    public void getTag() {
 
         while (!isStarted() && !isStopRequested()) {
 
@@ -73,17 +72,13 @@ public class CameraSubsystem extends LinearOpMode {
         }
 
         if(tagOfInterest != null) {
-            telemetry.addData("Tag of interest is in sight! Tag ID", tagOfInterest.id);
-            telemetry.update();
-            return tagOfInterest.id;
+            telemetry.addData("Tag ID", tagOfInterest.id);
+            tag = tagOfInterest.id;
         } else {
-            telemetry.addLine("No tag available, it was never sighted during the init loop :(");
-            telemetry.update();
-            return 0;
+            telemetry.addLine("No tag available");
+            tag = 0;
         }
 
     }
-
-
 
 }

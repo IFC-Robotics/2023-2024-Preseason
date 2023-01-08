@@ -30,6 +30,10 @@ public class javaExample {
 
         // for loops
 
+        for (int i = 0; i < fruits.length; i++) {
+            System.out.println(name + "'s favorite fruit is " + fruits[i]);
+        }
+
         for (String fruit : fruits) {
             System.out.println(name + "'s favorite fruit is " + fruit);
         }

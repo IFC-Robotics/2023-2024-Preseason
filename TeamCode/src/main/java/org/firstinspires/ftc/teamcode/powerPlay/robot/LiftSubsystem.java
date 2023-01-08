@@ -7,25 +7,23 @@ import com.qualcomm.robotcore.util.Range;
 
 public class LiftSubsystem extends LinearOpMode {
 
-    public static DcMotor motor;
-    public static boolean liftIsMoving = false;
+    public DcMotor motor;
+    public boolean liftIsMoving = false;
 
-    public static String NAME;
-    public static double MIN_POSITION;
-    public static double MAX_POSITION;
-    public static double MAX_SPEED;
-    public static int COUNTS_PER_INCH;
-    public static String[] PRESET_POSITION_NAMES;
-    public static double[] PRESET_POSITIONS;
-
-    // initialize
+    public String NAME;
+    public double MIN_POSITION;
+    public double MAX_POSITION;
+    public double MAX_SPEED;
+    public int COUNTS_PER_INCH;
+    public String[] PRESET_POSITION_NAMES;
+    public double[] PRESET_POSITIONS;
 
     public LiftSubsystem() {}
 
     @Override
     public void runOpMode() {}
 
-    public void init(HardwareMap hardwareMap, String name, int minPosition, int maxPosition, double maxSpeed, boolean reverseDirection, int countsPerInch, String initialMode, String[] presetPositionNames, double[] presetPositions) {
+    public void init(HardwareMap hardwareMap, String name, int minPosition, int maxPosition, double maxSpeed, boolean reverseDirection, int countsPerInch, String[] presetPositionNames, double[] presetPositions) {
 
         NAME = name;
         MIN_POSITION = minPosition;
@@ -39,38 +37,51 @@ public class LiftSubsystem extends LinearOpMode {
 
         if (reverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
 
-        if (initialMode == "stop & reset, run") {
-            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+    }
+
+    // autonomous
+
+    public void autonomousRunToPosition(String position) {
+        runToPosition(position);
+        while (motor.isBusy() && opModeIsActive()) {}
+        motor.setPower(0);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void runToPosition(String position) {
+        for (int i = 0; i < PRESET_POSITIONS.length; i++) {
+            if (position == PRESET_POSITION_NAMES[i]) {
+                run(PRESET_POSITIONS[i]);
+                break;
+            }
+        }
     }
 
     // teleOp
 
-    public void executeTeleOp(boolean assistMode, double joystick, boolean[] buttons) {
+    public void teleOpAssistMode(boolean[] buttons) {
 
-        if (assistMode) {
-
-            for (int i = 0; i < PRESET_POSITIONS.length; i++) {
-                if (buttons[i]) {
-
-                    motor.setTargetPosition((int) PRESET_POSITIONS[i] * COUNTS_PER_INCH);
-                    motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                    motor.setPower(MAX_SPEED);
-                    liftIsMoving = true;
-
-                    break;
-
-                }
+        for (int i = 0; i < PRESET_POSITIONS.length; i++) {
+            if (buttons[i]) {
+                run(PRESET_POSITIONS[i]);
+                liftIsMoving = true;
+                break;
             }
+        }
 
-            if (liftIsMoving && !motor.isBusy()) {
-                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                liftIsMoving = false;
-            }
+        if (liftIsMoving && !motor.isBusy()) {
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            liftIsMoving = false;
+        }
 
-        } else if (!liftIsMoving) {
+    }
+
+    public void teleOpManualMode(double joystick) {
+
+        if (!liftIsMoving) {
 
             double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
             int liftCurrentPosition = motor.getCurrentPosition();
@@ -85,28 +96,12 @@ public class LiftSubsystem extends LinearOpMode {
 
     }
 
-    // autonomous
+    // helper methods
 
-    public void moveLift(String direction) {
-
-        for (int i = 0; i < PRESET_POSITIONS.length; i++) {
-            if (direction == PRESET_POSITION_NAMES[i]) {
-
-                motor.setTargetPosition((int) PRESET_POSITIONS[i] * COUNTS_PER_INCH);
-                motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                motor.setPower(MAX_SPEED);
-                liftIsMoving = true;
-
-                while (motor.isBusy() && opModeIsActive()) {}
-
-                motor.setPower(0);
-                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-                break;
-
-            }
-        }
-
+    public void run(double target) {
+        motor.setTargetPosition((int) target * COUNTS_PER_INCH);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(MAX_SPEED);
     }
 
 }

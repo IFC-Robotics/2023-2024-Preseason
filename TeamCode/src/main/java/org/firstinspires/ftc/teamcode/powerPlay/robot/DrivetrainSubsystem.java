@@ -9,17 +9,16 @@ import java.lang.Math;
 
 public class DrivetrainSubsystem extends LinearOpMode {
 
-    public DcMotor motorFrontRight;
-    public DcMotor motorFrontLeft;
-    public DcMotor motorBackRight;
-    public DcMotor motorBackLeft;
-    public DcMotor[] motors = { motorFrontRight, motorFrontLeft, motorBackRight, motorBackLeft };
+    public static DcMotor motorFrontRight;
+    public static DcMotor motorFrontLeft;
+    public static DcMotor motorBackRight;
+    public static DcMotor motorBackLeft;
+    public static DcMotor[] motors = { motorFrontRight, motorFrontLeft, motorBackRight, motorBackLeft };
 
-    public double AUTONOMOUS_SPEED = 0.3;
-    public double MAX_TELEOP_SPEED = 0.7;
-    public int COUNTS_PER_INCH;
-
-    // initialize
+    public static double AUTONOMOUS_SPEED = 0.3;
+    public static double AUTONOMOUS_TURN_SPEED = 0.3;
+    public static double MAX_TELEOP_SPEED = 0.7;
+    public static int COUNTS_PER_INCH;
 
     public DrivetrainSubsystem() {}
 
@@ -46,36 +45,10 @@ public class DrivetrainSubsystem extends LinearOpMode {
 
     }
 
-    // teleOp
+    public void drive(double distance) {
 
-    public void executeTeleOp() {
-
-        double drive = -gamepad1.left_stick_y;
-        double strafe = gamepad1.left_stick_x;
-        double turn = gamepad1.right_stick_x;
-
-        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
-
-        double frontRightPower = Range.clip((drive - turn - strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double frontLeftPower  = Range.clip((drive + turn + strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double backRightPower  = Range.clip((drive - turn + strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double backLeftPower   = Range.clip((drive + turn - strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-
-        // if this doesn't work, get rid of the "denominator" variable
-
-        motorFrontRight.setPower(frontRightPower);
-        motorFrontLeft.setPower(frontLeftPower);
-        motorBackRight.setPower(backRightPower);
-        motorBackLeft.setPower(backLeftPower);
-
-    }
-
-    // autonomous
-
-    public void drive(double speed, int inches, int direction) {
-
-        int target = direction * inches * COUNTS_PER_INCH;
-        double power = direction * speed;
+        int target = (int)(distance * COUNTS_PER_INCH);
+        double power = Math.signum(distance) * AUTONOMOUS_SPEED;
 
         int[] targets = { target, target, target, target };
         double[] powers = { power, power, power, power };
@@ -84,10 +57,10 @@ public class DrivetrainSubsystem extends LinearOpMode {
 
     }
 
-    public void strafe(double speed, int inches, int direction) {
+    public void strafe(double distance) {
 
-        int target = direction * inches * COUNTS_PER_INCH;
-        double power = direction * speed;
+        int target = (int)(distance * COUNTS_PER_INCH);
+        double power = Math.signum(distance) * AUTONOMOUS_SPEED;
 
         int[] targets = { -target, target, target, -target };
         double[] powers = { -power, power, power, -power };
@@ -96,12 +69,14 @@ public class DrivetrainSubsystem extends LinearOpMode {
 
     }
 
-    public void turn(double speed, double angle) { // to test
+    public void turn(double angle) { // to test
 
-        int circumference = 66; // what does this even mean? circumference of the wheels? must test
-        int inches = (int)(circumference * angle / 360);
-        int target = inches * COUNTS_PER_INCH;
-        double power = Math.signum(angle) * speed;
+        double WHEEL_RADIUS = 2.0;
+        double circumference = 2 * Math.PI * WHEEL_RADIUS;
+        double distance = circumference * angle / 360;
+
+        int target = (int)(distance * COUNTS_PER_INCH);
+        double power = Math.signum(angle) * AUTONOMOUS_TURN_SPEED;
 
         int[] targets = { target, -target, target, -target };
         double[] powers = { -power, power, -power, power };
@@ -125,6 +100,28 @@ public class DrivetrainSubsystem extends LinearOpMode {
             motors[i].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             motors[i].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         }
+
+    }
+
+    public void executeTeleOp() {
+
+        double drive = -gamepad1.left_stick_y;
+        double strafe = gamepad1.left_stick_x;
+        double turn = gamepad1.right_stick_x;
+
+        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
+
+        double frontRightPower = Range.clip((drive - turn - strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        double frontLeftPower  = Range.clip((drive + turn + strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        double backRightPower  = Range.clip((drive - turn + strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        double backLeftPower   = Range.clip((drive + turn - strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+
+        // if this doesn't work, get rid of the "denominator" variable
+
+        motorFrontRight.setPower(frontRightPower);
+        motorFrontLeft.setPower(frontLeftPower);
+        motorBackRight.setPower(backRightPower);
+        motorBackLeft.setPower(backLeftPower);
 
     }
 

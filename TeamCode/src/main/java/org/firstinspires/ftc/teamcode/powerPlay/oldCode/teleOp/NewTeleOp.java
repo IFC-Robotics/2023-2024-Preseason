@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -163,7 +163,7 @@ gamepad2.left_stick_y:  moving horizontal lift
 gamepad2.right_stick_y: moving vertical lift
 gamepad2.a:             retract hook
 gamepad2.x:             move rotate hook to transfer
-gamepad2.b:             move rotate hook to deposit
+gamepad2.b:             move rotate hook to score
 gamepad2.y:             extend hook
 gamepad2.dpad_up:       rotate claw up
 gamepad2.dpad_right:    close claw

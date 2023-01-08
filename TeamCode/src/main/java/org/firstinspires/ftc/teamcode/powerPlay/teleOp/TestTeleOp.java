@@ -33,28 +33,28 @@ public class TestTeleOp extends OpMode {
 
     @Override
     public void init() {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, false);
     }
 
     @Override
     public void loop() {
 
-        if (gamepad2.back) robot.assistMode = !robot.assistMode;
-        telemetry.addData("assistMode", robot.assistMode);
-
-        robot.drivetrain.executeTeleOp();
-
-        robot.servoClaw.executeTeleOp(robot.assistMode, gamepad2.dpad_left, gamepad2.dpad_right);
-        robot.servoRotateClaw.executeTeleOp(robot.assistMode, gamepad2.dpad_up, gamepad2.dpad_down);
-
-        robot.servoHook.executeTeleOp(robot.assistMode, gamepad2.y, gamepad2.a);
-        robot.servoRotateHook.executeTeleOp(robot.assistMode, gamepad2.x, gamepad2.b);
-
-        boolean[] horizontalLiftButtons = { gamepad2.left_bumper, gamepad2.right_bumper };
-        boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
-
-        robot.motorHorizontalLift.executeTeleOp(robot.assistMode, -gamepad2.left_stick_y, horizontalLiftButtons);
-        robot.motorVerticalLift.executeTeleOp(robot.assistMode, -gamepad2.right_stick_y, verticalLiftButtons);
+//        if (gamepad2.back) robot.assistMode = !robot.assistMode;
+//        telemetry.addData("assistMode", robot.assistMode);
+//
+//        robot.drivetrain.executeTeleOp();
+//
+//        robot.servoClaw.executeTeleOp(robot.assistMode, gamepad2.dpad_left, gamepad2.dpad_right);
+//        robot.servoRotateClaw.executeTeleOp(robot.assistMode, gamepad2.dpad_up, gamepad2.dpad_down);
+//
+//        robot.servoHook.executeTeleOp(robot.assistMode, gamepad2.y, gamepad2.a);
+//        robot.servoRotateHook.executeTeleOp(robot.assistMode, gamepad2.x, gamepad2.b);
+//
+//        boolean[] horizontalLiftButtons = { gamepad2.left_bumper, gamepad2.right_bumper };
+//        boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
+//
+//        robot.horizontalLift.executeTeleOp(robot.assistMode, -gamepad2.left_stick_y, horizontalLiftButtons);
+//        robot.verticalLift.executeTeleOp(robot.assistMode, -gamepad2.right_stick_y, verticalLiftButtons);
 
     }
 
@@ -81,7 +81,7 @@ gamepad2.left_stick_y:  moving horizontal lift
 gamepad2.right_stick_y: moving vertical lift
 gamepad2.a:             retract hook
 gamepad2.x:             rotate hook to transfer
-gamepad2.b:             rotate hook to deposit
+gamepad2.b:             rotate hook to score
 gamepad2.y:             extend hook
 gamepad2.dpad_up:       rotate claw up
 gamepad2.dpad_right:    close claw

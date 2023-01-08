@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClass;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.RobotClassWithSubsystems;
 
 @Autonomous(name="Test Driving", group="Test")
 public class TestDriving extends LinearOpMode {
 
-    RobotClass robot = new RobotClass();
+    RobotClassWithSubsystems robot = new RobotClassWithSubsystems();
 
     public void runOpMode() {
 
@@ -19,11 +18,11 @@ public class TestDriving extends LinearOpMode {
         robot.init(hardwareMap);
         waitForStart();
 
-        robot.drive(robot.AUTONOMOUS_DRIVE_SPEED, 24, 1);
+        robot.drivetrain.drive(24.0);
         sleep(1000);
-        robot.strafe(robot.AUTONOMOUS_DRIVE_SPEED, 24, 1);
+        robot.drivetrain.strafe(24.0);
         sleep(1000);
-        robot.turn(robot.AUTONOMOUS_DRIVE_SPEED, 90);
+        robot.drivetrain.turn(90.0);
 
     }
 
