@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.oldCode.teleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -10,7 +11,8 @@ import org.firstinspires.ftc.teamcode.powerPlay.oldCode.robot.RobotClass;
 
 import java.lang.Math;
 
-@TeleOp(name="new teleOp")
+@TeleOp(name="new teleOp (AS)")
+@Disabled
 public class NewTeleOp extends LinearOpMode {
 
     RobotClass robot = new RobotClass();

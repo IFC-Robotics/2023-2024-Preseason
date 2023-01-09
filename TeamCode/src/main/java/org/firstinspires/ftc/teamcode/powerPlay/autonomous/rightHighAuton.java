@@ -31,7 +31,7 @@ public class rightHighAuton extends OpMode {
 
         Robot.servoHook.runToPosition("extend");
         Robot.servoRotateHook.runToPosition("score");
-        Robot.verticalLift.runToPosition("ground");
+//        Robot.verticalLift.runToPosition("ground");
 
         // drive to high junction
 
@@ -40,14 +40,14 @@ public class rightHighAuton extends OpMode {
 
         // score on high junction
 
-        Robot.verticalLift.runToPosition("high");
+//        Robot.verticalLift.runToPosition("high");
         Robot.drivetrain.drive(-3);
         Robot.servoHook.runToPosition("retract");
 
         // reset scoring system
 
         Robot.drivetrain.drive(3);
-        Robot.verticalLift.runToPosition("transfer");
+//        Robot.verticalLift.runToPosition("transfer");
 
         // drive to cone stack
 
@@ -56,12 +56,12 @@ public class rightHighAuton extends OpMode {
 
         // pick up cone
 
-        Robot.verticalLift.runToPosition("low"); // height of just above the cone stack
+//        Robot.verticalLift.runToPosition("low"); // height of just above the cone stack
         Robot.drivetrain.drive(-3);
-        Robot.verticalLift.runToPosition("ground"); // height of the cone stack
+//        Robot.verticalLift.runToPosition("ground"); // height of the cone stack
         Robot.servoHook.runToPosition("extend");
         Robot.drivetrain.drive(3);
-        Robot.verticalLift.runToPosition("low");
+//        Robot.verticalLift.runToPosition("low");
 
         // drive to high junction (again)
 
@@ -70,14 +70,14 @@ public class rightHighAuton extends OpMode {
 
         // score on high junction (again)
 
-        Robot.verticalLift.runToPosition("high");
+//        Robot.verticalLift.runToPosition("high");
         Robot.drivetrain.drive(-3);
         Robot.servoHook.runToPosition("retract");
 
         // reset scoring system (again)
 
         Robot.drivetrain.drive(3);
-        Robot.verticalLift.runToPosition("transfer");
+//        Robot.verticalLift.runToPosition("transfer");
 
         // park
 

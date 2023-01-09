@@ -38,7 +38,7 @@ public class Camera extends LinearOpMode {
     public void init(HardwareMap hardwareMap) {
 
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "webcam"), cameraMonitorViewId);
+        camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
         camera.setPipeline(aprilTagDetectionPipeline);
@@ -70,13 +70,7 @@ public class Camera extends LinearOpMode {
 
         }
 
-        if(tagOfInterest != null) {
-            telemetry.addData("Tag ID", tagOfInterest.id);
-            return tagOfInterest.id;
-        } else {
-            telemetry.addLine("No tag available");
-            return 0;
-        }
+        return tagOfInterest == null ? 0 : tagOfInterest.id;
 
     }
 

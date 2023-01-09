@@ -41,10 +41,10 @@ public class Robot extends LinearOpMode {
     static double[] horizontalLiftPresetPositions = { 0.0, 18.0 }; // change values (18 -> distance to auto collect)
 
     static String[] verticalLiftPresetPositionNames = { "transfer", "ground", "low", "middle", "high" };
-    static double[] verticalLiftPresetPositions = {0.0, 2.0, 15.0, 25.0, 35.0 };  // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions)
+//    static double[] verticalLiftPresetPositions = {0.0, 2.0, 15.0, 25.0, 35.0 };  // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions)
 
     public static LiftClass horizontalLift;
-    public static LiftClass verticalLift;
+//    public static LiftClass verticalLift;
 
     // camera
 
@@ -85,15 +85,27 @@ public class Robot extends LinearOpMode {
         // lifts
 
         horizontalLift = new LiftClass();
-        verticalLift = new LiftClass();
+//        verticalLift = new LiftClass();
 
-        horizontalLift.init(hardwareMap, "motor_horizontal_lift", 0, 1000, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, horizontalLiftPresetPositionNames, horizontalLiftPresetPositions);
-        verticalLift.init(hardwareMap, "motor_vertical_lift", 0, 3300, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, verticalLiftPresetPositionNames, verticalLiftPresetPositions);
+        horizontalLift.init(hardwareMap, "motor_horizontal_lift", 0, 1000, MAX_LIFT_SPEED, false, LIFT_COUNTS_PER_INCH, horizontalLiftPresetPositionNames, horizontalLiftPresetPositions);
+//        verticalLift.init(hardwareMap, "motor_vertical_lift", 0, 3300, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, verticalLiftPresetPositionNames, verticalLiftPresetPositions);
 
         // camera
 
         camera = new Camera();
         camera.init(hardwareMap);
+
+    }
+
+    public static void reset() {
+
+        servoClaw.runToPosition("open");
+        servoRotateClaw.runToPosition("up");
+        servoRotateHook.runToPosition("transfer");
+        servoHook.runToPosition("retract");
+
+//        verticalLift.runToPosition("transfer");
+        horizontalLift.runToPosition("transfer");
 
     }
 

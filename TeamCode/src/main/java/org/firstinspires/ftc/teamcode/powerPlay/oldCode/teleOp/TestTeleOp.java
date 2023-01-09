@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.oldCode.teleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -27,6 +28,7 @@ To Do:
 */
 
 @TeleOp(name="test teleOp")
+@Disabled
 public class TestTeleOp extends OpMode {
 
     Robot robot = new Robot();

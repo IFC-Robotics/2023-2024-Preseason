@@ -1,20 +1,25 @@
 To Do:
 
-- test servo class auton
-- test lift class auton & teleOp
-- test drivetrain auton & teleOp
-- test camera getTags() method
+- fix issue w/ servos
+    - one issue happens during initialization, and there may be more issues
+    - see servos in FSM.java in assist mode to recreate issues
 
-- fix issue w/ initializing servos
-- find out why telemetry doesn't work in the robot class(es)
+- test lift class (1) auton & (2) teleOp assist mode
+    - Note: horizontal lift gets stuck coming back, causing it to unspool (and therefore break)
+    - I broke the horizontal lift! Must fix before testing.
+    - vertical lift isn't plugged in, b/c a metal bar is right next to the motor, so it's impossible to plug in. Must fix before testing.
 
-- test finite state machine
-    - test switch statement
-    - test switching between robot modes (FSM, assist, manual)
-    - test initial strafe to FSM position
+- fix drivetrain auton
+- test initial movement to FSM position
+
+- fix camera auton
+
+--------------------------------------- Fix everything above before continuing below ---------------------------------------
+
+- test finite state machine (switch statement)
 
 - test rightHighAuton.java
-    - if it works, create a copy for the left side (see comments)
+    - make a copy for the left side (see comments)
 
 - think about what the controls should be (joysticks, buttons, etc.)
 

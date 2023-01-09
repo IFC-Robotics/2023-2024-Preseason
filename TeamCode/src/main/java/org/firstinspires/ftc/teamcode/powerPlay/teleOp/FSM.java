@@ -24,11 +24,9 @@ public class FSM extends OpMode {
     };
 
     RobotState state = RobotState.START;
-
-    String randomization = Robot.side + " " + Robot.tag;
-    double INITIAL_DRIVE_DIST = 24;
-
     ElapsedTime timer = new ElapsedTime();
+//    String randomization = Robot.side + " " + Robot.tag;
+    String randomization = "left 3";
 
     @Override
     public void init() {
@@ -37,28 +35,17 @@ public class FSM extends OpMode {
 
     @Override
     public void start() {
-
-        resetRobot();
-        Robot.drivetrain.drive(INITIAL_DRIVE_DIST);
-
-        switch (randomization) {
-            case "left 1":  Robot.drivetrain.strafe(60);
-            case "left 2":  Robot.drivetrain.strafe(36);
-            case "left 3":  Robot.drivetrain.strafe(12);
-            case "right 1": Robot.drivetrain.strafe(-12);
-            case "right 2": Robot.drivetrain.strafe(-36);
-            case "right 3": Robot.drivetrain.strafe(-60);
-        }
-
+//        Robot.reset();
         timer.reset();
-
     }
 
     @Override
     public void loop() {
 
-        if (gamepad2.back)  {
-            resetRobot();
+        // Switching modes
+
+        if (gamepad2.back) {
+//            Robot.reset();
             Robot.mode = "FSM";
         }
 
@@ -67,99 +54,122 @@ public class FSM extends OpMode {
 
         telemetry.addData("mode", Robot.mode);
 
+        // Finite State Machine mode
+
         if (Robot.mode == "FSM") {
+
+            // strafe to FSM position
+
+            if (gamepad2.right_bumper) {
+
+                Robot.drivetrain.drive(24);
+
+                switch (randomization) {
+                    case "left 1":  Robot.drivetrain.strafe(60);
+                    case "left 2":  Robot.drivetrain.strafe(36);
+                    case "left 3":  Robot.drivetrain.strafe(12);
+                    case "right 1": Robot.drivetrain.strafe(-12);
+                    case "right 2": Robot.drivetrain.strafe(-36);
+                    case "right 3": Robot.drivetrain.strafe(-60);
+                }
+
+            }
+
+            // FSM
 
             telemetry.addData("state", state);
 
-            switch (state) {
+//            switch (state) {
+//
+//                case START:
+//                    if (gamepad1.x) { // start FSM
+//                        state = RobotState.PREPARE_TO_COLLECT;
+//                    }
+//                    break;
+//
+//                case PREPARE_TO_COLLECT:
+//                    if (gamepad1.x) {
+//                        Robot.servoRotateClaw.runToPosition("down"); // rotate claw down
+//                        timer.reset();
+//                        state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
+//                    }
+//                    break;
+//
+//                case MOVE_HORIZONTAL_TO_COLLECT:
+//                    if (gamepad1.a && timer.seconds() >= Robot.servoRotateClaw.TIME) {
+//                        Robot.horizontalLift.runToPosition("collect"); // move horizontal lift to collect cone
+//                        state = RobotState.COLLECT_CONE;
+//                    }
+//                    break;
+//
+//                case COLLECT_CONE:
+//                    if (Robot.horizontalLift.motor.getCurrentPosition() == Robot.horizontalLift.PRESET_POSITIONS[2]) {
+//                        Robot.servoClaw.runToPosition("close"); // close claw
+//                        timer.reset();
+//                        state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
+//                    }
+//                    break;
+//
+//                case MOVE_HORIZONTAL_TO_TRANSFER:
+//                    if (timer.seconds() >= Robot.servoClaw.TIME) {
+//                        Robot.servoRotateClaw.runToPosition("up"); // rotate claw up
+//                        Robot.horizontalLift.runToPosition("transfer"); // move horizontal lift to transfer cone
+//                        state = RobotState.TRANSFER_CONE;
+//                    }
+//                    break;
+//
+//                case TRANSFER_CONE:
+//                    if (Robot.horizontalLift.motor.getCurrentPosition() == Robot.horizontalLift.PRESET_POSITIONS[0]) {
+//                        Robot.servoHook.runToPosition("extend"); // extend hook
+//                        timer.reset();
+//                        state = RobotState.RELEASE_CONE;
+//                    }
+//                    break;
+//
+//                case RELEASE_CONE:
+//                    if (timer.seconds() >= Robot.servoHook.TIME) {
+//                        Robot.servoClaw.runToPosition("open"); // open claw
+//                        timer.reset();
+//                        state = RobotState.MOVE_VERTICAL_TO_SCORE;
+//                    }
+//                    break;
+//
+//                case MOVE_VERTICAL_TO_SCORE:
+//                    if (timer.seconds() >= Robot.servoClaw.TIME) {
+//                        Robot.servoRotateHook.runToPosition("score"); // rotate hook to score cone
+//                        Robot.verticalLift.runToPosition("high"); // move vertical lift to score cone
+//                        state = RobotState.SCORE_CONE;
+//                    }
+//                    break;
+//
+//                case SCORE_CONE:
+//                    if (Robot.verticalLift.motor.getCurrentPosition() == Robot.verticalLift.PRESET_POSITIONS[0]) {
+//                        Robot.servoHook.runToPosition("retract"); // retract hook
+//                        timer.reset();
+//                        state = RobotState.MOVE_VERTICAL_TO_TRANSFER;
+//                    }
+//                    break;
+//
+//                case MOVE_VERTICAL_TO_TRANSFER:
+//                    if (timer.seconds() >= Robot.servoClaw.TIME) {
+//                        Robot.servoRotateHook.runToPosition("transfer"); // rotate hook to transfer cone
+//                        Robot.verticalLift.runToPosition("transfer"); // move vertical lift to transfer cone
+//                        state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
+//                    }
+//                    break;
+//
+//                default:
+//                    state = RobotState.START;
+//
+//            }
 
-                case START:
-                    if (gamepad1.x) { // start FSM
-                        state = RobotState.PREPARE_TO_COLLECT;
-                    }
-                    break;
-
-                case PREPARE_TO_COLLECT:
-                    if (gamepad1.x) {
-                        Robot.servoRotateClaw.runToPosition("down"); // rotate claw down
-                        timer.reset();
-                        state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
-                    }
-                    break;
-
-                case MOVE_HORIZONTAL_TO_COLLECT:
-                    if (gamepad1.a && timer.seconds() >= Robot.servoRotateClaw.TIME) {
-                        Robot.horizontalLift.runToPosition("collect"); // move horizontal lift to collect cone
-                        state = RobotState.COLLECT_CONE;
-                    }
-                    break;
-
-                case COLLECT_CONE:
-                    if (Robot.horizontalLift.motor.getCurrentPosition() == Robot.horizontalLift.PRESET_POSITIONS[2]) {
-                        Robot.servoClaw.runToPosition("close"); // close claw
-                        timer.reset();
-                        state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
-                    }
-                    break;
-
-                case MOVE_HORIZONTAL_TO_TRANSFER:
-                    if (timer.seconds() >= Robot.servoClaw.TIME) {
-                        Robot.servoRotateClaw.runToPosition("up"); // rotate claw up
-                        Robot.horizontalLift.runToPosition("transfer"); // move horizontal lift to transfer cone
-                        state = RobotState.TRANSFER_CONE;
-                    }
-                    break;
-
-                case TRANSFER_CONE:
-                    if (Robot.horizontalLift.motor.getCurrentPosition() == Robot.horizontalLift.PRESET_POSITIONS[0]) {
-                        Robot.servoHook.runToPosition("extend"); // extend hook
-                        timer.reset();
-                        state = RobotState.RELEASE_CONE;
-                    }
-                    break;
-
-                case RELEASE_CONE:
-                    if (timer.seconds() >= Robot.servoHook.TIME) {
-                        Robot.servoClaw.runToPosition("open"); // open claw
-                        timer.reset();
-                        state = RobotState.MOVE_VERTICAL_TO_SCORE;
-                    }
-                    break;
-
-                case MOVE_VERTICAL_TO_SCORE:
-                    if (timer.seconds() >= Robot.servoClaw.TIME) {
-                        Robot.servoRotateHook.runToPosition("score"); // rotate hook to score cone
-                        Robot.verticalLift.runToPosition("high"); // move vertical lift to score cone
-                        state = RobotState.SCORE_CONE;
-                    }
-                    break;
-
-                case SCORE_CONE:
-                    if (Robot.verticalLift.motor.getCurrentPosition() == Robot.verticalLift.PRESET_POSITIONS[0]) {
-                        Robot.servoHook.runToPosition("retract"); // retract hook
-                        timer.reset();
-                        state = RobotState.MOVE_VERTICAL_TO_TRANSFER;
-                    }
-                    break;
-
-                case MOVE_VERTICAL_TO_TRANSFER:
-                    if (timer.seconds() >= Robot.servoClaw.TIME) {
-                        Robot.servoRotateHook.runToPosition("transfer"); // rotate hook to transfer cone
-                        Robot.verticalLift.runToPosition("transfer"); // move vertical lift to transfer cone
-                        state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
-                    }
-                    break;
-
-                default:
-                    state = RobotState.START;
-
-            }
+            // pause FSM
 
             if (gamepad1.y && state != RobotState.START) {
-                state = RobotState.START; // stop FSM
+                state = RobotState.START;
             }
 
-        } else if (Robot.mode == "assist") {
+        } else if (Robot.mode == "assist") { // assist mode
 
             Robot.servoClaw.teleOpAssistMode(gamepad2.dpad_left, gamepad2.dpad_right);
             Robot.servoRotateClaw.teleOpAssistMode(gamepad2.dpad_up, gamepad2.dpad_down);
@@ -168,12 +178,12 @@ public class FSM extends OpMode {
             Robot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
 
             boolean[] horizontalLiftButtons = { gamepad2.left_bumper, gamepad2.right_bumper };
-            boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
+//            boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
 
             Robot.horizontalLift.teleOpAssistMode(horizontalLiftButtons);
-            Robot.verticalLift.teleOpAssistMode(verticalLiftButtons);
+//            Robot.verticalLift.teleOpAssistMode(verticalLiftButtons);
 
-        } else if (Robot.mode == "manual") {
+        } else if (Robot.mode == "manual") { // manual mode
 
             Robot.servoClaw.teleOpManualMode(gamepad2.dpad_left, gamepad2.dpad_right);
             Robot.servoRotateClaw.teleOpManualMode(gamepad2.dpad_up, gamepad2.dpad_down);
@@ -182,31 +192,21 @@ public class FSM extends OpMode {
             Robot.servoRotateHook.teleOpManualMode(gamepad2.x, gamepad2.b);
 
             Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y);
-            Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
+//            Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
 
         }
 
-        Robot.drivetrain.executeTeleOp();
+        telemetry.addData("Robot.horizontalLift.motor.getCurrentPosition()", Robot.horizontalLift.motor.getCurrentPosition());
+
+        Robot.drivetrain.executeTeleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
         // maybe: right here, if the horizontal lift isn't at the 0 (transfer) position, give it 0.01 power, so that gravity doesn't pull it down
 
     }
 
-    public void resetRobot() {
-
-        Robot.servoClaw.runToPosition("open");
-        Robot.servoRotateClaw.runToPosition("up");
-        Robot.servoRotateHook.runToPosition("transfer");
-        Robot.servoHook.runToPosition("retract");
-
-        Robot.verticalLift.runToPosition("transfer");
-        Robot.horizontalLift.runToPosition("transfer");
-
-    }
-
-    public void printServoPosition(ServoClass servoClass) {
-        telemetry.addData(String.format("%s position", servoClass.NAME), servoClass.servoPosition);
-    }
+//    public void printServoPosition(ServoClass servoClass) {
+//        telemetry.addData(String.format("%s position", servoClass.NAME), servoClass.servoPosition);
+//    }
 
 }
 
@@ -243,6 +243,7 @@ gamepad2.right_bumper:  move horizontal lift to transfer cone
 gamepad2.back:          switch to FSM mode
 gamepad2.start:         switch to assist mode
 gamepad2.guide:         switch to manual mode
+gamepad2.right_bumper:  strafe to FSM position
 
 Controls not being used:
 

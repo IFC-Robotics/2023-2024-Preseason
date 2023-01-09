@@ -13,7 +13,6 @@ public class Drivetrain extends LinearOpMode {
     public static DcMotor motorFrontLeft;
     public static DcMotor motorBackRight;
     public static DcMotor motorBackLeft;
-    public static DcMotor[] motors = { motorFrontRight, motorFrontLeft, motorBackRight, motorBackLeft };
 
     public static double AUTONOMOUS_SPEED = 0.3;
     public static double AUTONOMOUS_TURN_SPEED = 0.3;
@@ -34,14 +33,23 @@ public class Drivetrain extends LinearOpMode {
         motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
         motorBackLeft   = hardwareMap.get(DcMotor.class, "motor_back_left");
 
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
-        for (DcMotor motor : motors) {
-            motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE); // test what this does
-            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -87,27 +95,41 @@ public class Drivetrain extends LinearOpMode {
 
     public void moveDrivetrain(int[] targets, double[] powers) {
 
-        for (int i = 0; i < 4; i++) {
-            motors[i].setTargetPosition(targets[i]);
-            motors[i].setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            motors[i].setPower(powers[i]);
-        }
+        motorFrontRight.setTargetPosition(targets[0]);
+        motorFrontLeft.setTargetPosition(targets[1]);
+        motorBackRight.setTargetPosition(targets[2]);
+        motorBackLeft.setTargetPosition(targets[3]);
+
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motorFrontRight.setPower(powers[0]);
+        motorFrontLeft.setPower(powers[1]);
+        motorBackRight.setPower(powers[2]);
+        motorBackLeft.setPower(powers[3]);
 
         while ((motorFrontLeft.isBusy() || motorFrontRight.isBusy() || motorBackLeft.isBusy() || motorBackRight.isBusy()) && opModeIsActive()) {}
 
-        for (int i = 0; i < 4; i++) {
-            motors[i].setPower(0);
-            motors[i].setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motors[i].setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        }
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorBackRight.setPower(0);
+        motorBackLeft.setPower(0);
+
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
-    public void executeTeleOp() {
-
-        double drive = -gamepad1.left_stick_y;
-        double strafe = gamepad1.left_stick_x;
-        double turn = gamepad1.right_stick_x;
+    public void executeTeleOp(double drive, double strafe, double turn) {
 
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
 
@@ -115,8 +137,6 @@ public class Drivetrain extends LinearOpMode {
         double frontLeftPower  = Range.clip((drive + turn + strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
         double backRightPower  = Range.clip((drive - turn + strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
         double backLeftPower   = Range.clip((drive + turn - strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-
-        // if this doesn't work, get rid of the "denominator" variable
 
         motorFrontRight.setPower(frontRightPower);
         motorFrontLeft.setPower(frontLeftPower);

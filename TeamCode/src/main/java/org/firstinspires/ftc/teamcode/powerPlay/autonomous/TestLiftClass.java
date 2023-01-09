@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@Autonomous(name="Test Driving", group="Test")
-public class TestDriving extends LinearOpMode {
+@Autonomous(name="Test Lift Class", group="Test")
+public class TestLiftClass extends LinearOpMode {
 
     public void runOpMode() {
 
@@ -16,22 +16,16 @@ public class TestDriving extends LinearOpMode {
         Robot.init(hardwareMap);
         waitForStart();
 
-        telemetry.addData("Driving", "");
-        telemetry.update();
-
-        Robot.drivetrain.drive(12.0);
+        Robot.horizontalLift.autonomousRunToPosition("collect");
         sleep(1000);
 
-        telemetry.addData("Strafing", "");
-        telemetry.update();
+//        Robot.verticalLift.autonomousRunToPosition("high");
+//        sleep(1000);
 
-        Robot.drivetrain.strafe(12.0);
-        sleep(1000);
+//        Robot.verticalLift.autonomousRunToPosition("transfer");
+//        sleep(1000);
 
-        telemetry.addData("Turning", "");
-        telemetry.update();
-
-        Robot.drivetrain.turn(90.0);
+        Robot.horizontalLift.autonomousRunToPosition("transfer");
 
     }
 

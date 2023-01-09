@@ -25,7 +25,7 @@ public class TestAutomaticScoringSequence extends LinearOpMode {
         Robot.servoHook.runToPosition("extend");
 
         Robot.servoRotateHook.runToPosition("score");
-        Robot.verticalLift.autonomousRunToPosition("score");
+//        Robot.verticalLift.autonomousRunToPosition("score");
         Robot.servoHook.runToPosition("retract");
 
     }

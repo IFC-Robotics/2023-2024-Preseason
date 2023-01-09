@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@Autonomous(name="Reset Robot")
-public class ResetRobot extends LinearOpMode {
+@Autonomous(name="Test Servo Class", group="Test")
+public class TestServoClass extends LinearOpMode {
 
     public void runOpMode() {
 
@@ -16,7 +16,9 @@ public class ResetRobot extends LinearOpMode {
         Robot.init(hardwareMap);
         waitForStart();
 
-        Robot.reset();
+        Robot.servoClaw.runToPosition("open");
+        sleep(2000);
+        Robot.servoClaw.runToPosition("close");
 
     }
 
