@@ -13,7 +13,7 @@ Fabricating - fix horizontal lift
                 - make it smoother
             - attach claw to robot
             - plug in horizontal lift servos w/ extension cables
-
+``
 Programming - test horizontal lift auton
             - test horizontal lift teleOpAssistMode
             - test horizontal lift teleOpManualMode

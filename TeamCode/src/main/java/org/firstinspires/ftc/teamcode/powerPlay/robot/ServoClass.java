@@ -64,14 +64,14 @@ public class ServoClass extends LinearOpMode {
     }
 
     public void teleOpAssistMode(boolean button1, boolean button2) {
-        telemetry.addData(NAME + " teleOpAssistMode", "");
+//        telemetry.addData(NAME + " teleOpAssistMode", "");
         if (button1) servoPosition = MIN_POSITION;
         if (button2) servoPosition = MAX_POSITION;
         servo.setPosition(servoPosition);
     }
 
     public void teleOpManualMode(boolean button1, boolean button2) {
-        telemetry.addData(NAME + " teleOpManualMode", "");
+//        telemetry.addData(NAME + " teleOpManualMode", "");
         if (button1 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
         if (button2 && servoPosition < MAX_POSITION) servoPosition += SPEED;
         servo.setPosition(servoPosition);
