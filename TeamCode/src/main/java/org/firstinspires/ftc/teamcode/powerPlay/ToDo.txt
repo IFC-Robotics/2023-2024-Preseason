@@ -4,6 +4,7 @@ To Do Tuesday 1/10 (in order):
 
 Programming - test telemetry
             - test autonomous driving (using telemetry)
+                - try testing just one wheel
             - test initial movement to FSM position
             - test camera (using telemetry + signal sleeves)
 
@@ -27,7 +28,8 @@ Programming - test horizontal lift auton
 Fabricating - fix vertical lift (not enough space to plug in)
             - plug in vertical lift servos w/ extension cables
 
-Programming - test vertical lift auton
+Programming - uncomment vertical lift code
+            - test vertical lift auton
             - test vertical lift teleOpAssistMode
             - test vertical lift teleOpManualMode
             - test vertical lift hook
@@ -37,7 +39,7 @@ Programming - test vertical lift auton
                 - make sure servo turns to the desired positions
                 - make sure cone doesn't fall out
 
--------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------- Other ---------------------------------------------------------------------
 
 Once everything above is done:
     - test everything together in teleOp (claw -> rotate claw -> horizontal lift -> hook -> rotate hook -> vertical lift -> score)
@@ -46,15 +48,19 @@ Once everything above is done:
     - test rightHighAuton.java
         - if it works, make a copy for the left side (see comments - just reverse the direction of all of the strafing and turning. Also don't forget to update Robot.side!)
     - test FSM
+    - confirm that the current controls are good
 
-- think about what the controls should be (joysticks, buttons, etc.)
+Outreach:
+    - (mandatory) create opponent assessment template. See google doc for details.
+    - (mandatory) go through emails, and check all emails about upcoming events (must be cabinet member / high-level member)
+    - (optional) add notes & photos from winter break to google drive. Ask Violet (or make her do this task)
+    - (optional) Put together an instagram/twitter post about meet 1. I'll review it Wednesday morning and we can post it.
+    - (optional) Put together an instagram/twitter post about out work over winter break. I'll review it Wednesday morning and we can post it.
 
--------------------------------------------------------------------------------------------------------------------------------------------------
 Other:
-
-- fix issue w/ servos
-    - one issue happens during initialization, and there may be more issues
-    - see servos in FSM.java in assist mode to recreate issues
+    - fix issue w/ servos
+        - one issue happens during initialization, and there may be more issues
+        - see servos in FSM.java in assist mode to recreate issues
 
 - if necessary, add "Warning: Robot Moves On Initialization" sticker
     - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf

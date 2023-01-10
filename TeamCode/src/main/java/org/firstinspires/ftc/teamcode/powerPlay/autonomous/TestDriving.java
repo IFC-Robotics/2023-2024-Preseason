@@ -14,21 +14,31 @@ public class TestDriving extends LinearOpMode {
         telemetry.update();
 
         Robot.init(hardwareMap);
+
+        telemetry.addData("initialized, waiting for start", "");
+        telemetry.update();
+
         waitForStart();
 
-        telemetry.addData("Driving", "");
+        telemetry.addData("frontRightWheelDrive", "");
+        telemetry.update();
+
+        Robot.drivetrain.frontRightWheelDrive(12.0);
+        sleep(1000);
+
+        telemetry.addData("drive", "");
         telemetry.update();
 
         Robot.drivetrain.drive(12.0);
         sleep(1000);
 
-        telemetry.addData("Strafing", "");
+        telemetry.addData("strafe", "");
         telemetry.update();
 
         Robot.drivetrain.strafe(12.0);
         sleep(1000);
 
-        telemetry.addData("Turning", "");
+        telemetry.addData("turn", "");
         telemetry.update();
 
         Robot.drivetrain.turn(90.0);

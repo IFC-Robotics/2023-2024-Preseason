@@ -57,9 +57,28 @@ public class Drivetrain extends LinearOpMode {
 
     }
 
+    public void frontRightWheelDrive(double distance) {
+
+        telemetry.addData("frontRightWheelDrive distance", distance);
+
+        int target = (int)(distance * COUNTS_PER_INCH);
+        double power = Math.signum(distance) * AUTONOMOUS_SPEED;
+
+        motorFrontRight.setTargetPosition(target);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFrontRight.setPower(power);
+
+        while (motorFrontRight.isBusy() && opModeIsActive()) {}
+
+        motorFrontRight.setPower(0);
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
     public void drive(double distance) {
 
-        telemetry.addData("drive", "");
+        telemetry.addData("drive distance", distance);
 
         int target = (int)(distance * COUNTS_PER_INCH);
         double power = Math.signum(distance) * AUTONOMOUS_SPEED;
@@ -73,7 +92,7 @@ public class Drivetrain extends LinearOpMode {
 
     public void strafe(double distance) {
 
-        telemetry.addData("strafe", "");
+        telemetry.addData("strafe distance", distance);
 
         int target = (int)(distance * COUNTS_PER_INCH);
         double power = Math.signum(distance) * AUTONOMOUS_SPEED;
@@ -87,7 +106,7 @@ public class Drivetrain extends LinearOpMode {
 
     public void turn(double angle) { // to test
 
-        telemetry.addData("turn", "");
+        telemetry.addData("turn angle", angle);
 
         double WHEEL_RADIUS = 2.0;
         double circumference = 2 * Math.PI * WHEEL_RADIUS;
@@ -105,6 +124,8 @@ public class Drivetrain extends LinearOpMode {
 
     public void moveDrivetrain(int[] targets, double[] powers) {
 
+        telemetry.addData("moveDrivetrain", "");
+
         motorFrontRight.setTargetPosition(targets[0]);
         motorFrontLeft.setTargetPosition(targets[1]);
         motorBackRight.setTargetPosition(targets[2]);
@@ -120,7 +141,7 @@ public class Drivetrain extends LinearOpMode {
         motorBackRight.setPower(powers[2]);
         motorBackLeft.setPower(powers[3]);
 
-        while ((motorFrontLeft.isBusy() || motorFrontRight.isBusy() || motorBackLeft.isBusy() || motorBackRight.isBusy()) && opModeIsActive()) {}
+        while ((motorFrontRight.isBusy() || motorFrontLeft.isBusy() || motorBackRight.isBusy() || motorBackLeft.isBusy()) && opModeIsActive()) {}
 
         motorFrontRight.setPower(0);
         motorFrontLeft.setPower(0);
