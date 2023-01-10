@@ -1,27 +1,62 @@
-To Do:
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+To Do Tuesday 1/10 (in order):
+
+Programming - test telemetry
+            - test autonomous driving (using telemetry)
+            - test initial movement to FSM position
+            - test camera (using telemetry + signal sleeves)
+
+Fabricating - fix horizontal lift
+                - re-spool it
+                - make it smoother
+            - attach claw to robot
+            - plug in horizontal lift servos w/ extension cables
+
+Programming - test horizontal lift auton
+            - test horizontal lift teleOpAssistMode
+            - test horizontal lift teleOpManualMode
+            - test horizontal lift claw
+                - make sure servo opens/closes
+                - make sure claw actually grabs cone
+            - test horizontal lift rotate_claw
+                - make sure servo can lift/lower the claw
+                    - without a cone
+                    - with a cone
+
+Fabricating - fix vertical lift (not enough space to plug in)
+            - plug in vertical lift servos w/ extension cables
+
+Programming - test vertical lift auton
+            - test vertical lift teleOpAssistMode
+            - test vertical lift teleOpManualMode
+            - test vertical lift hook
+                - make sure servo extends/retracts
+                - make sure servo actually grabs cone
+            - test vertical lift rotate_claw
+                - make sure servo turns to the desired positions
+                - make sure cone doesn't fall out
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+
+Once everything above is done:
+    - test everything together in teleOp (claw -> rotate claw -> horizontal lift -> hook -> rotate hook -> vertical lift -> score)
+        - slowly, see if it works
+        - proof that our robot will actually work
+    - test rightHighAuton.java
+        - if it works, make a copy for the left side (see comments - just reverse the direction of all of the strafing and turning. Also don't forget to update Robot.side!)
+    - test FSM
+
+- think about what the controls should be (joysticks, buttons, etc.)
+
+-------------------------------------------------------------------------------------------------------------------------------------------------
+Other:
 
 - fix issue w/ servos
     - one issue happens during initialization, and there may be more issues
     - see servos in FSM.java in assist mode to recreate issues
 
-- test lift class (1) auton & (2) teleOp assist mode
-    - Note: horizontal lift gets stuck coming back, causing it to unspool (and therefore break)
-    - I broke the horizontal lift! Must fix before testing.
-    - vertical lift isn't plugged in, b/c a metal bar is right next to the motor, so it's impossible to plug in. Must fix before testing.
-
-- fix drivetrain auton
-- test initial movement to FSM position
-
-- fix camera auton
-
---------------------------------------- Fix everything above before continuing below ---------------------------------------
-
-- test finite state machine (switch statement)
-
-- test rightHighAuton.java
-    - make a copy for the left side (see comments)
-
-- think about what the controls should be (joysticks, buttons, etc.)
-
 - if necessary, add "Warning: Robot Moves On Initialization" sticker
     - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf
+
+-------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -11,6 +13,8 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
+@TeleOp(name = "Camera")
+@Disabled
 public class Camera extends LinearOpMode {
 
     static int cameraMonitorViewId;
@@ -55,7 +59,11 @@ public class Camera extends LinearOpMode {
 
     public int getTag() {
 
+        telemetry.addData("getTag", "");
+
         while (!isStarted() && !isStopRequested()) {
+
+            telemetry.addData("searching for tag...", "");
 
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
@@ -70,7 +78,13 @@ public class Camera extends LinearOpMode {
 
         }
 
-        return tagOfInterest == null ? 0 : tagOfInterest.id;
+        if(tagOfInterest != null) {
+            telemetry.addData("Tag ID", tagOfInterest.id);
+            return tagOfInterest.id;
+        } else {
+            telemetry.addData("No tag available", "");
+            return 0;
+        }
 
     }
 

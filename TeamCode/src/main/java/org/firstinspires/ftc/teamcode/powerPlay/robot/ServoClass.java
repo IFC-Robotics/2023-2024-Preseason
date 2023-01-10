@@ -1,9 +1,13 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+@TeleOp(name = "Servo Class")
+@Disabled
 public class ServoClass extends LinearOpMode {
 
     public Servo servo;
@@ -60,12 +64,14 @@ public class ServoClass extends LinearOpMode {
     }
 
     public void teleOpAssistMode(boolean button1, boolean button2) {
+        telemetry.addData(NAME + " teleOpAssistMode", "");
         if (button1) servoPosition = MIN_POSITION;
         if (button2) servoPosition = MAX_POSITION;
         servo.setPosition(servoPosition);
     }
 
     public void teleOpManualMode(boolean button1, boolean button2) {
+        telemetry.addData(NAME + " teleOpManualMode", "");
         if (button1 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
         if (button2 && servoPosition < MAX_POSITION) servoPosition += SPEED;
         servo.setPosition(servoPosition);

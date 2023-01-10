@@ -26,7 +26,7 @@ public class FSM extends OpMode {
     RobotState state = RobotState.START;
     ElapsedTime timer = new ElapsedTime();
 //    String randomization = Robot.side + " " + Robot.tag;
-    String randomization = "left 3";
+    String randomization = "";
 
     @Override
     public void init() {
@@ -88,11 +88,9 @@ public class FSM extends OpMode {
 //                    break;
 //
 //                case PREPARE_TO_COLLECT:
-//                    if (gamepad1.x) {
-//                        Robot.servoRotateClaw.runToPosition("down"); // rotate claw down
-//                        timer.reset();
-//                        state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
-//                    }
+//                    Robot.servoRotateClaw.runToPosition("down"); // rotate claw down
+//                    timer.reset();
+//                    state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
 //                    break;
 //
 //                case MOVE_HORIZONTAL_TO_COLLECT:
@@ -196,9 +194,7 @@ public class FSM extends OpMode {
 
         }
 
-        telemetry.addData("Robot.horizontalLift.motor.getCurrentPosition()", Robot.horizontalLift.motor.getCurrentPosition());
-
-        Robot.drivetrain.executeTeleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
         // maybe: right here, if the horizontal lift isn't at the 0 (transfer) position, give it 0.01 power, so that gravity doesn't pull it down
 

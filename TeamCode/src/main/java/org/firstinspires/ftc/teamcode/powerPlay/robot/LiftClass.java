@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
+@TeleOp(name = "Lift Class")
+@Disabled
 public class LiftClass extends LinearOpMode {
 
     public DcMotor motor;
@@ -45,6 +49,7 @@ public class LiftClass extends LinearOpMode {
     // autonomous
 
     public void autonomousRunToPosition(String position) {
+        telemetry.addData(NAME + " autonomousRunToPosition", "");
         runToPosition(position);
         while (motor.isBusy() && opModeIsActive()) {}
         motor.setPower(0);
@@ -52,6 +57,7 @@ public class LiftClass extends LinearOpMode {
     }
 
     public void runToPosition(String position) {
+        telemetry.addData(NAME + " runToPosition", "");
         for (int i = 0; i < PRESET_POSITIONS.length; i++) {
             if (position == PRESET_POSITION_NAMES[i]) {
                 run(PRESET_POSITIONS[i]);
@@ -63,6 +69,8 @@ public class LiftClass extends LinearOpMode {
     // teleOp
 
     public void teleOpAssistMode(boolean[] buttons) {
+
+        telemetry.addData(NAME + " teleOpAssistMode", "");
 
         for (int i = 0; i < PRESET_POSITIONS.length; i++) {
             if (buttons[i]) {
@@ -80,6 +88,8 @@ public class LiftClass extends LinearOpMode {
     }
 
     public void teleOpManualMode(double joystick) {
+
+        telemetry.addData(NAME + " teleOpManualMode", "");
 
         if (!liftIsMoving) {
 

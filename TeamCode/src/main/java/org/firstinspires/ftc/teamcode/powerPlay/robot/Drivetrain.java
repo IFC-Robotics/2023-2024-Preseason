@@ -1,12 +1,16 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
 import java.lang.Math;
 
+@TeleOp(name = "Drivetrain")
+@Disabled
 public class Drivetrain extends LinearOpMode {
 
     public static DcMotor motorFrontRight;
@@ -55,6 +59,8 @@ public class Drivetrain extends LinearOpMode {
 
     public void drive(double distance) {
 
+        telemetry.addData("drive", "");
+
         int target = (int)(distance * COUNTS_PER_INCH);
         double power = Math.signum(distance) * AUTONOMOUS_SPEED;
 
@@ -67,6 +73,8 @@ public class Drivetrain extends LinearOpMode {
 
     public void strafe(double distance) {
 
+        telemetry.addData("strafe", "");
+
         int target = (int)(distance * COUNTS_PER_INCH);
         double power = Math.signum(distance) * AUTONOMOUS_SPEED;
 
@@ -78,6 +86,8 @@ public class Drivetrain extends LinearOpMode {
     }
 
     public void turn(double angle) { // to test
+
+        telemetry.addData("turn", "");
 
         double WHEEL_RADIUS = 2.0;
         double circumference = 2 * Math.PI * WHEEL_RADIUS;
@@ -129,7 +139,9 @@ public class Drivetrain extends LinearOpMode {
 
     }
 
-    public void executeTeleOp(double drive, double strafe, double turn) {
+    public void teleOp(double drive, double strafe, double turn) {
+
+        telemetry.addData("teleOp", "");
 
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
 

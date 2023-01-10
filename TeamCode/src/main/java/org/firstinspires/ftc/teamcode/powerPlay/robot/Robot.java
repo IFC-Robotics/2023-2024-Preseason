@@ -1,10 +1,14 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import java.lang.Math;
 
+@TeleOp(name = "Robot")
+@Disabled
 public class Robot extends LinearOpMode {
 
     // conversions
