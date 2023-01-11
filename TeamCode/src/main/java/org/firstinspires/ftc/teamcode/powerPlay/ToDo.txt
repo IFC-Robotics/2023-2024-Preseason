@@ -2,7 +2,12 @@
 
 To Do Tuesday 1/10 (in order):
 
-Programming - test telemetry
+Programming - finish the teleOp/robotClass that don't use the subsystems (mini-classes)
+                - move servo code to NoSubsystemRobotClass.java
+                - move lift code to NoSubsystemRobotClass.java
+                - update NoSubsystemTeleOp.java
+                - make new autonomous
+            - test telemetry
             - test autonomous driving (using telemetry)
                 - try testing just one wheel
             - test initial movement to FSM position
