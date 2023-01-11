@@ -43,10 +43,10 @@ public class NoSubsystemTeleOp extends OpMode {
         strafe = gamepad1.left_stick_x;
         turn = gamepad1.right_stick_x;
 
-        frontRightSpeed = Range.clip(drive - turn - strafe, -robot.MAX_DRIVE_SPEED, robot.MAX_DRIVE_SPEED);
-        frontLeftSpeed = Range.clip(drive + turn + strafe, -robot.MAX_DRIVE_SPEED, robot.MAX_DRIVE_SPEED);
-        backRightSpeed = Range.clip(drive - turn + strafe, -robot.MAX_DRIVE_SPEED, robot.MAX_DRIVE_SPEED);
-        backLeftSpeed = Range.clip(drive + turn - strafe, -robot.MAX_DRIVE_SPEED, robot.MAX_DRIVE_SPEED);
+        frontRightSpeed = Range.clip(drive - turn - strafe, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
+        frontLeftSpeed = Range.clip(drive + turn + strafe, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
+        backRightSpeed = Range.clip(drive - turn + strafe, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
+        backLeftSpeed = Range.clip(drive + turn - strafe, -robot.MAX_TELEOP_DRIVE_SPEED, robot.MAX_TELEOP_DRIVE_SPEED);
 
         robot.motorFrontRight.setPower(frontRightSpeed);
         robot.motorFrontLeft.setPower(frontLeftSpeed);

@@ -20,12 +20,6 @@ public class TestDriving extends LinearOpMode {
 
         waitForStart();
 
-        telemetry.addData("frontRightWheelDrive", "");
-        telemetry.update();
-
-        Robot.drivetrain.frontRightWheelDrive(12.0);
-        sleep(1000);
-
         telemetry.addData("drive", "");
         telemetry.update();
 

@@ -1,36 +1,27 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 import java.lang.Math;
 
-@TeleOp(name = "Drivetrain")
-@Disabled
-public class Drivetrain extends LinearOpMode {
+public class BPArobot extends LinearOpMode {
 
-    public static DcMotor motorFrontRight;
-    public static DcMotor motorFrontLeft;
-    public static DcMotor motorBackRight;
-    public static DcMotor motorBackLeft;
+    DcMotor motorFrontRight;
+    DcMotor motorFrontLeft;
+    DcMotor motorBackRight;
+    DcMotor motorBackLeft;
 
-    public static double AUTONOMOUS_SPEED = 0.3;
-    public static double AUTONOMOUS_TURN_SPEED = 0.3;
-    public static double MAX_TELEOP_SPEED = 0.7;
-    public static int COUNTS_PER_INCH;
-
-    public Drivetrain() {}
+    public BPArobot() {}
 
     @Override
     public void runOpMode() {}
 
-    public void init(HardwareMap hardwareMap, int countsPerInch) {
+    public void init(HardwareMap hardwareMap) {
 
-        COUNTS_PER_INCH = countsPerInch;
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
 
         motorFrontRight = hardwareMap.get(DcMotor.class, "motor_front_right");
         motorFrontLeft  = hardwareMap.get(DcMotor.class, "motor_front_left");
@@ -42,8 +33,8 @@ public class Drivetrain extends LinearOpMode {
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -57,46 +48,22 @@ public class Drivetrain extends LinearOpMode {
 
     }
 
-    public void drive(double distance) {
+    public void strafe(double inches) {
 
-        telemetry.addData("drive distance", distance);
+        final int DC_MOTOR_COUNTS_PER_REV = 28;
+        final int DC_MOTOR_GEAR_RATIO     = 20;
+        final int DC_MOTOR_COUNTS         = (int)((DC_MOTOR_COUNTS_PER_REV * DC_MOTOR_GEAR_RATIO) / Math.PI);
+        final int DRIVETRAIN_WHEEL_DIAMETER  = 4;
+        final int DRIVETRAIN_COUNTS_PER_INCH = DC_MOTOR_COUNTS / DRIVETRAIN_WHEEL_DIAMETER;
 
-        int target = (int)(distance * COUNTS_PER_INCH);
-        double power = Math.signum(distance) * AUTONOMOUS_SPEED;
-
-        moveDrivetrain(target, target, target, target, power, power, power, power);
-
-    }
-
-    public void strafe(double distance) {
-
-        telemetry.addData("strafe distance", distance);
-
-        int target = (int)(distance * COUNTS_PER_INCH);
-        double power = Math.signum(distance) * AUTONOMOUS_SPEED;
+        int target = (int) (inches * DRIVETRAIN_COUNTS_PER_INCH);
+        double power = Math.signum(inches) * 0.3;
 
         moveDrivetrain(-target, target, target, -target, -power, power, power, -power);
 
     }
 
-    public void turn(double angle) { // to test
-
-        telemetry.addData("turn angle", angle);
-
-        double WHEEL_RADIUS = 2.0;
-        double circumference = 2 * Math.PI * WHEEL_RADIUS;
-        double distance = circumference * angle / 360;
-
-        int target = (int)(distance * COUNTS_PER_INCH);
-        double power = Math.signum(angle) * AUTONOMOUS_TURN_SPEED;
-
-        moveDrivetrain(target, -target, target, -target, -power, power, -power, power);
-
-    }
-
     public void moveDrivetrain(int targetFrontRight, int targetFrontLeft, int targetBackRight, int targetBackLeft, double powerFrontRight, double powerFrontLeft, double powerBackRight, double powerBackLeft) {
-
-        telemetry.addData("moveDrivetrain", "");
 
         motorFrontRight.setTargetPosition(targetFrontRight);
         motorFrontLeft.setTargetPosition(targetFrontLeft);
@@ -129,24 +96,6 @@ public class Drivetrain extends LinearOpMode {
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-    }
-
-    public void teleOp(double drive, double strafe, double turn) {
-
-        telemetry.addData("teleOp", "");
-
-        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
-
-        double frontRightPower = Range.clip((drive - turn - strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double frontLeftPower  = Range.clip((drive + turn + strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double backRightPower  = Range.clip((drive - turn + strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double backLeftPower   = Range.clip((drive + turn - strafe) / denominator, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-
-        motorFrontRight.setPower(frontRightPower);
-        motorFrontLeft.setPower(frontLeftPower);
-        motorBackRight.setPower(backRightPower);
-        motorBackLeft.setPower(backLeftPower);
 
     }
 
