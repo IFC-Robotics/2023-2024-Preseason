@@ -1,21 +1,27 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode.autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="BPAv2", group = "PowerPlay")
-public class BPAv2 extends LinearOpMode {
+@Autonomous(name="AutoNoRobotClass")
+@Disabled
+public class AutoNoRobotClass extends LinearOpMode {
 
     DcMotor motorFrontRight;
     DcMotor motorFrontLeft;
     DcMotor motorBackRight;
     DcMotor motorBackLeft;
 
-    public void runOpMode () {
+    public void runOpMode() {
+        init(hardwareMap);
+        waitForStart();
+        drive();
+    }
 
-        telemetry.addData("Status", "Initialized");
-        telemetry.update();
+    public void init(HardwareMap hardwareMap) {
 
         motorFrontRight = hardwareMap.get(DcMotor.class, "motor_front_right");
         motorFrontLeft  = hardwareMap.get(DcMotor.class, "motor_front_left");
@@ -24,11 +30,6 @@ public class BPAv2 extends LinearOpMode {
 
         motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -40,43 +41,27 @@ public class BPAv2 extends LinearOpMode {
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        waitForStart();
-
-        strafe(10.0);
-
     }
 
-    public void strafe(double inches) {
+    public void drive() {
 
-        final int DC_MOTOR_COUNTS_PER_REV = 28;
-        final int DC_MOTOR_GEAR_RATIO     = 20;
-        final int DC_MOTOR_COUNTS         = (int)((DC_MOTOR_COUNTS_PER_REV * DC_MOTOR_GEAR_RATIO) / Math.PI);
-        final int DRIVETRAIN_WHEEL_DIAMETER  = 4;
-        final int DRIVETRAIN_COUNTS_PER_INCH = DC_MOTOR_COUNTS / DRIVETRAIN_WHEEL_DIAMETER;
+        int target = 500;
+        double power = 0.3;
 
-        int target = (int) (inches * DRIVETRAIN_COUNTS_PER_INCH);
-        double power = Math.signum(inches) * 0.3;
-
-        moveDriveTrain(-target, target, target, -target, -power, power, power, -power);
-
-    }
-
-    public void moveDriveTrain(int frontRightTarget, int frontLeftTarget, int backRightTarget, int backLeftTarget, double frontRightSpeed, double frontLeftSpeed, double backRightSpeed, double backLeftSpeed) {
-
-        motorFrontRight.setTargetPosition(frontRightTarget);
-        motorFrontLeft.setTargetPosition(frontLeftTarget);
-        motorBackRight.setTargetPosition(backRightTarget);
-        motorBackLeft.setTargetPosition(backLeftTarget);
+        motorFrontRight.setTargetPosition(target);
+        motorFrontLeft.setTargetPosition(target);
+        motorBackRight.setTargetPosition(target);
+        motorBackLeft.setTargetPosition(target);
 
         motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorFrontRight.setPower(frontRightSpeed);
-        motorFrontLeft.setPower(frontLeftSpeed);
-        motorBackRight.setPower(backRightSpeed);
-        motorBackLeft.setPower(backLeftSpeed);
+        motorFrontRight.setPower(power);
+        motorFrontLeft.setPower(power);
+        motorBackRight.setPower(power);
+        motorBackLeft.setPower(power);
 
         while (motorBackRight.isBusy() && opModeIsActive()) {}
 

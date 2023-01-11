@@ -10,11 +10,14 @@ public class TestServoClass extends LinearOpMode {
 
     public void runOpMode() {
 
-        telemetry.addData("Status", "Initialized");
+        telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(hardwareMap);
+        Robot.init(hardwareMap, telemetry);
         waitForStart();
+
+        telemetry.addLine("Executing opMode...");
+        telemetry.update();
 
         Robot.servoClaw.runToPosition("open");
         sleep(2000);

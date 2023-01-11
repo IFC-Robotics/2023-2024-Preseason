@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
-import org.firstinspires.ftc.teamcode.powerPlay.robot.ServoClass;
 
 @TeleOp(name="FSM teleOp")
 public class FSM extends OpMode {
@@ -25,18 +24,27 @@ public class FSM extends OpMode {
 
     RobotState state = RobotState.START;
     ElapsedTime timer = new ElapsedTime();
-//    String randomization = Robot.side + " " + Robot.tag;
-    String randomization = "";
+    String randomization = Robot.side + " " + Robot.tag;
 
     @Override
     public void init() {
-        Robot.init(hardwareMap);
+
+        telemetry.addLine("Initializing opMode...");
+        telemetry.update();
+
+        Robot.init(hardwareMap, telemetry);
+
     }
 
     @Override
     public void start() {
+
 //        Robot.reset();
         timer.reset();
+
+        telemetry.addLine("Executing opMode...");
+        telemetry.update();
+
     }
 
     @Override
@@ -52,32 +60,33 @@ public class FSM extends OpMode {
         if (gamepad2.guide) Robot.mode = "assist";
         if (gamepad2.start) Robot.mode = "manual";
 
-        telemetry.addData("mode", Robot.mode);
+        telemetry.addData("Robot mode", Robot.mode);
 
         // Finite State Machine mode
 
         if (Robot.mode == "FSM") {
 
-            // strafe to FSM position
+            // driving to FSM position
 
-            if (gamepad2.right_bumper) {
+            if (gamepad1.right_bumper) {
+
+                telemetry.addLine("driving to FSM position");
+                telemetry.addData("randomization", randomization);
 
                 Robot.drivetrain.drive(24);
 
-                switch (randomization) {
-                    case "left 1":  Robot.drivetrain.strafe(60);
-                    case "left 2":  Robot.drivetrain.strafe(36);
-                    case "left 3":  Robot.drivetrain.strafe(12);
-                    case "right 1": Robot.drivetrain.strafe(-12);
-                    case "right 2": Robot.drivetrain.strafe(-36);
-                    case "right 3": Robot.drivetrain.strafe(-60);
-                }
+                if(randomization == "left 1")  Robot.drivetrain.strafe(60);
+                if(randomization == "left 2")  Robot.drivetrain.strafe(36);
+                if(randomization == "left 3")  Robot.drivetrain.strafe(12);
+                if(randomization == "right 1") Robot.drivetrain.strafe(-12);
+                if(randomization == "right 2") Robot.drivetrain.strafe(-36);
+                if(randomization == "right 3") Robot.drivetrain.strafe(-60);
 
             }
 
             // FSM
 
-            telemetry.addData("state", state);
+            telemetry.addLine(String.format("current FSM state: %s", state));
 
 //            switch (state) {
 //
@@ -199,10 +208,6 @@ public class FSM extends OpMode {
         // maybe: right here, if the horizontal lift isn't at the 0 (transfer) position, give it 0.01 power, so that gravity doesn't pull it down
 
     }
-
-//    public void printServoPosition(ServoClass servoClass) {
-//        telemetry.addData(String.format("%s position", servoClass.NAME), servoClass.servoPosition);
-//    }
 
 }
 

@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+
+import static java.lang.Thread.sleep;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.lang.Math;
 
-public class Robot extends LinearOpMode {
+public class Robot {
 
     // conversions
 
@@ -53,6 +56,7 @@ public class Robot extends LinearOpMode {
 
     // other variables
 
+    public static Telemetry telemetry;
     public static String side = "";
     public static String mode = "assist";
 
@@ -60,15 +64,14 @@ public class Robot extends LinearOpMode {
 
     public Robot() {}
 
-    @Override
-    public void runOpMode() {}
+    public static void init(HardwareMap hardwareMap, Telemetry telemetryParameter) {
 
-    public static void init(HardwareMap hardwareMap) {
+        telemetry = telemetryParameter;
 
         // drivetrain
 
         drivetrain = new Drivetrain();
-        drivetrain.init(hardwareMap, DRIVETRAIN_COUNTS_PER_INCH);
+        drivetrain.init(hardwareMap, telemetry, DRIVETRAIN_COUNTS_PER_INCH);
 
         // servos
 
@@ -77,27 +80,30 @@ public class Robot extends LinearOpMode {
         servoHook = new ServoClass();
         servoRotateHook = new ServoClass();
 
-        servoClaw.init(hardwareMap, "servo_claw", 0.0, 0.2, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateClaw.init(hardwareMap, "servo_rotate_claw", 0.0, 0.3, SERVO_SPEED, SERVO_TIME, true);
-        servoHook.init(hardwareMap, "servo_hook", 0.0, 1, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateHook.init(hardwareMap, "servo_rotate_hook", 0.0, 1, SERVO_SPEED, SERVO_TIME, false);
+        servoClaw.init(hardwareMap, telemetry, "servo_claw", 0.0, 0.2, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateClaw.init(hardwareMap, telemetry, "servo_rotate_claw", 0.0, 0.3, SERVO_SPEED, SERVO_TIME, true);
+        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.0, 1, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateHook.init(hardwareMap, telemetry, "servo_rotate_hook", 0.0, 1, SERVO_SPEED, SERVO_TIME, false);
 
         // lifts
 
         horizontalLift = new LiftClass();
 //        verticalLift = new LiftClass();
 
-        horizontalLift.init(hardwareMap, "motor_horizontal_lift", 0, 1000, MAX_LIFT_SPEED, false, LIFT_COUNTS_PER_INCH, horizontalLiftPresetPositionNames, horizontalLiftPresetPositions);
+        horizontalLift.init(hardwareMap, telemetry, "motor_horizontal_lift", 0, 1000, MAX_LIFT_SPEED, false, LIFT_COUNTS_PER_INCH, horizontalLiftPresetPositionNames, horizontalLiftPresetPositions);
 //        verticalLift.init(hardwareMap, "motor_vertical_lift", 0, 3300, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, verticalLiftPresetPositionNames, verticalLiftPresetPositions);
 
         // camera
 
         camera = new Camera();
-        camera.init(hardwareMap);
+        camera.init(hardwareMap, telemetry);
 
     }
 
     public static void reset() {
+
+        telemetry.addLine("resetting the robot's servos and lift");
+        telemetry.update();
 
         servoClaw.runToPosition("open");
         servoRotateClaw.runToPosition("up");

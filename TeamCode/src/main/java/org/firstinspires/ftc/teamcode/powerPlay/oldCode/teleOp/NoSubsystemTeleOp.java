@@ -1,14 +1,14 @@
-package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robot.NoSubsystemRobotClass;
+import org.firstinspires.ftc.teamcode.powerPlay.oldCode.robot.NoSubsystemRobotClass;
 
 @TeleOp(name="No Subsystem TeleOp")
+@Disabled
 public class NoSubsystemTeleOp extends OpMode {
 
     // drivetrain variables

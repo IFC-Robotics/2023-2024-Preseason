@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import static java.lang.Thread.sleep;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.openftc.apriltag.AprilTagDetection;
 import org.openftc.easyopencv.OpenCvCamera;
@@ -13,9 +13,9 @@ import org.openftc.easyopencv.OpenCvCameraRotation;
 
 import java.util.ArrayList;
 
-@TeleOp(name = "Camera")
-@Disabled
-public class Camera extends LinearOpMode {
+public class Camera {
+
+    Telemetry telemetry;
 
     static int cameraMonitorViewId;
     public static OpenCvCamera camera;
@@ -36,10 +36,7 @@ public class Camera extends LinearOpMode {
 
     public Camera() {}
 
-    @Override
-    public void runOpMode() {}
-
-    public void init(HardwareMap hardwareMap) {
+    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter) {
 
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -53,38 +50,51 @@ public class Camera extends LinearOpMode {
             public void onError(int errorCode) {}
         });
 
+        telemetry = telemetryParameter;
         telemetry.setMsTransmissionInterval(50);
 
     }
 
     public int getTag() {
 
-        telemetry.addData("getTag", "");
+        try {
 
-        while (!isStarted() && !isStopRequested()) {
+            int numAttempts = 500;
+            telemetry.addData("numAttempts", numAttempts);
 
-            telemetry.addData("searching for tag...", "");
+            for (int i = 0; i < numAttempts; i++) {
 
-            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+                ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
-            for(AprilTagDetection tag : currentDetections) {
-                if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
-                    tagOfInterest = tag;
-                    break;
+                for(AprilTagDetection tag : currentDetections) {
+                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                        tagOfInterest = tag;
+                        telemetry.addData("numAttemptsNeeded", i);
+                        i = numAttempts;
+                        break;
+                    }
                 }
+
+                sleep(20);
+
             }
 
-            sleep(20);
+            if(tagOfInterest != null) {
+                telemetry.addData("Tag ID", tagOfInterest.id);
+                telemetry.update();
+                return tagOfInterest.id;
+            } else {
+                telemetry.addLine("\nNo tag available");
+                telemetry.update();
+                return 0;
+            }
 
+        } catch (InterruptedException e) {
+            telemetry.addData("Error w/ getting April Tag", e.getLocalizedMessage());
+            telemetry.update();
         }
 
-        if(tagOfInterest != null) {
-            telemetry.addData("Tag ID", tagOfInterest.id);
-            return tagOfInterest.id;
-        } else {
-            telemetry.addData("No tag available", "");
-            return 0;
-        }
+        return 0;
 
     }
 

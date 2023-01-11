@@ -10,31 +10,20 @@ public class TestDriving extends LinearOpMode {
 
     public void runOpMode() {
 
-        telemetry.addData("Status", "Initialized");
+        telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(hardwareMap);
-
-        telemetry.addData("initialized, waiting for start", "");
-        telemetry.update();
+        Robot.init(hardwareMap, telemetry);
 
         waitForStart();
 
-        telemetry.addData("drive", "");
+        telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        Robot.drivetrain.drive(12.0);
+        Robot.drivetrain.drive(6.0);
         sleep(1000);
-
-        telemetry.addData("strafe", "");
-        telemetry.update();
-
-        Robot.drivetrain.strafe(12.0);
+        Robot.drivetrain.strafe(6.0);
         sleep(1000);
-
-        telemetry.addData("turn", "");
-        telemetry.update();
-
         Robot.drivetrain.turn(90.0);
 
     }

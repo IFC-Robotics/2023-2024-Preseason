@@ -1,24 +1,19 @@
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
-To Do Tuesday 1/10 (in order):
+To Do ASAP (in order):
 
-Programming - finish the teleOp/robotClass that don't use the subsystems (mini-classes)
-                - move servo code to NoSubsystemRobotClass.java
-                - move lift code to NoSubsystemRobotClass.java
-                - update NoSubsystemTeleOp.java
-                - make new autonomous
-            - test telemetry
-            - test autonomous driving (using telemetry)
-                - try testing just one wheel
-            - test initial movement to FSM position
-            - test camera (using telemetry + signal sleeves)
+Programming - make servo_rotate_hook regular (right now it's continuous)
+            - plug in servos
+            - run TestServoClass.java
 
-Fabricating - fix horizontal lift
-                - re-spool it
-                - make it smoother
+            - fix issue w/ servos
+                - one issue happens during initialization, and there may be more issues
+                - see servos in FSM.java in assist mode to recreate issues
+
+Fabricating - fix horizontal lift (front right wheel gets in the way, so it doesn't rlly work rn)
             - attach claw to robot
             - plug in horizontal lift servos w/ extension cables
-``
+
 Programming - test horizontal lift auton
             - test horizontal lift teleOpAssistMode
             - test horizontal lift teleOpManualMode
@@ -30,7 +25,7 @@ Programming - test horizontal lift auton
                     - without a cone
                     - with a cone
 
-Fabricating - fix vertical lift (not enough space to plug in)
+Fabricating - fix vertical lift
             - plug in vertical lift servos w/ extension cables
 
 Programming - uncomment vertical lift code
@@ -44,16 +39,19 @@ Programming - uncomment vertical lift code
                 - make sure servo turns to the desired positions
                 - make sure cone doesn't fall out
 
---------------------------------------------------------------------- Other ---------------------------------------------------------------------
+            - test entire scoring system together in teleOp
+                - slowly, see if it works
+                - proof that our robot will actually work
+            - test rightHighAuton.java
+                - make a copy for the left side (reverse the direction of strafing, turning, and Robot.side)
+            - test FSM
+            - confirm that the current controls are good (for Charlie & Nathan)
 
-Once everything above is done:
-    - test everything together in teleOp (claw -> rotate claw -> horizontal lift -> hook -> rotate hook -> vertical lift -> score)
-        - slowly, see if it works
-        - proof that our robot will actually work
-    - test rightHighAuton.java
-        - if it works, make a copy for the left side (see comments - just reverse the direction of all of the strafing and turning. Also don't forget to update Robot.side!)
-    - test FSM
-    - confirm that the current controls are good
+            - add edge case for no apriltag detection
+                - if Robot.tag == 0, then go to the closest zone to the middle (i.e. 3 of the left side and 1 for the right side)
+            - find out why AprilTags sometimes doesn't work
+
+--------------------------------------------------------------------- Other ---------------------------------------------------------------------
 
 Outreach:
     - (mandatory) create opponent assessment template. See google doc for details.
@@ -61,11 +59,6 @@ Outreach:
     - (optional) add notes & photos from winter break to google drive. Ask Violet (or make her do this task)
     - (optional) Put together an instagram/twitter post about meet 1. I'll review it Wednesday morning and we can post it.
     - (optional) Put together an instagram/twitter post about out work over winter break. I'll review it Wednesday morning and we can post it.
-
-Other:
-    - fix issue w/ servos
-        - one issue happens during initialization, and there may be more issues
-        - see servos in FSM.java in assist mode to recreate issues
 
 - if necessary, add "Warning: Robot Moves On Initialization" sticker
     - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf

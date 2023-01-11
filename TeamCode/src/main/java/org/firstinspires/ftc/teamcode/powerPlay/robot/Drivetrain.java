@@ -1,17 +1,18 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.util.Range;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.lang.Math;
 
-@TeleOp(name = "Drivetrain")
-@Disabled
-public class Drivetrain extends LinearOpMode {
+public class Drivetrain {
+
+    Telemetry telemetry;
 
     public static DcMotor motorFrontRight;
     public static DcMotor motorFrontLeft;
@@ -25,10 +26,7 @@ public class Drivetrain extends LinearOpMode {
 
     public Drivetrain() {}
 
-    @Override
-    public void runOpMode() {}
-
-    public void init(HardwareMap hardwareMap, int countsPerInch) {
+    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, int countsPerInch) {
 
         COUNTS_PER_INCH = countsPerInch;
 
@@ -55,11 +53,14 @@ public class Drivetrain extends LinearOpMode {
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        telemetry = telemetryParameter;
+
     }
 
     public void drive(double distance) {
 
-        telemetry.addData("drive distance", distance);
+        telemetry.addLine(String.format("\ndriving %s inches", distance));
+        telemetry.update();
 
         int target = (int)(distance * COUNTS_PER_INCH);
         double power = Math.signum(distance) * AUTONOMOUS_SPEED;
@@ -70,7 +71,8 @@ public class Drivetrain extends LinearOpMode {
 
     public void strafe(double distance) {
 
-        telemetry.addData("strafe distance", distance);
+        telemetry.addLine(String.format("\nstrafing %s inches", distance));
+        telemetry.update();
 
         int target = (int)(distance * COUNTS_PER_INCH);
         double power = Math.signum(distance) * AUTONOMOUS_SPEED;
@@ -79,12 +81,13 @@ public class Drivetrain extends LinearOpMode {
 
     }
 
-    public void turn(double angle) { // to test
+    public void turn(double angle) {
 
-        telemetry.addData("turn angle", angle);
+        telemetry.addLine(String.format("\nturning %s degrees", angle));
+        telemetry.update();
 
-        double WHEEL_RADIUS = 2.0;
-        double circumference = 2 * Math.PI * WHEEL_RADIUS;
+        double factor = 12.9; // no meaning, just what makes the turns work
+        double circumference = 2 * Math.PI * factor;
         double distance = circumference * angle / 360;
 
         int target = (int)(distance * COUNTS_PER_INCH);
@@ -95,8 +98,6 @@ public class Drivetrain extends LinearOpMode {
     }
 
     public void moveDrivetrain(int targetFrontRight, int targetFrontLeft, int targetBackRight, int targetBackLeft, double powerFrontRight, double powerFrontLeft, double powerBackRight, double powerBackLeft) {
-
-        telemetry.addData("moveDrivetrain", "");
 
         motorFrontRight.setTargetPosition(targetFrontRight);
         motorFrontLeft.setTargetPosition(targetFrontLeft);
@@ -113,7 +114,7 @@ public class Drivetrain extends LinearOpMode {
         motorBackRight.setPower(powerBackRight);
         motorBackLeft.setPower(powerBackLeft);
 
-        while (motorBackLeft.isBusy() && opModeIsActive()) {}
+        while (motorBackLeft.isBusy()) {}
 
         motorFrontRight.setPower(0);
         motorFrontLeft.setPower(0);
@@ -133,8 +134,6 @@ public class Drivetrain extends LinearOpMode {
     }
 
     public void teleOp(double drive, double strafe, double turn) {
-
-        telemetry.addData("teleOp", "");
 
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
 

@@ -11,10 +11,11 @@ public class rightHighAuton extends OpMode {
     @Override
     public void init() {
 
-        telemetry.addData("Status", "Initialized");
+        telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(hardwareMap);
+        Robot.init(hardwareMap, telemetry);
+
         Robot.tag = Robot.camera.getTag();
         Robot.side = "right";
 
@@ -26,6 +27,11 @@ public class rightHighAuton extends OpMode {
 
     @Override
     public void start() {
+
+        telemetry.addLine("Executing opMode...");
+        telemetry.addData("AprilTag", Robot.tag);
+        telemetry.addData("Side", Robot.side);
+        telemetry.update();
 
         // secure preloaded cone
 

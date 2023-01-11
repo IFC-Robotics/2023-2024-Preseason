@@ -1,15 +1,16 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name = "Lift Class")
-@Disabled
-public class LiftClass extends LinearOpMode {
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+
+public class LiftClass {
+
+    Telemetry telemetry;
 
     public DcMotor motor;
     public boolean liftIsMoving = false;
@@ -24,10 +25,7 @@ public class LiftClass extends LinearOpMode {
 
     public LiftClass() {}
 
-    @Override
-    public void runOpMode() {}
-
-    public void init(HardwareMap hardwareMap, String name, int minPosition, int maxPosition, double maxSpeed, boolean reverseDirection, int countsPerInch, String[] presetPositionNames, double[] presetPositions) {
+    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, String name, int minPosition, int maxPosition, double maxSpeed, boolean reverseDirection, int countsPerInch, String[] presetPositionNames, double[] presetPositions) {
 
         NAME = name;
         MIN_POSITION = minPosition;
@@ -44,20 +42,27 @@ public class LiftClass extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        telemetry = telemetryParameter;
+
     }
 
     // autonomous
 
     public void autonomousRunToPosition(String position) {
-        telemetry.addData(NAME + " autonomousRunToPosition", "");
+
         runToPosition(position);
-        while (motor.isBusy() && opModeIsActive()) {}
+
+        while (motor.isBusy()) {
+            telemetry.addLine(String.format("%1$s is at position %2$s", NAME, motor.getCurrentPosition()));
+        }
+
         motor.setPower(0);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
     public void runToPosition(String position) {
-        telemetry.addData(NAME + " runToPosition", "");
+        telemetry.addLine(String.format("running %1$s to position %2$s", NAME, position));
         for (int i = 0; i < PRESET_POSITIONS.length; i++) {
             if (position == PRESET_POSITION_NAMES[i]) {
                 run(PRESET_POSITIONS[i]);
@@ -69,8 +74,6 @@ public class LiftClass extends LinearOpMode {
     // teleOp
 
     public void teleOpAssistMode(boolean[] buttons) {
-
-        telemetry.addData(NAME + " teleOpAssistMode", "");
 
         for (int i = 0; i < PRESET_POSITIONS.length; i++) {
             if (buttons[i]) {
@@ -88,8 +91,6 @@ public class LiftClass extends LinearOpMode {
     }
 
     public void teleOpManualMode(double joystick) {
-
-        telemetry.addData(NAME + " teleOpManualMode", "");
 
         if (!liftIsMoving) {
 
