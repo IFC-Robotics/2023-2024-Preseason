@@ -54,6 +54,7 @@ public class LiftClass {
 
         while (motor.isBusy()) {
             telemetry.addLine(String.format("%1$s is at position %2$s", NAME, motor.getCurrentPosition()));
+            telemetry.update();
         }
 
         motor.setPower(0);
@@ -105,6 +106,12 @@ public class LiftClass {
 
         }
 
+    }
+
+    public void teleOpNoEncoderLimits(double joystick) {
+        if (!liftIsMoving) {
+            motor.setPower(Range.clip(joystick, -MAX_SPEED, MAX_SPEED));
+        }
     }
 
     // helper methods

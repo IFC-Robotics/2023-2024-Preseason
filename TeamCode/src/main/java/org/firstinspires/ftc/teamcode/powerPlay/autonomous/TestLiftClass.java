@@ -19,16 +19,16 @@ public class TestLiftClass extends LinearOpMode {
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        Robot.horizontalLift.autonomousRunToPosition("collect");
+//        Robot.horizontalLift.autonomousRunToPosition("collect");
+//        sleep(1000);
+
+        Robot.verticalLift.autonomousRunToPosition("high");
         sleep(1000);
 
-//        Robot.verticalLift.autonomousRunToPosition("high");
-//        sleep(1000);
+        Robot.verticalLift.autonomousRunToPosition("transfer");
+        sleep(1000);
 
-//        Robot.verticalLift.autonomousRunToPosition("transfer");
-//        sleep(1000);
-
-        Robot.horizontalLift.autonomousRunToPosition("transfer");
+//        Robot.horizontalLift.autonomousRunToPosition("transfer");
 
     }
 

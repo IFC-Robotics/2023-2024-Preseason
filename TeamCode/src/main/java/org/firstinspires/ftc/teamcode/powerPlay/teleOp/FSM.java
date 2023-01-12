@@ -185,10 +185,10 @@ public class FSM extends OpMode {
             Robot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
 
             boolean[] horizontalLiftButtons = { gamepad2.left_bumper, gamepad2.right_bumper };
-//            boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
+            boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
 
             Robot.horizontalLift.teleOpAssistMode(horizontalLiftButtons);
-//            Robot.verticalLift.teleOpAssistMode(verticalLiftButtons);
+            Robot.verticalLift.teleOpAssistMode(verticalLiftButtons);
 
         } else if (Robot.mode == "manual") { // manual mode
 
@@ -199,13 +199,11 @@ public class FSM extends OpMode {
             Robot.servoRotateHook.teleOpManualMode(gamepad2.x, gamepad2.b);
 
             Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y);
-//            Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
+            Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
 
         }
 
         Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
-
-        // maybe: right here, if the horizontal lift isn't at the 0 (transfer) position, give it 0.01 power, so that gravity doesn't pull it down
 
     }
 
