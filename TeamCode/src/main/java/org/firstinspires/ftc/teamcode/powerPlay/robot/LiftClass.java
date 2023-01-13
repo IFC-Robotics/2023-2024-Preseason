@@ -54,7 +54,7 @@ public class LiftClass {
 
     // autonomous
 
-    public void autonomousRunToPosition(String position) {
+    public void runToPosition(String position) {
 
         if (NAME == "motor_horizontal_lift") {
 
@@ -70,6 +70,12 @@ public class LiftClass {
             if(position == "high")     run(verticalLiftPosition5);
 
         }
+
+    }
+
+    public void autonomousRunToPosition(String position) {
+
+        runToPosition(position);
 
         while (motor.isBusy()) {
             telemetry.addLine(String.format("%1$s is at position %2$s", NAME, motor.getCurrentPosition()));

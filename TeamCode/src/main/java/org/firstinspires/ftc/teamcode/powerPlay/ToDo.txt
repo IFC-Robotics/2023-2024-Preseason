@@ -1,43 +1,35 @@
 Servos
 
-    - make servo_rotate_hook regular (right now it's continuous)
-    - plug in servos
-    - run TestServoClass.java
-
-    - fix issue w/ servos
-        - one issue happens during initialization, and there may be more issues
-        - see servos in FSM.java in assist mode to recreate issues
-        - if necessary, add "Warning: Robot Moves On Initialization" sticker
-            - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf
+    - (fabrication) switch rotate_claw servo from the current one to the one in the programming bag (w/ straight orange thing)
+    - (fabrication) switch claw servo from the current one to the one in the programming bag (w/ circular orange thing)
+    - (fabrication) fix horizontal lift (see back right corner)
 
     - test servo_claw
-        - make sure servo opens/closes
-        - make sure servo actually grabs cone
+        - make sure claw actually grabs cone
     - test servo_rotate_claw
-        - make sure servo turns to the desired positions
+        - might be broken, make sure it works
+        - make limits correspond with code (isn't working rn)
         - make sure servo can lift/lower the claw
             - without a cone
             - with a cone
-
-    - test servo_hook
-        - make sure servo extends/retracts
-        - make sure servo actually grabs cone
     - test servo_rotate_hook
-        - make sure servo turns to the desired positions
-        - make sure servo doesn't drop the cone
+        - make limits correspond with code (isn't working rn)
 
 Distances
 
+    - test the starting and ending positions for servo_claw, servo_rotate_claw, and servo_rotate_hook
     - test all 5 vertical lift distances
     - test both horizontal lift distances
     - make sure both rightHighAuton.java and leftHighAuton.java work consistently
 
 FSM
 
-    - test entire scoring system together in teleOp
-        - slowly, see if it works
-        - proof that our robot will actually work
     - test FSM
+        - uncomment horizontal lift code when it gets fixed (fabrication)
+        - fix issue w/ servos
+        - uncomment servo_rotate_hook code when it gets fixed (run programs above)
+    - test entire scoring system together in teleOp
+        - proof that our robot will actually work
 
 Other
 
@@ -45,8 +37,11 @@ Other
     - find out why AprilTags sometimes doesn't work
     - add edge case for no apriltag detection
         - if Robot.tag == 0, then go to the closest zone to the middle (i.e. 3 of the left side and 1 for the right side)
+    - if necessary, add "Warning: Robot Moves On Initialization" sticker
+        - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf
 
 Outreach
+
     - (mandatory) create opponent assessment template. See google doc for details.
     - (mandatory) go through emails, and check all emails about upcoming events (must be cabinet member / high-level member)
     - (optional) add notes & photos from winter break to google drive. Ask Violet (or make her do this task)

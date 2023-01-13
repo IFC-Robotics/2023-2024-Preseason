@@ -12,7 +12,7 @@ public class ServoClass {
     Telemetry telemetry;
 
     public Servo servo;
-    public double servoPosition = 0;
+    public double servoPosition;
 
     public String NAME;
     public double MIN_POSITION;
@@ -41,7 +41,7 @@ public class ServoClass {
 
     public void runToPosition(String position) {
 
-        telemetry.addLine(String.format("set %1$s to position %2$s", NAME, position));
+        telemetry.addLine(String.format("run %1$s from position %2$s to position %3$s", NAME, servoPosition, position));
 
         if (NAME == "servo_claw") {
             if (position == "open") servo.setPosition(MIN_POSITION);

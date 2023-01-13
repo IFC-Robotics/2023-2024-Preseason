@@ -38,7 +38,7 @@ public class Robot {
     public static final double LIFT_RATIO = 1.5;
     public static final double LIFT_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / LIFT_RATIO;
 
-    public static final double MAX_LIFT_SPEED = 0.5;
+    public static final double MAX_LIFT_SPEED = 0.5; // 0.8
 
     public static LiftClass horizontalLift;
     public static LiftClass verticalLift;
@@ -64,22 +64,31 @@ public class Robot {
 
         // drivetrain
 
+        telemetry.addLine("initializing drivetrain");
+        telemetry.update();
+
         drivetrain = new Drivetrain();
         drivetrain.init(hardwareMap, telemetry, DRIVETRAIN_COUNTS_PER_INCH);
 
         // servos
+
+        telemetry.addLine("initializing servos");
+        telemetry.update();
 
         servoClaw = new ServoClass();
         servoRotateClaw = new ServoClass();
         servoHook = new ServoClass();
         servoRotateHook = new ServoClass();
 
-        servoClaw.init(hardwareMap, telemetry, "servo_claw", 0.0, 0.2, SERVO_SPEED, SERVO_TIME, false);
+        servoClaw.init(hardwareMap, telemetry, "servo_claw", 0.33, 0.67, SERVO_SPEED, SERVO_TIME, false);
         servoRotateClaw.init(hardwareMap, telemetry, "servo_rotate_claw", 0.0, 0.3, SERVO_SPEED, SERVO_TIME, true);
-        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.0, 1, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateHook.init(hardwareMap, telemetry, "servo_rotate_hook", 0.0, 1, SERVO_SPEED, SERVO_TIME, false);
+        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.0, 0.1, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateHook.init(hardwareMap, telemetry, "servo_rotate_hook", 0, 1, SERVO_SPEED, SERVO_TIME, true);
 
         // lifts
+
+        telemetry.addLine("initializing lifts");
+        telemetry.update();
 
         horizontalLift = new LiftClass();
         verticalLift = new LiftClass();
@@ -89,8 +98,14 @@ public class Robot {
 
         // camera
 
+        telemetry.addLine("initializing camera");
+        telemetry.update();
+
         camera = new Camera();
         camera.init(hardwareMap, telemetry);
+
+        telemetry.addLine("finished initializing robot class");
+        telemetry.update();
 
     }
 
@@ -101,8 +116,8 @@ public class Robot {
 
         servoClaw.runToPosition("open");
         servoRotateClaw.runToPosition("up");
-        servoRotateHook.runToPosition("transfer");
         servoHook.runToPosition("retract");
+        servoRotateHook.runToPosition("transfer");
 
         verticalLift.autonomousRunToPosition("transfer");
         horizontalLift.autonomousRunToPosition("transfer");
