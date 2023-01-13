@@ -30,6 +30,7 @@ public class FSM extends OpMode {
     public void init() {
 
         telemetry.addLine("Initializing opMode...");
+        telemetry.addData("randomization", randomization);
         telemetry.update();
 
         Robot.init(hardwareMap, telemetry);
@@ -184,11 +185,8 @@ public class FSM extends OpMode {
             Robot.servoHook.teleOpAssistMode(gamepad2.y, gamepad2.a);
             Robot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
 
-            boolean[] horizontalLiftButtons = { gamepad2.left_bumper, gamepad2.right_bumper };
-            boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
-
-            Robot.horizontalLift.teleOpAssistMode(horizontalLiftButtons);
-            Robot.verticalLift.teleOpAssistMode(verticalLiftButtons);
+            Robot.horizontalLift.teleOpHorizontalLiftAssistMode(gamepad2.left_bumper, gamepad2.right_bumper);
+            Robot.verticalLift.teleOpVerticalLiftAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper);
 
         } else if (Robot.mode == "manual") { // manual mode
 
@@ -221,7 +219,7 @@ gamepad1.right_stick_x: turning
 gamepad1.a:             move vertical lift to transfer cone
 gamepad1.x:             move vertical lift to ground junction
 gamepad1.b:             move vertical lift to low junction
-gamepad1.y:             move vertical lift to medium junction
+gamepad1.y:             move vertical lift to middle junction
 gamepad1.a (FSM):       move horizontal lift to collect cone
 gamepad1.x (FSM):       start FSM
 gamepad1.y (FSM):       stop FSM

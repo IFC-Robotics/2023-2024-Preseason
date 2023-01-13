@@ -20,11 +20,13 @@ public class TestDriving extends LinearOpMode {
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        Robot.drivetrain.drive(6.0);
-        sleep(1000);
-        Robot.drivetrain.strafe(6.0);
-        sleep(1000);
+        Robot.drivetrain.drive(12.0);
+        sleep(3000);
+        Robot.drivetrain.strafe(12.0);
+        sleep(3000);
         Robot.drivetrain.turn(90.0);
+        sleep(1000);
+        Robot.drivetrain.turn(-180.0);
 
     }
 

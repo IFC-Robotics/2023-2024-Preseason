@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@Autonomous(name="Right side High junction", group="competition")
-public class rightHighAuton extends OpMode {
+@Autonomous(name="Left side High junction", group="competition")
+public class leftHighAuton extends OpMode {
 
     @Override
     public void init() {
@@ -17,7 +17,7 @@ public class rightHighAuton extends OpMode {
         Robot.init(hardwareMap, telemetry);
 
         Robot.tag = Robot.camera.getTag();
-        Robot.side = "right";
+        Robot.side = "left";
 
         telemetry.addData("AprilTag", Robot.tag);
         telemetry.addData("Side", Robot.side);
@@ -41,7 +41,7 @@ public class rightHighAuton extends OpMode {
         // drive to high junction
 
         Robot.drivetrain.drive(50);
-        Robot.drivetrain.turn(-135);
+        Robot.drivetrain.turn(135);
 
         // score on high junction
 
@@ -53,11 +53,11 @@ public class rightHighAuton extends OpMode {
 
         // park
 
-        Robot.drivetrain.turn(135);
+        Robot.drivetrain.turn(-135);
         Robot.drivetrain.drive(-24);
 
-        if (Robot.tag == 1) Robot.drivetrain.strafe(-24);
-        if (Robot.tag == 3) Robot.drivetrain.strafe(24);
+        if (Robot.tag == 1) Robot.drivetrain.strafe(24);
+        if (Robot.tag == 3) Robot.drivetrain.strafe(-24);
 
     }
 

@@ -62,7 +62,8 @@ public class Drivetrain {
         telemetry.addLine(String.format("\ndriving %s inches", distance));
         telemetry.update();
 
-        int target = (int)(distance * COUNTS_PER_INCH);
+        double factor = 0.868; // coeff to regulate driving distances
+        int target = (int)(distance * COUNTS_PER_INCH * factor);
         double power = Math.signum(distance) * AUTONOMOUS_SPEED;
 
         moveDrivetrain(target, target, target, target, power, power, power, power);
@@ -74,7 +75,8 @@ public class Drivetrain {
         telemetry.addLine(String.format("\nstrafing %s inches", distance));
         telemetry.update();
 
-        int target = (int)(distance * COUNTS_PER_INCH);
+        double factor = 1.1423; // once again another constant to try to get the correct distances
+        int target = (int)(distance * COUNTS_PER_INCH * factor);
         double power = Math.signum(distance) * AUTONOMOUS_SPEED;
 
         moveDrivetrain(-target, target, target, -target, -power, power, power, -power);
@@ -86,7 +88,7 @@ public class Drivetrain {
         telemetry.addLine(String.format("\nturning %s degrees", angle));
         telemetry.update();
 
-        double factor = 12.9; // no meaning, just what makes the turns work
+        double factor = 12.85; // no meaning, just what makes the turns work
         double circumference = 2 * Math.PI * factor;
         double distance = circumference * angle / 360;
 

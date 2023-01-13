@@ -76,7 +76,7 @@ gamepad1.right_stick_x: turning
 gamepad1.a:             move vertical lift to transfer
 gamepad1.x:             move vertical lift to ground junction
 gamepad1.b:             move vertical lift to low junction
-gamepad1.y:             move vertical lift to medium junction
+gamepad1.y:             move vertical lift to middle junction
 gamepad1.right_bumper:  move vertical lift to high junction
 
 gamepad2.left_stick_y:  moving horizontal lift

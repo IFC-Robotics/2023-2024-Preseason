@@ -35,16 +35,10 @@ public class Robot {
 
     // lifts
 
-    public static final int LIFT_RATIO = 1;
-    public static final int LIFT_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / LIFT_RATIO;
+    public static final double LIFT_RATIO = 1.5;
+    public static final double LIFT_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / LIFT_RATIO;
 
     public static final double MAX_LIFT_SPEED = 0.5;
-
-    static String[] horizontalLiftPresetPositionNames = { "transfer", "collect" };
-    static double[] horizontalLiftPresetPositions = { 0.0, 18.0 }; // change values (18 -> distance to auto collect)
-
-    static String[] verticalLiftPresetPositionNames = { "transfer", "ground", "low", "middle", "high" };
-    static double[] verticalLiftPresetPositions = {0.0, 2.0, 15.0, 25.0, 35.0 };  // change values (2, 15, 25, 35 -> height to score on ground, low, medium, and high junctions)
 
     public static LiftClass horizontalLift;
     public static LiftClass verticalLift;
@@ -90,8 +84,8 @@ public class Robot {
         horizontalLift = new LiftClass();
         verticalLift = new LiftClass();
 
-        horizontalLift.init(hardwareMap, telemetry, "motor_horizontal_lift", 0, 1000, MAX_LIFT_SPEED, false, LIFT_COUNTS_PER_INCH, horizontalLiftPresetPositionNames, horizontalLiftPresetPositions);
-        verticalLift.init(hardwareMap, telemetry, "motor_vertical_lift", 0, 3300, MAX_LIFT_SPEED, true, LIFT_COUNTS_PER_INCH, verticalLiftPresetPositionNames, verticalLiftPresetPositions);
+        horizontalLift.init(hardwareMap, telemetry, "motor_horizontal_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
+        verticalLift.init(hardwareMap, telemetry, "motor_vertical_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
 
         // camera
 
@@ -102,7 +96,7 @@ public class Robot {
 
     public static void reset() {
 
-        telemetry.addLine("resetting the robot's servos and lift");
+        telemetry.addLine("resetting servos + lifts");
         telemetry.update();
 
         servoClaw.runToPosition("open");
@@ -110,8 +104,8 @@ public class Robot {
         servoRotateHook.runToPosition("transfer");
         servoHook.runToPosition("retract");
 
-//        verticalLift.runToPosition("transfer");
-        horizontalLift.runToPosition("transfer");
+        verticalLift.autonomousRunToPosition("transfer");
+        horizontalLift.autonomousRunToPosition("transfer");
 
     }
 

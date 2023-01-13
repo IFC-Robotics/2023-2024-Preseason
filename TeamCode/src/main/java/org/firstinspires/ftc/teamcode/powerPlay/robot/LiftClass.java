@@ -19,25 +19,31 @@ public class LiftClass {
     public double MIN_POSITION;
     public double MAX_POSITION;
     public double MAX_SPEED;
-    public int COUNTS_PER_INCH;
-    public String[] PRESET_POSITION_NAMES;
-    public double[] PRESET_POSITIONS;
+    public double COUNTS_PER_INCH;
+
+    public double horizontalLiftMinPosition = 0; // starting position
+    public double horizontalLiftMaxPosition = 16.0; // collecting position
+    public boolean horizontalLiftReverseDirection = false;
+
+    public double verticalLiftPosition1 = 0.0; // starting position
+    public double verticalLiftPosition2 = 12.0; // ground junction (if this is the same as starting position, then ignore this value and let Charlie know.)
+    public double verticalLiftPosition3 = 20.0; // low junction
+    public double verticalLiftPosition4 = 35.0; // middle junction
+    public double verticalLiftPosition5 = 50.0; // high junction
+    public boolean verticalLiftReverseDirection = true;
 
     public LiftClass() {}
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, String name, int minPosition, int maxPosition, double maxSpeed, boolean reverseDirection, int countsPerInch, String[] presetPositionNames, double[] presetPositions) {
+    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, String name, double maxSpeed,  double countsPerInch) {
 
         NAME = name;
-        MIN_POSITION = minPosition;
-        MAX_POSITION = maxPosition;
         MAX_SPEED = maxSpeed;
         COUNTS_PER_INCH = countsPerInch;
-        PRESET_POSITION_NAMES = presetPositionNames;
-        PRESET_POSITIONS = presetPositions;
 
         motor = hardwareMap.get(DcMotor.class, NAME);
 
-        if (reverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
+        if (NAME == "motor_horizontal_lift" && horizontalLiftReverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
+        if (NAME == "motor_vertical_lift"   && verticalLiftReverseDirection)   motor.setDirection(DcMotor.Direction.REVERSE);
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -50,7 +56,20 @@ public class LiftClass {
 
     public void autonomousRunToPosition(String position) {
 
-        runToPosition(position);
+        if (NAME == "motor_horizontal_lift") {
+
+            if(position == "transfer") run(horizontalLiftMinPosition);
+            if(position == "collect")  run(horizontalLiftMaxPosition);
+
+        } else if (NAME == "motor_vertical_lift") {
+
+            if(position == "transfer") run(verticalLiftPosition1);
+            if(position == "ground")   run(verticalLiftPosition2);
+            if(position == "low")      run(verticalLiftPosition3);
+            if(position == "middle")   run(verticalLiftPosition4);
+            if(position == "high")     run(verticalLiftPosition5);
+
+        }
 
         while (motor.isBusy()) {
             telemetry.addLine(String.format("%1$s is at position %2$s", NAME, motor.getCurrentPosition()));
@@ -62,29 +81,30 @@ public class LiftClass {
 
     }
 
-    public void runToPosition(String position) {
-        telemetry.addLine(String.format("running %1$s to position %2$s", NAME, position));
-        for (int i = 0; i < PRESET_POSITIONS.length; i++) {
-            if (position == PRESET_POSITION_NAMES[i]) {
-                run(PRESET_POSITIONS[i]);
-                break;
-            }
-        }
-    }
-
     // teleOp
 
-    public void teleOpAssistMode(boolean[] buttons) {
+    public void teleOpHorizontalLiftAssistMode(boolean button1, boolean button2) {
+        if(button1) teleOpAssistMode(horizontalLiftMinPosition);
+        if(button2) teleOpAssistMode(horizontalLiftMaxPosition);
+    }
 
-        for (int i = 0; i < PRESET_POSITIONS.length; i++) {
-            if (buttons[i]) {
-                run(PRESET_POSITIONS[i]);
-                liftIsMoving = true;
-                break;
-            }
-        }
+    public void teleOpVerticalLiftAssistMode(boolean button1, boolean button2, boolean button3, boolean button4, boolean button5) {
+        if(button1) teleOpAssistMode(verticalLiftPosition1);
+        if(button2) teleOpAssistMode(verticalLiftPosition2);
+        if(button3) teleOpAssistMode(verticalLiftPosition3);
+        if(button4) teleOpAssistMode(verticalLiftPosition4);
+        if(button5) teleOpAssistMode(verticalLiftPosition5);
+    }
+
+    public void teleOpAssistMode(double target) {
+
+        telemetry.addLine(String.format("running %1$s to target %2$s", NAME, target));
+
+        run(target);
+        liftIsMoving = true;
 
         if (liftIsMoving && !motor.isBusy()) {
+            motor.setPower(0);
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             liftIsMoving = false;
         }
@@ -102,6 +122,8 @@ public class LiftClass {
                 liftSpeed = 0;
             }
 
+            telemetry.addLine(String.format("running %1$s with speed %2$s", NAME, liftSpeed));
+
             motor.setPower(liftSpeed);
 
         }
@@ -117,7 +139,7 @@ public class LiftClass {
     // helper methods
 
     public void run(double target) {
-        motor.setTargetPosition((int) target * COUNTS_PER_INCH);
+        motor.setTargetPosition((int)(target * COUNTS_PER_INCH));
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(MAX_SPEED);
     }

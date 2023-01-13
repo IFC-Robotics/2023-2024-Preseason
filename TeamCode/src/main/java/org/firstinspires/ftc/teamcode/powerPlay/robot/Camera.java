@@ -59,7 +59,7 @@ public class Camera {
 
         try {
 
-            int numAttempts = 500;
+            int numAttempts = 1000;
             telemetry.addData("numAttempts", numAttempts);
 
             for (int i = 0; i < numAttempts; i++) {
