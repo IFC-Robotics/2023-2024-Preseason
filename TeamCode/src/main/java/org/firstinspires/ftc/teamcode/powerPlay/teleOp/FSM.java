@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -7,6 +8,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @TeleOp(name="FSM teleOp", group="competition")
+@Disabled
 public class FSM extends OpMode {
 
 //    public enum RobotState {
@@ -230,9 +232,6 @@ gamepad2.right_bumper:  move vertical lift to high junction
 
 gamepad2.dpad_up:       retract hook
 gamepad2.dpad_down:     extend hook
-
-gamepad2.back:          switch to assist mode
-gamepad2.guide:         switch to manual mode
 
 */
 

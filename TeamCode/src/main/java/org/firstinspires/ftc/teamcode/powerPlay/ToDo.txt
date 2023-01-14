@@ -9,6 +9,7 @@ Programming
 
     - test rightHighAuton.java and leftHighAuton.java
     - practice scoring in teleOp
+    - fix issue between joystick & buttons w/ lift
 
 Programming (Minor stuff)
 
