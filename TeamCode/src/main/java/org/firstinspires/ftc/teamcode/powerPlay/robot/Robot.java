@@ -14,7 +14,7 @@ public class Robot {
 
     static final int DC_MOTOR_COUNTS_PER_REV  = 28;
     static final int DC_MOTOR_GEAR_RATIO      = 20;
-    static final int DC_MOTOR_COUNTS_PER_INCH = (int)((DC_MOTOR_COUNTS_PER_REV * DC_MOTOR_GEAR_RATIO) / Math.PI);
+    static final int DC_MOTOR_COUNTS_PER_INCH = (int)((DC_MOTOR_COUNTS_PER_REV * DC_MOTOR_GEAR_RATIO) / Math.PI); // (int)(28 * 20 / pi) = (int)(178.253536) = 178
 
     // drivetrain
 
@@ -28,19 +28,19 @@ public class Robot {
     static final double SERVO_SPEED = 0.002;
     static final double SERVO_TIME = 0.5;
 
-    public static ServoClass servoClaw;
-    public static ServoClass servoRotateClaw;
+//    public static ServoClass servoClaw;
+//    public static ServoClass servoRotateClaw;
     public static ServoClass servoHook;
-    public static ServoClass servoRotateHook;
+//    public static ServoClass servoRotateHook;
 
     // lifts
 
     public static final double LIFT_RATIO = 1.5;
-    public static final double LIFT_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / LIFT_RATIO;
+    public static final double LIFT_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / LIFT_RATIO; // 178 / 1.5 = 118.67
 
-    public static final double MAX_LIFT_SPEED = 0.5; // 0.8
+    public static final double MAX_LIFT_SPEED = 0.7;
 
-    public static LiftClass horizontalLift;
+//    public static LiftClass horizontalLift;
     public static LiftClass verticalLift;
 
     // camera
@@ -75,25 +75,25 @@ public class Robot {
         telemetry.addLine("initializing servos");
         telemetry.update();
 
-        servoClaw = new ServoClass();
-        servoRotateClaw = new ServoClass();
+//        servoClaw = new ServoClass();
+//        servoRotateClaw = new ServoClass();
         servoHook = new ServoClass();
-        servoRotateHook = new ServoClass();
+//        servoRotateHook = new ServoClass();
 
-        servoClaw.init(hardwareMap, telemetry, "servo_claw", 0.33, 0.67, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateClaw.init(hardwareMap, telemetry, "servo_rotate_claw", 0.0, 0.3, SERVO_SPEED, SERVO_TIME, true);
-        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.0, 0.1, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateHook.init(hardwareMap, telemetry, "servo_rotate_hook", 0, 1, SERVO_SPEED, SERVO_TIME, true);
+//        servoClaw.init(hardwareMap, telemetry, "servo_claw", 0.47, 0.67, SERVO_SPEED, SERVO_TIME, false);
+//        servoRotateClaw.init(hardwareMap, telemetry, "servo_rotate_claw", 0.0, 1.0, SERVO_SPEED + 0.001, SERVO_TIME, true);
+        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.06, 0.16, SERVO_SPEED, SERVO_TIME, false);
+//        servoRotateHook.init(hardwareMap, telemetry, "servo_rotate_hook", 0.05, 0.05, SERVO_SPEED, SERVO_TIME, true);
 
         // lifts
 
         telemetry.addLine("initializing lifts");
         telemetry.update();
 
-        horizontalLift = new LiftClass();
+//        horizontalLift = new LiftClass();
         verticalLift = new LiftClass();
 
-        horizontalLift.init(hardwareMap, telemetry, "motor_horizontal_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
+//        horizontalLift.init(hardwareMap, telemetry, "motor_horizontal_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
         verticalLift.init(hardwareMap, telemetry, "motor_vertical_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
 
         // camera
@@ -114,13 +114,13 @@ public class Robot {
         telemetry.addLine("resetting servos + lifts");
         telemetry.update();
 
-        servoClaw.runToPosition("open");
-        servoRotateClaw.runToPosition("up");
+//        servoClaw.runToPosition("open");
+//        servoRotateClaw.runToPosition("up");
         servoHook.runToPosition("retract");
-        servoRotateHook.runToPosition("transfer");
+//        servoRotateHook.runToPosition("transfer");
 
         verticalLift.autonomousRunToPosition("transfer");
-        horizontalLift.autonomousRunToPosition("transfer");
+//        horizontalLift.autonomousRunToPosition("transfer");
 
     }
 

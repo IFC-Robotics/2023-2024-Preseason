@@ -22,32 +22,31 @@ public class TestServoClass extends LinearOpMode {
 //        Robot.servoClaw.runToPosition("open");
 //        telemetry.update();
 //        sleep(3000);
+//        Robot.servoRotateClaw.runToPosition("down");
+//        telemetry.update();
+//        sleep(3000);
 //        Robot.servoClaw.runToPosition("close");
 //        telemetry.update();
 //        sleep(3000);
-
-        Robot.servoRotateClaw.runToPosition("down");
-        telemetry.update();
-        sleep(3000);
-        Robot.servoRotateClaw.runToPosition("up");
-        telemetry.update();
-        sleep(3000);
-
-//        Robot.servoHook.runToPosition("extend");
+//        Robot.servoRotateClaw.runToPosition("up");
 //        telemetry.update();
 //        sleep(3000);
 
-        Robot.servoRotateHook.runToPosition("score");
+        Robot.servoHook.runToPosition("extend");
         telemetry.update();
-        sleep(3000);
+        sleep(1000);
 
-        Robot.servoRotateHook.runToPosition("transfer");
-        telemetry.update();
-        sleep(3000);
-
-//        Robot.servoHook.runToPosition("retract");
+//        Robot.servoRotateHook.runToPosition("score");
 //        telemetry.update();
 //        sleep(3000);
+//
+//        Robot.servoRotateHook.runToPosition("transfer");
+//        telemetry.update();
+//        sleep(3000);
+
+        Robot.servoHook.runToPosition("retract");
+        telemetry.update();
+        sleep(1000);
 
     }
 

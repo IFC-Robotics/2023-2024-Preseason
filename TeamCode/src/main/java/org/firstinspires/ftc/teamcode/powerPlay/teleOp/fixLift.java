@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@TeleOp(name="fix Lift")
+@TeleOp(name="fix Lift", group="test")
 public class fixLift extends OpMode {
 
     @Override
@@ -23,7 +23,7 @@ public class fixLift extends OpMode {
 
     @Override
     public void loop() {
-        Robot.horizontalLift.teleOpNoEncoderLimits(-gamepad2.left_stick_y);
+//        Robot.horizontalLift.teleOpNoEncoderLimits(-gamepad2.left_stick_y);
         Robot.verticalLift.teleOpNoEncoderLimits(-gamepad2.right_stick_y);
     }
 

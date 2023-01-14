@@ -1,15 +1,15 @@
 package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @Autonomous(name="Left side High junction", group="competition")
-public class leftHighAuton extends OpMode {
+public class leftHighAuton extends LinearOpMode {
 
     @Override
-    public void init() {
+    public void runOpMode() {
 
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
@@ -23,10 +23,7 @@ public class leftHighAuton extends OpMode {
         telemetry.addData("Side", Robot.side);
         telemetry.update();
 
-    }
-
-    @Override
-    public void start() {
+        waitForStart();
 
         telemetry.addLine("Executing opMode...");
         telemetry.addData("AprilTag", Robot.tag);
@@ -35,8 +32,9 @@ public class leftHighAuton extends OpMode {
 
         // secure preloaded cone
 
-//        Robot.servoHook.runToPosition("extend");
-//        Robot.servoRotateHook.runToPosition("score");
+        Robot.servoHook.runToPosition("extend");
+        sleep(1000);
+        Robot.verticalLift.autonomousRunToPosition("ground");
 
         // drive to high junction
 
@@ -47,7 +45,11 @@ public class leftHighAuton extends OpMode {
 
         Robot.verticalLift.autonomousRunToPosition("high");
         Robot.drivetrain.drive(-6);
-//        Robot.servoHook.runToPosition("retract");
+        Robot.servoHook.runToPosition("retract");
+        sleep(1000);
+
+        // reset scoring system
+
         Robot.drivetrain.drive(6);
         Robot.verticalLift.autonomousRunToPosition("transfer");
 
@@ -60,8 +62,5 @@ public class leftHighAuton extends OpMode {
         if (Robot.tag == 3) Robot.drivetrain.strafe(-24);
 
     }
-
-    @Override
-    public void loop() {}
 
 }

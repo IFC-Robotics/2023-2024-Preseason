@@ -40,41 +40,51 @@ public class ServoClass {
     }
 
     public void runToPosition(String position) {
-
-        telemetry.addLine(String.format("run %1$s from position %2$s to position %3$s", NAME, servoPosition, position));
-
-        if (NAME == "servo_claw") {
-            if (position == "open") servo.setPosition(MIN_POSITION);
-            if (position == "close") servo.setPosition(MAX_POSITION);
-        }
-
-        if (NAME == "servo_rotate_claw") {
-            if (position == "up")   servo.setPosition(MIN_POSITION);
-            if (position == "down") servo.setPosition(MAX_POSITION);
-        }
-
-        if (NAME == "servo_hook") {
-            if (position == "extend")  servo.setPosition(MIN_POSITION);
-            if (position == "retract") servo.setPosition(MAX_POSITION);
-        }
-
-        if (NAME == "servo_rotate_hook") {
-            if (position == "transfer") servo.setPosition(MIN_POSITION);
-            if (position == "score")    servo.setPosition(MAX_POSITION);
-        }
-
+        telemetry.addLine(String.format("running hook from position %1$s to position %2$s", servoPosition, position));
+        if (position == "extend")  servo.setPosition(MIN_POSITION);
+        if (position == "retract") servo.setPosition(MAX_POSITION);
     }
+
+//    public void runToPosition(String position) {
+//
+//        telemetry.addLine(String.format("run %1$s from position %2$s to position %3$s", NAME, servoPosition, position));
+//
+////        if (NAME == "servo_claw") {
+////            if (position == "open") servo.setPosition(MIN_POSITION);
+////            if (position == "close") servo.setPosition(MAX_POSITION);
+////        }
+////
+////        if (NAME == "servo_rotate_claw") {
+////            if (position == "up")   servo.setPosition(MIN_POSITION);
+////            if (position == "down") servo.setPosition(MAX_POSITION);
+////        }
+//
+////        if (NAME == "servo_hook") {
+//            if (position == "extend")  servo.setPosition(MIN_POSITION);
+//            if (position == "retract") servo.setPosition(MAX_POSITION);
+////        }
+//
+////        if (NAME == "servo_rotate_hook") {
+////            if (position == "transfer") servo.setPosition(MIN_POSITION);
+////            if (position == "score")    servo.setPosition(MAX_POSITION);
+////        }
+//
+//    }
 
     public void teleOpAssistMode(boolean button1, boolean button2) {
-        if (button1) servoPosition = MIN_POSITION;
-        if (button2) servoPosition = MAX_POSITION;
-        servo.setPosition(servoPosition);
+        if (button1 || button2) {
+            if (button1) servoPosition = MIN_POSITION;
+            if (button2) servoPosition = MAX_POSITION;
+            servo.setPosition(servoPosition);
+        }
     }
 
-    public void teleOpManualMode(boolean button1, boolean button2) {
-        if (button1 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
-        if (button2 && servoPosition < MAX_POSITION) servoPosition += SPEED;
-        servo.setPosition(servoPosition);
-    }
+//    public void teleOpManualMode(boolean button1, boolean button2) {
+//        if (button1 || button2) {
+//            if (button1 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
+//            if (button2 && servoPosition < MAX_POSITION) servoPosition += SPEED;
+//            servo.setPosition(servoPosition);
+//        }
+//    }
 
 }

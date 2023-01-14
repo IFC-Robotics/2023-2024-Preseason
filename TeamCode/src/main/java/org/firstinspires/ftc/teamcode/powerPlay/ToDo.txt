@@ -1,39 +1,17 @@
-Servos
+Fabrication
 
-    - (fabrication) switch rotate_claw servo from the current one to the one in the programming bag (w/ straight orange thing)
-    - (fabrication) switch claw servo from the current one to the one in the programming bag (w/ circular orange thing)
-    - (fabrication) fix horizontal lift (see back right corner)
+    - remove drag cable
+    - secure servo_hook extension cable
+    - fix cup getting stuck on motor
+    - remove servo_rotate_hook?
 
-    - test servo_claw
-        - make sure claw actually grabs cone
-    - test servo_rotate_claw
-        - might be broken, make sure it works
-        - make limits correspond with code (isn't working rn)
-        - make sure servo can lift/lower the claw
-            - without a cone
-            - with a cone
-    - test servo_rotate_hook
-        - make limits correspond with code (isn't working rn)
+Programming
 
-Distances
+    - test rightHighAuton.java and leftHighAuton.java
+    - practice scoring in teleOp
 
-    - test the starting and ending positions for servo_claw, servo_rotate_claw, and servo_rotate_hook
-    - test all 5 vertical lift distances
-    - test both horizontal lift distances
-    - make sure both rightHighAuton.java and leftHighAuton.java work consistently
+Programming (Minor stuff)
 
-FSM
-
-    - test FSM
-        - uncomment horizontal lift code when it gets fixed (fabrication)
-        - fix issue w/ servos
-        - uncomment servo_rotate_hook code when it gets fixed (run programs above)
-    - test entire scoring system together in teleOp
-        - proof that our robot will actually work
-
-Other
-
-    - confirm that the current controls are good (for Charlie & Nathan)
     - find out why AprilTags sometimes doesn't work
     - add edge case for no apriltag detection
         - if Robot.tag == 0, then go to the closest zone to the middle (i.e. 3 of the left side and 1 for the right side)
@@ -42,12 +20,13 @@ Other
 
 Outreach
 
-    - (mandatory) create opponent assessment template. See google doc for details.
-    - (mandatory) go through emails, and check all emails about upcoming events (must be cabinet member / high-level member)
-    - (optional) add notes & photos from winter break to google drive. Ask Violet (or make her do this task)
+    - go through emails, and check all emails about upcoming events
+    - add notes & photos from winter break to google drive. Ask Violet (or make her do this task)
 
 Rules
 
-    - signal sleeve counting as cone
+    - proof that signal sleeve doesn't count as a cone
         - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/game-manual-part-2-traditional.pdf
         - pages 25 & 26
+        - GS6: "Robot Control/Possession Limits for Scoring Elements"
+        - GS9: "Signal Constraints - A Signal is not a Scoring Element"

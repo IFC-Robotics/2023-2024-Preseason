@@ -19,17 +19,30 @@ public class TestAutomaticScoringSequence extends LinearOpMode {
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        Robot.servoRotateClaw.runToPosition("down");
-        Robot.horizontalLift.autonomousRunToPosition("collect");
-        Robot.servoClaw.runToPosition("close");
+//        Robot.servoRotateClaw.runToPosition("down");
+//        Robot.horizontalLift.autonomousRunToPosition("collect");
+//        Robot.servoClaw.runToPosition("close");
+//
+//        Robot.horizontalLift.autonomousRunToPosition("transfer");
+//        Robot.servoRotateClaw.runToPosition("up");
 
-        Robot.horizontalLift.autonomousRunToPosition("transfer");
-        Robot.servoRotateClaw.runToPosition("up");
         Robot.servoHook.runToPosition("extend");
+        sleep(1000);
 
-        Robot.servoRotateHook.runToPosition("score");
-        Robot.verticalLift.autonomousRunToPosition("score");
+        Robot.verticalLift.autonomousRunToPosition("ground");
+//        Robot.servoRotateHook.runToPosition("score");
+//        sleep(1000);
+
+        Robot.verticalLift.autonomousRunToPosition("high");
+
+        Robot.drivetrain.drive(-6);
         Robot.servoHook.runToPosition("retract");
+        sleep(1000);
+        Robot.drivetrain.drive(6);
+
+//        Robot.servoRotateHook.runToPosition("transfer");
+//        sleep(1000);
+        Robot.verticalLift.autonomousRunToPosition("transfer");
 
     }
 
