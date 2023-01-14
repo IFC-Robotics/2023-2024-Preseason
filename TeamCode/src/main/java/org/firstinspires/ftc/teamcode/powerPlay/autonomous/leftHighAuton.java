@@ -20,46 +20,37 @@ public class leftHighAuton extends LinearOpMode {
         Robot.side = "left";
 
         telemetry.addData("AprilTag", Robot.tag);
-        telemetry.addData("Side", Robot.side);
         telemetry.update();
 
         waitForStart();
 
         telemetry.addLine("Executing opMode...");
-        telemetry.addData("AprilTag", Robot.tag);
-        telemetry.addData("Side", Robot.side);
         telemetry.update();
-
-        // secure preloaded cone
-
-        Robot.servoHook.runToPosition("extend");
-        sleep(1000);
-        Robot.verticalLift.autonomousRunToPosition("ground");
 
         // drive to high junction
 
-        Robot.drivetrain.drive(50);
-        Robot.drivetrain.turn(135);
+        Robot.drivetrain.drive(30);
+//        Robot.drivetrain.turn(45);
 
         // score on high junction
 
-        Robot.verticalLift.autonomousRunToPosition("high");
-        Robot.drivetrain.drive(-6);
-        Robot.servoHook.runToPosition("retract");
-        sleep(1000);
+//        Robot.verticalLift.autonomousRunToPosition("high");
+//        Robot.drivetrain.drive(9);
+//        Robot.servoHook.runToPosition("retract");
+//        sleep(1000);
+//
+//        // reset scoring system
+//
+//        Robot.drivetrain.drive(-9);
+//        Robot.verticalLift.autonomousRunToPosition("transfer");
+//
+//        // park
+//
+//        Robot.drivetrain.turn(-135);
+//        Robot.drivetrain.drive(-24);
 
-        // reset scoring system
-
-        Robot.drivetrain.drive(6);
-        Robot.verticalLift.autonomousRunToPosition("transfer");
-
-        // park
-
-        Robot.drivetrain.turn(-135);
-        Robot.drivetrain.drive(-24);
-
-        if (Robot.tag == 1) Robot.drivetrain.strafe(24);
-        if (Robot.tag == 3) Robot.drivetrain.strafe(-24);
+        if (Robot.tag == 1) Robot.drivetrain.strafe(-24);
+        if (Robot.tag == 3) Robot.drivetrain.strafe(24);
 
     }
 

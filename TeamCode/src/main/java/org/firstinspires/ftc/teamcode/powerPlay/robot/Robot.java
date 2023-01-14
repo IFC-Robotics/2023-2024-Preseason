@@ -74,7 +74,6 @@ public class Robot {
 
         telemetry.addLine("initializing servos");
         telemetry.update();
-
 //        servoClaw = new ServoClass();
 //        servoRotateClaw = new ServoClass();
         servoHook = new ServoClass();
@@ -82,7 +81,7 @@ public class Robot {
 
 //        servoClaw.init(hardwareMap, telemetry, "servo_claw", 0.47, 0.67, SERVO_SPEED, SERVO_TIME, false);
 //        servoRotateClaw.init(hardwareMap, telemetry, "servo_rotate_claw", 0.0, 1.0, SERVO_SPEED + 0.001, SERVO_TIME, true);
-        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.06, 0.16, SERVO_SPEED, SERVO_TIME, false);
+        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.06, 0.16, SERVO_SPEED, SERVO_TIME, true);
 //        servoRotateHook.init(hardwareMap, telemetry, "servo_rotate_hook", 0.05, 0.05, SERVO_SPEED, SERVO_TIME, true);
 
         // lifts

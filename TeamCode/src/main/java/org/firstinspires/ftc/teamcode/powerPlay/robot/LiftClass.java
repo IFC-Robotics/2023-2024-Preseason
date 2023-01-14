@@ -24,10 +24,10 @@ public class LiftClass {
 //    public boolean horizontalLiftReverseDirection = false;
 
     public double verticalLiftPosition1 = 0.0; // starting position
-    public double verticalLiftPosition2 = 10.0; // ground junction (if this is the same as starting position, then ignore this value and let Charlie know.)
-    public double verticalLiftPosition3 = 25.0; // low junction
-    public double verticalLiftPosition4 = 40.0; // middle junction
-    public double verticalLiftPosition5 = 60.0; // high junction
+    public double verticalLiftPosition2 = 13.0; // ground junction (if this is the same as starting position, then ignore this value and let Charlie know.)
+    public double verticalLiftPosition3 = 30.0; // low junction
+    public double verticalLiftPosition4 = 45.0; // middle junction
+    public double verticalLiftPosition5 = 65.0; // high junction
     public boolean verticalLiftReverseDirection = true;
 
     public LiftClass() {}
@@ -59,13 +59,13 @@ public class LiftClass {
 //            if(position == "collect")  run(horizontalLiftMaxPosition);
 //        }
 
-        if (NAME == "motor_vertical_lift") {
+//        if (NAME == "motor_vertical_lift") {
             if(position == "transfer") run(verticalLiftPosition1);
             if(position == "ground")   run(verticalLiftPosition2);
             if(position == "low")      run(verticalLiftPosition3);
             if(position == "middle")   run(verticalLiftPosition4);
             if(position == "high")     run(verticalLiftPosition5);
-        }
+//        }
 
     }
 
@@ -120,20 +120,10 @@ public class LiftClass {
             double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
             int liftCurrentPosition = motor.getCurrentPosition();
 
-            double MAX_POSITION = 0.0;
-            double MIN_POSITION = 0.0;
+            double LIFT_MIN_POSITION = (int)(verticalLiftPosition1 * COUNTS_PER_INCH);
+            double LIFT_MAX_POSITION = (int)(verticalLiftPosition5 * COUNTS_PER_INCH);
 
-//            if (NAME == "motor_horizontal_lift") {
-//                MIN_POSITION = horizontalLiftMinPosition * COUNTS_PER_INCH;
-//                MAX_POSITION = horizontalLiftMaxPosition * COUNTS_PER_INCH;
-//            }
-
-            if (NAME == "motor_vertical_lift") {
-                MIN_POSITION = verticalLiftPosition1 * COUNTS_PER_INCH;
-                MAX_POSITION = verticalLiftPosition5 * COUNTS_PER_INCH;
-            }
-
-            if ((liftCurrentPosition > MAX_POSITION && liftSpeed > 0) || (liftCurrentPosition < MIN_POSITION && liftSpeed < 0)) {
+            if ((liftCurrentPosition >= LIFT_MAX_POSITION && liftSpeed > 0.05) || (liftCurrentPosition <= LIFT_MIN_POSITION && liftSpeed < -0.05)) {
                 liftSpeed = 0;
             }
 

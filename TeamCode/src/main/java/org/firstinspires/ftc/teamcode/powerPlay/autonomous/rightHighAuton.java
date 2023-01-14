@@ -19,21 +19,12 @@ public class rightHighAuton extends LinearOpMode {
         Robot.side = "right";
 
         telemetry.addData("AprilTag", Robot.tag);
-        telemetry.addData("Side", Robot.side);
         telemetry.update();
 
         waitForStart();
 
         telemetry.addLine("Executing opMode...");
-        telemetry.addData("AprilTag", Robot.tag);
-        telemetry.addData("Side", Robot.side);
         telemetry.update();
-
-        // secure preloaded cone (could be done before init, in a separate file)
-
-        Robot.servoHook.runToPosition("extend");
-        sleep(1000);
-        Robot.verticalLift.autonomousRunToPosition("ground");
 
         // drive to high junction
 
@@ -43,13 +34,13 @@ public class rightHighAuton extends LinearOpMode {
         // score on high junction
 
         Robot.verticalLift.autonomousRunToPosition("high");
-        Robot.drivetrain.drive(-6);
+        Robot.drivetrain.drive(-9);
         Robot.servoHook.runToPosition("retract");
         sleep(1000);
 
         // reset scoring system
 
-        Robot.drivetrain.drive(6);
+        Robot.drivetrain.drive(9);
         Robot.verticalLift.autonomousRunToPosition("transfer");
 
         // park
