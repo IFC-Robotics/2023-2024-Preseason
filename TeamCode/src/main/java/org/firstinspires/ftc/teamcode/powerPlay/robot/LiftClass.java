@@ -73,20 +73,16 @@ public class LiftClass {
 
     // teleOp
 
-    public void teleOpVerticalLiftAssistMode(boolean button1, boolean button2, boolean button3, boolean button4, boolean button5) {
-        if(button1) teleOpAssistMode(verticalLiftPosition1);
-        if(button2) teleOpAssistMode(verticalLiftPosition2);
-        if(button3) teleOpAssistMode(verticalLiftPosition3);
-        if(button4) teleOpAssistMode(verticalLiftPosition4);
-        if(button5) teleOpAssistMode(verticalLiftPosition5);
-    }
+    public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4, boolean button5) {
 
-    public void teleOpAssistMode(double target) {
-
-        telemetry.addLine(String.format("running %1$s to target %2$s", NAME, target));
-
-        run(target);
-        liftIsMoving = true;
+        if (button1 || button2 || button3 || button4 || button5) {
+            if (button1) run(verticalLiftPosition1);
+            if (button2) run(verticalLiftPosition2);
+            if (button3) run(verticalLiftPosition3);
+            if (button4) run(verticalLiftPosition4);
+            if (button5) run(verticalLiftPosition5);
+            liftIsMoving = true;
+        }
 
         if (liftIsMoving && !motor.isBusy()) {
             motor.setPower(0);
@@ -108,6 +104,7 @@ public class LiftClass {
 
             if ((liftCurrentPosition >= LIFT_MAX_POSITION && liftSpeed > 0.05) || (liftCurrentPosition <= LIFT_MIN_POSITION && liftSpeed < -0.05)) {
                 liftSpeed = 0;
+                telemetry.addLine("Lift should not be moving right now.");
             }
 
             telemetry.addLine(String.format("running %1$s with speed %2$s at (current) position %3$s", NAME, liftSpeed, liftCurrentPosition));
