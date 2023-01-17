@@ -2,13 +2,11 @@ package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class LiftClass {
+public class AdvancedLiftClass {
 
     Telemetry telemetry;
 
@@ -19,14 +17,18 @@ public class LiftClass {
     public double MAX_SPEED;
     public double COUNTS_PER_INCH;
 
+    public double horizontalLiftMinPosition = 0.0; // starting position
+    public double horizontalLiftMaxPosition = 6.0; // collecting position // 7.16
+    public boolean horizontalLiftReverseDirection = false;
+
     public double verticalLiftPosition1 = 0.0; // starting position
-    public double verticalLiftPosition2 = 13.0; // ground junction (if this is the same as starting position, then ignore this value and let Charlie know.)
+    public double verticalLiftPosition2 = 13.0; // ground junction
     public double verticalLiftPosition3 = 30.0; // low junction
     public double verticalLiftPosition4 = 45.0; // middle junction
     public double verticalLiftPosition5 = 65.0; // high junction
     public boolean verticalLiftReverseDirection = true;
 
-    public LiftClass() {}
+    public AdvancedLiftClass() {}
 
     public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, String name, double maxSpeed, double countsPerInch) {
 
@@ -36,7 +38,8 @@ public class LiftClass {
 
         motor = hardwareMap.get(DcMotor.class, NAME);
 
-        if (verticalLiftReverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
+        if (NAME == "motor_horizontal_lift" && horizontalLiftReverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
+        if (NAME == "motor_vertical_lift"   && verticalLiftReverseDirection)   motor.setDirection(DcMotor.Direction.REVERSE);
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -49,11 +52,18 @@ public class LiftClass {
 
     public void runToPosition(String position) {
 
-        if(position == "transfer") run(verticalLiftPosition1);
-        if(position == "ground")   run(verticalLiftPosition2);
-        if(position == "low")      run(verticalLiftPosition3);
-        if(position == "middle")   run(verticalLiftPosition4);
-        if(position == "high")     run(verticalLiftPosition5);
+        if (NAME == "motor_horizontal_lift") {
+            if(position == "transfer") run(horizontalLiftMinPosition);
+            if(position == "collect")  run(horizontalLiftMaxPosition);
+        }
+
+        if (NAME == "motor_vertical_lift") {
+            if(position == "transfer") run(verticalLiftPosition1);
+            if(position == "ground")   run(verticalLiftPosition2);
+            if(position == "low")      run(verticalLiftPosition3);
+            if(position == "middle")   run(verticalLiftPosition4);
+            if(position == "high")     run(verticalLiftPosition5);
+        }
 
     }
 
@@ -72,6 +82,11 @@ public class LiftClass {
     }
 
     // teleOp
+
+    public void teleOpHorizontalLiftAssistMode(boolean button1, boolean button2) {
+        if(button1) teleOpAssistMode(horizontalLiftMinPosition);
+        if(button2) teleOpAssistMode(horizontalLiftMaxPosition);
+    }
 
     public void teleOpVerticalLiftAssistMode(boolean button1, boolean button2, boolean button3, boolean button4, boolean button5) {
         if(button1) teleOpAssistMode(verticalLiftPosition1);
@@ -103,8 +118,16 @@ public class LiftClass {
             double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
             int liftCurrentPosition = motor.getCurrentPosition();
 
-            double LIFT_MIN_POSITION = (int)(verticalLiftPosition1 * COUNTS_PER_INCH);
-            double LIFT_MAX_POSITION = (int)(verticalLiftPosition5 * COUNTS_PER_INCH);
+            double LIFT_MIN_POSITION = 0;
+            double LIFT_MAX_POSITION = 0;
+
+            if (NAME == "motor_horizontal_lift") {
+                LIFT_MIN_POSITION = (int)(horizontalLiftMinPosition * COUNTS_PER_INCH);
+                LIFT_MAX_POSITION = (int)(horizontalLiftMaxPosition * COUNTS_PER_INCH);
+            } else if (NAME == "motor_vertical_lift") {
+                LIFT_MIN_POSITION = (int)(verticalLiftPosition1 * COUNTS_PER_INCH);
+                LIFT_MAX_POSITION = (int)(verticalLiftPosition5 * COUNTS_PER_INCH);
+            }
 
             if ((liftCurrentPosition >= LIFT_MAX_POSITION && liftSpeed > 0.05) || (liftCurrentPosition <= LIFT_MIN_POSITION && liftSpeed < -0.05)) {
                 liftSpeed = 0;

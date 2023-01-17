@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @Autonomous(name="Left side High junction", group="competition")
@@ -17,7 +16,7 @@ public class leftHighAuton extends LinearOpMode {
         Robot.init(hardwareMap, telemetry);
 
         Robot.tag = Robot.camera.getTag();
-        Robot.side = "left";
+//        Robot.side = "left";
 
         telemetry.addData("AprilTag", Robot.tag);
         telemetry.update();
@@ -30,27 +29,24 @@ public class leftHighAuton extends LinearOpMode {
         // drive to high junction
 
         Robot.drivetrain.drive(30);
-//        Robot.drivetrain.turn(45);
+        Robot.drivetrain.turn(-45);
 
         // score on high junction
 
-//        Robot.verticalLift.autonomousRunToPosition("high");
-//        Robot.drivetrain.drive(9);
-//        Robot.servoHook.runToPosition("retract");
-//        sleep(1000);
-//
-//        // reset scoring system
-//
-//        Robot.drivetrain.drive(-9);
-//        Robot.verticalLift.autonomousRunToPosition("transfer");
-//
-//        // park
-//
-//        Robot.drivetrain.turn(-135);
-//        Robot.drivetrain.drive(-24);
+        Robot.verticalLift.autonomousRunToPosition("high");
+        Robot.drivetrain.drive(9);
+        Robot.servoHook.runToPosition("retract");
+        sleep(1000);
+        Robot.drivetrain.drive(-9);
+        Robot.verticalLift.autonomousRunToPosition("transfer");
 
-        if (Robot.tag == 1) Robot.drivetrain.strafe(-24);
-        if (Robot.tag == 3) Robot.drivetrain.strafe(24);
+        // park
+
+        Robot.drivetrain.turn(-135);
+        Robot.drivetrain.drive(24);
+
+        if (Robot.tag == 1) Robot.drivetrain.strafe(24);
+        if (Robot.tag == 3) Robot.drivetrain.strafe(-24);
 
     }
 

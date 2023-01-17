@@ -1,33 +1,9 @@
-Fabrication
-
-    - remove drag cable
-    - secure servo_hook extension cable
-    - fix cup getting stuck on motor
-    - remove servo_rotate_hook?
-
 Programming
 
-    - test rightHighAuton.java and leftHighAuton.java
-    - practice scoring in teleOp
-    - fix issue between joystick & buttons w/ lift
-
-Programming (Minor stuff)
+    - test autonomous
+    - driver practice w/ noClawTeleOp.java
+    - fix issue between joystick & buttons w/ vertical lift
 
     - find out why AprilTags sometimes doesn't work
     - add edge case for no apriltag detection
         - if Robot.tag == 0, then go to the closest zone to the middle (i.e. 3 of the left side and 1 for the right side)
-    - if necessary, add "Warning: Robot Moves On Initialization" sticker
-        - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf
-
-Outreach
-
-    - go through emails, and check all emails about upcoming events
-    - add notes & photos from winter break to google drive. Ask Violet (or make her do this task)
-
-Rules
-
-    - proof that signal sleeve doesn't count as a cone
-        - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/game-manual-part-2-traditional.pdf
-        - pages 25 & 26
-        - GS6: "Robot Control/Possession Limits for Scoring Elements"
-        - GS9: "Signal Constraints - A Signal is not a Scoring Element"

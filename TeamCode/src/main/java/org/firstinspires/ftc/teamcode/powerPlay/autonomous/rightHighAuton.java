@@ -16,7 +16,7 @@ public class rightHighAuton extends LinearOpMode {
         Robot.init(hardwareMap, telemetry);
 
         Robot.tag = Robot.camera.getTag();
-        Robot.side = "right";
+//        Robot.side = "right";
 
         telemetry.addData("AprilTag", Robot.tag);
         telemetry.update();
@@ -28,28 +28,25 @@ public class rightHighAuton extends LinearOpMode {
 
         // drive to high junction
 
-        Robot.drivetrain.drive(50);
-        Robot.drivetrain.turn(-135);
+        Robot.drivetrain.drive(30);
+        Robot.drivetrain.turn(45);
 
         // score on high junction
 
         Robot.verticalLift.autonomousRunToPosition("high");
-        Robot.drivetrain.drive(-9);
+        Robot.drivetrain.drive(9);
         Robot.servoHook.runToPosition("retract");
         sleep(1000);
-
-        // reset scoring system
-
-        Robot.drivetrain.drive(9);
+        Robot.drivetrain.drive(-9);
         Robot.verticalLift.autonomousRunToPosition("transfer");
 
         // park
 
         Robot.drivetrain.turn(135);
-        Robot.drivetrain.drive(-24);
+        Robot.drivetrain.drive(24);
 
-        if (Robot.tag == 1) Robot.drivetrain.strafe(-24);
-        if (Robot.tag == 3) Robot.drivetrain.strafe(24);
+        if (Robot.tag == 1) Robot.drivetrain.strafe(24);
+        if (Robot.tag == 3) Robot.drivetrain.strafe(-24);
 
     }
 

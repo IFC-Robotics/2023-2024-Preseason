@@ -22,6 +22,8 @@ public class Drivetrain {
     public static double AUTONOMOUS_SPEED = 0.3;
     public static double AUTONOMOUS_TURN_SPEED = 0.3;
     public static double MAX_TELEOP_SPEED = 0.7;
+    public static String FORWARD_DIRECTION = "vertical lift";
+
     public static int COUNTS_PER_INCH;
 
     public Drivetrain() {}
@@ -35,11 +37,13 @@ public class Drivetrain {
         motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
         motorBackLeft   = hardwareMap.get(DcMotor.class, "motor_back_left");
 
-//        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-//        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        if (FORWARD_DIRECTION == "horizontal lift") {
+            motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+            motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        } else if (FORWARD_DIRECTION == "vertical lift") {
+            motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        }
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
