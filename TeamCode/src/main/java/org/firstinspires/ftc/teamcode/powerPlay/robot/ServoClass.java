@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.Range;
 
 import static java.lang.Thread.sleep;
 
@@ -53,12 +54,23 @@ public class ServoClass {
         }
     }
 
-    public void teleOpManualMode(boolean button1, boolean button2) {
-        if (button1 || button2) {
-            if (button1 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
-            if (button2 && servoPosition < MAX_POSITION) servoPosition += SPEED;
+    public void teleOpManualMode(double joystick) {
+        if (Math.abs(joystick) > 0.05) {
+            if (joystick < 0 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
+            if (joystick > 0 && servoPosition < MAX_POSITION) servoPosition += SPEED;
             servo.setPosition(servoPosition);
+            telemetry.addLine(String.format("running %1$s with speed %2$s at (current) position %3$s", NAME, SPEED, servoPosition));
         }
     }
+
+//    Robot.servoHook.teleOpManualMode(gamepad2.dpad_left, gamepad2.dpad_right);
+
+//    public void teleOpManualMode(boolean button1, boolean button2) {
+//        if (button1 || button2) {
+//            if (button1 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
+//            if (button2 && servoPosition < MAX_POSITION) servoPosition += SPEED;
+//            servo.setPosition(servoPosition);
+//        }
+//    }
 
 }

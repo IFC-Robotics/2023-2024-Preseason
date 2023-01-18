@@ -19,8 +19,8 @@ public class LiftClass {
     public double MAX_SPEED;
     public double COUNTS_PER_INCH;
 
-    public double verticalLiftPosition1 = 0.0; // starting position
-    public double verticalLiftPosition2 = 13.0; // ground junction (if this is the same as starting position, then ignore this value and let Charlie know.)
+    public double verticalLiftPosition1 =  0.0; // starting position
+    public double verticalLiftPosition2 = 13.0; // ground junction
     public double verticalLiftPosition3 = 30.0; // low junction
     public double verticalLiftPosition4 = 45.0; // middle junction
     public double verticalLiftPosition5 = 65.0; // high junction
@@ -48,13 +48,11 @@ public class LiftClass {
     // autonomous
 
     public void runToPosition(String position) {
-
-        if(position == "transfer") run(verticalLiftPosition1);
-        if(position == "ground")   run(verticalLiftPosition2);
-        if(position == "low")      run(verticalLiftPosition3);
-        if(position == "middle")   run(verticalLiftPosition4);
-        if(position == "high")     run(verticalLiftPosition5);
-
+        if (position == "transfer") run(verticalLiftPosition1);
+        if (position == "ground")   run(verticalLiftPosition2);
+        if (position == "low")      run(verticalLiftPosition3);
+        if (position == "middle")   run(verticalLiftPosition4);
+        if (position == "high")     run(verticalLiftPosition5);
     }
 
     public void autonomousRunToPosition(String position) {
@@ -97,14 +95,13 @@ public class LiftClass {
         if (!liftIsMoving) {
 
             double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
-            int liftCurrentPosition = motor.getCurrentPosition();
 
+            int liftCurrentPosition = motor.getCurrentPosition();
             double LIFT_MIN_POSITION = (int)(verticalLiftPosition1 * COUNTS_PER_INCH);
             double LIFT_MAX_POSITION = (int)(verticalLiftPosition5 * COUNTS_PER_INCH);
 
             if ((liftCurrentPosition >= LIFT_MAX_POSITION && liftSpeed > 0.05) || (liftCurrentPosition <= LIFT_MIN_POSITION && liftSpeed < -0.05)) {
                 liftSpeed = 0;
-                telemetry.addLine("Lift should not be moving right now.");
             }
 
             telemetry.addLine(String.format("running %1$s with speed %2$s at (current) position %3$s", NAME, liftSpeed, liftCurrentPosition));

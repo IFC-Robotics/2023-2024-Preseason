@@ -25,7 +25,7 @@ public class noClawTeleOp extends OpMode {
     @Override
     public void loop() {
         Robot.servoHook.teleOpAssistMode(gamepad2.dpad_down, gamepad2.dpad_up);
-        Robot.servoHook.teleOpManualMode(gamepad2.dpad_left, gamepad2.dpad_right);
+        Robot.servoHook.teleOpManualMode(-gamepad2.left_stick_y);
         Robot.verticalLift.teleOpAssistMode(gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y, gamepad2.right_bumper);
         Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
         Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
@@ -46,9 +46,8 @@ gamepad2.b:             move vertical lift to low junction
 gamepad2.y:             move vertical lift to middle junction
 gamepad2.right_bumper:  move vertical lift to high junction
 
+gamepad2.left_stick_y:  move hook (manually)
 gamepad2.dpad_up:       retract hook
 gamepad2.dpad_down:     extend hook
-gamepad2.dpad_right:    retract hook (manually)
-gamepad2.dpad_left:     extend hook (manually)
 
 */
