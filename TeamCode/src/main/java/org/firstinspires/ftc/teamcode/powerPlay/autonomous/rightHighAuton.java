@@ -28,22 +28,22 @@ public class rightHighAuton extends LinearOpMode {
 
         // drive to high junction
 
-        Robot.drivetrain.drive(30);
-        Robot.drivetrain.turn(45);
+        Robot.drivetrain.drive(56);
+        Robot.drivetrain.turn(-45);
 
         // score on high junction
 
         Robot.verticalLift.autonomousRunToPosition("high");
-        Robot.drivetrain.drive(9);
+        Robot.drivetrain.drive(11);
         Robot.servoHook.runToPosition("retract");
         sleep(1000);
-        Robot.drivetrain.drive(-9);
+        Robot.drivetrain.drive(-11);
         Robot.verticalLift.autonomousRunToPosition("transfer");
 
         // park
 
-        Robot.drivetrain.turn(135);
-        Robot.drivetrain.drive(24);
+        Robot.drivetrain.turn(-135);
+        Robot.drivetrain.drive(26);
 
         if (Robot.tag == 1) Robot.drivetrain.strafe(24);
         if (Robot.tag == 3) Robot.drivetrain.strafe(-24);
