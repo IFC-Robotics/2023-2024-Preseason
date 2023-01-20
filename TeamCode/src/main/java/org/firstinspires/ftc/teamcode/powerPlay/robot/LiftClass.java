@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
@@ -7,6 +8,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LiftClass {
 
+    LinearOpMode linearOpMode;
+    HardwareMap hardwareMap;
     Telemetry telemetry;
 
     public DcMotor motor;
@@ -25,7 +28,11 @@ public class LiftClass {
 
     public LiftClass() {}
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, String name, double maxSpeed, double countsPerInch) {
+    public void init(LinearOpMode opModeParam, String name, double maxSpeed, double countsPerInch) {
+
+        linearOpMode = opModeParam;
+        hardwareMap = opModeParam.hardwareMap;
+        telemetry = opModeParam.telemetry;
 
         NAME = name;
         MAX_SPEED = maxSpeed;
@@ -38,8 +45,6 @@ public class LiftClass {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        telemetry = telemetryParameter;
-
     }
 
     // autonomous
@@ -50,7 +55,7 @@ public class LiftClass {
         if (position == "low")      run(verticalLiftPosition3);
         if (position == "middle")   run(verticalLiftPosition4);
         if (position == "high")     run(verticalLiftPosition5);
-        if (position == "6th cone") run(20);
+        if (position == "6th cone") run(12);
     }
 
     public void autonomousRunToPosition(String position) {
@@ -59,7 +64,6 @@ public class LiftClass {
 
         while (motor.isBusy()) {
             telemetry.addLine(String.format("%1$s is at position %2$s", NAME, motor.getCurrentPosition()));
-            telemetry.update();
         }
 
         motor.setPower(0);

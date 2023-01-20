@@ -17,7 +17,7 @@ public class RightHighAuton extends LinearOpMode {
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(this, hardwareMap, telemetry);
+        Robot.init(this);
         Robot.tag = Robot.camera.getTag();
 
         waitForStart();

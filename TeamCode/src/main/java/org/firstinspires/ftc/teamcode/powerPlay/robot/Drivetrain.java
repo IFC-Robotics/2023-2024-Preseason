@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -11,6 +12,8 @@ import java.lang.Math;
 
 public class Drivetrain {
 
+    LinearOpMode linearOpMode;
+    HardwareMap hardwareMap;
     Telemetry telemetry;
 
     public static DcMotor motorFrontRight;
@@ -25,7 +28,11 @@ public class Drivetrain {
 
     public Drivetrain() {}
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, int countsPerInch) {
+    public void init(LinearOpMode opModeParam, int countsPerInch) {
+
+        linearOpMode = opModeParam;
+        hardwareMap = opModeParam.hardwareMap;
+        telemetry = opModeParam.telemetry;
 
         COUNTS_PER_INCH = countsPerInch;
 
@@ -34,13 +41,8 @@ public class Drivetrain {
         motorBackRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
         motorBackLeft   = hardwareMap.get(DcMotor.class, "motor_back_left");
 
-        if (FORWARD_DIRECTION == "horizontal lift") {
-            motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-            motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-        } else if (FORWARD_DIRECTION == "vertical lift") {
-            motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        }
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -57,14 +59,11 @@ public class Drivetrain {
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        telemetry = telemetryParameter;
-
     }
 
     public void drive(double distance, double speed) {
 
         telemetry.addLine(String.format("\ndriving %s inches", distance));
-        telemetry.update();
 
         double factor = 0.868; // coeff to regulate driving distances
         int target = (int)(distance * COUNTS_PER_INCH * factor);
@@ -77,7 +76,6 @@ public class Drivetrain {
     public void strafe(double distance, double speed) {
 
         telemetry.addLine(String.format("\nstrafing %s inches", distance));
-        telemetry.update();
 
         double factor = 1.1423; // once again another constant to try to get the correct distances
         int target = (int)(distance * COUNTS_PER_INCH * factor);
@@ -90,7 +88,6 @@ public class Drivetrain {
     public void turn(double angle, double speed) {
 
         telemetry.addLine(String.format("\nturning %s degrees", angle));
-        telemetry.update();
 
         double factor = 12.85; // no meaning, just what makes the turns work
         double circumference = 2 * Math.PI * factor;

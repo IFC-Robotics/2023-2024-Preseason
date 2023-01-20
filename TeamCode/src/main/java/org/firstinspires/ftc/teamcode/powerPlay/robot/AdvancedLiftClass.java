@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
@@ -8,6 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class AdvancedLiftClass {
 
+    LinearOpMode linearOpMode;
+    HardwareMap hardwareMap;
     Telemetry telemetry;
 
     public DcMotor motor;
@@ -30,7 +33,11 @@ public class AdvancedLiftClass {
 
     public AdvancedLiftClass() {}
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, String name, double maxSpeed, double countsPerInch) {
+    public void init(LinearOpMode opModeParam, String name, double maxSpeed, double countsPerInch) {
+
+        linearOpMode = opModeParam;
+        hardwareMap = opModeParam.hardwareMap;
+        telemetry = opModeParam.telemetry;
 
         NAME = name;
         MAX_SPEED = maxSpeed;
@@ -43,8 +50,6 @@ public class AdvancedLiftClass {
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        telemetry = telemetryParameter;
 
     }
 

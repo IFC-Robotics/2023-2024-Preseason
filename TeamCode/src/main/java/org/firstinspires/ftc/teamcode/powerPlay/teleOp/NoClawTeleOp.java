@@ -13,7 +13,8 @@ public class NoClawTeleOp extends LinearOpMode {
 
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
-        Robot.init(this, hardwareMap, telemetry);
+
+        Robot.init(this);
 
         waitForStart();
 
@@ -27,6 +28,8 @@ public class NoClawTeleOp extends LinearOpMode {
             Robot.verticalLift.teleOpAssistMode(gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y, gamepad2.right_bumper);
             Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
             Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+
+            telemetry.update();
 
         }
 

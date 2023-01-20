@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.powerPlay.robot.AdvancedRobot;
 
 @TeleOp(name="FSM teleOp", group="competition")
 @Disabled
-public class AdvancedFSMteleOp extends OpMode {
+public class AdvancedFSMteleOp extends LinearOpMode {
 
     public enum RobotState {
         START,
@@ -30,178 +30,177 @@ public class AdvancedFSMteleOp extends OpMode {
     ElapsedTime timer = new ElapsedTime();
 
     @Override
-    public void init() {
+    public void runOpMode() {
+
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
-        AdvancedRobot.init(hardwareMap, telemetry);
-    }
 
-    @Override
-    public void start() {
+        AdvancedRobot.init(this);
+
+        waitForStart();
+
         timer.reset();
         telemetry.addLine("Executing opMode...");
         telemetry.update();
-    }
 
-    @Override
-    public void loop() {
+        while (opModeIsActive()) {
 
-        // Switching modes
+            // Switching modes
 
-        if (gamepad2.back) {
-            AdvancedRobot.reset();
-            AdvancedRobot.mode = "FSM";
-        }
-
-        if (gamepad2.back)  AdvancedRobot.mode = "assist";
-        if (gamepad2.guide) AdvancedRobot.mode = "manual";
-
-        telemetry.addData("Robot mode", AdvancedRobot.mode);
-
-        // Finite State Machine mode
-
-        if (AdvancedRobot.mode == "FSM") {
-
-            // driving to FSM position
-
-            if (gamepad1.right_bumper) {
-
-                telemetry.addLine("driving to FSM position");
-                telemetry.addData("randomization", randomization);
-
-                AdvancedRobot.drivetrain.drive(24, 0.5);
-
-                if(randomization == "left 1")  AdvancedRobot.drivetrain.strafe(60, 0.5);
-                if(randomization == "left 2")  AdvancedRobot.drivetrain.strafe(36, 0.5);
-                if(randomization == "left 3")  AdvancedRobot.drivetrain.strafe(12, 0.5);
-                if(randomization == "right 1") AdvancedRobot.drivetrain.strafe(-12, 0.5);
-                if(randomization == "right 2") AdvancedRobot.drivetrain.strafe(-36, 0.5);
-                if(randomization == "right 3") AdvancedRobot.drivetrain.strafe(-60, 0.5);
-
+            if (gamepad2.back) {
+                AdvancedRobot.reset();
+                AdvancedRobot.mode = "FSM";
             }
 
-            // FSM
+            if (gamepad2.back) AdvancedRobot.mode = "assist";
+            if (gamepad2.guide) AdvancedRobot.mode = "manual";
 
-            telemetry.addLine(String.format("current FSM state: %s", state));
+            telemetry.addData("Robot mode", AdvancedRobot.mode);
 
-            switch (state) {
+            // Finite State Machine mode
 
-                case START:
-                    if (gamepad1.x) { // start FSM
-                        state = RobotState.PREPARE_TO_COLLECT;
-                    }
-                    break;
+            if (AdvancedRobot.mode == "FSM") {
 
-                case PREPARE_TO_COLLECT:
-                    AdvancedRobot.servoRotateClaw.runToPosition("down"); // rotate claw down
-                    timer.reset();
-                    state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
-                    break;
+                // driving to FSM position
 
-                case MOVE_HORIZONTAL_TO_COLLECT:
-                    if (gamepad1.a && timer.seconds() >= AdvancedRobot.servoRotateClaw.TIME) {
-                        AdvancedRobot.horizontalLift.runToPosition("collect"); // move horizontal lift to collect cone
-                        state = RobotState.COLLECT_CONE;
-                    }
-                    break;
+                if (gamepad1.right_bumper) {
 
-                case COLLECT_CONE:
-                    int horizontalLiftMaxPosition = (int)(AdvancedRobot.horizontalLift.horizontalLiftMaxPosition * AdvancedRobot.horizontalLift.COUNTS_PER_INCH);
-                    if (AdvancedRobot.horizontalLift.motor.getCurrentPosition() >= horizontalLiftMaxPosition) {
-                        AdvancedRobot.servoClaw.runToPosition("close"); // close claw
+                    telemetry.addLine("driving to FSM position");
+                    telemetry.addData("randomization", randomization);
+
+                    AdvancedRobot.drivetrain.drive(24, 0.5);
+
+                    if (randomization == "left 1") AdvancedRobot.drivetrain.strafe(60, 0.5);
+                    if (randomization == "left 2") AdvancedRobot.drivetrain.strafe(36, 0.5);
+                    if (randomization == "left 3") AdvancedRobot.drivetrain.strafe(12, 0.5);
+                    if (randomization == "right 1") AdvancedRobot.drivetrain.strafe(-12, 0.5);
+                    if (randomization == "right 2") AdvancedRobot.drivetrain.strafe(-36, 0.5);
+                    if (randomization == "right 3") AdvancedRobot.drivetrain.strafe(-60, 0.5);
+
+                }
+
+                // FSM
+
+                telemetry.addLine(String.format("current FSM state: %s", state));
+
+                switch (state) {
+
+                    case START:
+                        if (gamepad1.x) { // start FSM
+                            state = RobotState.PREPARE_TO_COLLECT;
+                        }
+                        break;
+
+                    case PREPARE_TO_COLLECT:
+                        AdvancedRobot.servoRotateClaw.runToPosition("down"); // rotate claw down
                         timer.reset();
-                        state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
-                    }
-                    break;
-
-                case MOVE_HORIZONTAL_TO_TRANSFER:
-                    if (timer.seconds() >= AdvancedRobot.servoClaw.TIME) {
-                        AdvancedRobot.servoRotateClaw.runToPosition("up"); // rotate claw up
-                        AdvancedRobot.horizontalLift.runToPosition("transfer"); // move horizontal lift to transfer cone
-                        state = RobotState.TRANSFER_CONE;
-                    }
-                    break;
-
-                case TRANSFER_CONE:
-                    int horizontalLiftMinPosition = (int)(AdvancedRobot.horizontalLift.horizontalLiftMinPosition * AdvancedRobot.horizontalLift.COUNTS_PER_INCH);
-                    if (AdvancedRobot.horizontalLift.motor.getCurrentPosition() >= horizontalLiftMinPosition) {
-                        AdvancedRobot.servoHook.runToPosition("extend"); // extend hook
-                        timer.reset();
-                        state = RobotState.RELEASE_CONE;
-                    }
-                    break;
-
-                case RELEASE_CONE:
-                    if (timer.seconds() >= AdvancedRobot.servoHook.TIME) {
-                        AdvancedRobot.servoClaw.runToPosition("open"); // open claw
-                        timer.reset();
-                        state = RobotState.MOVE_VERTICAL_TO_SCORE;
-                    }
-                    break;
-
-                case MOVE_VERTICAL_TO_SCORE:
-                    if (timer.seconds() >= AdvancedRobot.servoClaw.TIME) {
-                        AdvancedRobot.servoRotateHook.runToPosition("score"); // rotate hook to score cone
-                        AdvancedRobot.verticalLift.runToPosition("high"); // move vertical lift to score cone
-                        state = RobotState.SCORE_CONE;
-                    }
-                    break;
-
-                case SCORE_CONE:
-                    int verticalLiftMaxPosition = (int)(AdvancedRobot.verticalLift.verticalLiftPosition5 * AdvancedRobot.verticalLift.COUNTS_PER_INCH);
-                    if (AdvancedRobot.verticalLift.motor.getCurrentPosition() >= verticalLiftMaxPosition) {
-                        AdvancedRobot.servoHook.runToPosition("retract"); // retract hook
-                        timer.reset();
-                        state = RobotState.MOVE_VERTICAL_TO_TRANSFER;
-                    }
-                    break;
-
-                case MOVE_VERTICAL_TO_TRANSFER:
-                    if (timer.seconds() >= AdvancedRobot.servoClaw.TIME) {
-                        AdvancedRobot.servoRotateHook.runToPosition("transfer"); // rotate hook to transfer cone
-                        AdvancedRobot.verticalLift.runToPosition("transfer"); // move vertical lift to transfer cone
                         state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
-                    }
-                    break;
+                        break;
 
-                default:
+                    case MOVE_HORIZONTAL_TO_COLLECT:
+                        if (gamepad1.a && timer.seconds() >= AdvancedRobot.servoRotateClaw.TIME) {
+                            AdvancedRobot.horizontalLift.runToPosition("collect"); // move horizontal lift to collect cone
+                            state = RobotState.COLLECT_CONE;
+                        }
+                        break;
+
+                    case COLLECT_CONE:
+                        int horizontalLiftMaxPosition = (int) (AdvancedRobot.horizontalLift.horizontalLiftMaxPosition * AdvancedRobot.horizontalLift.COUNTS_PER_INCH);
+                        if (AdvancedRobot.horizontalLift.motor.getCurrentPosition() >= horizontalLiftMaxPosition) {
+                            AdvancedRobot.servoClaw.runToPosition("close"); // close claw
+                            timer.reset();
+                            state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
+                        }
+                        break;
+
+                    case MOVE_HORIZONTAL_TO_TRANSFER:
+                        if (timer.seconds() >= AdvancedRobot.servoClaw.TIME) {
+                            AdvancedRobot.servoRotateClaw.runToPosition("up"); // rotate claw up
+                            AdvancedRobot.horizontalLift.runToPosition("transfer"); // move horizontal lift to transfer cone
+                            state = RobotState.TRANSFER_CONE;
+                        }
+                        break;
+
+                    case TRANSFER_CONE:
+                        int horizontalLiftMinPosition = (int) (AdvancedRobot.horizontalLift.horizontalLiftMinPosition * AdvancedRobot.horizontalLift.COUNTS_PER_INCH);
+                        if (AdvancedRobot.horizontalLift.motor.getCurrentPosition() >= horizontalLiftMinPosition) {
+                            AdvancedRobot.servoHook.runToPosition("extend"); // extend hook
+                            timer.reset();
+                            state = RobotState.RELEASE_CONE;
+                        }
+                        break;
+
+                    case RELEASE_CONE:
+                        if (timer.seconds() >= AdvancedRobot.servoHook.TIME) {
+                            AdvancedRobot.servoClaw.runToPosition("open"); // open claw
+                            timer.reset();
+                            state = RobotState.MOVE_VERTICAL_TO_SCORE;
+                        }
+                        break;
+
+                    case MOVE_VERTICAL_TO_SCORE:
+                        if (timer.seconds() >= AdvancedRobot.servoClaw.TIME) {
+                            AdvancedRobot.servoRotateHook.runToPosition("score"); // rotate hook to score cone
+                            AdvancedRobot.verticalLift.runToPosition("high"); // move vertical lift to score cone
+                            state = RobotState.SCORE_CONE;
+                        }
+                        break;
+
+                    case SCORE_CONE:
+                        int verticalLiftMaxPosition = (int) (AdvancedRobot.verticalLift.verticalLiftPosition5 * AdvancedRobot.verticalLift.COUNTS_PER_INCH);
+                        if (AdvancedRobot.verticalLift.motor.getCurrentPosition() >= verticalLiftMaxPosition) {
+                            AdvancedRobot.servoHook.runToPosition("retract"); // retract hook
+                            timer.reset();
+                            state = RobotState.MOVE_VERTICAL_TO_TRANSFER;
+                        }
+                        break;
+
+                    case MOVE_VERTICAL_TO_TRANSFER:
+                        if (timer.seconds() >= AdvancedRobot.servoClaw.TIME) {
+                            AdvancedRobot.servoRotateHook.runToPosition("transfer"); // rotate hook to transfer cone
+                            AdvancedRobot.verticalLift.runToPosition("transfer"); // move vertical lift to transfer cone
+                            state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
+                        }
+                        break;
+
+                    default:
+                        state = RobotState.START;
+
+                }
+
+                // pause FSM
+
+                if (gamepad1.y && state != RobotState.START) {
                     state = RobotState.START;
+                }
+
+            } else if (AdvancedRobot.mode == "assist") { // assist mode
+
+                AdvancedRobot.servoClaw.teleOpAssistMode(gamepad2.dpad_left, gamepad2.dpad_right);
+                AdvancedRobot.servoRotateClaw.teleOpAssistMode(gamepad2.dpad_up, gamepad2.dpad_down);
+
+                AdvancedRobot.servoHook.teleOpAssistMode(gamepad2.y, gamepad2.a);
+                AdvancedRobot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
+
+                AdvancedRobot.horizontalLift.teleOpHorizontalLiftAssistMode(gamepad2.left_bumper, gamepad2.right_bumper);
+                AdvancedRobot.verticalLift.teleOpVerticalLiftAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper);
+
+            } else if (AdvancedRobot.mode == "manual") { // manual mode
+
+                AdvancedRobot.servoClaw.teleOpManualMode(gamepad2.dpad_left, gamepad2.dpad_right);
+                AdvancedRobot.servoRotateClaw.teleOpManualMode(gamepad2.dpad_up, gamepad2.dpad_down);
+
+                AdvancedRobot.servoHook.teleOpManualMode(gamepad2.y, gamepad2.a);
+                AdvancedRobot.servoRotateHook.teleOpManualMode(gamepad2.x, gamepad2.b);
+
+                AdvancedRobot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y);
+                AdvancedRobot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
 
             }
 
-            // pause FSM
-
-            if (gamepad1.y && state != RobotState.START) {
-                state = RobotState.START;
-            }
-
-        } else
-
-        if (AdvancedRobot.mode == "assist") { // assist mode
-
-            AdvancedRobot.servoClaw.teleOpAssistMode(gamepad2.dpad_left, gamepad2.dpad_right);
-            AdvancedRobot.servoRotateClaw.teleOpAssistMode(gamepad2.dpad_up, gamepad2.dpad_down);
-
-            AdvancedRobot.servoHook.teleOpAssistMode(gamepad2.y, gamepad2.a);
-            AdvancedRobot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
-
-            AdvancedRobot.horizontalLift.teleOpHorizontalLiftAssistMode(gamepad2.left_bumper, gamepad2.right_bumper);
-            AdvancedRobot.verticalLift.teleOpVerticalLiftAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper);
-
-        } else if (AdvancedRobot.mode == "manual") { // manual mode
-
-            AdvancedRobot.servoClaw.teleOpManualMode(gamepad2.dpad_left, gamepad2.dpad_right);
-            AdvancedRobot.servoRotateClaw.teleOpManualMode(gamepad2.dpad_up, gamepad2.dpad_down);
-
-            AdvancedRobot.servoHook.teleOpManualMode(gamepad2.y, gamepad2.a);
-            AdvancedRobot.servoRotateHook.teleOpManualMode(gamepad2.x, gamepad2.b);
-
-            AdvancedRobot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y);
-            AdvancedRobot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
+            AdvancedRobot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
         }
-
-        AdvancedRobot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
     }
 

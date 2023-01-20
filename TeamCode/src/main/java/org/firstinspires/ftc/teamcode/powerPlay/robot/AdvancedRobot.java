@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import java.lang.Math;
@@ -22,7 +23,7 @@ public class AdvancedRobot {
     // servos
 
     static final double SERVO_SPEED = 0.002;
-    static final double SERVO_TIME = 0.5;
+    static final double SERVO_TIME = 500;
 
     public static AdvancedServoClass servoClaw;
     public static AdvancedServoClass servoRotateClaw;
@@ -46,7 +47,10 @@ public class AdvancedRobot {
 
     // other variables
 
+    public static LinearOpMode linearOpMode;
+    public static HardwareMap hardwareMap;
     public static Telemetry telemetry;
+
     public static String side = "";
     public static String mode = "assist";
 
@@ -54,9 +58,11 @@ public class AdvancedRobot {
 
     public AdvancedRobot() {}
 
-    public static void init(HardwareMap hardwareMap, Telemetry telemetryParameter) {
+    public static void init(LinearOpMode opModeParam) {
 
-        telemetry = telemetryParameter;
+        linearOpMode = opModeParam;
+        hardwareMap = opModeParam.hardwareMap;
+        telemetry = opModeParam.telemetry;
 
         // drivetrain
 
@@ -64,7 +70,7 @@ public class AdvancedRobot {
         telemetry.update();
 
         drivetrain = new Drivetrain();
-        drivetrain.init(hardwareMap, telemetry, DRIVETRAIN_COUNTS_PER_INCH);
+        drivetrain.init(linearOpMode, DRIVETRAIN_COUNTS_PER_INCH);
 
         // servos
 
@@ -75,10 +81,10 @@ public class AdvancedRobot {
         servoHook = new AdvancedServoClass();
         servoRotateHook = new AdvancedServoClass();
 
-        servoClaw.init(hardwareMap, telemetry, "servo_claw", 0.47, 0.67, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateClaw.init(hardwareMap, telemetry, "servo_rotate_claw", 0.0, 1.0, SERVO_SPEED + 0.001, SERVO_TIME, true);
-        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.06, 0.16, SERVO_SPEED, SERVO_TIME, true);
-        servoRotateHook.init(hardwareMap, telemetry, "servo_rotate_hook", 0.05, 0.05, SERVO_SPEED, SERVO_TIME, true);
+        servoClaw.init(linearOpMode, "servo_claw", 0.47, 0.67, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateClaw.init(linearOpMode, "servo_rotate_claw", 0.0, 1.0, SERVO_SPEED + 0.001, SERVO_TIME, true);
+        servoHook.init(linearOpMode, "servo_hook", 0.06, 0.16, SERVO_SPEED, SERVO_TIME, true);
+        servoRotateHook.init(linearOpMode, "servo_rotate_hook", 0.05, 0.05, SERVO_SPEED, SERVO_TIME, true);
 
         // lifts
 
@@ -88,8 +94,8 @@ public class AdvancedRobot {
         horizontalLift = new AdvancedLiftClass();
         verticalLift = new AdvancedLiftClass();
 
-        horizontalLift.init(hardwareMap, telemetry, "motor_horizontal_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
-        verticalLift.init(hardwareMap, telemetry, "motor_vertical_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
+        horizontalLift.init(linearOpMode, "motor_horizontal_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
+        verticalLift.init(linearOpMode, "motor_vertical_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
 
         // camera
 
@@ -97,8 +103,8 @@ public class AdvancedRobot {
         telemetry.update();
 
         camera = new Camera();
-//        camera.init(hardwareMap, telemetry);
-//
+        camera.init(linearOpMode);
+
         telemetry.addLine("finished initializing robot class");
         telemetry.update();
 

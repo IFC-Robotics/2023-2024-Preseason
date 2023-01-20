@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -8,6 +9,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ServoClass {
 
+    LinearOpMode linearOpMode;
+    HardwareMap hardwareMap;
     Telemetry telemetry;
 
     public Servo servo;
@@ -21,7 +24,11 @@ public class ServoClass {
 
     public ServoClass() {}
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, String name, double minPosition, double maxPosition, double speed, double time, boolean reverseDirection) {
+    public void init(LinearOpMode opModeParam, String name, double minPosition, double maxPosition, double speed, double time, boolean reverseDirection) {
+
+        linearOpMode = opModeParam;
+        hardwareMap = opModeParam.hardwareMap;
+        telemetry = opModeParam.telemetry;
 
         NAME = name;
         MIN_POSITION = minPosition;
@@ -33,8 +40,6 @@ public class ServoClass {
         servoPosition = servo.getPosition();
 
         if (reverseDirection) servo.setDirection(Servo.Direction.REVERSE);
-
-        telemetry = telemetryParameter;
 
     }
 
@@ -60,15 +65,5 @@ public class ServoClass {
             telemetry.addLine(String.format("running %1$s with speed %2$s at (current) position %3$s", NAME, SPEED, servoPosition));
         }
     }
-
-//    Robot.servoHook.teleOpManualMode(gamepad2.dpad_left, gamepad2.dpad_right);
-
-//    public void teleOpManualMode(boolean button1, boolean button2) {
-//        if (button1 || button2) {
-//            if (button1 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
-//            if (button2 && servoPosition < MAX_POSITION) servoPosition += SPEED;
-//            servo.setPosition(servoPosition);
-//        }
-//    }
 
 }

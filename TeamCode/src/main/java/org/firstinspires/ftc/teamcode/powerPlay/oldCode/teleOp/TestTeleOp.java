@@ -15,7 +15,7 @@ public class TestTeleOp extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        robot.init(this, hardwareMap, telemetry);
+        robot.init(this);
     }
 
 //    @Override

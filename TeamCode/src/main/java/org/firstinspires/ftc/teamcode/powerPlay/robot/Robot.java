@@ -23,7 +23,7 @@ public class Robot {
     // servos
 
     static final double SERVO_SPEED = 0.002;
-    static final double SERVO_TIME = 0.5;
+    static final double SERVO_TIME = 500;
 
     public static ServoClass servoHook;
 
@@ -32,7 +32,7 @@ public class Robot {
     public static final double LIFT_RATIO = 1.5;
     public static final double LIFT_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / LIFT_RATIO; // 178 / 1.5 = 118.67
 
-    public static final double MAX_LIFT_SPEED = 0.7;
+    public static final double MAX_LIFT_SPEED = 0.8;
 
     public static LiftClass verticalLift;
 
@@ -43,15 +43,19 @@ public class Robot {
 
     // other variables
 
+    public static LinearOpMode linearOpMode;
+    public static HardwareMap hardwareMap;
     public static Telemetry telemetry;
 
     // initialize
 
     public Robot() {}
 
-    public static void init(LinearOpMode linearOpMode, HardwareMap hardwareMap, Telemetry telemetryParameter) {
+    public static void init(LinearOpMode opModeParam) {
 
-        telemetry = telemetryParameter;
+        linearOpMode = opModeParam;
+        hardwareMap = opModeParam.hardwareMap;
+        telemetry = opModeParam.telemetry;
 
         // drivetrain
 
@@ -59,7 +63,7 @@ public class Robot {
         telemetry.update();
 
         drivetrain = new Drivetrain();
-        drivetrain.init(hardwareMap, telemetry, DRIVETRAIN_COUNTS_PER_INCH);
+        drivetrain.init(linearOpMode, DRIVETRAIN_COUNTS_PER_INCH);
 
         // servos
 
@@ -67,7 +71,7 @@ public class Robot {
         telemetry.update();
 
         servoHook = new ServoClass();
-        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.05, 0.18, SERVO_SPEED, SERVO_TIME, true);
+        servoHook.init(linearOpMode, "servo_hook", 0.05, 0.18, SERVO_SPEED, SERVO_TIME, true);
 
         // lifts
 
@@ -75,7 +79,7 @@ public class Robot {
         telemetry.update();
 
         verticalLift = new LiftClass();
-        verticalLift.init(hardwareMap, telemetry, "motor_vertical_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
+        verticalLift.init(linearOpMode, "motor_vertical_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
 
         // camera
 
@@ -83,7 +87,7 @@ public class Robot {
         telemetry.update();
 
         camera = new Camera();
-        camera.init(linearOpMode, hardwareMap, telemetry);
+        camera.init(linearOpMode);
 
         telemetry.addLine("finished initializing robot class");
         telemetry.update();

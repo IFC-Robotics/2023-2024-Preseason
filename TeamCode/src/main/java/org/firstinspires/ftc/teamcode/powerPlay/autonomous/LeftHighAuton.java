@@ -2,26 +2,16 @@ package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-/*
-
-To Do:
-
-- right now, lift raises before servo hook closes
-- fix camera issue. Instead of running for 10 sec, run while waiting for the program to start
-- get rid of hardwareMap and telemetry inputs in Robot.init() throughout code
-- adjust values of leftHighAuton.java until it works
-- transfer to rightHighAuton.java
-
-*/
-
-@Autonomous(name="Left side High junction", group="competition")
+@Autonomous(name="Left 1+0", group="competition")
 public class LeftHighAuton extends LinearOpMode {
 
-    double DRIVE_SPEED = 0.5;
-    double STRAFE_SPEED = 0.5;
-    double TURN_SPEED = 0.5;
+    double DRIVE_SPEED = 0.7;
+    double STRAFE_SPEED = 0.7;
+    double TURN_SPEED = 0.7;
 
     @Override
     public void runOpMode() {
@@ -29,7 +19,7 @@ public class LeftHighAuton extends LinearOpMode {
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(this, hardwareMap, telemetry);
+        Robot.init(this);
         Robot.tag = Robot.camera.getTag();
 
         waitForStart();
@@ -40,32 +30,39 @@ public class LeftHighAuton extends LinearOpMode {
         // secure preloaded cone
 
         Robot.servoHook.runToPosition("extend");
-        sleep(500);
-        Robot.verticalLift.autonomousRunToPosition("ground");
+        sleep(1000);
+        Robot.verticalLift.runToPosition("high");
 
         // drive to high junction
 
-        Robot.drivetrain.drive(64, DRIVE_SPEED);
+        Robot.drivetrain.drive(63, DRIVE_SPEED);
         Robot.drivetrain.drive(-8, DRIVE_SPEED);
         Robot.drivetrain.turn(45, TURN_SPEED);
 
         // score on high junction
 
-        Robot.verticalLift.autonomousRunToPosition("high");
-        Robot.drivetrain.drive(10, DRIVE_SPEED);
-        sleep(2000);
+        double distToJunction = 8;
+
+        Robot.drivetrain.drive(distToJunction, DRIVE_SPEED);
+        sleep(500);
         Robot.servoHook.runToPosition("retract");
         sleep(500);
-        Robot.drivetrain.drive(-10, DRIVE_SPEED);
-        Robot.verticalLift.autonomousRunToPosition("transfer");
+        Robot.drivetrain.drive(-distToJunction, DRIVE_SPEED);
+        sleep(500);
+        Robot.verticalLift.runToPosition("transfer");
 
-        // park
+        // park in correct zone
 
-        Robot.drivetrain.turn(135, TURN_SPEED);
-        Robot.drivetrain.drive(20, DRIVE_SPEED);
+        Robot.drivetrain.turn(47, TURN_SPEED);
 
-        if (Robot.tag == 1) Robot.drivetrain.strafe(21, STRAFE_SPEED);
-        if (Robot.tag == 3) Robot.drivetrain.strafe(-21, STRAFE_SPEED);
+        if (Robot.tag == 1) Robot.drivetrain.drive(21, DRIVE_SPEED);
+        if (Robot.tag == 3) Robot.drivetrain.drive(-21, DRIVE_SPEED);
+
+        // reset hook and lift
+
+        Robot.servoHook.runToPosition("retract");
+        while (Robot.verticalLift.motor.isBusy()) {}
+        Robot.verticalLift.motor.setPower(0);
 
     }
 

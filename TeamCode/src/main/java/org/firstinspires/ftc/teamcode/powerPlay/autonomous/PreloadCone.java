@@ -13,18 +13,15 @@ public class PreloadCone extends LinearOpMode {
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(this, hardwareMap, telemetry);
-
-        telemetry.addData("AprilTag", Robot.tag);
-        telemetry.update();
+        Robot.init(this);
 
         waitForStart();
 
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        Robot.servoHook.runToPosition("extend");
-        sleep(2000);
+        Robot.servoHook.runToPosition("extend"); // doesnt work consistently, for some reason
+        sleep(1000);
 
     }
 

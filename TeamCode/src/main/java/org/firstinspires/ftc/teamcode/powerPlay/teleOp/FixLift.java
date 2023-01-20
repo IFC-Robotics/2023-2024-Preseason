@@ -13,7 +13,7 @@ public class FixLift extends LinearOpMode {
 
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
-        Robot.init(this, hardwareMap, telemetry);
+        Robot.init(this);
 
         waitForStart();
 

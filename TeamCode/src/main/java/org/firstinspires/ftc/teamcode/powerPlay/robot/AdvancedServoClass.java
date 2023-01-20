@@ -1,11 +1,14 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class AdvancedServoClass {
 
+    LinearOpMode linearOpMode;
+    HardwareMap hardwareMap;
     Telemetry telemetry;
 
     public Servo servo;
@@ -19,7 +22,11 @@ public class AdvancedServoClass {
 
     public AdvancedServoClass() {}
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter, String name, double minPosition, double maxPosition, double speed, double time, boolean reverseDirection) {
+    public void init(LinearOpMode opModeParam, String name, double minPosition, double maxPosition, double speed, double time, boolean reverseDirection) {
+
+        linearOpMode = opModeParam;
+        hardwareMap = opModeParam.hardwareMap;
+        telemetry = opModeParam.telemetry;
 
         NAME = name;
         MIN_POSITION = minPosition;
@@ -31,8 +38,6 @@ public class AdvancedServoClass {
         servoPosition = servo.getPosition();
 
         if (reverseDirection) servo.setDirection(Servo.Direction.REVERSE);
-
-        telemetry = telemetryParameter;
 
     }
 

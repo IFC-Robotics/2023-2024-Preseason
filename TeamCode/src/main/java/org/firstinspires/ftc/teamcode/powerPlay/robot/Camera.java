@@ -15,6 +15,7 @@ import java.util.ArrayList;
 public class Camera {
 
     LinearOpMode linearOpMode;
+    HardwareMap hardwareMap;
     Telemetry telemetry;
 
     static int cameraMonitorViewId;
@@ -32,14 +33,13 @@ public class Camera {
     static int MIDDLE = 2;
     static int RIGHT = 3;
 
-    static AprilTagDetection tagOfInterest = null;
-
     public Camera() {}
 
-    public void init(LinearOpMode linearOpModeParameter, HardwareMap hardwareMap, Telemetry telemetryParameter) {
+    public void init(LinearOpMode opModeParam) {
 
-        linearOpMode = linearOpModeParameter;
-        telemetry = telemetryParameter;
+        linearOpMode = opModeParam;
+        hardwareMap = opModeParam.hardwareMap;
+        telemetry = opModeParam.telemetry;
 
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -59,45 +59,45 @@ public class Camera {
 
     public int getTag() {
 
-//        try {
+//        int numAttempts = 500;
+//        telemetry.addData("numAttempts", numAttempts);
 
-            int numAttempts = 500;
-            telemetry.addData("numAttempts", numAttempts);
+//        for (int i = 0; i < numAttempts; i++) {
 
-            for (int i = 0; i < numAttempts; i++) {
+        int tagID = 0;
 
-                ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+        while (linearOpMode.opModeInInit()) {
 
-                for(AprilTagDetection tag : currentDetections) {
-                    if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
-                        tagOfInterest = tag;
-                        telemetry.addData("numAttemptsNeeded", i);
-                        telemetry.update();
-                        i = numAttempts;
-                        break;
-                    }
+            telemetry.addData("Tag ID", tagID);
+            telemetry.update();
+
+            ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
+
+            for (AprilTagDetection tag : currentDetections) {
+                if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
+                    tagID = tag.id;
+//                    telemetry.addData("numAttemptsNeeded", i);
+//                    telemetry.update();
+//                    i = numAttempts;
+                    break;
                 }
-
-                linearOpMode.sleep(20);
-
             }
 
-            if(tagOfInterest != null) {
-                telemetry.addData("Tag ID", tagOfInterest.id);
-                telemetry.update();
-                return tagOfInterest.id;
-            } else {
-                telemetry.addLine("\nNo tag available");
-                telemetry.update();
-                return 0;
-            }
+            linearOpMode.sleep(20);
 
-//        } catch (InterruptedException e) {
-//            telemetry.addData("Error w/ getting April Tag", e.getLocalizedMessage());
+        }
+
+        return tagID;
+
+//        if (tagOfInterest != null) {
+//            telemetry.addData("Tag ID", tagOfInterest.id);
 //            telemetry.update();
+//            return tagOfInterest.id;
+//        } else {
+//            telemetry.addLine("\nNo tag available");
+//            telemetry.update();
+//            return 0;
 //        }
-
-//        return 0;
 
     }
 
