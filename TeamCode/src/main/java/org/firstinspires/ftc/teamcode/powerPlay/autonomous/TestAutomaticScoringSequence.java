@@ -13,7 +13,7 @@ public class TestAutomaticScoringSequence extends LinearOpMode {
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(hardwareMap, telemetry);
+        Robot.init(this, hardwareMap, telemetry);
         waitForStart();
 
         telemetry.addLine("Executing opMode...");
@@ -35,10 +35,10 @@ public class TestAutomaticScoringSequence extends LinearOpMode {
 
         Robot.verticalLift.autonomousRunToPosition("high");
 
-        Robot.drivetrain.drive(-6);
+        Robot.drivetrain.drive(-6, 0.5);
         Robot.servoHook.runToPosition("retract");
         sleep(1000);
-        Robot.drivetrain.drive(6);
+        Robot.drivetrain.drive(6, 0.5);
 
 //        Robot.servoRotateHook.runToPosition("transfer");
 //        sleep(1000);

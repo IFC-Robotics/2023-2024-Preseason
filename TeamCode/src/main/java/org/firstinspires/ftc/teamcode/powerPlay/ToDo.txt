@@ -1,9 +1,0 @@
-Programming
-
-    - test autonomous
-    - driver practice w/ noClawTeleOp.java
-    - fix issue between joystick & buttons w/ vertical lift
-
-    - find out why AprilTags sometimes doesn't work
-    - add edge case for no apriltag detection
-        - if Robot.tag == 0, then go to the closest zone to the middle (i.e. 3 of the left side and 1 for the right side)

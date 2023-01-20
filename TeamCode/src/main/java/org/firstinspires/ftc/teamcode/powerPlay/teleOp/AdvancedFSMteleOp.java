@@ -69,14 +69,14 @@ public class AdvancedFSMteleOp extends OpMode {
                 telemetry.addLine("driving to FSM position");
                 telemetry.addData("randomization", randomization);
 
-                AdvancedRobot.drivetrain.drive(24);
+                AdvancedRobot.drivetrain.drive(24, 0.5);
 
-                if(randomization == "left 1")  AdvancedRobot.drivetrain.strafe(60);
-                if(randomization == "left 2")  AdvancedRobot.drivetrain.strafe(36);
-                if(randomization == "left 3")  AdvancedRobot.drivetrain.strafe(12);
-                if(randomization == "right 1") AdvancedRobot.drivetrain.strafe(-12);
-                if(randomization == "right 2") AdvancedRobot.drivetrain.strafe(-36);
-                if(randomization == "right 3") AdvancedRobot.drivetrain.strafe(-60);
+                if(randomization == "left 1")  AdvancedRobot.drivetrain.strafe(60, 0.5);
+                if(randomization == "left 2")  AdvancedRobot.drivetrain.strafe(36, 0.5);
+                if(randomization == "left 3")  AdvancedRobot.drivetrain.strafe(12, 0.5);
+                if(randomization == "right 1") AdvancedRobot.drivetrain.strafe(-12, 0.5);
+                if(randomization == "right 2") AdvancedRobot.drivetrain.strafe(-36, 0.5);
+                if(randomization == "right 3") AdvancedRobot.drivetrain.strafe(-60, 0.5);
 
             }
 

@@ -1,64 +1,44 @@
 package org.firstinspires.ftc.teamcode.powerPlay.oldCode.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.ServoClass;
 
-/*
-
-To Do:
-
-- test servo subsystem autonomous
-- test lift subsystem autonomous & teleOp
-- test drivetrain subsystem autonomous & teleOp
-- test camera subsystem autonomous
-
-- fix toggle for assist mode
-- fix issue w/ initializing servos
-- find out why telemetry doesn't work in the subsystem classes / robot class
-
-- add & test finite state machine
-
-- if necessary, add "Warning: Robot Moves On Initialization" sticker
-    - https://www.firstinspires.org/sites/default/files/uploads/resource_library/ftc/robot-moves-labels.pdf
-
-*/
-
 @TeleOp(name="test teleOp")
 @Disabled
-public class TestTeleOp extends OpMode {
+public class TestTeleOp extends LinearOpMode {
 
     Robot robot = new Robot();
 
     @Override
-    public void init() {
-        robot.init(hardwareMap, telemetry);
+    public void runOpMode() {
+        robot.init(this, hardwareMap, telemetry);
     }
 
-    @Override
-    public void loop() {
-
-//        if (gamepad2.back) robot.assistMode = !robot.assistMode;
-//        telemetry.addData("assistMode", robot.assistMode);
+//    @Override
+//    public void loop() {
 //
-//        robot.drivetrain.executeTeleOp();
+////        if (gamepad2.back) robot.assistMode = !robot.assistMode;
+////        telemetry.addData("assistMode", robot.assistMode);
+////
+////        robot.drivetrain.executeTeleOp();
+////
+////        robot.servoClaw.executeTeleOp(robot.assistMode, gamepad2.dpad_left, gamepad2.dpad_right);
+////        robot.servoRotateClaw.executeTeleOp(robot.assistMode, gamepad2.dpad_up, gamepad2.dpad_down);
+////
+////        robot.servoHook.executeTeleOp(robot.assistMode, gamepad2.y, gamepad2.a);
+////        robot.servoRotateHook.executeTeleOp(robot.assistMode, gamepad2.x, gamepad2.b);
+////
+////        boolean[] horizontalLiftButtons = { gamepad2.left_bumper, gamepad2.right_bumper };
+////        boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
+////
+////        robot.horizontalLift.executeTeleOp(robot.assistMode, -gamepad2.left_stick_y, horizontalLiftButtons);
+////        robot.verticalLift.executeTeleOp(robot.assistMode, -gamepad2.right_stick_y, verticalLiftButtons);
 //
-//        robot.servoClaw.executeTeleOp(robot.assistMode, gamepad2.dpad_left, gamepad2.dpad_right);
-//        robot.servoRotateClaw.executeTeleOp(robot.assistMode, gamepad2.dpad_up, gamepad2.dpad_down);
-//
-//        robot.servoHook.executeTeleOp(robot.assistMode, gamepad2.y, gamepad2.a);
-//        robot.servoRotateHook.executeTeleOp(robot.assistMode, gamepad2.x, gamepad2.b);
-//
-//        boolean[] horizontalLiftButtons = { gamepad2.left_bumper, gamepad2.right_bumper };
-//        boolean[] verticalLiftButtons = { gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y, gamepad1.right_bumper };
-//
-//        robot.horizontalLift.executeTeleOp(robot.assistMode, -gamepad2.left_stick_y, horizontalLiftButtons);
-//        robot.verticalLift.executeTeleOp(robot.assistMode, -gamepad2.right_stick_y, verticalLiftButtons);
-
-    }
+//    }
 
     public void printServoPosition(ServoClass servoSubsystem) {
         telemetry.addData(String.format("%s position", servoSubsystem.NAME), servoSubsystem.servoPosition);

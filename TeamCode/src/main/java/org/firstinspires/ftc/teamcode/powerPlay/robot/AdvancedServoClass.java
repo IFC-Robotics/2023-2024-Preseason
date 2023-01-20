@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-
-import static java.lang.Thread.sleep;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class AdvancedServoClass {

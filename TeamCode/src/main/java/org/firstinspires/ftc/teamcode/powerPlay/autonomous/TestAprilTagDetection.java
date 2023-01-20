@@ -13,7 +13,7 @@ public class TestAprilTagDetection extends LinearOpMode {
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(hardwareMap, telemetry);
+        Robot.init(this, hardwareMap, telemetry);
 
         Robot.tag = Robot.camera.getTag();
 

@@ -1,11 +1,8 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import static java.lang.Thread.sleep;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
 import java.lang.Math;
 
 public class Robot {
@@ -52,7 +49,7 @@ public class Robot {
 
     public Robot() {}
 
-    public static void init(HardwareMap hardwareMap, Telemetry telemetryParameter) {
+    public static void init(LinearOpMode linearOpMode, HardwareMap hardwareMap, Telemetry telemetryParameter) {
 
         telemetry = telemetryParameter;
 
@@ -70,7 +67,7 @@ public class Robot {
         telemetry.update();
 
         servoHook = new ServoClass();
-        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.06, 0.16, SERVO_SPEED, SERVO_TIME, true);
+        servoHook.init(hardwareMap, telemetry, "servo_hook", 0.05, 0.18, SERVO_SPEED, SERVO_TIME, true);
 
         // lifts
 
@@ -86,7 +83,7 @@ public class Robot {
         telemetry.update();
 
         camera = new Camera();
-        camera.init(hardwareMap, telemetry);
+        camera.init(linearOpMode, hardwareMap, telemetry);
 
         telemetry.addLine("finished initializing robot class");
         telemetry.update();

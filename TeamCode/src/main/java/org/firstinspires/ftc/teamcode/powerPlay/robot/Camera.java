@@ -1,8 +1,7 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import static java.lang.Thread.sleep;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 
 public class Camera {
 
+    LinearOpMode linearOpMode;
     Telemetry telemetry;
 
     static int cameraMonitorViewId;
@@ -36,7 +36,10 @@ public class Camera {
 
     public Camera() {}
 
-    public void init(HardwareMap hardwareMap, Telemetry telemetryParameter) {
+    public void init(LinearOpMode linearOpModeParameter, HardwareMap hardwareMap, Telemetry telemetryParameter) {
+
+        linearOpMode = linearOpModeParameter;
+        telemetry = telemetryParameter;
 
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -50,16 +53,15 @@ public class Camera {
             public void onError(int errorCode) {}
         });
 
-        telemetry = telemetryParameter;
         telemetry.setMsTransmissionInterval(50);
 
     }
 
     public int getTag() {
 
-        try {
+//        try {
 
-            int numAttempts = 1000;
+            int numAttempts = 500;
             telemetry.addData("numAttempts", numAttempts);
 
             for (int i = 0; i < numAttempts; i++) {
@@ -70,12 +72,13 @@ public class Camera {
                     if(tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
                         tagOfInterest = tag;
                         telemetry.addData("numAttemptsNeeded", i);
+                        telemetry.update();
                         i = numAttempts;
                         break;
                     }
                 }
 
-                sleep(20);
+                linearOpMode.sleep(20);
 
             }
 
@@ -89,12 +92,12 @@ public class Camera {
                 return 0;
             }
 
-        } catch (InterruptedException e) {
-            telemetry.addData("Error w/ getting April Tag", e.getLocalizedMessage());
-            telemetry.update();
-        }
+//        } catch (InterruptedException e) {
+//            telemetry.addData("Error w/ getting April Tag", e.getLocalizedMessage());
+//            telemetry.update();
+//        }
 
-        return 0;
+//        return 0;
 
     }
 

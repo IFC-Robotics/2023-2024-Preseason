@@ -1,34 +1,35 @@
 package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @TeleOp(name="no claw teleOp", group="competition")
-public class noClawTeleOp extends OpMode {
+public class NoClawTeleOp extends LinearOpMode {
 
     @Override
-    public void init() {
+    public void runOpMode() {
+
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
-        Robot.init(hardwareMap, telemetry);
-    }
+        Robot.init(this, hardwareMap, telemetry);
 
-    @Override
-    public void start() {
+        waitForStart();
+
         telemetry.addLine("Executing opMode...");
         telemetry.update();
-    }
 
-    @Override
-    public void loop() {
-        Robot.servoHook.teleOpAssistMode(gamepad2.dpad_down, gamepad2.dpad_up);
-        Robot.servoHook.teleOpManualMode(-gamepad2.left_stick_y);
-        Robot.verticalLift.teleOpAssistMode(gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y, gamepad2.right_bumper);
-        Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
-        Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+        while(opModeIsActive()) {
+
+            Robot.servoHook.teleOpAssistMode(gamepad2.dpad_down, gamepad2.dpad_up);
+            Robot.servoHook.teleOpManualMode(-gamepad2.left_stick_y);
+            Robot.verticalLift.teleOpAssistMode(gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y, gamepad2.right_bumper);
+            Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y);
+            Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
+
+        }
+
     }
 
 }

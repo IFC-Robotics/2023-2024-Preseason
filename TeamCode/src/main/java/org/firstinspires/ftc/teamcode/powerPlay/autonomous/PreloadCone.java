@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @Autonomous(name="preload cone", group="competition")
-public class preloadCone extends LinearOpMode {
+public class PreloadCone extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -13,7 +13,7 @@ public class preloadCone extends LinearOpMode {
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(hardwareMap, telemetry);
+        Robot.init(this, hardwareMap, telemetry);
 
         telemetry.addData("AprilTag", Robot.tag);
         telemetry.update();
@@ -23,11 +23,7 @@ public class preloadCone extends LinearOpMode {
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        Robot.verticalLift.autonomousRunToPosition("ground");
-        sleep(2000);
         Robot.servoHook.runToPosition("extend");
-        sleep(2000);
-        Robot.verticalLift.autonomousRunToPosition("transfer");
         sleep(2000);
 
     }

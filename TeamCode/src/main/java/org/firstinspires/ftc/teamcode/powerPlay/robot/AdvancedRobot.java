@@ -97,8 +97,8 @@ public class AdvancedRobot {
         telemetry.update();
 
         camera = new Camera();
-        camera.init(hardwareMap, telemetry);
-
+//        camera.init(hardwareMap, telemetry);
+//
         telemetry.addLine("finished initializing robot class");
         telemetry.update();
 

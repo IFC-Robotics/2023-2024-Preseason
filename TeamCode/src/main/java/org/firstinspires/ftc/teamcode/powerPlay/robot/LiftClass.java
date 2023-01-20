@@ -2,10 +2,7 @@ package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
-import static java.lang.Thread.sleep;
 import com.qualcomm.robotcore.util.Range;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LiftClass {
@@ -53,6 +50,7 @@ public class LiftClass {
         if (position == "low")      run(verticalLiftPosition3);
         if (position == "middle")   run(verticalLiftPosition4);
         if (position == "high")     run(verticalLiftPosition5);
+        if (position == "6th cone") run(20);
     }
 
     public void autonomousRunToPosition(String position) {

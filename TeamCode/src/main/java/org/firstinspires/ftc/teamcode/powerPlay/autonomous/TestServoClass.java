@@ -13,7 +13,7 @@ public class TestServoClass extends LinearOpMode {
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
 
-        Robot.init(hardwareMap, telemetry);
+        Robot.init(this, hardwareMap, telemetry);
         waitForStart();
 
         telemetry.addLine("Executing opMode...");
