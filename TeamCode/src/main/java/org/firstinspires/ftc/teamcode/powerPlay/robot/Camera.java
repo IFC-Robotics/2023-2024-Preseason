@@ -59,45 +59,33 @@ public class Camera {
 
     public int getTag() {
 
-//        int numAttempts = 500;
-//        telemetry.addData("numAttempts", numAttempts);
-
-//        for (int i = 0; i < numAttempts; i++) {
-
+        int numAttempts = 250;
         int tagID = 0;
 
-        while (linearOpMode.opModeInInit()) {
+        for (int i = 0; i < numAttempts; i++) {
 
-            telemetry.addData("Tag ID", tagID);
-            telemetry.update();
+            telemetry.addData("numAttempts", i);
 
             ArrayList<AprilTagDetection> currentDetections = aprilTagDetectionPipeline.getLatestDetections();
 
             for (AprilTagDetection tag : currentDetections) {
                 if (tag.id == LEFT || tag.id == MIDDLE || tag.id == RIGHT) {
                     tagID = tag.id;
-//                    telemetry.addData("numAttemptsNeeded", i);
-//                    telemetry.update();
-//                    i = numAttempts;
+                    telemetry.addData("Tag ID", tagID);
+                    telemetry.addData("numAttemptsNeeded", i);
+                    telemetry.update();
+                    i = numAttempts;
                     break;
                 }
             }
+
+            telemetry.update();
 
             linearOpMode.sleep(20);
 
         }
 
         return tagID;
-
-//        if (tagOfInterest != null) {
-//            telemetry.addData("Tag ID", tagOfInterest.id);
-//            telemetry.update();
-//            return tagOfInterest.id;
-//        } else {
-//            telemetry.addLine("\nNo tag available");
-//            telemetry.update();
-//            return 0;
-//        }
 
     }
 

@@ -14,6 +14,7 @@ public class LiftClass {
 
     public DcMotor motor;
     public boolean liftIsMoving = false;
+    public boolean enableLowerLiftLimit = true;
 
     public String NAME;
     public double MAX_SPEED;
@@ -55,7 +56,7 @@ public class LiftClass {
         if (position == "low")      run(verticalLiftPosition3);
         if (position == "middle")   run(verticalLiftPosition4);
         if (position == "high")     run(verticalLiftPosition5);
-        if (position == "6th cone") run(12);
+        if (position == "5th cone") run(12);
     }
 
     public void autonomousRunToPosition(String position) {
@@ -92,7 +93,15 @@ public class LiftClass {
 
     }
 
-    public void teleOpManualMode(double joystick) {
+    public void teleOpManualMode(double joystick, boolean button) {
+
+        if (button) {
+            enableLowerLiftLimit = !enableLowerLiftLimit;
+            if (enableLowerLiftLimit) {
+                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
+        }
 
         if (!liftIsMoving) {
 
@@ -102,7 +111,7 @@ public class LiftClass {
             double LIFT_MIN_POSITION = (int)(verticalLiftPosition1 * COUNTS_PER_INCH);
             double LIFT_MAX_POSITION = (int)(verticalLiftPosition5 * COUNTS_PER_INCH);
 
-            if ((liftCurrentPosition >= LIFT_MAX_POSITION && liftSpeed > 0.05) || (liftCurrentPosition <= LIFT_MIN_POSITION && liftSpeed < -0.05)) {
+            if ((liftCurrentPosition >= LIFT_MAX_POSITION && liftSpeed > 0.02) || (enableLowerLiftLimit && liftCurrentPosition <= LIFT_MIN_POSITION && liftSpeed < -0.02)) {
                 liftSpeed = 0;
             }
 

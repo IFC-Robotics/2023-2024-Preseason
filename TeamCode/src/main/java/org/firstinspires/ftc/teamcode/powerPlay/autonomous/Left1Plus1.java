@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @Autonomous(name="Left 1+1", group="competition")
+@Disabled
 public class Left1Plus1 extends LinearOpMode {
 
     double DRIVE_SPEED = 0.7;
@@ -20,12 +22,15 @@ public class Left1Plus1 extends LinearOpMode {
         telemetry.update();
 
         Robot.init(this);
-        Robot.tag = Robot.camera.getTag();
 
         waitForStart();
 
         telemetry.addLine("Executing opMode...");
         telemetry.update();
+
+        // read AprilTag
+
+        Robot.tag = Robot.camera.getTag();
 
         // secure preloaded cone
 
@@ -39,6 +44,10 @@ public class Left1Plus1 extends LinearOpMode {
         Robot.drivetrain.drive(-8, DRIVE_SPEED);
         Robot.drivetrain.turn(45, TURN_SPEED);
 
+        // wait for lift to be raised
+
+        while (Robot.verticalLift.motor.isBusy()) {}
+
         // score on high junction
 
         double distToJunction = 9;
@@ -48,6 +57,7 @@ public class Left1Plus1 extends LinearOpMode {
         Robot.servoHook.runToPosition("retract");
         sleep(500);
         Robot.drivetrain.drive(-distToJunction, DRIVE_SPEED);
+        sleep(500);
         Robot.verticalLift.autonomousRunToPosition("low");
 
         // drive to cone stack
@@ -57,7 +67,8 @@ public class Left1Plus1 extends LinearOpMode {
 
         // pick up cone from cone stack
 
-        Robot.verticalLift.autonomousRunToPosition("6th cone");
+        Robot.verticalLift.autonomousRunToPosition("5th cone");
+        sleep(500);
         Robot.servoHook.runToPosition("extend");
         sleep(500);
         Robot.verticalLift.autonomousRunToPosition("high");
