@@ -67,8 +67,8 @@ public class RightHighAuton extends LinearOpMode {
         Robot.drivetrain.strafe(1, STRAFE_SPEED);
         sleep(100);
 
-        if (Robot.tag == 1) Robot.drivetrain.drive(-24, DRIVE_SPEED);
-        if (Robot.tag == 3) Robot.drivetrain.drive(23, DRIVE_SPEED);
+        if (Robot.tag == 1) Robot.drivetrain.drive(23, DRIVE_SPEED);
+        if (Robot.tag == 3) Robot.drivetrain.drive(-24, DRIVE_SPEED);
 
         // reset hook and lift
 
