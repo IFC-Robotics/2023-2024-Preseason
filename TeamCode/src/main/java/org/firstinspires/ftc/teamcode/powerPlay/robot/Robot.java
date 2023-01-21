@@ -81,12 +81,14 @@ public class Robot {
         verticalLift = new LiftClass();
         verticalLift.init(linearOpMode, "motor_vertical_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
 
-        // camera
+         // camera
 
         telemetry.addLine("initializing camera");
         telemetry.update();
 
         camera = new Camera();
+        telemetry.addLine("new Camera() is done");
+        telemetry.update();
         camera.init(linearOpMode);
 
         telemetry.addLine("finished initializing robot class");

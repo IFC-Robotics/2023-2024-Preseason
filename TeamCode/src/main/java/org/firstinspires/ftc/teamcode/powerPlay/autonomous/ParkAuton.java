@@ -8,9 +8,9 @@ import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 @Autonomous(name="park autonomous", group="competition")
 public class ParkAuton extends LinearOpMode {
 
-    double DRIVE_SPEED = 0.7;
-    double STRAFE_SPEED = 0.7;
-    double TURN_SPEED = 0.7;
+    double DRIVE_SPEED = 0.3;
+    double STRAFE_SPEED = 0.3;
+    double TURN_SPEED = 0.3;
 
     @Override
     public void runOpMode() {
@@ -19,17 +19,30 @@ public class ParkAuton extends LinearOpMode {
         telemetry.update();
 
         Robot.init(this);
-        Robot.tag = Robot.camera.getTag();
 
         waitForStart();
 
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        Robot.drivetrain.drive(30, DRIVE_SPEED);
+        // read AprilTag
 
-        if (Robot.tag == 1) Robot.drivetrain.strafe(-24, STRAFE_SPEED);
-        if (Robot.tag == 3) Robot.drivetrain.strafe(24, STRAFE_SPEED);
+        Robot.tag = Robot.camera.getTag();
+
+        // secure preloaded cone
+
+        Robot.servoHook.runToPosition("extend");
+        sleep(1000);
+
+        // drive to starting
+
+        Robot.drivetrain.drive(34, DRIVE_SPEED);
+        sleep(100);
+        Robot.drivetrain.drive(-6, DRIVE_SPEED);
+        sleep(100);
+
+        if (Robot.tag == 1) Robot.drivetrain.strafe(-26, STRAFE_SPEED);
+        if (Robot.tag == 3) Robot.drivetrain.strafe(26, STRAFE_SPEED);
 
     }
 

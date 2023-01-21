@@ -41,17 +41,38 @@ public class Camera {
         hardwareMap = opModeParam.hardwareMap;
         telemetry = opModeParam.telemetry;
 
+        telemetry.addLine("checkpoint 1 ...");
+        telemetry.update();
+
         cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+
+        telemetry.addLine("checkpoint 2 ...");
+        telemetry.update();
+
         camera = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+
+        telemetry.addLine("checkpoint 3 ...");
+        telemetry.update();
+
         aprilTagDetectionPipeline = new AprilTagDetectionPipeline(tagsize, fx, fy, cx, cy);
 
+        telemetry.addLine("checkpoint 4 ...");
+        telemetry.update();
+
         camera.setPipeline(aprilTagDetectionPipeline);
+
+        telemetry.addLine("checkpoint 5 ...");
+        telemetry.update();
+
         camera.openCameraDeviceAsync(new OpenCvCamera.AsyncCameraOpenListener() {
             @Override
             public void onOpened() { camera.startStreaming(800, 448, OpenCvCameraRotation.UPRIGHT); }
             @Override
             public void onError(int errorCode) {}
         });
+
+        telemetry.addLine("checkpoint 6 ...");
+        telemetry.update();
 
         telemetry.setMsTransmissionInterval(50);
 

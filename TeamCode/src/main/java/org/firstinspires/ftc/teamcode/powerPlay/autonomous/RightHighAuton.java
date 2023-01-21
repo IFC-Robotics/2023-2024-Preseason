@@ -9,9 +9,9 @@ import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 @Autonomous(name="Right 1+0", group="competition")
 public class RightHighAuton extends LinearOpMode {
 
-    double DRIVE_SPEED = 0.5;
-    double STRAFE_SPEED = 0.5;
-    double TURN_SPEED = 0.5;
+    double DRIVE_SPEED = 0.3;
+    double STRAFE_SPEED = 0.3;
+    double TURN_SPEED = 0.3;
 
     @Override
     public void runOpMode() {
@@ -34,7 +34,8 @@ public class RightHighAuton extends LinearOpMode {
 
         Robot.servoHook.runToPosition("extend");
         sleep(1000);
-        Robot.verticalLift.runToPosition("high");
+        Robot.verticalLift.autonomousRunToPosition("ground");
+        sleep(100);
 
         // drive to high junction
 
@@ -43,14 +44,16 @@ public class RightHighAuton extends LinearOpMode {
         Robot.drivetrain.drive(-8, DRIVE_SPEED);
         sleep(100);
         Robot.drivetrain.turn(-45, TURN_SPEED);
+        sleep(100);
 
-        // wait for lift to be raised
+        // raise lift
 
-        while (Robot.verticalLift.motor.isBusy()) {}
+        Robot.verticalLift.autonomousRunToPosition("high");
+        sleep(100);
 
         // score on high junction
 
-        double distToJunction = 10;
+        double distToJunction = 12;
 
         Robot.drivetrain.drive(distToJunction, DRIVE_SPEED);
         sleep(100);
@@ -58,7 +61,8 @@ public class RightHighAuton extends LinearOpMode {
         sleep(500);
         Robot.drivetrain.drive(-distToJunction, DRIVE_SPEED);
         sleep(100);
-        Robot.verticalLift.runToPosition("transfer");
+        Robot.verticalLift.autonomousRunToPosition("transfer");
+        sleep(100);
 
         // park in correct zone
 
@@ -69,12 +73,6 @@ public class RightHighAuton extends LinearOpMode {
 
         if (Robot.tag == 1) Robot.drivetrain.drive(23, DRIVE_SPEED);
         if (Robot.tag == 3) Robot.drivetrain.drive(-24, DRIVE_SPEED);
-
-        // reset hook and lift
-
-        Robot.servoHook.runToPosition("retract");
-        while (Robot.verticalLift.motor.isBusy()) {}
-        Robot.verticalLift.motor.setPower(0);
 
     }
 

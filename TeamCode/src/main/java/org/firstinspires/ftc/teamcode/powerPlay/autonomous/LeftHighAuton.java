@@ -9,9 +9,9 @@ import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 @Autonomous(name="Left 1+0", group="competition")
 public class LeftHighAuton extends LinearOpMode {
 
-    double DRIVE_SPEED = 0.5;
-    double STRAFE_SPEED = 0.5;
-    double TURN_SPEED = 0.5;
+    double DRIVE_SPEED = 0.3;
+    double STRAFE_SPEED = 0.3;
+    double TURN_SPEED = 0.3;
 
     @Override
     public void runOpMode() {
@@ -34,7 +34,8 @@ public class LeftHighAuton extends LinearOpMode {
 
         Robot.servoHook.runToPosition("extend");
         sleep(1000);
-        Robot.verticalLift.runToPosition("high");
+        Robot.verticalLift.autonomousRunToPosition("ground");
+        sleep(100);
 
         // drive to high junction
 
@@ -43,14 +44,16 @@ public class LeftHighAuton extends LinearOpMode {
         Robot.drivetrain.drive(-8, DRIVE_SPEED);
         sleep(100);
         Robot.drivetrain.turn(45, TURN_SPEED);
+        sleep(100);
 
-        // wait for lift to be raised
+        // raise lift
 
-        while (Robot.verticalLift.motor.isBusy()) {}
+        Robot.verticalLift.autonomousRunToPosition("high");
+        sleep(100);
 
         // score on high junction
 
-        double distToJunction = 10;
+        double distToJunction = 12.5;
 
         Robot.drivetrain.drive(distToJunction, DRIVE_SPEED);
         sleep(100);
@@ -58,23 +61,18 @@ public class LeftHighAuton extends LinearOpMode {
         sleep(500);
         Robot.drivetrain.drive(-distToJunction, DRIVE_SPEED);
         sleep(100);
-        Robot.verticalLift.runToPosition("transfer");
+        Robot.verticalLift.autonomousRunToPosition("transfer");
+        sleep(100);
 
         // park in correct zone
 
-        Robot.drivetrain.turn(46.5, TURN_SPEED);
+        Robot.drivetrain.turn(46, TURN_SPEED);
         sleep(100);
         Robot.drivetrain.strafe(-1, STRAFE_SPEED);
         sleep(100);
 
         if (Robot.tag == 1) Robot.drivetrain.drive(-23, DRIVE_SPEED);
-        if (Robot.tag == 3) Robot.drivetrain.drive(22, DRIVE_SPEED);
-
-        // reset hook and lift
-
-        Robot.servoHook.runToPosition("retract");
-        while (Robot.verticalLift.motor.isBusy()) {}
-        Robot.verticalLift.motor.setPower(0);
+        if (Robot.tag == 3) Robot.drivetrain.drive(23.5, DRIVE_SPEED);
 
     }
 

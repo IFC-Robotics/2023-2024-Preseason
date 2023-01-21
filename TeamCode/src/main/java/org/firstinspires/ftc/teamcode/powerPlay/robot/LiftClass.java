@@ -23,8 +23,8 @@ public class LiftClass {
     public double verticalLiftPosition1 =  0.0; // starting position
     public double verticalLiftPosition2 = 13.0; // ground junction
     public double verticalLiftPosition3 = 30.0; // low junction
-    public double verticalLiftPosition4 = 45.0; // middle junction
-    public double verticalLiftPosition5 = 65.0; // high junction
+    public double verticalLiftPosition4 = 40.0; // middle junction
+    public double verticalLiftPosition5 = 60.0; // high junction
     public boolean verticalLiftReverseDirection = true;
 
     public LiftClass() {}
@@ -95,13 +95,13 @@ public class LiftClass {
 
     public void teleOpManualMode(double joystick, boolean button) {
 
-        if (button) {
-            enableLowerLiftLimit = !enableLowerLiftLimit;
-            if (enableLowerLiftLimit) {
-                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
-        }
+//        if (button) {
+//            enableLowerLiftLimit = !enableLowerLiftLimit;
+//            if (enableLowerLiftLimit) {
+//                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            }
+//        }
 
         if (!liftIsMoving) {
 
