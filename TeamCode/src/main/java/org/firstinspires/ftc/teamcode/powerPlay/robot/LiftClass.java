@@ -18,18 +18,17 @@ public class LiftClass {
 
     public String NAME;
     public double MAX_SPEED;
-    public double COUNTS_PER_INCH;
 
     public double verticalLiftPosition1 =  0.0; // starting position
-    public double verticalLiftPosition2 = 13.0; // ground junction
-    public double verticalLiftPosition3 = 30.0; // low junction
-    public double verticalLiftPosition4 = 40.0; // middle junction
-    public double verticalLiftPosition5 = 60.0; // high junction
+    public double verticalLiftPosition2 = 1550; // ground junction
+    public double verticalLiftPosition3 = 3550; // low junction
+    public double verticalLiftPosition4 = 4750; // middle junction
+    public double verticalLiftPosition5 = 7100; // high junction
     public boolean verticalLiftReverseDirection = true;
 
     public LiftClass() {}
 
-    public void init(LinearOpMode opModeParam, String name, double maxSpeed, double countsPerInch) {
+    public void init(LinearOpMode opModeParam, String name, double maxSpeed) {
 
         linearOpMode = opModeParam;
         hardwareMap = opModeParam.hardwareMap;
@@ -37,7 +36,6 @@ public class LiftClass {
 
         NAME = name;
         MAX_SPEED = maxSpeed;
-        COUNTS_PER_INCH = countsPerInch;
 
         motor = hardwareMap.get(DcMotor.class, NAME);
 
@@ -108,8 +106,8 @@ public class LiftClass {
             double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
 
             int liftCurrentPosition = motor.getCurrentPosition();
-            double LIFT_MIN_POSITION = (int)(verticalLiftPosition1 * COUNTS_PER_INCH);
-            double LIFT_MAX_POSITION = (int)(verticalLiftPosition5 * COUNTS_PER_INCH);
+            double LIFT_MIN_POSITION = (int)(verticalLiftPosition1 * 118.67);
+            double LIFT_MAX_POSITION = (int)(verticalLiftPosition5 * 118.67);
 
             if ((liftCurrentPosition >= LIFT_MAX_POSITION && liftSpeed > 0.02) || (enableLowerLiftLimit && liftCurrentPosition <= LIFT_MIN_POSITION && liftSpeed < -0.02)) {
                 liftSpeed = 0;
@@ -132,7 +130,7 @@ public class LiftClass {
     // helper methods
 
     public void run(double target) {
-        motor.setTargetPosition((int)(target * COUNTS_PER_INCH));
+        motor.setTargetPosition((int)(target * 118.67));
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(MAX_SPEED);
     }

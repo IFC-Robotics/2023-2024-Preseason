@@ -79,7 +79,7 @@ public class Robot {
         telemetry.update();
 
         verticalLift = new LiftClass();
-        verticalLift.init(linearOpMode, "motor_vertical_lift", MAX_LIFT_SPEED, LIFT_COUNTS_PER_INCH);
+        verticalLift.init(linearOpMode, "motor_vertical_lift", MAX_LIFT_SPEED);
 
          // camera
 

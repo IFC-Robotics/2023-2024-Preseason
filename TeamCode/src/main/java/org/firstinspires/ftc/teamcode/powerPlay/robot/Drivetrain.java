@@ -21,6 +21,8 @@ public class Drivetrain {
     public static DcMotor motorBackRight;
     public static DcMotor motorBackLeft;
 
+    public boolean drivetrainIsMoving = false;
+
     public static double MAX_TELEOP_SPEED = 0.7;
     public static String FORWARD_DIRECTION = "vertical lift";
 
@@ -61,7 +63,9 @@ public class Drivetrain {
 
     }
 
-    public void drive(double distance, double speed) {
+    // autonomous
+
+    public void drive(double distance, double speed, boolean isSynchronous) {
 
         telemetry.addLine(String.format("\ndriving %s inches", distance));
 
@@ -69,11 +73,11 @@ public class Drivetrain {
         int target = (int)(distance * COUNTS_PER_INCH * factor);
         double power = Math.signum(distance) * speed;
 
-        moveDrivetrain(target, target, target, target, power, power, power, power);
+        moveDrivetrain(target, target, target, target, power, power, power, power, isSynchronous);
 
     }
 
-    public void strafe(double distance, double speed) {
+    public void strafe(double distance, double speed, boolean isSynchronous) {
 
         telemetry.addLine(String.format("\nstrafing %s inches", distance));
 
@@ -81,11 +85,11 @@ public class Drivetrain {
         int target = (int)(distance * COUNTS_PER_INCH * factor);
         double power = Math.signum(distance) * speed;
 
-        moveDrivetrain(-target, target, target, -target, -power, power, power, -power);
+        moveDrivetrain(-target, target, target, -target, -power, power, power, -power, isSynchronous);
 
     }
 
-    public void turn(double angle, double speed) {
+    public void turn(double angle, double speed, boolean isSynchronous) {
 
         telemetry.addLine(String.format("\nturning %s degrees", angle));
 
@@ -96,11 +100,11 @@ public class Drivetrain {
         int target = (int)(distance * COUNTS_PER_INCH);
         double power = Math.signum(angle) * speed;
 
-        moveDrivetrain(target, -target, target, -target, -power, power, -power, power);
+        moveDrivetrain(target, -target, target, -target, -power, power, -power, power, isSynchronous);
 
     }
 
-    public void moveDrivetrain(int targetFrontRight, int targetFrontLeft, int targetBackRight, int targetBackLeft, double powerFrontRight, double powerFrontLeft, double powerBackRight, double powerBackLeft) {
+    public void moveDrivetrain(int targetFrontRight, int targetFrontLeft, int targetBackRight, int targetBackLeft, double powerFrontRight, double powerFrontLeft, double powerBackRight, double powerBackLeft, boolean isSynchronous) {
 
         motorFrontRight.setTargetPosition(targetFrontRight);
         motorFrontLeft.setTargetPosition(targetFrontLeft);
@@ -117,26 +121,73 @@ public class Drivetrain {
         motorBackRight.setPower(powerBackRight);
         motorBackLeft.setPower(powerBackLeft);
 
-        while (motorBackLeft.isBusy()) {}
+        drivetrainIsMoving = true;
 
-        motorFrontRight.setPower(0);
-        motorFrontLeft.setPower(0);
-        motorBackRight.setPower(0);
-        motorBackLeft.setPower(0);
+        if (isSynchronous) {
 
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            while (motorBackLeft.isBusy()) {}
 
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorFrontRight.setPower(0);
+            motorFrontLeft.setPower(0);
+            motorBackRight.setPower(0);
+            motorBackLeft.setPower(0);
+
+            motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            drivetrainIsMoving = false;
+
+        }
 
     }
 
-    public void teleOp(double drive, double strafe, double turn) {
+    // teleOp
+
+    public void teleOpAssistMode(boolean driveForward, boolean driveBackward, boolean strafeRight, boolean strafeLeft, boolean turnRight, boolean turnLeft) {
+
+        double ASSIST_SPEED = 0.5;
+
+        if (driveForward || driveBackward || strafeLeft || strafeRight || turnLeft || turnRight) {
+            if (driveForward)  drive(24, ASSIST_SPEED, false);
+            if (driveBackward) drive(-24, ASSIST_SPEED, false);
+            if (strafeRight)   strafe(24, ASSIST_SPEED, false);
+            if (strafeLeft)    strafe(-24, ASSIST_SPEED, false);
+            if (turnRight)     turn(24, ASSIST_SPEED, false);
+            if (turnLeft)      turn(-24, ASSIST_SPEED, false);
+            drivetrainIsMoving = true;
+        }
+
+        if (drivetrainIsMoving && !motorBackLeft.isBusy()) {
+
+            motorFrontRight.setPower(0);
+            motorFrontLeft.setPower(0);
+            motorBackRight.setPower(0);
+            motorBackLeft.setPower(0);
+
+            motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            drivetrainIsMoving = false;
+
+        }
+
+    }
+
+    public void teleOpManualMode(double drive, double strafe, double turn) {
 
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1);
 
