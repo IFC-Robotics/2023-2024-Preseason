@@ -7,16 +7,19 @@ import java.lang.Math;
 
 public class Robot {
 
-    // conversions
+    // // conversions
 
-    static final int DC_MOTOR_COUNTS_PER_REV  = 28;
-    static final int DC_MOTOR_GEAR_RATIO      = 20;
-    static final int DC_MOTOR_COUNTS_PER_INCH = (int)((DC_MOTOR_COUNTS_PER_REV * DC_MOTOR_GEAR_RATIO) / Math.PI); // (int)(28 * 20 / pi) = (int)(178.253536) = 178
+    // static final int DC_MOTOR_COUNTS_PER_REV  = 28;
+    // static final int DC_MOTOR_GEAR_RATIO      = 20;
+    // static final int DC_MOTOR_COUNTS_PER_INCH = (int)((DC_MOTOR_COUNTS_PER_REV * DC_MOTOR_GEAR_RATIO) / Math.PI); // (int)(28 * 20 / pi) = (int)(178.253536) = 178
+
+    // public static final double LIFT_RATIO = 1.5;
+    // public static final double LIFT_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / LIFT_RATIO; // 178 / 1.5 = 118.67
+
+    // static final int DRIVETRAIN_WHEEL_DIAMETER  = 4;
+    // static final int DRIVETRAIN_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / DRIVETRAIN_WHEEL_DIAMETER; // 178 / 4 = 44.5
 
     // drivetrain
-
-    static final int DRIVETRAIN_WHEEL_DIAMETER  = 4;
-    static final int DRIVETRAIN_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / DRIVETRAIN_WHEEL_DIAMETER;
 
     public static Drivetrain drivetrain;
 
@@ -28,9 +31,6 @@ public class Robot {
     public static ServoClass servoHook;
 
     // lifts
-
-    public static final double LIFT_RATIO = 1.5;
-    public static final double LIFT_COUNTS_PER_INCH = DC_MOTOR_COUNTS_PER_INCH / LIFT_RATIO; // 178 / 1.5 = 118.67
 
     public static final double MAX_LIFT_SPEED = 0.8;
 
@@ -63,7 +63,7 @@ public class Robot {
         telemetry.update();
 
         drivetrain = new Drivetrain();
-        drivetrain.init(linearOpMode, DRIVETRAIN_COUNTS_PER_INCH);
+        drivetrain.init(linearOpMode);
 
         // servos
 

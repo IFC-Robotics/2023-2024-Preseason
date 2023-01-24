@@ -19,11 +19,12 @@ public class LiftClass {
     public String NAME;
     public double MAX_SPEED;
 
-    public double verticalLiftPosition1 =  0.0; // starting position
-    public double verticalLiftPosition2 = 1550; // ground junction
-    public double verticalLiftPosition3 = 3550; // low junction
-    public double verticalLiftPosition4 = 4750; // middle junction
-    public double verticalLiftPosition5 = 7100; // high junction
+    public int verticalLiftPosition1 = 0; // starting position
+    public int verticalLiftPosition2 = 1550; // ground junction
+    public int verticalLiftPosition3 = 3550; // low junction
+    public int verticalLiftPosition4 = 4750; // middle junction
+    public int verticalLiftPosition5 = 7100; // high junction
+
     public boolean verticalLiftReverseDirection = true;
 
     public LiftClass() {}
@@ -104,12 +105,9 @@ public class LiftClass {
         if (!liftIsMoving) {
 
             double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
-
             int liftCurrentPosition = motor.getCurrentPosition();
-            double LIFT_MIN_POSITION = (int)(verticalLiftPosition1 * 118.67);
-            double LIFT_MAX_POSITION = (int)(verticalLiftPosition5 * 118.67);
 
-            if ((liftCurrentPosition >= LIFT_MAX_POSITION && liftSpeed > 0.02) || (enableLowerLiftLimit && liftCurrentPosition <= LIFT_MIN_POSITION && liftSpeed < -0.02)) {
+            if ((liftCurrentPosition >= verticalLiftPosition5 && liftSpeed > 0.02) || (enableLowerLiftLimit && liftCurrentPosition <= verticalLiftPosition1 && liftSpeed < -0.02)) {
                 liftSpeed = 0;
             }
 
@@ -129,8 +127,8 @@ public class LiftClass {
 
     // helper methods
 
-    public void run(double target) {
-        motor.setTargetPosition((int)(target * 118.67));
+    public void run(int target) {
+        motor.setTargetPosition(target);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(MAX_SPEED);
     }

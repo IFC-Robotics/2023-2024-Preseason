@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.powerPlay.robot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
-
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -24,19 +23,14 @@ public class Drivetrain {
     public boolean drivetrainIsMoving = false;
 
     public static double MAX_TELEOP_SPEED = 0.7;
-    public static String FORWARD_DIRECTION = "vertical lift";
-
-    public static int COUNTS_PER_INCH;
 
     public Drivetrain() {}
 
-    public void init(LinearOpMode opModeParam, int countsPerInch) {
+    public void init(LinearOpMode opModeParam) {
 
         linearOpMode = opModeParam;
         hardwareMap = opModeParam.hardwareMap;
         telemetry = opModeParam.telemetry;
-
-        COUNTS_PER_INCH = countsPerInch;
 
         motorFrontRight = hardwareMap.get(DcMotor.class, "motor_front_right");
         motorFrontLeft  = hardwareMap.get(DcMotor.class, "motor_front_left");
@@ -69,8 +63,8 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\ndriving %s inches", distance));
 
-        double factor = 0.868; // coeff to regulate driving distances
-        int target = (int)(distance * COUNTS_PER_INCH * factor);
+        double factor = 38.626; // coeff to regulate driving distances
+        int target = (int)(distance * factor);
         double power = Math.signum(distance) * speed;
 
         moveDrivetrain(target, target, target, target, power, power, power, power, isSynchronous);
@@ -81,8 +75,8 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\nstrafing %s inches", distance));
 
-        double factor = 1.1423; // once again another constant to try to get the correct distances
-        int target = (int)(distance * COUNTS_PER_INCH * factor);
+        double factor = 50.832; // once again another constant to try to get the correct distances
+        int target = (int)(distance * factor);
         double power = Math.signum(distance) * speed;
 
         moveDrivetrain(-target, target, target, -target, -power, power, power, -power, isSynchronous);
@@ -93,11 +87,11 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\nturning %s degrees", angle));
 
-        double factor = 12.85; // no meaning, just what makes the turns work
-        double circumference = 2 * Math.PI * factor;
+        double circumference = 2 * Math.PI;
         double distance = circumference * angle / 360;
 
-        int target = (int)(distance * COUNTS_PER_INCH);
+        double factor = 571.825; // no meaning, just what makes the turns work
+        int target = (int)(distance * factor);
         double power = Math.signum(angle) * speed;
 
         moveDrivetrain(target, -target, target, -target, -power, power, -power, power, isSynchronous);
