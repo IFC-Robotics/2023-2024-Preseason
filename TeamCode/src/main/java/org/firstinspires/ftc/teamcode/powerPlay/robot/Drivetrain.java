@@ -20,8 +20,6 @@ public class Drivetrain {
     public static DcMotor motorBackRight;
     public static DcMotor motorBackLeft;
 
-    public boolean drivetrainIsMoving = false;
-
     public static double MAX_TELEOP_SPEED = 0.7;
 
     public Drivetrain() {}
@@ -63,7 +61,7 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\ndriving %s inches", distance));
 
-        double factor = 38.626; // coeff to regulate driving distances
+        double factor = 38.626;
         int target = (int)(distance * factor);
         double power = Math.signum(distance) * speed;
 
@@ -75,7 +73,7 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\nstrafing %s inches", distance));
 
-        double factor = 50.832; // once again another constant to try to get the correct distances
+        double factor = 50.832;
         int target = (int)(distance * factor);
         double power = Math.signum(distance) * speed;
 
@@ -90,7 +88,7 @@ public class Drivetrain {
         double circumference = 2 * Math.PI;
         double distance = circumference * angle / 360;
 
-        double factor = 571.825; // no meaning, just what makes the turns work
+        double factor = 571.825;
         int target = (int)(distance * factor);
         double power = Math.signum(angle) * speed;
 
@@ -115,30 +113,35 @@ public class Drivetrain {
         motorBackRight.setPower(powerBackRight);
         motorBackLeft.setPower(powerBackLeft);
 
-        drivetrainIsMoving = true;
-
         if (isSynchronous) {
-
-            while (motorBackLeft.isBusy()) {}
-
-            motorFrontRight.setPower(0);
-            motorFrontLeft.setPower(0);
-            motorBackRight.setPower(0);
-            motorBackLeft.setPower(0);
-
-            motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            drivetrainIsMoving = false;
-
+            while (drivetrainIsMoving()) {}
+            resetDrivetrain();
         }
+
+    }
+
+    // helper methods
+
+    public boolean drivetrainIsMoving() {
+        return motorFrontRight.isBusy() || motorFrontLeft.isBusy() || motorBackRight.isBusy() || motorBackLeft.isBusy();
+    }
+
+    public void resetDrivetrain() {
+
+        motorFrontRight.setPower(0);
+        motorFrontLeft.setPower(0);
+        motorBackRight.setPower(0);
+        motorBackLeft.setPower(0);
+
+        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
 
@@ -155,28 +158,10 @@ public class Drivetrain {
             if (strafeLeft)    strafe(-24, ASSIST_SPEED, false);
             if (turnRight)     turn(24, ASSIST_SPEED, false);
             if (turnLeft)      turn(-24, ASSIST_SPEED, false);
-            drivetrainIsMoving = true;
         }
 
-        if (drivetrainIsMoving && !motorBackLeft.isBusy()) {
-
-            motorFrontRight.setPower(0);
-            motorFrontLeft.setPower(0);
-            motorBackRight.setPower(0);
-            motorBackLeft.setPower(0);
-
-            motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            drivetrainIsMoving = false;
-
+        if (!drivetrainIsMoving()) {
+            resetDrivetrain();
         }
 
     }

@@ -13,8 +13,7 @@ public class LiftClass {
     Telemetry telemetry;
 
     public DcMotor motor;
-    public boolean liftIsMoving = false;
-    public boolean enableLowerLiftLimit = true;
+    public boolean enableEncoderLimits = true;
 
     public String NAME;
     public double MAX_SPEED;
@@ -81,18 +80,31 @@ public class LiftClass {
             if (button3) run(verticalLiftPosition3);
             if (button4) run(verticalLiftPosition4);
             if (button5) run(verticalLiftPosition5);
-            liftIsMoving = true;
         }
 
-        if (liftIsMoving && !motor.isBusy()) {
+        if (!motor.isBusy()) {
             motor.setPower(0);
             motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            liftIsMoving = false;
         }
 
     }
 
-    public void teleOpManualMode(double joystick, boolean button) {
+    public void teleOpManualMode(double joystick) {
+
+        double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
+        int liftCurrentPosition = motor.getCurrentPosition();
+
+        if (enableEncoderLimits && ((liftCurrentPosition >= verticalLiftPosition5 && liftSpeed > 0.02) || (liftCurrentPosition <= verticalLiftPosition1 && liftSpeed < -0.02))) {
+            liftSpeed = 0;
+        }
+
+        telemetry.addLine(String.format("running %1$s with speed %2$s at (current) position %3$s", NAME, liftSpeed, liftCurrentPosition));
+
+        motor.setPower(liftSpeed);
+
+    }
+
+    public void teleOpProgramEncoder(boolean button) {
 
 //        if (button) {
 //            enableLowerLiftLimit = !enableLowerLiftLimit;
@@ -102,27 +114,6 @@ public class LiftClass {
 //            }
 //        }
 
-        if (!liftIsMoving) {
-
-            double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
-            int liftCurrentPosition = motor.getCurrentPosition();
-
-            if ((liftCurrentPosition >= verticalLiftPosition5 && liftSpeed > 0.02) || (enableLowerLiftLimit && liftCurrentPosition <= verticalLiftPosition1 && liftSpeed < -0.02)) {
-                liftSpeed = 0;
-            }
-
-            telemetry.addLine(String.format("running %1$s with speed %2$s at (current) position %3$s", NAME, liftSpeed, liftCurrentPosition));
-
-            motor.setPower(liftSpeed);
-
-        }
-
-    }
-
-    public void teleOpNoEncoderLimits(double joystick) {
-        if (!liftIsMoving) {
-            motor.setPower(Range.clip(joystick, -MAX_SPEED, MAX_SPEED));
-        }
     }
 
     // helper methods
