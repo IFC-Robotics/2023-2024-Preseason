@@ -58,6 +58,8 @@ public class AdvancedRobot {
 
     public AdvancedRobot() {}
 
+    /*
+
     public static void init(LinearOpMode opModeParam) {
 
         linearOpMode = opModeParam;
@@ -124,5 +126,7 @@ public class AdvancedRobot {
         horizontalLift.autonomousRunToPosition("transfer");
 
     }
+
+    */
 
 }

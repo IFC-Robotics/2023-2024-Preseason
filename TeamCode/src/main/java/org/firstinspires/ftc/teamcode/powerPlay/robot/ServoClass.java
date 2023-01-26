@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -9,8 +8,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class ServoClass {
 
-    LinearOpMode linearOpMode;
-    HardwareMap hardwareMap;
+    LinearOpMode opMode;
     Telemetry telemetry;
 
     public Servo servo;
@@ -26,8 +24,7 @@ public class ServoClass {
 
     public void init(LinearOpMode opModeParam, String name, double minPosition, double maxPosition, double speed, double time, boolean reverseDirection) {
 
-        linearOpMode = opModeParam;
-        hardwareMap = opModeParam.hardwareMap;
+        opMode = opModeParam;
         telemetry = opModeParam.telemetry;
 
         NAME = name;
@@ -36,33 +33,39 @@ public class ServoClass {
         SPEED = speed;
         TIME = time;
 
-        servo = hardwareMap.get(Servo.class, NAME);
+        servo = opMode.hardwareMap.get(Servo.class, NAME);
         servoPosition = servo.getPosition();
 
         if (reverseDirection) servo.setDirection(Servo.Direction.REVERSE);
 
     }
 
-    public void runToPosition(String position) {
-        telemetry.addLine(String.format("running hook from position %1$s to position %2$s", servoPosition, position));
-        if (position == "extend")  servo.setPosition(MIN_POSITION);
-        if (position == "retract") servo.setPosition(MAX_POSITION);
-    }
+    // autonomous
 
-    public void teleOpAssistMode(boolean button1, boolean button2) {
-        if (button1 || button2) {
-            if (button1) servoPosition = MIN_POSITION;
-            if (button2) servoPosition = MAX_POSITION;
+    public void runToPosition(String position, boolean isSynchronous) {
+        teleOpAssistMode((position == "extend"), (position == "retract"));
+        if (isSynchronous) opMode.sleep(TIME);
+    }
+    
+    // teleOp
+
+    public void teleOpAssistMode(boolean minCondition, boolean maxCondition) {
+        if (minCondition || maxCondition) {
+            double servoOldPosition = servoPosition;
+            if (minCondition) servoPosition = MIN_POSITION;
+            if (maxCondition) servoPosition = MAX_POSITION;
+            telemetry.addLine(String.format("running %1$s from position %2$s to %3$s", NAME, servoOldPosition, servoPosition));
             servo.setPosition(servoPosition);
         }
     }
 
     public void teleOpManualMode(double joystick) {
-        if (Math.abs(joystick) > 0.05) {
+        if (Math.abs(joystick) > 0.02) {
+            double servoOldPosition = servoPosition;
             if (joystick < 0 && servoPosition > MIN_POSITION) servoPosition -= SPEED;
             if (joystick > 0 && servoPosition < MAX_POSITION) servoPosition += SPEED;
+            telemetry.addLine(String.format("increment %1$s from position %2$s by %3$s", NAME, servoOldPosition, (servoPosition - servoOldPosition)));
             servo.setPosition(servoPosition);
-            telemetry.addLine(String.format("running %1$s with speed %2$s at (current) position %3$s", NAME, SPEED, servoPosition));
         }
     }
 

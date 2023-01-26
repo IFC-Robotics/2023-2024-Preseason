@@ -33,6 +33,8 @@ public class AdvancedLiftClass {
 
     public AdvancedLiftClass() {}
 
+    /*
+
     public void init(LinearOpMode opModeParam, String name, double maxSpeed, double countsPerInch) {
 
         linearOpMode = opModeParam;
@@ -159,5 +161,7 @@ public class AdvancedLiftClass {
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(MAX_SPEED);
     }
+
+    */
 
 }

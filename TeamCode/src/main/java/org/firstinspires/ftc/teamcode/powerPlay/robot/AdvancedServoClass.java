@@ -22,6 +22,8 @@ public class AdvancedServoClass {
 
     public AdvancedServoClass() {}
 
+    /*
+
     public void init(LinearOpMode opModeParam, String name, double minPosition, double maxPosition, double speed, double time, boolean reverseDirection) {
 
         linearOpMode = opModeParam;
@@ -82,5 +84,7 @@ public class AdvancedServoClass {
             servo.setPosition(servoPosition);
         }
     }
+
+    */
 
 }

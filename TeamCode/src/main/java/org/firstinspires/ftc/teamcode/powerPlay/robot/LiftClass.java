@@ -1,15 +1,14 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class LiftClass {
 
-    LinearOpMode linearOpMode;
-    HardwareMap hardwareMap;
+    LinearOpMode opMode;
     Telemetry telemetry;
 
     public DcMotor motor;
@@ -17,29 +16,41 @@ public class LiftClass {
 
     public String NAME;
     public double MAX_SPEED;
+    public double SLEEP_TIME;
 
-    public int verticalLiftPosition1 = 0; // starting position
-    public int verticalLiftPosition2 = 1550; // ground junction
-    public int verticalLiftPosition3 = 3550; // low junction
-    public int verticalLiftPosition4 = 4750; // middle junction
-    public int verticalLiftPosition5 = 7100; // high junction
+    // zero
+    // driving & ground junction
+    // cone 1 from cone stack
+    // cone 2 from cone stack
+    // cone 3 from cone stack
+    // cone 4 from cone stack
+    // cone 5 from cone stack
+    // low junction
+    // middle junction
+    // high junction
 
-    public boolean verticalLiftReverseDirection = true;
+    // idea: have a sensor/camera in the hook, so that it knows when it can pick up a cone and will do it automatically
+
+    double zeroDist = 0;
+    double drivingDist = 1550;
+    double lowDist = 3550;
+    double middleDist = 3750;
+    double highDist = 7100;
 
     public LiftClass() {}
 
-    public void init(LinearOpMode opModeParam, String name, double maxSpeed) {
+    public void init(LinearOpMode opModeParam, String name, double maxSpeed, int sleepTime, boolean reverseDirection) {
 
-        linearOpMode = opModeParam;
-        hardwareMap = opModeParam.hardwareMap;
+        opMode = opModeParam;
         telemetry = opModeParam.telemetry;
 
         NAME = name;
         MAX_SPEED = maxSpeed;
+        SLEEP_TIME = sleepTime;
 
-        motor = hardwareMap.get(DcMotor.class, NAME);
+        motor = opMode.hardwareMap.get(DcMotor.class, NAME);
 
-        if (verticalLiftReverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
+        if (reverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -48,26 +59,29 @@ public class LiftClass {
 
     // autonomous
 
-    public void runToPosition(String position) {
-        if (position == "transfer") run(verticalLiftPosition1);
-        if (position == "ground")   run(verticalLiftPosition2);
-        if (position == "low")      run(verticalLiftPosition3);
-        if (position == "middle")   run(verticalLiftPosition4);
-        if (position == "high")     run(verticalLiftPosition5);
-        if (position == "5th cone") run(12);
+    public void runToPosition(String position, boolean isSynchronous) {
+
+        int target = 0;
+
+        if (position == "zero")    target = zeroDist;
+        if (position == "driving") target = drivingDist;
+        if (position == "low")     target = lowDist;
+        if (position == "middle")  target = middleDist;
+        if (position == "high")    target = highDist;
+
+        motor.setTargetPosition(target);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(MAX_SPEED);
+
+        if (isSynchronous) waitForLift();
+
     }
 
-    public void autonomousRunToPosition(String position) {
-
-        runToPosition(position);
-
-        while (motor.isBusy()) {
-            telemetry.addLine(String.format("%1$s is at position %2$s", NAME, motor.getCurrentPosition()));
-        }
-
+    public void waitForLift() {
+        while (motor.isBusy()) {}
         motor.setPower(0);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
+        opMode.sleep(SLEEP_TIME);
     }
 
     // teleOp
@@ -75,11 +89,11 @@ public class LiftClass {
     public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4, boolean button5) {
 
         if (button1 || button2 || button3 || button4 || button5) {
-            if (button1) run(verticalLiftPosition1);
-            if (button2) run(verticalLiftPosition2);
-            if (button3) run(verticalLiftPosition3);
-            if (button4) run(verticalLiftPosition4);
-            if (button5) run(verticalLiftPosition5);
+            if (button1) runToPosition("zero", false);
+            if (button2) runToPosition("driving", false);
+            if (button3) runToPosition("low", false);
+            if (button4) runToPosition("middle", false);
+            if (button5) runToPosition("high", false);
         }
 
         if (!motor.isBusy()) {
@@ -89,7 +103,9 @@ public class LiftClass {
 
     }
 
-    public void teleOpManualMode(double joystick) {
+    public void teleOpManualMode(double joystick, boolean button) {
+
+        // move lift
 
         double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
         int liftCurrentPosition = motor.getCurrentPosition();
@@ -98,30 +114,21 @@ public class LiftClass {
             liftSpeed = 0;
         }
 
-        telemetry.addLine(String.format("running %1$s with speed %2$s at (current) position %3$s", NAME, liftSpeed, liftCurrentPosition));
-
         motor.setPower(liftSpeed);
 
-    }
+        // change encoder limits
 
-    public void teleOpProgramEncoder(boolean button) {
+        if (button) {
+               
+            enableEncoderLimits = !enableEncoderLimits;
+           
+            if (enableEncoderLimits) {
+                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            }
 
-//        if (button) {
-//            enableLowerLiftLimit = !enableLowerLiftLimit;
-//            if (enableLowerLiftLimit) {
-//                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            }
-//        }
+        }
 
-    }
-
-    // helper methods
-
-    public void run(int target) {
-        motor.setTargetPosition(target);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setPower(MAX_SPEED);
     }
 
 }

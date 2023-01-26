@@ -25,12 +25,14 @@ public class AdvancedFSMteleOp extends LinearOpMode {
     };
 
     RobotState state = RobotState.START;
-    String randomization = AdvancedRobot.side + " " + AdvancedRobot.tag;
+    // String randomization = AdvancedRobot.side + " " + AdvancedRobot.tag;
 
     ElapsedTime timer = new ElapsedTime();
 
     @Override
     public void runOpMode() {
+
+        /*
 
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
@@ -201,6 +203,8 @@ public class AdvancedFSMteleOp extends LinearOpMode {
             AdvancedRobot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
         }
+
+    */
 
     }
 

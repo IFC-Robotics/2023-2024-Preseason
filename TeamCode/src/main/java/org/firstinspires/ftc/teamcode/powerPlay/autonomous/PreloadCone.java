@@ -1,28 +1,28 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+// package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
+// import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+// import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+// import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@Autonomous(name="preload cone", group="competition")
-public class PreloadCone extends LinearOpMode {
+// @Autonomous(name="preload cone", group="competition")
+// public class PreloadCone extends LinearOpMode {
 
-    @Override
-    public void runOpMode() {
+//     @Override
+//     public void runOpMode() {
 
-        telemetry.addLine("Initializing opMode...");
-        telemetry.update();
+//         telemetry.addLine("Initializing opMode...");
+//         telemetry.update();
 
-        Robot.init(this);
+//         Robot.init(this);
 
-        waitForStart();
+//         waitForStart();
 
-        telemetry.addLine("Executing opMode...");
-        telemetry.update();
+//         telemetry.addLine("Executing opMode...");
+//         telemetry.update();
 
-        Robot.servoHook.runToPosition("extend"); // doesnt work consistently, for some reason
-        sleep(1000);
+//         Robot.servoHook.runToPosition("extend"); // doesnt work consistently, for some reason
+//         sleep(1000);
 
-    }
+//     }
 
-}
+// }
