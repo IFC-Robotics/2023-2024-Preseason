@@ -16,26 +16,20 @@ public class LiftClass {
 
     public String NAME;
     public double MAX_SPEED;
-    public double SLEEP_TIME;
+    public int SLEEP_TIME;
 
-    // zero
-    // driving & ground junction
-    // cone 1 from cone stack
-    // cone 2 from cone stack
-    // cone 3 from cone stack
-    // cone 4 from cone stack
-    // cone 5 from cone stack
-    // low junction
-    // middle junction
-    // high junction
+    int zeroDist = 0;       // zero & cone 1 from cone stack
+    int drivingDist = 1550; // driving & ground junction
+    int lowDist = 3550;     // low junction
+    int middleDist = 3750;  // middle junction
+    int highDist = 7100;    // high junction
+
+    int cone2Dist = 1000;   // cone 2 from cone stack
+    int cone3Dist = 1500;   // cone 3 from cone stack
+    int cone4Dist = 2000;   // cone 4 from cone stack
+    int cone5Dist = 2500;   // cone 5 from cone stack
 
     // idea: have a sensor/camera in the hook, so that it knows when it can pick up a cone and will do it automatically
-
-    double zeroDist = 0;
-    double drivingDist = 1550;
-    double lowDist = 3550;
-    double middleDist = 3750;
-    double highDist = 7100;
 
     public LiftClass() {}
 
@@ -110,7 +104,7 @@ public class LiftClass {
         double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
         int liftCurrentPosition = motor.getCurrentPosition();
 
-        if (enableEncoderLimits && ((liftCurrentPosition >= verticalLiftPosition5 && liftSpeed > 0.02) || (liftCurrentPosition <= verticalLiftPosition1 && liftSpeed < -0.02))) {
+        if (enableEncoderLimits && ((liftCurrentPosition >= highDist && liftSpeed > 0.02) || (liftCurrentPosition <= zeroDist && liftSpeed < -0.02))) {
             liftSpeed = 0;
         }
 
