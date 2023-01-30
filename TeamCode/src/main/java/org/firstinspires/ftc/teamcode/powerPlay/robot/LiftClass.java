@@ -18,16 +18,16 @@ public class LiftClass {
     public double MAX_SPEED;
     public int SLEEP_TIME;
 
-    int zeroDist = 0;       // zero & cone 1 from cone stack
+    int zeroDist    =    0; // zero & cone 1 from cone stack
     int drivingDist = 1550; // driving & ground junction
-    int lowDist = 3550;     // low junction
-    int middleDist = 3750;  // middle junction
-    int highDist = 7100;    // high junction
+    int lowDist     = 3550; // low junction
+    int middleDist  = 3750; // middle junction
+    int highDist    = 7100; // high junction
 
-    int cone2Dist = 1000;   // cone 2 from cone stack
-    int cone3Dist = 1500;   // cone 3 from cone stack
-    int cone4Dist = 2000;   // cone 4 from cone stack
-    int cone5Dist = 2500;   // cone 5 from cone stack
+    int cone2Dist = 1000; // cone 2 from cone stack
+    int cone3Dist = 1500; // cone 3 from cone stack
+    int cone4Dist = 2000; // cone 4 from cone stack
+    int cone5Dist = 2500; // cone 5 from cone stack
 
     // idea: have a sensor/camera in the hook, so that it knows when it can pick up a cone and will do it automatically
 
