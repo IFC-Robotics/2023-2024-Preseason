@@ -10,6 +10,7 @@ public class Robot {
     public static Telemetry telemetry;
 
     public static Drivetrain drivetrain;
+    public static ServoClass servoClaw;
     public static ServoClass servoHook;
     public static LiftClass verticalLift;
     public static Camera camera;
@@ -39,8 +40,15 @@ public class Robot {
         telemetry.addLine("initializing servos...");
         telemetry.update();
 
+        // try using
+
+        servoClaw = new ServoClass();
+        servoClaw.init(opMode, "servo_claw", 0, "hold", 0.2, "release", 0.002, 500, false);
+
         servoHook = new ServoClass();
-        servoHook.init(opMode, "servo_hook", 0.05, 0.18, 0.002, 500, true);
+        servoHook.init(opMode, "servo_hook", 0.05, "hold", 0.18, "release", 0.002, 500, true);
+
+        // look into using servo.scaleRange();
 
         // lifts
 

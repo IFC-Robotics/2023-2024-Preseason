@@ -25,7 +25,7 @@ public class Drivetrain {
     public static double MAX_TELEOP_SPEED = 0.7;
     public static boolean limitSpeed = true;
 
-    public static double SLEEP_TIME;
+    public static int SLEEP_TIME;
 
     public Drivetrain() {}
 
@@ -122,7 +122,7 @@ public class Drivetrain {
     }
 
     public void waitForDrivetrain() {
-        while (drivetrainIsMoving()) {}
+        while (drivetrainIsBusy()) {}
         resetDrivetrain();
         opMode.sleep(SLEEP_TIME);
     }
@@ -142,7 +142,7 @@ public class Drivetrain {
             if (turnLeft)      turn(-45, ASSIST_SPEED, false);
         }
 
-        if (!drivetrainIsMoving()) resetDrivetrain();
+        if (!drivetrainIsBusy()) resetDrivetrain();
 
     }
 
@@ -171,7 +171,7 @@ public class Drivetrain {
 
     // helper methods
 
-    public boolean drivetrainIsMoving() {
+    public boolean drivetrainIsBusy() {
         return motorFrontRight.isBusy() || motorFrontLeft.isBusy() || motorBackRight.isBusy() || motorBackLeft.isBusy();
     }
 

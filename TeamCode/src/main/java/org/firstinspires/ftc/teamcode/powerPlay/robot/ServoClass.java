@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -16,20 +15,24 @@ public class ServoClass {
 
     public String NAME;
     public double MIN_POSITION;
+    public String MIN_POSITION_NAME;
     public double MAX_POSITION;
+    public String MAX_POSITION_NAME;
     public double SPEED;
-    public double TIME;
+    public int TIME;
 
     public ServoClass() {}
 
-    public void init(LinearOpMode opModeParam, String name, double minPosition, double maxPosition, double speed, double time, boolean reverseDirection) {
+    public void init(LinearOpMode opModeParam, String name, double minPosition, String minPositionName, double maxPosition, String maxPositionName, double speed, int time, boolean reverseDirection) {
 
         opMode = opModeParam;
         telemetry = opModeParam.telemetry;
 
         NAME = name;
         MIN_POSITION = minPosition;
+        MIN_POSITION_NAME = minPositionName;
         MAX_POSITION = maxPosition;
+        MAX_POSITION_NAME = maxPositionName;
         SPEED = speed;
         TIME = time;
 
@@ -43,7 +46,7 @@ public class ServoClass {
     // autonomous
 
     public void runToPosition(String position, boolean isSynchronous) {
-        teleOpAssistMode((position == "extend"), (position == "retract"));
+        teleOpAssistMode((position == MIN_POSITION_NAME), (position == MAX_POSITION_NAME));
         if (isSynchronous) opMode.sleep(TIME);
     }
     
@@ -52,8 +55,7 @@ public class ServoClass {
     public void teleOpAssistMode(boolean minCondition, boolean maxCondition) {
         if (minCondition || maxCondition) {
             double servoOldPosition = servoPosition;
-            if (minCondition) servoPosition = MIN_POSITION;
-            if (maxCondition) servoPosition = MAX_POSITION;
+            servoPosition = minCondition ? MIN_POSITION : MAX_POSITION;
             telemetry.addLine(String.format("running %1$s from position %2$s to %3$s", NAME, servoOldPosition, servoPosition));
             servo.setPosition(servoPosition);
         }
