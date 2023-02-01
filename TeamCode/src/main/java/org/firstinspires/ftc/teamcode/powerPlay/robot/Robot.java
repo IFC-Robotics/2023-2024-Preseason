@@ -16,26 +16,6 @@ public class Robot {
     public static LiftClass verticalLift;
     public static Camera camera;
 
-    HashMap<String, Double> servoClawDistMap = new HashMap<String, Double>() {{
-        put("hold", 0.0);
-        put("release", 0.2);
-    }};
-
-    HashMap<String, Double> servoHookDistMap = new HashMap<String, Double>() {{
-        put("hold", 0.0);
-        put("release", 0.16);
-    }};
-
-    HashMap<String, Double> servoRotateClawDistMap = new HashMap<String, Double>() {{
-        put("collect", 0.0);
-        put("transfer", 1.0);
-    }};
-
-    HashMap<String, Double> servoRotateHookDistMap = new HashMap<String, Double>() {{
-        put("transfer", 0.0);
-        put("score", 1.0);
-    }};
-
     HashMap<String, Integer> horizontalLiftDistMap = new HashMap<String, Integer>() {{
         put("zero", 0);
         put("wait to collect", 1400);
@@ -59,6 +39,8 @@ public class Robot {
     public static double SERVO_SPEED = 0.002;
     public static double SERVO_TIME = 500;
     public static int SLEEP_TIME = 50;
+
+    public static int side = "";
     public static int tag = 0;
 
     // initialize
@@ -71,10 +53,10 @@ public class Robot {
         opMode.telemetry.update();
 
         drivetrain      = new Drivetrain(SLEEP_TIME);
-        servoClaw       = new ServoClass("servo_claw", servoClawDistMap, SERVO_SPEED, SERVO_TIME, false);
-        servoHook       = new ServoClass("servo_hook", servoHookDistMap, SERVO_SPEED, SERVO_TIME, true);
-        servoRotateClaw = new ServoClass("servo_rotate_claw", servoRotateClawDistMap, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateHook = new ServoClass("servo_rotate_hook", servoRotateHookDistMap, SERVO_SPEED, SERVO_TIME, false);
+        servoClaw       = new ServoClass("servo_claw", "hold", 0.0, "release", 0.2,  SERVO_SPEED, SERVO_TIME, false);
+        servoHook       = new ServoClass("servo_hook", "hold", 0.0, "release", 0.16, SERVO_SPEED, SERVO_TIME, true);
+        servoRotateClaw = new ServoClass("servo_rotate_claw", "collect",  0, "transfer", 1, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0, "score",    1, SERVO_SPEED, SERVO_TIME, false);
         horizontalLift  = new LiftClass("motor_horizontal_lift", horizontalLiftDistMap, MAX_LIFT_SPEED, SLEEP_TIME, true);
         verticalLift    = new LiftClass(  "motor_vertical_lift",   verticalLiftDistMap, MAX_LIFT_SPEED, SLEEP_TIME, true);
         camera          = new Camera();
@@ -91,6 +73,11 @@ public class Robot {
         opMode.telemetry.addLine("done initializing robot class");
         opMode.telemetry.update();
 
+    }
+
+    public static void resetRandomization() {
+        side = "";
+        tag = 0;
     }
 
 }
