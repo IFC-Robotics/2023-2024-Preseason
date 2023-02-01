@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import java.util.HashMap;
 
 public class ServoClass {
 
@@ -20,6 +21,9 @@ public class ServoClass {
     public String MAX_POSITION_NAME;
     public double SPEED;
     public int TIME;
+
+    // look into using servo.scaleRange()
+    // add a range sensor to the claw/hook so that it automatically closes when it detects a cone
 
     public ServoClass() {}
 

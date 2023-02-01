@@ -129,24 +129,7 @@ public class Drivetrain {
 
     // teleOp
 
-    public void teleOpAssistMode(boolean driveForward, boolean driveBackward, boolean strafeRight, boolean strafeLeft, boolean turnRight, boolean turnLeft) {
-
-        double ASSIST_SPEED = 0.5;
-
-        if (driveForward || driveBackward || strafeLeft || strafeRight || turnLeft || turnRight) {
-            if (driveForward)  drive(12, ASSIST_SPEED, false);
-            if (driveBackward) drive(-12, ASSIST_SPEED, false);
-            if (strafeRight)   strafe(12, ASSIST_SPEED, false);
-            if (strafeLeft)    strafe(-12, ASSIST_SPEED, false);
-            if (turnRight)     turn(45, ASSIST_SPEED, false);
-            if (turnLeft)      turn(-45, ASSIST_SPEED, false);
-        }
-
-        if (!drivetrainIsBusy()) resetDrivetrain();
-
-    }
-
-    public void teleOpManualMode(double drive, double strafe, double turn, boolean button) {
+    public void teleOp(double drive, double strafe, double turn, boolean button) {
 
         // drive
 
@@ -172,7 +155,7 @@ public class Drivetrain {
     // helper methods
 
     public boolean drivetrainIsBusy() {
-        return motorFrontRight.isBusy() || motorFrontLeft.isBusy() || motorBackRight.isBusy() || motorBackLeft.isBusy();
+        return (motorFrontRight.isBusy() || motorFrontLeft.isBusy() || motorBackRight.isBusy() || motorBackLeft.isBusy());
     }
 
     public void resetDrivetrain() {

@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import java.util.HashMap;
 
 public class LiftClass {
 
@@ -14,37 +15,22 @@ public class LiftClass {
     public DcMotor motor;
     public boolean enableEncoderLimits = true;
 
-    public String NAME;
-    public double MAX_SPEED;
-    public int SLEEP_TIME;
+    public LiftClass(String name, HashMap<String, Integer> distMap, double maxSpeed, int sleepTime, boolean reverseDirection) {
+        this.name = name;
+        this.distMap = distMap;
+        this.maxSpeed = maxSpeed;
+        this.sleepTime = sleepTime;
+        this.reverseDirection = reverseDirection;
+    }
 
-    int zeroDist    =    0; // zero & cone 1 from cone stack
-    int drivingDist = 1550; // driving & ground junction
-    int lowDist     = 3550; // low junction
-    int middleDist  = 3750; // middle junction
-    int highDist    = 7100; // high junction
+    public void init(LinearOpMode opMode) {
 
-    int cone2Dist = 1000; // cone 2 from cone stack
-    int cone3Dist = 1500; // cone 3 from cone stack
-    int cone4Dist = 2000; // cone 4 from cone stack
-    int cone5Dist = 2500; // cone 5 from cone stack
+        opMode = opMode;
+        telemetry = opMode.telemetry;
 
-    // idea: have a sensor/camera in the hook, so that it knows when it can pick up a cone and will do it automatically
+        motor = opMode.hardwareMap.get(DcMotor.class, this.name);
 
-    public LiftClass() {}
-
-    public void init(LinearOpMode opModeParam, String name, double maxSpeed, int sleepTime, boolean reverseDirection) {
-
-        opMode = opModeParam;
-        telemetry = opModeParam.telemetry;
-
-        NAME = name;
-        MAX_SPEED = maxSpeed;
-        SLEEP_TIME = sleepTime;
-
-        motor = opMode.hardwareMap.get(DcMotor.class, NAME);
-
-        if (reverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
+        if (this.reverseDirection) motor.setDirection(DcMotor.Direction.REVERSE);
 
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -54,21 +40,11 @@ public class LiftClass {
     // autonomous
 
     public void runToPosition(String position, boolean isSynchronous) {
-
-        int target = 0;
-
-        if (position == "zero")    target = zeroDist;
-        if (position == "driving") target = drivingDist;
-        if (position == "low")     target = lowDist;
-        if (position == "middle")  target = middleDist;
-        if (position == "high")    target = highDist;
-
+        int target = this.distMap.get(position);
         motor.setTargetPosition(target);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motor.setPower(MAX_SPEED);
-
         if (isSynchronous) waitForLift();
-
     }
 
     public void waitForLift() {
@@ -81,6 +57,8 @@ public class LiftClass {
     // teleOp
 
     public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4, boolean button5) {
+
+        // fix
 
         if (button1 || button2 || button3 || button4 || button5) {
             if (button1) runToPosition("zero", false);
@@ -104,7 +82,10 @@ public class LiftClass {
         double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
         int liftCurrentPosition = motor.getCurrentPosition();
 
-        if (enableEncoderLimits && ((liftCurrentPosition >= highDist && liftSpeed > 0.02) || (liftCurrentPosition <= zeroDist && liftSpeed < -0.02))) {
+        boolean liftIsTooLow  = (liftCurrentPosition <= this.distMap.get("zero") && liftSpeed < -0.02);
+        boolean liftIsTooHigh = (liftCurrentPosition >= this.distMap.get("high") && liftSpeed > 0.02);
+
+        if (enableEncoderLimits && (liftIsTooLow || liftIsTooHigh)) {
             liftSpeed = 0;
         }
 
