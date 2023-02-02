@@ -9,11 +9,17 @@ import java.util.HashMap;
 
 public class LiftClass {
 
-    LinearOpMode opMode;
+    public LinearOpMode opMode;
     Telemetry telemetry;
 
     public DcMotor motor;
     public boolean enableEncoderLimits = true;
+
+    public final String name;
+    public final HashMap<String, Integer> distMap;
+    public final double maxSpeed;
+    public final int sleepTime;
+    public final boolean reverseDirection;
 
     public LiftClass(String name, HashMap<String, Integer> distMap, double maxSpeed, int sleepTime, boolean reverseDirection) {
         this.name = name;
@@ -23,9 +29,9 @@ public class LiftClass {
         this.reverseDirection = reverseDirection;
     }
 
-    public void init(LinearOpMode opMode) {
+    public void init(LinearOpMode opModeParam) {
 
-        opMode = opMode;
+        opMode = opModeParam;
         telemetry = opMode.telemetry;
 
         motor = opMode.hardwareMap.get(DcMotor.class, this.name);
@@ -43,7 +49,7 @@ public class LiftClass {
         int target = this.distMap.get(position);
         motor.setTargetPosition(target);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setPower(MAX_SPEED);
+        motor.setPower(this.maxSpeed);
         if (isSynchronous) waitForLift();
     }
 
@@ -51,7 +57,7 @@ public class LiftClass {
         while (motor.isBusy()) {}
         motor.setPower(0);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        opMode.sleep(SLEEP_TIME);
+        opMode.sleep(this.sleepTime);
     }
 
     // teleOp
@@ -79,7 +85,7 @@ public class LiftClass {
 
         // move lift
 
-        double liftSpeed = Range.clip(joystick, -MAX_SPEED, MAX_SPEED);
+        double liftSpeed = Range.clip(joystick, -this.maxSpeed, this.maxSpeed);
         int liftCurrentPosition = motor.getCurrentPosition();
 
         boolean liftIsTooLow  = (liftCurrentPosition <= this.distMap.get("zero") && liftSpeed < -0.02);

@@ -25,16 +25,16 @@ public class Drivetrain {
     public static double MAX_TELEOP_SPEED = 0.7;
     public static boolean limitSpeed = true;
 
-    public static int SLEEP_TIME;
+    public final int sleepTime;
 
-    public Drivetrain() {}
+    public Drivetrain(int sleepTime) {
+        this.sleepTime = sleepTime;
+    }
 
-    public void init(LinearOpMode opModeParam, int sleepTime) {
+    public void init(LinearOpMode opModeParam) {
 
         opMode = opModeParam;
-        telemetry = opModeParam.telemetry;
-        
-        SLEEP_TIME = sleepTime;
+        telemetry = opMode.telemetry;
 
         motorFrontRight = opMode.hardwareMap.get(DcMotor.class, "motor_front_right");
         motorFrontLeft  = opMode.hardwareMap.get(DcMotor.class, "motor_front_left");
@@ -124,7 +124,7 @@ public class Drivetrain {
     public void waitForDrivetrain() {
         while (drivetrainIsBusy()) {}
         resetDrivetrain();
-        opMode.sleep(SLEEP_TIME);
+        opMode.sleep(this.sleepTime);
     }
 
     // teleOp

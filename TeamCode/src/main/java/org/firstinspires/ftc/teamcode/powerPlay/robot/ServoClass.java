@@ -13,6 +13,15 @@ public class ServoClass {
     public Servo servo;
     public double servoPosition;
 
+    public final String name;
+    public final double minPosition;
+    public final double maxPosition;
+    public final String minPositionName;
+    public final String maxPositionName;
+    public final double speed;
+    public final int time;
+    public final boolean reverseDirection;
+
     // look into using servo.scaleRange()
     // add a range sensor to the claw/hook so that it automatically closes when it detects a cone
 
@@ -27,9 +36,9 @@ public class ServoClass {
         this.reverseDirection = reverseDirection;
     }
 
-    public void init(LinearOpMode opMode) {
+    public void init(LinearOpMode opModeParam) {
 
-        opMode = opMode;
+        opMode = opModeParam;
         telemetry = opMode.telemetry;
 
         servo = opMode.hardwareMap.get(Servo.class, this.name);

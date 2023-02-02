@@ -31,7 +31,7 @@ public class Camera {
     public void init(LinearOpMode opModeParam) {
 
         opMode = opModeParam;
-        telemetry = opModeParam.telemetry;
+        telemetry = opMode.telemetry;
 
         cameraMonitorViewId = opMode.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", opMode.hardwareMap.appContext.getPackageName());
         camera = OpenCvCameraFactory.getInstance().createWebcam(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);

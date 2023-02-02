@@ -45,7 +45,7 @@ public class AdvancedFSMteleOp extends LinearOpMode {
             // Switching modes
 
             if (gamepad2.back) {
-                Robot.reset();
+                Robot.resetScoring();
                 Robot.mode = "FSM";
             }
 
