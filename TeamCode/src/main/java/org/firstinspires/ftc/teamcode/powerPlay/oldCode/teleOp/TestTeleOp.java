@@ -39,11 +39,11 @@ public class TestTeleOp extends LinearOpMode {
 ////        robot.verticalLift.executeTeleOp(robot.assistMode, -gamepad2.right_stick_y, verticalLiftButtons);
 //
 //    }
-
+/*
     public void printServoPosition(ServoClass servoSubsystem) {
         telemetry.addData(String.format("%s position", servoSubsystem.NAME), servoSubsystem.servoPosition);
     }
-
+*/
 }
 
 /*

@@ -180,8 +180,8 @@ public class AdvancedFSMteleOp extends LinearOpMode {
                 Robot.servoRotateClaw.teleOpAssistMode(gamepad2.dpad_up, gamepad2.dpad_down);
                 Robot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
 
-                Robot.horizontalLift.teleOpAssistMode(gamepad2.left_bumper, gamepad2.right_bumper);
-                Robot.verticalLift.teleOpAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
+                Robot.horizontalLift.teleOpHorizontalLiftAssistMode(gamepad2.left_bumper, gamepad2.right_bumper);
+                Robot.verticalLift.teleOpVerticalLiftAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
 
             } else if (Robot.mode == "manual") { // manual mode
 

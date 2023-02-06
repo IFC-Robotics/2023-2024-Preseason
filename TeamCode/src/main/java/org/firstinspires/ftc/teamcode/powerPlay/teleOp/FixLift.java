@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
@@ -21,9 +22,9 @@ public class FixLift extends LinearOpMode {
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        while(opModeIsActive()) {
-            // Robot.verticalLift.teleOpNoEncoderLimits(-gamepad2.right_stick_y);
-        }
+//        while(opModeIsActive()) {
+//             Robot.verticalLift.teleOpNoEncoderLimits(-gamepad2.right_stick_y);
+//        }
 
     }
 
