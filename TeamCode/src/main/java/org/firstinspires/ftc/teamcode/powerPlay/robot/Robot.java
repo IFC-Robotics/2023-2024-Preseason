@@ -23,6 +23,7 @@ public class Robot {
 
     public static String mode = "assist";
     public static String side = "";
+    public static int numCycles = 0;
     public static int tag = 0;
 
     // initialize
@@ -52,13 +53,17 @@ public class Robot {
         verticalLift   .init(opMode);
         camera         .init(opMode);
 
+        resetRandomization();
+
         opMode.telemetry.addLine("done initializing robot class");
         opMode.telemetry.update();
 
     }
 
     public static void resetRandomization() {
+        mode = "assist";
         side = "";
+        numCycles = 0;
         tag = 0;
     }
 
@@ -69,6 +74,26 @@ public class Robot {
         servoRotateHook.runToPosition("transfer", false);
         horizontalLift.runToPosition("zero", false);
         verticalLift.runToPosition("zero", false);
+    }
+
+    public static void configureAuton(LinearOpMode opMode) {
+
+        while (opMode.opModeInInit()) {
+
+            opMode.telemetry.addLine("Configuring auton...");
+
+            if (opMode.gamepad1.a) side = "left";
+            if (opMode.gamepad1.y) side = "right";
+
+            if (opMode.gamepad2.a) numCycles++;
+            if (opMode.gamepad2.y) numCycles = 0;
+
+            opMode.telemetry.addData("side", side);
+            opMode.telemetry.addData("numCycles", numCycles);
+            opMode.telemetry.update();
+
+        }
+
     }
 
 }

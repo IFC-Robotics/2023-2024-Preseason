@@ -47,13 +47,13 @@ public class LiftClass {
 
         if (this.name == "motor_horizontal_lift") {
 
-            if (position == "zero") return 0;
+            if (position == "transfer" || position == "zero") return 0;
             if (position == "wait to collect") return 1400;
             if (position == "collect" || position == "high") return 1600;
 
         } else if (this.name == "motor_vertical_lift") {
 
-            if (position == "zero")   return 0;
+            if (position == "transfer" || position == "zero") return 0;
             if (position == "cone 2") return 1000;
             if (position == "driving" || position == "cone 3" || position == "ground") return 1500;
             if (position == "cone 4") return 2000;
@@ -87,16 +87,31 @@ public class LiftClass {
 
     // teleOp
 
-    public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4, boolean button5) {
+    public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4) {
 
         // fix
 
-        if (button1 || button2 || button3 || button4 || button5) {
-            if (button1) runToPosition("zero", false);
-            if (button2) runToPosition("driving", false);
-            if (button3) runToPosition("low", false);
-            if (button4) runToPosition("middle", false);
-            if (button5) runToPosition("high", false);
+        if (button1 || button2 || button3 || button4) {
+
+            String position = "";
+
+            if (this.name == "motor_horizontal_lift") {
+
+                if (button1) position = "zero";
+                if (button2) position = "wait to collect";
+                if (button3) position = "collect";
+
+            } else if (this.name == "motor_vertical_lift") {
+
+                if (button1) position = "zero";
+                if (button2) position = "low";
+                if (button3) position = "middle";
+                if (button4) position = "high";
+
+            }
+
+            runToPosition(position, false);
+
         }
 
         if (!motor.isBusy()) {

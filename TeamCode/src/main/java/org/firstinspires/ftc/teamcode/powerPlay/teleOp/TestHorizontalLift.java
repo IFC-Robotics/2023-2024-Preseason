@@ -23,8 +23,8 @@ public class TestHorizontalLift extends LinearOpMode {
 
         while(opModeIsActive()) {
 
-            Robot.horizontalLift.teleOpAssistMode(gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y, gamepad2.right_bumper);
-            Robot.horizontalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.left_bumper);
+            Robot.horizontalLift.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
+            Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y, gamepad2.left_bumper);
 
             telemetry.update();
 

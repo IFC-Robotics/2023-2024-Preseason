@@ -23,13 +23,13 @@ public class NoClawTeleOp extends LinearOpMode {
 
         while(opModeIsActive()) {
 
-            Robot.servoHook.teleOpAssistMode(gamepad2.dpad_down, gamepad2.dpad_up);
-            Robot.servoHook.teleOpManualMode(-gamepad2.left_stick_y);
-
-            Robot.verticalLift.teleOpAssistMode(gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y, gamepad2.right_bumper);
-            Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.left_bumper);
-
-            Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_bumper);
+//            Robot.servoHook.teleOpAssistMode(gamepad2.dpad_down, gamepad2.dpad_up);
+//            Robot.servoHook.teleOpManualMode(-gamepad2.left_stick_y);
+//
+//            Robot.verticalLift.teleOpAssistMode(gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y, gamepad2.right_bumper);
+//            Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.left_bumper);
+//
+//            Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_bumper);
 
             telemetry.update();
 

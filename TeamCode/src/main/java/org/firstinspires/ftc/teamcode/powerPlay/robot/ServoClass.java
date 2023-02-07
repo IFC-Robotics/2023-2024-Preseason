@@ -57,21 +57,21 @@ public class ServoClass {
     
     // teleOp
 
-    public void teleOpAssistMode(boolean minCondition, boolean maxCondition) {
-        if (minCondition || maxCondition) {
+    public void teleOpAssistMode(boolean minConditionButton, boolean maxConditionButton) {
+        if (minConditionButton || maxConditionButton) {
             double servoOldPosition = servoPosition;
-            servoPosition = minCondition ? this.minPosition : this.maxPosition;
+            servoPosition = minConditionButton ? this.minPosition : this.maxPosition;
             telemetry.addLine(String.format("running %1$s from position %2$s to %3$s", this.name, servoOldPosition, servoPosition));
             servo.setPosition(servoPosition);
         }
     }
 
-    public void teleOpManualMode(double joystick) {
-        if (Math.abs(joystick) > 0.02) {
+    public void teleOpManualMode(boolean minConditionButton, boolean maxConditionButton) {
+        if (minConditionButton || maxConditionButton) {
             double servoOldPosition = servoPosition;
-            if (joystick < 0 && servoPosition > this.minPosition) servoPosition -= this.speed;
-            if (joystick > 0 && servoPosition < this.maxPosition) servoPosition += this.speed;
-            telemetry.addLine(String.format("increment %1$s from position %2$s by %3$s", this.name, servoOldPosition, (servoPosition - servoOldPosition)));
+            if (minConditionButton && servoPosition > this.minPosition) servoPosition -= this.speed;
+            if (maxConditionButton && servoPosition < this.maxPosition) servoPosition += this.speed;
+            telemetry.addLine(String.format("running %1$s from position %2$s to %3$s", this.name, servoOldPosition, servoPosition));
             servo.setPosition(servoPosition);
         }
     }
