@@ -3,22 +3,22 @@ package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
-import com.qualcomm.robotcore.hardware.
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@TeleOp(name="test range sensor", group="test")
+@TeleOp(name="test REV color/range sensor", group="test")
 public class TestRangeSensor extends LinearOpMode {
 
-    ColorRangeSensor colorRange;
+    ColorRangeSensor colorRangeSensor;
 
     @Override
     public void runOpMode() {
 
-        colorRange = hardwareMap.get(ColorRangeSensor.class, "color_range_sensor");
+        colorRangeSensor = hardwareMap.get(ColorRangeSensor.class, "color_range_sensor");
 
         telemetry.addLine("Initializing opMode...");
         telemetry.update();
+
         Robot.init(this);
 
         waitForStart();
@@ -27,10 +27,13 @@ public class TestRangeSensor extends LinearOpMode {
         telemetry.update();
 
         while(opModeIsActive()) {
-            telemetry.addData("Red", colorRange.red());
-            telemetry.addData("Green", colorRange.green());
-            telemetry.addData("Blue", colorRange.blue());
-            telemetry.addData("Distance", colorRange.getDistance());
+            telemetry.addData("Red", colorRangeSensor.red());
+            telemetry.addData("Green", colorRangeSensor.green());
+            telemetry.addData("Blue", colorRangeSensor.blue());
+            telemetry.addData("Alpha", colorRangeSensor.alpha());
+            telemetry.addData("Distance", colorRangeSensor.getDistance());
+            telemetry.addData("MM Distance", colorRangeSensor.getDistance(DistanceUnit.MM));
+            telemetry.addData("Meter Distance", colorRangeSensor.getDistance(DistanceUnit.METER));
             telemetry.update();
         }
 
