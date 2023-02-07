@@ -27,8 +27,11 @@ public class TestRangeSensor extends LinearOpMode {
         telemetry.update();
 
         while(opModeIsActive()) {
-             telemetry.addData("Red", colorRange.red());
-             telemetry.addData("Green", colorRange.green());
+            telemetry.addData("Red", colorRange.red());
+            telemetry.addData("Green", colorRange.green());
+            telemetry.addData("Blue", colorRange.blue());
+            telemetry.addData("Distance", colorRange.getDistance());
+            telemetry.update();
         }
 
     }
