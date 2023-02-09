@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-import java.util.HashMap;
 
 public class LiftClass {
 
@@ -27,7 +26,7 @@ public class LiftClass {
         this.reverseDirection = reverseDirection;
     }
 
-    public void init(LinearOpMode opModeParam) {
+    public void Init(LinearOpMode opModeParam) {
 
         opMode = opModeParam;
         telemetry = opMode.telemetry;
@@ -40,12 +39,11 @@ public class LiftClass {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
-
     // helper function
 
     public int positionToDistance(String position) {
 
-        if (this.name == "motor_horizontal_lift") {
+        if (this.name == "servo_horizontal_lift") {
 
             if (position == "transfer" || position == "zero") return 0;
             if (position == "wait to collect") return 1400;
@@ -89,13 +87,12 @@ public class LiftClass {
 
     public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4) {
 
-        // fix
 
         if (button1 || button2 || button3 || button4) {
 
             String position = "";
 
-            if (this.name == "motor_horizontal_lift") {
+            if (this.name == "servo_horizontal_lift") {
 
                 if (button1) position = "zero";
                 if (button2) position = "wait to collect";

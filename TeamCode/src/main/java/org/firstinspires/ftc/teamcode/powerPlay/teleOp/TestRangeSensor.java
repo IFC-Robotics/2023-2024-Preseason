@@ -1,9 +1,11 @@
 package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorRangeSensor;
 
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @TeleOp(name="test REV color/range sensor", group="test")
@@ -31,7 +33,6 @@ public class TestRangeSensor extends LinearOpMode {
             telemetry.addData("Green", colorRangeSensor.green());
             telemetry.addData("Blue", colorRangeSensor.blue());
             telemetry.addData("Alpha", colorRangeSensor.alpha());
-            telemetry.addData("Distance", colorRangeSensor.getDistance());
             telemetry.addData("MM Distance", colorRangeSensor.getDistance(DistanceUnit.MM));
             telemetry.addData("Meter Distance", colorRangeSensor.getDistance(DistanceUnit.METER));
             telemetry.update();

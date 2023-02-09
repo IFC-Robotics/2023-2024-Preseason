@@ -36,8 +36,8 @@ public class Drivetrain {
         opMode = opModeParam;
         telemetry = opMode.telemetry;
 
-        motorFrontRight = opMode.hardwareMap.get(DcMotor.class, "motor_front_right");
         motorFrontLeft  = opMode.hardwareMap.get(DcMotor.class, "motor_front_left");
+        motorFrontRight = opMode.hardwareMap.get(DcMotor.class, "motor_front_right");
         motorBackRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 

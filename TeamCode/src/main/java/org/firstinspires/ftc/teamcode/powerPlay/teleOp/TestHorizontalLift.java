@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@TeleOp(name="no claw teleOp", group="competition")
+@TeleOp(name="Test Horizontal Lift", group="competition")
 public class TestHorizontalLift extends LinearOpMode {
 
     @Override

@@ -2,9 +2,6 @@ package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import java.lang.Math;
-import java.util.HashMap;
-
 public class Robot {
 
     public static Drivetrain drivetrain;
@@ -40,7 +37,7 @@ public class Robot {
         servoHook       = new ServoClass("servo_hook", "hold", 0.0, "release", 0.16, SERVO_SPEED, SERVO_TIME, true);
         servoRotateClaw = new ServoClass("servo_rotate_claw", "collect",  0, "transfer", 1, SERVO_SPEED, SERVO_TIME, false);
         servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0, "score",    1, SERVO_SPEED, SERVO_TIME, false);
-        horizontalLift  = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, SLEEP_TIME, true);
+        horizontalLift  = new LiftClass("motor_horizontal_lift",MAX_LIFT_SPEED, SLEEP_TIME, true);
         verticalLift    = new LiftClass(  "motor_vertical_lift", MAX_LIFT_SPEED, SLEEP_TIME, true);
         camera          = new Camera();
 
@@ -49,8 +46,8 @@ public class Robot {
         servoHook      .init(opMode);
         servoRotateClaw.init(opMode);
         servoRotateHook.init(opMode);
-        horizontalLift .init(opMode);
-        verticalLift   .init(opMode);
+        horizontalLift .Init(opMode);
+        verticalLift   .Init(opMode);
         camera         .init(opMode);
 
         resetRandomization();
@@ -72,7 +69,7 @@ public class Robot {
         servoHook.runToPosition("release", false);
         servoRotateClaw.runToPosition("transfer", false);
         servoRotateHook.runToPosition("transfer", false);
-        horizontalLift.runToPosition("zero", false);
+        horizontalLift.runToPosition("retracted", false);
         verticalLift.runToPosition("zero", false);
     }
 
