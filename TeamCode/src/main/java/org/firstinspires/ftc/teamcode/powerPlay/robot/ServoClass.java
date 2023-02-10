@@ -50,6 +50,10 @@ public class ServoClass {
 
     // autonomous
 
+    public void runToPosition(String position) {
+        runToPosition(position, false);
+    }
+
     public void runToPosition(String position, boolean isSynchronous) {
         teleOpAssistMode((position == this.minPositionName), (position == this.maxPositionName));
         if (isSynchronous) opMode.sleep(this.time);

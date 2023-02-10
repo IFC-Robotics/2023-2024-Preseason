@@ -68,11 +68,15 @@ public class LiftClass {
 
     // autonomous
 
-    public void runToPosition(String position, boolean isSynchronous) {
+    public void runToPosition(String position) {
+        runToPosition(position, false, this.maxSpeed);
+    }
+
+    public void runToPosition(String position, boolean isSynchronous, double speed) {
         int target = positionToDistance(position);
         motor.setTargetPosition(target);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setPower(this.maxSpeed);
+        motor.setPower(speed);
         if (isSynchronous) waitForLift();
     }
 

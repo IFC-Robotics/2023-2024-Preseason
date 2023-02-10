@@ -13,6 +13,7 @@ public class AdvancedFSMteleOp extends LinearOpMode {
     public enum RobotState {
         START,
         MOVE_HORIZONTAL_TO_COLLECT,
+        LOOK_FOR_CONE,
         COLLECT_CONE,
         MOVE_HORIZONTAL_TO_TRANSFER,
         TRANSFER_CONE,
@@ -79,31 +80,39 @@ public class AdvancedFSMteleOp extends LinearOpMode {
 
                     case START:
                         if (gamepad1.x) { // start FSM
-                            Robot.servoRotateClaw.runToPosition("zero", false); // rotate claw down
-                            timer.reset();
                             state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
                         }
                         break;
 
                     case MOVE_HORIZONTAL_TO_COLLECT:
-                        if (gamepad1.dpad_right && timer.seconds() >= Robot.servoRotateClaw.time) {
-                            Robot.horizontalLift.runToPosition("collect", false); // move horizontal lift to collect cone
-                            state = RobotState.COLLECT_CONE;
+                        Robot.servoRotateClaw.runToPosition("zero"); // rotate claw down
+                        Robot.horizontalLift.runToPosition("wait to collect"); // move horizontal lift to wait to collect cone
+                        timer.reset();
+                        state = RobotState.LOOK_FOR_CONE;
+                        break;
+
+                    case LOOK_FOR_CONE:
+                        if (gamepad1.dpad_right && timer.seconds() >= Robot.servoRotateClaw.time && !liftIsMoving(Robot.horizontalLift, "wait to collect")) {
+                            
+                            // "search" for cone using sensor
+                            
+                            // if () {
+                            //     state = RobotState.COLLECT_CONE;
+                            // }
+
                         }
                         break;
 
                     case COLLECT_CONE:
-                        if (liftIsMoving(Robot.horizontalLift, "collect")) {
-                            Robot.servoClaw.runToPosition("hold", false); // close claw
-                            timer.reset();
-                            state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
-                        }
+                        Robot.servoClaw.runToPosition("hold"); // close claw
+                        timer.reset();
+                        state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
                         break;
 
                     case MOVE_HORIZONTAL_TO_TRANSFER:
                         if (timer.seconds() >= Robot.servoClaw.time) {
-                            Robot.servoRotateClaw.runToPosition("transfer", false); // rotate claw up
-                            Robot.horizontalLift.runToPosition("transfer", false); // move horizontal lift to transfer cone
+                            Robot.servoRotateClaw.runToPosition("transfer"); // rotate claw up
+                            Robot.horizontalLift.runToPosition("transfer"); // move horizontal lift to transfer cone
                             state = RobotState.TRANSFER_CONE;
                         }
                         break;
