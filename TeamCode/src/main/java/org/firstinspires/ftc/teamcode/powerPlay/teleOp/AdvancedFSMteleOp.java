@@ -60,6 +60,21 @@ public class AdvancedFSMteleOp extends LinearOpMode {
 
                 telemetry.addLine(String.format("current FSM state: %s", state));
 
+                /*
+
+                    TO DO:
+
+                    - update FSM to include color/range sensor data
+
+                        - extend horizontal lift to "wait to collect"
+                        - when the button is pressed, slowly move forward until claw_sensor detects red/blue
+                        - then, close the claw (so that it grabs the cone)
+
+                        - bring the cone into the hook
+                        - when hook_sensor detects red/blue, meaning the cone is in the cup, extend the hook (so that it grabs the cone)
+
+                */
+
                 switch (state) {
 
                     case START:

@@ -26,7 +26,7 @@ public class LiftClass {
         this.reverseDirection = reverseDirection;
     }
 
-    public void Init(LinearOpMode opModeParam) {
+    public void init(LinearOpMode opModeParam) {
 
         opMode = opModeParam;
         telemetry = opMode.telemetry;
@@ -86,7 +86,6 @@ public class LiftClass {
     // teleOp
 
     public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4) {
-
 
         if (button1 || button2 || button3 || button4) {
 

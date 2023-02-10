@@ -11,6 +11,8 @@ public class Robot {
     public static ServoClass servoRotateHook;
     public static LiftClass horizontalLift;
     public static LiftClass verticalLift;
+    public static SensorClass clawSensor;
+    public static SensorClass hookSensor;
     public static Camera camera;
 
     public static double MAX_LIFT_SPEED = 0.8;
@@ -37,8 +39,10 @@ public class Robot {
         servoHook       = new ServoClass("servo_hook", "hold", 0.0, "release", 0.16, SERVO_SPEED, SERVO_TIME, true);
         servoRotateClaw = new ServoClass("servo_rotate_claw", "collect",  0, "transfer", 1, SERVO_SPEED, SERVO_TIME, false);
         servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0, "score",    1, SERVO_SPEED, SERVO_TIME, false);
-        horizontalLift  = new LiftClass("motor_horizontal_lift",MAX_LIFT_SPEED, SLEEP_TIME, true);
-        verticalLift    = new LiftClass(  "motor_vertical_lift", MAX_LIFT_SPEED, SLEEP_TIME, true);
+        horizontalLift  = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, SLEEP_TIME, true);
+        verticalLift    = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, SLEEP_TIME, true);
+        clawSensor      = new SensorClass("claw_sensor");
+        hookSensor      = new SensorClass("hook_sensor");
         camera          = new Camera();
 
         drivetrain     .init(opMode);
@@ -46,8 +50,10 @@ public class Robot {
         servoHook      .init(opMode);
         servoRotateClaw.init(opMode);
         servoRotateHook.init(opMode);
-        horizontalLift .Init(opMode);
-        verticalLift   .Init(opMode);
+        horizontalLift .init(opMode);
+        verticalLift   .init(opMode);
+        clawSensor     .init(opMode);
+        hookSensor     .init(opMode);
         camera         .init(opMode);
 
         resetRandomization();

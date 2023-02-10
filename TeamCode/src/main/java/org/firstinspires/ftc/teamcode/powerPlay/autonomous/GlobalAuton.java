@@ -32,6 +32,14 @@ public class GlobalAuton extends LinearOpMode {
 
         double sideMult = (Robot.side == "left") ? 1 : -1;
 
+        /*
+
+            NOTE: Should this be converted into a state machine?
+                - more impressive
+                - allows code to be repeated easily, instead of the current method of copy-and-pasting code over and over OR using a for loop
+
+         */
+
         // read AprilTag
 
         Robot.tag = Robot.camera.getTag();
