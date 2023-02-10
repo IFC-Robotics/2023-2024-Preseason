@@ -10,20 +10,20 @@ import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 @TeleOp(name="FSM teleOp", group="competition")
 public class AdvancedFSMteleOp extends LinearOpMode {
 
-     public enum RobotState {
-         START,
-         MOVE_HORIZONTAL_TO_COLLECT,
-         COLLECT_CONE,
-         MOVE_HORIZONTAL_TO_TRANSFER,
-         TRANSFER_CONE,
-         RELEASE_CONE,
-         MOVE_VERTICAL_TO_SCORE,
-         SCORE_CONE,
-         MOVE_VERTICAL_TO_TRANSFER
-     }
+    public enum RobotState {
+        START,
+        MOVE_HORIZONTAL_TO_COLLECT,
+        COLLECT_CONE,
+        MOVE_HORIZONTAL_TO_TRANSFER,
+        TRANSFER_CONE,
+        RELEASE_CONE,
+        MOVE_VERTICAL_TO_SCORE,
+        SCORE_CONE,
+        MOVE_VERTICAL_TO_TRANSFER
+    }
 
-     RobotState state = RobotState.START;
-     ElapsedTime timer = new ElapsedTime();
+    RobotState state = RobotState.START;
+    ElapsedTime timer = new ElapsedTime();
 
     @Override
     public void runOpMode() {

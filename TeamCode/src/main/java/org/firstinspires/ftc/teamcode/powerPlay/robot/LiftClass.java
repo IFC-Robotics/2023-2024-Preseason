@@ -130,7 +130,7 @@ public class LiftClass {
         if (enableEncoderLimits && (liftIsTooLow || liftIsTooHigh)) {
             liftSpeed = 0;
         }
-
+        
         motor.setPower(liftSpeed);
 
         // change encoder limits

@@ -25,10 +25,6 @@ public class Robot {
     public static int numCycles = 0;
     public static int tag = 0;
 
-    // initialize
-
-    public Robot() {}
-
     public static void init(LinearOpMode opMode) {
 
         opMode.telemetry.addLine("initializing robot class...");
