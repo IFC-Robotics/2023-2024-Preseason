@@ -72,6 +72,10 @@ public class LiftClass {
         runToPosition(position, false, this.maxSpeed);
     }
 
+    public void runToPosition(String position, boolean isSynchronous) {
+        runToPosition(position, isSynchronous, this.maxSpeed);
+    }
+
     public void runToPosition(String position, boolean isSynchronous, double speed) {
         int target = positionToDistance(position);
         motor.setTargetPosition(target);

@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.powerPlay.robot.LiftClass;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @TeleOp(name="FSM teleOp", group="competition")
-public class AdvancedFSMteleOp extends LinearOpMode {
+public class FSMteleOp extends LinearOpMode {
 
     public enum RobotState {
         START,
