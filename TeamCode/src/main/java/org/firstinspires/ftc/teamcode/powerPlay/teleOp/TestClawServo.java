@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@TeleOp(name="test REV color/range sensor", group="test")
-public class TestRangeSensor extends LinearOpMode {
+@TeleOp(name="Test Claw Servo", group="competition")
+public class TestClawServo extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -22,7 +22,14 @@ public class TestRangeSensor extends LinearOpMode {
         telemetry.update();
 
         while(opModeIsActive()) {
-            Robot.clawSensor.printSensorData(true, true, true);
+
+            Robot.servoClaw.teleOpManualMode(gamepad1.dpad_down, gamepad1.dpad_up);
+            Robot.servoRotateClaw.teleOpManualMode(gamepad1.a, gamepad1.y);
+
+            telemetry.addData("servo_claw position", Robot.servoClaw.servo.getPosition());
+            telemetry.addData("servo_rotate_claw position", Robot.servoRotateClaw.servo.getPosition());
+            telemetry.update();
+
         }
 
     }

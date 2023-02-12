@@ -63,19 +63,15 @@ public class ServoClass {
 
     public void teleOpAssistMode(boolean minConditionButton, boolean maxConditionButton) {
         if (minConditionButton || maxConditionButton) {
-            double servoOldPosition = servoPosition;
             servoPosition = minConditionButton ? this.minPosition : this.maxPosition;
-            telemetry.addLine(String.format("running %1$s from position %2$s to %3$s", this.name, servoOldPosition, servoPosition));
             servo.setPosition(servoPosition);
         }
     }
 
     public void teleOpManualMode(boolean minConditionButton, boolean maxConditionButton) {
         if (minConditionButton || maxConditionButton) {
-            double servoOldPosition = servoPosition;
             if (minConditionButton && servoPosition > this.minPosition) servoPosition -= this.speed;
             if (maxConditionButton && servoPosition < this.maxPosition) servoPosition += this.speed;
-            telemetry.addLine(String.format("running %1$s from position %2$s to %3$s", this.name, servoOldPosition, servoPosition));
             servo.setPosition(servoPosition);
         }
     }

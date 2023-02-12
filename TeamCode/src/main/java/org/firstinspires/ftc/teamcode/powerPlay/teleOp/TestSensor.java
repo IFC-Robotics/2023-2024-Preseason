@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@TeleOp(name="Test Horizontal Lift", group="competition")
-public class TestHorizontalLift extends LinearOpMode {
+@TeleOp(name="test REV color/range sensor", group="test")
+public class TestSensor extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -22,12 +22,7 @@ public class TestHorizontalLift extends LinearOpMode {
         telemetry.update();
 
         while(opModeIsActive()) {
-
-            Robot.horizontalLift.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
-            Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y, gamepad2.left_bumper);
-
-            telemetry.update();
-
+            Robot.clawSensor.printSensorData(true, true, true);
         }
 
     }

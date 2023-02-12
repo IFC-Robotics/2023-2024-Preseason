@@ -41,22 +41,24 @@ public class SensorClass {
         int g = sensor.green();
         int b = sensor.blue();
 
-        if (isMuchBiggerThan(r, b, 500) && isMuchBiggerThan(r, g, 500)) return "red";
-        if (isMuchBiggerThan(g, r, 500) && isMuchBiggerThan(g, b, 500)) return "green";
-        if (isMuchBiggerThan(b, r, 500) && isMuchBiggerThan(b, g, 500)) return "blue";
+        if (isMuchBiggerThan(r, b, 1.4) && isMuchBiggerThan(r, g, 1.4)) return "red";
+        if (isMuchBiggerThan(b, r, 1.4) && isMuchBiggerThan(b, g, 1.4)) return "blue";
 
         return "no dominant color";
 
     }
 
-    public boolean isMuchBiggerThan(int color1, int color2, int reqDif) {
-        return (color1 > color2 + reqDif);
+    public boolean isMuchBiggerThan(int color1, int color2, double reqRatio) {
+        return (color1 > color2 * reqRatio);
     }
 
     public double getDistance(String unit) {
-        if (unit == "mm" || unit == "millimeters") return sensor.getDistance(DistanceUnit.MM);
-        if (unit == "cm" || unit == "centimeters") return sensor.getDistance(DistanceUnit.CM);
-        else return sensor.getDistance(DistanceUnit.METER);
+        double rawDistance = 0.0;
+        double factor = 0.55;
+        if (unit == "mm" || unit == "millimeters") rawDistance = sensor.getDistance(DistanceUnit.MM);
+        if (unit == "cm" || unit == "centimeters") rawDistance = sensor.getDistance(DistanceUnit.CM);
+        if (unit == "m"  || unit == "meters")      rawDistance = sensor.getDistance(DistanceUnit.METER);
+        return round(rawDistance, 3) * factor;
     }
 
     public void printSensorData(boolean colors, boolean distances, boolean dominantColor) {
@@ -69,9 +71,9 @@ public class SensorClass {
         }
 
         if (distances) {
-            telemetry.addData("MM Distance", sensor.getDistance(DistanceUnit.MM));
-            telemetry.addData("CM Distance", sensor.getDistance(DistanceUnit.CM));
-            telemetry.addData("Meter Distance", sensor.getDistance(DistanceUnit.METER));
+            telemetry.addData("MM Distance", getDistance("mm"));
+            telemetry.addData("CM Distance", getDistance("cm"));
+            telemetry.addData("Meter Distance", getDistance("meters"));
         }
 
         if (dominantColor) {
@@ -80,6 +82,11 @@ public class SensorClass {
 
         telemetry.update();
 
+    }
+
+    public double round(double value, double numDecimalPlaces) {
+        double exponent = Math.pow(10, numDecimalPlaces);
+        return Math.round(value * exponent) / exponent;
     }
 
 }
