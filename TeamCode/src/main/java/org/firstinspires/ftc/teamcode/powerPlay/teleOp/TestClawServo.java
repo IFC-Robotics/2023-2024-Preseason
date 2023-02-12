@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@TeleOp(name="Test Claw Servo", group="competition")
+@TeleOp(name="Test Claw Servo", group="test")
 public class TestClawServo extends LinearOpMode {
 
     @Override
@@ -23,10 +23,8 @@ public class TestClawServo extends LinearOpMode {
 
         while(opModeIsActive()) {
 
-            Robot.servoClaw.teleOpManualMode(gamepad1.dpad_down, gamepad1.dpad_up);
-            Robot.servoRotateClaw.teleOpManualMode(gamepad1.a, gamepad1.y);
+            Robot.servoRotateClaw.teleOpManualMode(gamepad1.dpad_left, gamepad1.dpad_right);
 
-            telemetry.addData("servo_claw position", Robot.servoClaw.servo.getPosition());
             telemetry.addData("servo_rotate_claw position", Robot.servoRotateClaw.servo.getPosition());
             telemetry.update();
 

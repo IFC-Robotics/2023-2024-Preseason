@@ -22,10 +22,8 @@ public class ServoClass {
     public final int time;
     public final boolean reverseDirection;
 
-    // look into using servo.scaleRange()
-    // add a range sensor to the claw/hook so that it automatically closes when it detects a cone
-
     public ServoClass(String name, String minPositionName, double minPosition, String maxPositionName, double maxPosition, double speed, int time, boolean reverseDirection) {
+
         this.name = name;
         this.minPosition = minPosition;
         this.maxPosition = maxPosition;
@@ -34,6 +32,7 @@ public class ServoClass {
         this.speed = speed;
         this.time = time;
         this.reverseDirection = reverseDirection;
+
     }
 
     public void init(LinearOpMode opModeParam) {
@@ -42,6 +41,8 @@ public class ServoClass {
         telemetry = opMode.telemetry;
 
         servo = opMode.hardwareMap.get(Servo.class, this.name);
+        servo.scaleRange(this.minPosition, this.maxPosition);
+
         servoPosition = servo.getPosition();
 
         if (this.reverseDirection) servo.setDirection(Servo.Direction.REVERSE);
@@ -63,15 +64,15 @@ public class ServoClass {
 
     public void teleOpAssistMode(boolean minConditionButton, boolean maxConditionButton) {
         if (minConditionButton || maxConditionButton) {
-            servoPosition = minConditionButton ? this.minPosition : this.maxPosition;
+            servoPosition = minConditionButton ? 0 : 1;
             servo.setPosition(servoPosition);
         }
     }
 
     public void teleOpManualMode(boolean minConditionButton, boolean maxConditionButton) {
         if (minConditionButton || maxConditionButton) {
-            if (minConditionButton && servoPosition > this.minPosition) servoPosition -= this.speed;
-            if (maxConditionButton && servoPosition < this.maxPosition) servoPosition += this.speed;
+            if (minConditionButton && servoPosition > 0) servoPosition -= this.speed;
+            if (maxConditionButton && servoPosition < 1) servoPosition += this.speed;
             servo.setPosition(servoPosition);
         }
     }

@@ -51,7 +51,7 @@ public class Camera {
 
     public int getTag() {
 
-        int numAttempts = 250;
+        int numAttempts = 100;
         int tagID = 0;
 
         for (int i = 0; i < numAttempts; i++) {

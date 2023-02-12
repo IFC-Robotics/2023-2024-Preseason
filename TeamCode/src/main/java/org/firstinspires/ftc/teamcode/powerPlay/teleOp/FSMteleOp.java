@@ -176,8 +176,8 @@ public class FSMteleOp extends LinearOpMode {
                 Robot.servoHook.teleOpAssistMode(gamepad2.y, gamepad2.a);
                 Robot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
 
-                Robot.horizontalLift.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
-                Robot.verticalLift.teleOpAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
+//                Robot.horizontalLift.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
+//                Robot.verticalLift.teleOpAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
 
             } else if (Robot.mode == "manual") { // manual mode
 
@@ -187,8 +187,8 @@ public class FSMteleOp extends LinearOpMode {
                 Robot.servoHook.teleOpManualMode(gamepad2.y, gamepad2.a);
                 Robot.servoRotateHook.teleOpManualMode(gamepad2.x, gamepad2.b);
 
-                Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y, gamepad2.left_bumper);
-                Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.right_bumper);
+//                Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y, gamepad2.left_bumper);
+//                Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.right_bumper);
 
             }
 
