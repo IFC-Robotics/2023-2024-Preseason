@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@TeleOp(name="test REV color/range sensor", group="test")
-public class TestSensor extends LinearOpMode {
+@TeleOp(name="test REV sensors", group="test")
+public class TestSensors extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -22,7 +22,11 @@ public class TestSensor extends LinearOpMode {
         telemetry.update();
 
         while(opModeIsActive()) {
-            Robot.clawSensor.printSensorData(true, true, true);
+
+            Robot.hookSensor.printSensorData(true, true, true);
+
+            telemetry.addData("touch sensor", Robot.touchSensor.isPressed());
+            telemetry.update();
         }
 
     }

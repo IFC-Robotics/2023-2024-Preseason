@@ -53,15 +53,21 @@ public class SensorClass {
     }
 
     public double getDistance(String unit) {
+
         double rawDistance = 0.0;
         double factor = 0.55;
+
         if (unit == "mm" || unit == "millimeters") rawDistance = sensor.getDistance(DistanceUnit.MM);
         if (unit == "cm" || unit == "centimeters") rawDistance = sensor.getDistance(DistanceUnit.CM);
         if (unit == "m"  || unit == "meters")      rawDistance = sensor.getDistance(DistanceUnit.METER);
+
         return round(rawDistance, 3) * factor;
+
     }
 
     public void printSensorData(boolean colors, boolean distances, boolean dominantColor) {
+
+        telemetry.addLine(String.format("Sensor data for %s", this.name));
 
         if (colors) {
             telemetry.addData("Red", sensor.red());
@@ -79,8 +85,6 @@ public class SensorClass {
         if (dominantColor) {
             telemetry.addData("Dominant Color", getDominantColor());
         }
-
-        telemetry.update();
 
     }
 
