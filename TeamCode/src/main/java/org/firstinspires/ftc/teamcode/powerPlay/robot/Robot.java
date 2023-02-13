@@ -32,6 +32,24 @@ public class Robot {
         opMode.telemetry.addLine("initializing robot class...");
         opMode.telemetry.update();
 
+        /*
+
+            TO DO:
+
+                - make horizontal_lift come back smoothly (fabricators)
+
+                - fix horizontal_lift teleOp method not working properly
+                    - doesn't work when enableEncoderLimits is true
+                    - buttons don't do anything
+
+                - test the horizontal_lift predetermined distances
+                - make sure servo_rotate_claw aligns with servo_rotate_hook
+                - test inchesToTicks() and degreesToTicks()
+
+                - make servo_rotate_hook rotate the other way (above, not below)
+
+        */
+
         drivetrain      = new Drivetrain(SLEEP_TIME);
         servoClaw       = new ServoClass("servo_claw", "hold", 0.30, "release", 0.64, SERVO_SPEED, SERVO_TIME, false);
         servoHook       = new ServoClass("servo_hook", "hold", 0.51, "release", 0.57, SERVO_SPEED, SERVO_TIME, false);
@@ -58,6 +76,28 @@ public class Robot {
 
         opMode.telemetry.addLine("done initializing robot class");
         opMode.telemetry.update();
+
+    }
+
+    public static double inchesToTicks(double inches) {
+
+        double TICKS_PER_REV = 1120;
+        double WHEEL_RADIUS = 2;
+        double GEAR_RATIO = 20;
+
+        double wheelCircumference = 2 * Math.PI * WHEEL_RADIUS;
+        double ticksPerInch = TICKS_PER_REV / (wheelCircumference * GEAR_RATIO);
+        return inches * ticksPerInch;
+
+    }
+
+    public static double degreesToTicks(double degrees) {
+
+        double ROBOT_RADIUS = 9;
+
+        double robotCircumference = 2 * Math.PI * ROBOT_RADIUS;
+        double arc = robotCircumference * degrees / 360;
+        return inchesToTicks(arc);
 
     }
 
