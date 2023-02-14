@@ -33,6 +33,7 @@ public class FSMteleOp extends LinearOpMode {
         telemetry.update();
 
         Robot.init(this);
+        Robot.mode = "assist";
 
         waitForStart();
 
@@ -59,22 +60,7 @@ public class FSMteleOp extends LinearOpMode {
 
             if (Robot.mode == "FSM") {
 
-                telemetry.addLine(String.format("current FSM state: %s", state));
-
-                /*
-
-                    TO DO:
-
-                    - update FSM to include color/range sensor data
-
-                        - extend horizontal lift to "wait to collect"
-                        - when the button is pressed, slowly move forward until claw_sensor detects red/blue
-                        - then, close the claw (so that it grabs the cone)
-
-                        - bring the cone into the hook
-                        - when hook_sensor detects red/blue, meaning the cone is in the cup, extend the hook (so that it grabs the cone)
-
-                */
+                telemetry.addData("current FSM state", state);
 
                 switch (state) {
 
@@ -176,8 +162,11 @@ public class FSMteleOp extends LinearOpMode {
                 Robot.servoHook.teleOpAssistMode(gamepad2.y, gamepad2.a);
                 Robot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
 
-//                Robot.horizontalLift.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
-//                Robot.verticalLift.teleOpAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
+                Robot.closeClawUsingTouchSensor();
+                Robot.closeHookUsingColorSensor();
+
+                Robot.horizontalLift.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
+                Robot.verticalLift.teleOpAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
 
             } else if (Robot.mode == "manual") { // manual mode
 
@@ -187,16 +176,35 @@ public class FSMteleOp extends LinearOpMode {
                 Robot.servoHook.teleOpManualMode(gamepad2.y, gamepad2.a);
                 Robot.servoRotateHook.teleOpManualMode(gamepad2.x, gamepad2.b);
 
-//                Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y, gamepad2.left_bumper);
-//                Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.right_bumper);
+                Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y, gamepad2.left_bumper);
+                Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.right_bumper);
 
             }
 
             Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_bumper);
 
-            telemetry.update();
+            printRobotData();
 
         }
+
+    }
+
+    public void printRobotData() {
+
+        telemetry.addLine("\nRobot data:\n");
+
+        Robot.servoClaw.printData();
+        Robot.servoHook.printData();
+        Robot.servoRotateClaw.printData();
+        Robot.servoRotateHook.printData();
+
+        Robot.horizontalLift.printData();
+        Robot.verticalLift.printData();
+
+        Robot.hookSensor.printImportantData();
+        telemetry.addData("\ntouchSensor.isPressed()", Robot.touchSensor.isPressed());
+
+        telemetry.update();
 
     }
 

@@ -92,9 +92,7 @@ public class LiftClass {
 
     // teleOp
 
-    public void teleOp(double joystick, boolean encoderButton, boolean button1, boolean button2, boolean button3, boolean button4) {
-
-        // buttons
+    public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4) {
 
         if (button1 || button2 || button3 || button4) {
 
@@ -118,38 +116,33 @@ public class LiftClass {
             motorIsMoving = true;
             runToPosition(position, false);
 
-        } else {
-
-            if (motorIsMoving && !motor.isBusy()) {
-                motorIsMoving = false;
-                motorCurrentSpeed = this.idleSpeed;
-                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            }
-
-            // joystick
-
-            if (!motorIsMoving) {
-
-                double liftSpeed = Range.clip(joystick, -this.maxSpeed, this.maxSpeed);
-                int liftCurrentPosition = motor.getCurrentPosition();
-
-                boolean liftIsTooLow  = (liftCurrentPosition < positionToDistance("zero") && liftSpeed < 0);
-                boolean liftIsTooHigh = (liftCurrentPosition > positionToDistance("high") && liftSpeed > 0);
-
-                if (liftSpeed == 0 || (enableEncoderLimits && (liftIsTooLow || liftIsTooHigh))) {
-                    motorCurrentSpeed = this.idleSpeed;
-                } else {
-                    motorCurrentSpeed = liftSpeed;
-                }
-
-            }
-
-            telemetry.addData("motorCurrentSpeed", motorCurrentSpeed);
-            motor.setPower(motorCurrentSpeed);
-
         }
 
-        // change encoder limits
+        if (motorIsMoving && !motor.isBusy()) {
+            motorIsMoving = false;
+            motorCurrentSpeed = this.idleSpeed;
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+    }
+
+    public void teleOpManualMode(double joystick, boolean encoderButton) {
+
+        double liftSpeed = Range.clip(joystick, -this.maxSpeed, this.maxSpeed);
+        int liftCurrentPosition = motor.getCurrentPosition();
+
+        boolean liftIsTooLow  = (liftCurrentPosition < positionToDistance("zero") && liftSpeed < 0);
+        boolean liftIsTooHigh = (liftCurrentPosition > positionToDistance("high") && liftSpeed > 0);
+
+        if (liftSpeed == 0 || (enableEncoderLimits && (liftIsTooLow || liftIsTooHigh))) {
+            motorCurrentSpeed = this.idleSpeed;
+        } else {
+            motorCurrentSpeed = liftSpeed;
+        }
+
+        motor.setPower(motorCurrentSpeed);
+
+        // reset encoder value
 
         if (encoderButton) {
 
@@ -162,9 +155,83 @@ public class LiftClass {
 
         }
 
-        telemetry.addData("enableEncoderLimits", enableEncoderLimits);
+    }
 
+//    public void teleOp(double joystick, boolean encoderButton, boolean button1, boolean button2, boolean button3, boolean button4) {
+//
+//        // buttons
+//
+//        if (button1 || button2 || button3 || button4) {
+//
+//            String position = "";
+//
+//            if (this.name == "servo_horizontal_lift") {
+//
+//                if (button1) position = "zero";
+//                if (button2) position = "wait to collect";
+//                if (button3) position = "collect";
+//
+//            } else if (this.name == "motor_vertical_lift") {
+//
+//                if (button1) position = "zero";
+//                if (button2) position = "low";
+//                if (button3) position = "middle";
+//                if (button4) position = "high";
+//
+//            }
+//
+//            motorIsMoving = true;
+//            runToPosition(position, false);
+//
+//        } else {
+//
+//            if (motorIsMoving && !motor.isBusy()) {
+//                motorIsMoving = false;
+//                motorCurrentSpeed = this.idleSpeed;
+//                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            }
+//
+//            // joystick
+//
+//            if (!motorIsMoving) {
+//
+//                double liftSpeed = Range.clip(joystick, -this.maxSpeed, this.maxSpeed);
+//                int liftCurrentPosition = motor.getCurrentPosition();
+//
+//                boolean liftIsTooLow  = (liftCurrentPosition < positionToDistance("zero") && liftSpeed < 0);
+//                boolean liftIsTooHigh = (liftCurrentPosition > positionToDistance("high") && liftSpeed > 0);
+//
+//                if (liftSpeed == 0 || (enableEncoderLimits && (liftIsTooLow || liftIsTooHigh))) {
+//                    motorCurrentSpeed = this.idleSpeed;
+//                } else {
+//                    motorCurrentSpeed = liftSpeed;
+//                }
+//
+//            }
+//
+//            motor.setPower(motorCurrentSpeed);
+//
+//        }
+//
+//        // change encoder limits
+//
+//        if (encoderButton) {
+//
+//            enableEncoderLimits = !enableEncoderLimits;
+//
+//            if (enableEncoderLimits) {
+//                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+//                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+//            }
+//
+//        }
+//
+//    }
 
+    public void printData() {
+        telemetry.addLine(String.format("\n%1$s position: %2$s", this.name, motor.getCurrentPosition()));
+        telemetry.addLine(String.format("%1$s speed: %2$s", this.name, motorCurrentSpeed));
+        telemetry.addLine(String.format("%1$s enableEncoderLimits: %2$s", this.name, enableEncoderLimits));
     }
 
 }

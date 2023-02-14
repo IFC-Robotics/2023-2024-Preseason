@@ -77,4 +77,8 @@ public class ServoClass {
         }
     }
 
+    public void printData() {
+        telemetry.addLine(String.format("%1$s position: %2$s", this.name, servo.getPosition()));
+    }
+
 }

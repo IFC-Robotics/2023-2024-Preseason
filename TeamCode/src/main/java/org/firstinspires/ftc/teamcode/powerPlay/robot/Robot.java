@@ -45,9 +45,6 @@ public class Robot {
 
             TO DO:
 
-                - make horizontal_lift come back smoothly (fabricators)
-                - improve touch sensor on claw (fabricators)
-
                 - fix horizontal_lift teleOp method not working properly
                     - doesn't work when enableEncoderLimits is true
                     - buttons don't do anything
@@ -59,16 +56,15 @@ public class Robot {
                 - test inchesToTicks() and degreesToTicks()
 
                 - make sure servo_claw actually holds onto the cone
-                - make servo_rotate_hook rotate the other way (above, not below)
 
         */
 
         drivetrain      = new Drivetrain(SLEEP_TIME);
-        servoClaw       = new ServoClass("servo_claw", "hold", 0.30, "release", 0.64, SERVO_SPEED, SERVO_TIME, false);
-        servoHook       = new ServoClass("servo_hook", "hold", 0.51, "release", 0.57, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateClaw = new ServoClass("servo_rotate_claw", "collect",  0.00, "transfer", 1.00, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",    0.84, SERVO_SPEED, SERVO_TIME, false);
-        horizontalLift  = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0, SLEEP_TIME, false);
+        servoClaw       = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
+        servoHook       = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateClaw = new ServoClass("servo_rotate_claw", "transfer", 0.00, "collect", 1.00, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",   0.84, SERVO_SPEED, SERVO_TIME, false);
+        horizontalLift  = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
         verticalLift    = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
         hookSensor      = new SensorClass("hook_sensor");
         camera          = new Camera();
@@ -143,19 +139,19 @@ public class Robot {
     }
 
     public static void resetScoring() {
-        servoClaw.runToPosition("hold", false);
-        servoHook.runToPosition("release", false);
-        servoRotateClaw.runToPosition("transfer", false);
-        servoRotateHook.runToPosition("transfer", false);
-        horizontalLift.runToPosition("retracted", false);
-        verticalLift.runToPosition("zero", false);
+        servoClaw.runToPosition("hold");
+        servoHook.runToPosition("release");
+        servoRotateClaw.runToPosition("transfer");
+        servoRotateHook.runToPosition("transfer");
+        horizontalLift.runToPosition("zero");
+        verticalLift.runToPosition("zero");
     }
 
     public static void configureAuton(LinearOpMode opMode) {
 
         while (opMode.opModeInInit()) {
 
-            opMode.telemetry.addLine("Configuring auton...");
+            telemetry.addLine("Configuring auton...");
 
             if (opMode.gamepad1.a) side = "left";
             if (opMode.gamepad1.y) side = "right";
@@ -163,9 +159,9 @@ public class Robot {
             if (opMode.gamepad2.a) numCycles++;
             if (opMode.gamepad2.y) numCycles = 0;
 
-            opMode.telemetry.addData("side", side);
-            opMode.telemetry.addData("numCycles", numCycles);
-            opMode.telemetry.update();
+            telemetry.addData("side", side);
+            telemetry.addData("numCycles", numCycles);
+            telemetry.update();
 
         }
 

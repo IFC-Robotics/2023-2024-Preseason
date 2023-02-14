@@ -52,16 +52,18 @@ public class SensorClass {
         return (color1 > color2 * reqRatio);
     }
 
-    public double getDistance(String unit) {
+    public double getDistance(String unit) { return getDistance(unit, 3); }
 
-        double rawDistance = 0.0;
+    public double getDistance(String unit, double roundTo) {
+
+        double rawDistance = 0;
         double factor = 0.55;
 
         if (unit == "mm" || unit == "millimeters") rawDistance = sensor.getDistance(DistanceUnit.MM);
         if (unit == "cm" || unit == "centimeters") rawDistance = sensor.getDistance(DistanceUnit.CM);
         if (unit == "m"  || unit == "meters")      rawDistance = sensor.getDistance(DistanceUnit.METER);
 
-        return round(rawDistance, 3) * factor;
+        return round(rawDistance, roundTo) * factor;
 
     }
 
@@ -88,8 +90,13 @@ public class SensorClass {
 
     }
 
-    public double round(double value, double numDecimalPlaces) {
-        double exponent = Math.pow(10, numDecimalPlaces);
+    public void printImportantData() {
+        telemetry.addLine(String.format("\n%1$s distance (mm): %2$s", this.name, getDistance("mm")));
+        telemetry.addLine(String.format("%1$s dominant color: %2$s", this.name, getDominantColor()));
+    }
+
+    public double round(double value, double roundTo) {
+        double exponent = Math.pow(10, roundTo);
         return Math.round(value * exponent) / exponent;
     }
 
