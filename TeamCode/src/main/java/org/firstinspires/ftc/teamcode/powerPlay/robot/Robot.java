@@ -15,7 +15,6 @@ public class Robot {
     public static ServoClass servoRotateHook;
     public static LiftClass horizontalLift;
     public static LiftClass verticalLift;
-    //public static SensorClass clawSensor;
     public static SensorClass hookSensor;
     public static Camera camera;
 
