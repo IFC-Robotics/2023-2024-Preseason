@@ -22,10 +22,7 @@ public class TestSensors extends LinearOpMode {
         telemetry.update();
 
         while(opModeIsActive()) {
-
             Robot.hookSensor.printSensorData(true, true, true);
-
-            telemetry.addData("touch sensor", Robot.touchSensor.isPressed());
             telemetry.update();
         }
 

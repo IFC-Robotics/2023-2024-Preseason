@@ -13,14 +13,19 @@ public class FSMteleOp extends LinearOpMode {
     public enum RobotState {
         START,
         MOVE_HORIZONTAL_TO_COLLECT,
-        LOOK_FOR_CONE,
+        LOWER_CLAW,
+        MOVE_HORIZONTAL_INTO_CONE,
         COLLECT_CONE,
+        RAISE_CLAW,
         MOVE_HORIZONTAL_TO_TRANSFER,
         TRANSFER_CONE,
         RELEASE_CONE,
         MOVE_VERTICAL_TO_SCORE,
+        ROTATE_HOOK_TO_SCORE,
         SCORE_CONE,
-        MOVE_VERTICAL_TO_TRANSFER
+        ROTATE_HOOK_TO_TRANSFER,
+        MOVE_VERTICAL_TO_TRANSFER,
+        RESTART
     }
 
     RobotState state = RobotState.START;
@@ -71,33 +76,43 @@ public class FSMteleOp extends LinearOpMode {
                         break;
 
                     case MOVE_HORIZONTAL_TO_COLLECT:
-                        Robot.servoRotateClaw.runToPosition("zero"); // rotate claw down
                         Robot.horizontalLift.runToPosition("wait to collect"); // move horizontal lift to wait to collect cone
-                        timer.reset();
-                        state = RobotState.LOOK_FOR_CONE;
+                        state = RobotState.LOWER_CLAW;
                         break;
 
-                    case LOOK_FOR_CONE:
-                        if (gamepad1.dpad_right && timer.seconds() >= Robot.servoRotateClaw.time && !liftIsMoving(Robot.horizontalLift, "wait to collect")) {
-                            
-                            // "search" for cone using sensor
-                            
-                            // if () {
-                            //     state = RobotState.COLLECT_CONE;
-                            // }
+                    case LOWER_CLAW:
+                        if (liftIsMoving(Robot.horizontalLift, "wait to collect")) {
+                            Robot.servoRotateClaw.runToPosition("zero"); // rotate claw down
+                            timer.reset();
+                            state = RobotState.MOVE_HORIZONTAL_INTO_CONE;
+                        }
+                        break;
 
+                    case MOVE_HORIZONTAL_INTO_CONE:
+                        if (timer.milliseconds() >= Robot.servoRotateClaw.time) {
+                            Robot.horizontalLift.runToPosition("collect"); // move horizontal lift to collect cone
+                            state = RobotState.COLLECT_CONE;
                         }
                         break;
 
                     case COLLECT_CONE:
-                        Robot.servoClaw.runToPosition("hold"); // close claw
-                        timer.reset();
-                        state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
+                        if (liftIsMoving(Robot.horizontalLift, "collect")) {
+                            Robot.servoClaw.runToPosition("hold"); // close claw
+                            timer.reset();
+                            state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
+                        }
+                        break;
+
+                    case RAISE_CLAW:
+                        if (timer.milliseconds() >= Robot.servoClaw.time) {
+                            Robot.servoRotateClaw.runToPosition("transfer"); // rotate claw up
+                            timer.reset();
+                            state = RobotState.MOVE_HORIZONTAL_TO_TRANSFER;
+                        }
                         break;
 
                     case MOVE_HORIZONTAL_TO_TRANSFER:
-                        if (timer.seconds() >= Robot.servoClaw.time) {
-                            Robot.servoRotateClaw.runToPosition("transfer"); // rotate claw up
+                        if (timer.milliseconds() >= Robot.servoRotateClaw.time) {
                             Robot.horizontalLift.runToPosition("transfer"); // move horizontal lift to transfer cone
                             state = RobotState.TRANSFER_CONE;
                         }
@@ -105,40 +120,61 @@ public class FSMteleOp extends LinearOpMode {
 
                     case TRANSFER_CONE:
                         if (liftIsMoving(Robot.horizontalLift, "transfer")) {
-                            Robot.servoHook.runToPosition("hold", false); // extend hook
+                            Robot.servoHook.runToPosition("hold"); // extend hook
                             timer.reset();
                             state = RobotState.RELEASE_CONE;
                         }
                         break;
 
                     case RELEASE_CONE:
-                        if (timer.seconds() >= Robot.servoHook.time) {
-                            Robot.servoClaw.runToPosition("release", false); // open claw
+                        if (timer.milliseconds() >= Robot.servoHook.time) {
+                            Robot.servoClaw.runToPosition("release"); // open claw
                             timer.reset();
                             state = RobotState.MOVE_VERTICAL_TO_SCORE;
                         }
                         break;
 
                     case MOVE_VERTICAL_TO_SCORE:
-                        if (gamepad1.y && timer.seconds() >= Robot.servoClaw.time) {
-                            Robot.servoRotateHook.runToPosition("score", false); // rotate hook to score cone
-                            Robot.verticalLift.runToPosition("high", false); // move vertical lift to score cone
+                        if (timer.milliseconds() >= Robot.servoClaw.time) {
+                            Robot.verticalLift.runToPosition("high"); // move vertical lift to score cone
+                            state = RobotState.ROTATE_HOOK_TO_SCORE;
+                        }
+                        break;
+
+                    case ROTATE_HOOK_TO_SCORE:
+                        if (liftIsMoving(Robot.verticalLift, "high")) {
+                            Robot.servoRotateHook.runToPosition("score"); // rotate hook to score cone
+                            timer.reset();
                             state = RobotState.SCORE_CONE;
                         }
                         break;
 
                     case SCORE_CONE:
-                        if (liftIsMoving(Robot.verticalLift, "high")) {
-                            Robot.servoHook.runToPosition("release", false); // retract hook
+                        if (timer.milliseconds() >= Robot.servoRotateHook.time) {
+                            Robot.servoHook.runToPosition("release"); // retract hook
+                            timer.reset();
+                            state = RobotState.ROTATE_HOOK_TO_TRANSFER;
+                        }
+                        break;
+
+                    case ROTATE_HOOK_TO_TRANSFER:
+                        if (timer.milliseconds() >= Robot.servoHook.time) {
+                            Robot.servoRotateHook.runToPosition("transfer"); // rotate hook to transfer position
                             timer.reset();
                             state = RobotState.MOVE_VERTICAL_TO_TRANSFER;
                         }
                         break;
 
                     case MOVE_VERTICAL_TO_TRANSFER:
-                        if (timer.seconds() >= Robot.servoClaw.time) {
-                            Robot.servoRotateHook.runToPosition("transfer", false); // rotate hook to transfer cone
-                            Robot.verticalLift.runToPosition("transfer", false); // move vertical lift to transfer cone
+                        if (timer.milliseconds() >= Robot.servoRotateHook.time) {
+                            Robot.verticalLift.runToPosition("transfer"); // move vertical lift to transfer cone
+                            state = RobotState.RESTART;
+                        }
+                        break;
+
+                    case RESTART:
+                        if (liftIsMoving(Robot.verticalLift, "transfer")) {
+                            timer.reset();
                             state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
                         }
                         break;
@@ -156,28 +192,27 @@ public class FSMteleOp extends LinearOpMode {
 
             } else if (Robot.mode == "assist") { // assist mode
 
-                Robot.servoClaw.teleOpAssistMode(gamepad2.dpad_left, gamepad2.dpad_right);
-                Robot.servoRotateClaw.teleOpAssistMode(gamepad2.dpad_up, gamepad2.dpad_down);
+                Robot.servoClaw.teleOpAssistMode(gamepad1.dpad_left, gamepad1.dpad_right);
+                Robot.servoRotateClaw.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_up);
 
-                Robot.servoHook.teleOpAssistMode(gamepad2.y, gamepad2.a);
-                Robot.servoRotateHook.teleOpAssistMode(gamepad2.x, gamepad2.b);
+                Robot.servoHook.teleOpAssistMode(gamepad1.y, gamepad1.a);
+                Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
 
-                Robot.closeClawUsingTouchSensor();
                 Robot.closeHookUsingColorSensor();
 
-                Robot.horizontalLift.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
-                Robot.verticalLift.teleOpAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
+                Robot.horizontalLift.teleOp(-gamepad2.left_stick_y, gamepad2.left_bumper, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.dpad_up);
+                Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
 
             } else if (Robot.mode == "manual") { // manual mode
 
-                Robot.servoClaw.teleOpManualMode(gamepad2.dpad_left, gamepad2.dpad_right);
-                Robot.servoRotateClaw.teleOpManualMode(gamepad2.dpad_up, gamepad2.dpad_down);
+                Robot.servoClaw.teleOpManualMode(gamepad1.dpad_left, gamepad1.dpad_right);
+                Robot.servoRotateClaw.teleOpManualMode(gamepad1.dpad_down, gamepad1.dpad_up);
 
-                Robot.servoHook.teleOpManualMode(gamepad2.y, gamepad2.a);
-                Robot.servoRotateHook.teleOpManualMode(gamepad2.x, gamepad2.b);
+                Robot.servoHook.teleOpManualMode(gamepad1.y, gamepad1.a);
+                Robot.servoRotateHook.teleOpManualMode(gamepad1.x, gamepad1.b);
 
-                Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y, gamepad2.left_bumper);
-                Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.right_bumper);
+                Robot.horizontalLift.teleOp(-gamepad2.left_stick_y, gamepad2.left_bumper, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.dpad_up);
+                Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
 
             }
 
@@ -202,7 +237,6 @@ public class FSMteleOp extends LinearOpMode {
         Robot.verticalLift.printData();
 
         Robot.hookSensor.printImportantData();
-        telemetry.addData("\ntouchSensor.isPressed()", Robot.touchSensor.isPressed());
 
         telemetry.update();
 
@@ -218,33 +252,45 @@ public class FSMteleOp extends LinearOpMode {
 
 /*
 
+Gamepad 1 - driving, servos, FSM, and modes
+
 gamepad1.left_stick_x:  strafing
 gamepad1.left_stick_y:  driving
 gamepad1.right_stick_x: turning
-gamepad1.a:             move vertical lift to transfer cone
-gamepad1.x:             move vertical lift to low junction
-gamepad1.b:             move vertical lift to middle junction
-gamepad1.y:             move vertical lift to high junction
+
+gamepad1.a:             retract hook (to release cone)
+gamepad1.x:             rotate hook up
+gamepad1.b:             rotate hook down
+gamepad1.y:             extend hook (to hold cone)
+
 gamepad1.x (FSM mode):  start FSM
 gamepad1.y (FSM mode):  stop FSM
+
+gamepad1.dpad_down:     rotate claw down
+gamepad1.dpad_left:     open claw
+gamepad1.dpad_right:    close claw
+gamepad1.dpad_up:       rotate claw upe
+
 gamepad1.left_bumper:   toggle max drivetrain speed
-gamepad1.dpad_down:     move horizontal lift to zero
-gamepad1.dpad_left:     move horizontal lift to wait to collect cone
-gamepad1.dpad_right:    move horizontal lift to collect cone
+
 gamepad1.back:          switch to FSM mode
 gamepad1.guide:         switch to assist mode
 gamepad1.start:         switch to manual mode
 
+Gamepad 2 - lifts
+
 gamepad2.left_stick_y:  moving horizontal lift
 gamepad2.right_stick_y: moving vertical lift
-gamepad2.a:             retract hook to release cone
-gamepad2.x:             rotate hook to transfer cone
-gamepad2.b:             rotate hook to score cone
-gamepad2.y:             extend hook to hold cone
-gamepad2.dpad_down:     rotate claw down
-gamepad2.dpad_left:     open claw
-gamepad2.dpad_right:    close claw
-gamepad2.dpad_up:       rotate claw up
+
+gamepad2.a:             move vertical lift to transfer
+gamepad2.x:             move vertical lift to low
+gamepad2.b:             move vertical lift to middle
+gamepad2.y:             move vertical lift to high
+
+gamepad2.dpad_down:     move horizontal lift to zero
+gamepad2.dpad_left:     move horizontal lift to wait to collect cone
+gamepad2.dpad_right:    move horizontal lift to collect cone
+
 gamepad2.left_bumper:   toggle encoder limits for horizontal lift
 gamepad2.right_bumper:  toggle encoder limits for vertical lift
 

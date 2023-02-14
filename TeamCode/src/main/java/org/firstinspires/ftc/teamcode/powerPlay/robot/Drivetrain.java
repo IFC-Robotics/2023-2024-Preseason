@@ -25,9 +25,11 @@ public class Drivetrain {
     public static double MAX_TELEOP_SPEED = 0.7;
     public static boolean limitSpeed = true;
 
+    public final String forwardDirection;
     public final int sleepTime;
 
-    public Drivetrain(int sleepTime) {
+    public Drivetrain(String forwardDirection, int sleepTime) {
+        this.forwardDirection = forwardDirection;
         this.sleepTime = sleepTime;
     }
 
@@ -41,8 +43,13 @@ public class Drivetrain {
         motorBackRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        if (this.forwardDirection == "hook") {
+            motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        } else {
+            motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+            motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        }
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

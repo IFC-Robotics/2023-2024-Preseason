@@ -28,8 +28,6 @@ public class TestServosAndLifts extends LinearOpMode {
             Robot.servoClaw.teleOpAssistMode(gamepad2.dpad_up, gamepad2.dpad_down);
             telemetry.addData("servo_claw position", Robot.servoClaw.servo.getPosition());
 
-            Robot.closeClawUsingTouchSensor();
-
             // rotate claw servo
 
             Robot.servoRotateClaw.teleOpManualMode(gamepad2.dpad_left, gamepad2.dpad_right);
@@ -49,14 +47,12 @@ public class TestServosAndLifts extends LinearOpMode {
 
             // horizontal lift
 
-            Robot.horizontalLift.teleOpAssistMode(gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
-            Robot.horizontalLift.teleOpManualMode(-gamepad2.left_stick_y, gamepad2.left_bumper);
+            Robot.horizontalLift.teleOp(-gamepad2.left_stick_y, gamepad2.left_bumper, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.dpad_up);
             telemetry.addData("horizontal lift position", Robot.horizontalLift.motor.getCurrentPosition());
 
             // vertical lift
 
-            Robot.verticalLift.teleOpAssistMode(gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
-            Robot.verticalLift.teleOpManualMode(-gamepad2.right_stick_y, gamepad2.right_bumper);
+            Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
             telemetry.addData("vertical lift position", Robot.verticalLift.motor.getCurrentPosition());
 
             telemetry.update();

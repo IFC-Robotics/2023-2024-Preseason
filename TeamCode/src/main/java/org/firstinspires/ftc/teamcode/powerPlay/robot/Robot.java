@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.powerPlay.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.TouchSensor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -20,11 +19,9 @@ public class Robot {
     public static SensorClass hookSensor;
     public static Camera camera;
 
-    public static TouchSensor touchSensor;
-
     public static double MAX_LIFT_SPEED = 0.8;
     public static double SERVO_SPEED = 0.01;
-    public static int SERVO_TIME = 500;
+    public static int SERVO_TIME = 1000;
     public static int SLEEP_TIME = 50;
 
     public static String mode = "assist";
@@ -43,33 +40,45 @@ public class Robot {
 
         /*
 
-            TO DO:
+            FABRICATORS TO-DO:
 
-                - fix horizontal_lift teleOp method not working properly
-                    - doesn't work when enableEncoderLimits is true
-                    - buttons don't do anything
+                1. fix servo_rotate_claw
+                2. fix servo_claw
 
-                - add both sensor's code to FSM
+            PROGRAMMERS TO-DO ASAP:
 
-                - test the horizontal_lift predetermined distances
-                - make sure servo_rotate_claw aligns with servo_rotate_hook
-                - test inchesToTicks() and degreesToTicks()
+                3. test the horizontal_lift predetermined distances
+                4. make sure servo_claw actually holds onto the cone
+                5. make sure servo_rotate_claw aligns with servo_rotate_hook
+                6. test FSM w/ everything
 
-                - make sure servo_claw actually holds onto the cone
+                7. work on auton
+                    a. make sure everything is up-to-date
+                    b. test all values
+                    c. generalize to other auton situations (see globalAuton.java and Robot.configureAuton())
+                    d. consider what to do w/ the extra time
+
+            PROGRAMMERS OPTIONAL TO-DO
+
+                7. add color/range sensor to claw (again)
+                8. create helper methods for scoring
+                    a. Robot.transferToCollect(): extends horizontal lift, rotates claw down, opens claw
+                    b. Robot.collectToTransfer(): closes claw, rotates claw up, retracts horizontal lift, opens claw
+                    c. Robot.transferToDeposit(): closes hook, raises lift to max height, rotates hook to score, opens hook
+                    d. Robot.depositToTransfer(): rotates hook to transfer, lowers lift to zero
+                9. test inchesToTicks() and degreesToTicks()
 
         */
 
-        drivetrain      = new Drivetrain(SLEEP_TIME);
+        drivetrain      = new Drivetrain("cone", SLEEP_TIME);
         servoClaw       = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
         servoHook       = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateClaw = new ServoClass("servo_rotate_claw", "transfer", 0.00, "collect", 1.00, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",   0.84, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateClaw = new ServoClass("servo_rotate_claw", "collect",  0.00, "transfer", 1.00, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",    0.84, SERVO_SPEED, SERVO_TIME, false);
         horizontalLift  = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
         verticalLift    = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
         hookSensor      = new SensorClass("hook_sensor");
         camera          = new Camera();
-
-        touchSensor = opMode.hardwareMap.get(TouchSensor.class, "touch_sensor");
 
         drivetrain     .init(opMode);
         servoClaw      .init(opMode);
@@ -110,18 +119,12 @@ public class Robot {
 
     }
 
-    public static void closeClawUsingTouchSensor() {
-        if (Robot.touchSensor.isPressed()) {
-            Robot.servoClaw.runToPosition("hold");
-        }
-    }
-
     public static void closeHookUsingColorSensor() {
 
         String currentColor = Robot.hookSensor.getDominantColor();
         double currentDistance = Robot.hookSensor.getDistance("mm");
 
-        double desiredDistance = 60;
+        double desiredDistance = 55;
         double error = 20;
 
         boolean correctColor = (currentColor == "red" || currentColor == "blue");

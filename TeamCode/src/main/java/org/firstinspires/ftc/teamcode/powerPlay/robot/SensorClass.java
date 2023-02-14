@@ -41,8 +41,10 @@ public class SensorClass {
         int g = sensor.green();
         int b = sensor.blue();
 
-        if (isMuchBiggerThan(r, b, 1.4) && isMuchBiggerThan(r, g, 1.4)) return "red";
-        if (isMuchBiggerThan(b, r, 1.4) && isMuchBiggerThan(b, g, 1.4)) return "blue";
+        double reqRatio = 1.3;
+
+        if (isMuchBiggerThan(r, b, reqRatio) && isMuchBiggerThan(r, g, reqRatio)) return "red";
+        if (isMuchBiggerThan(b, r, reqRatio) && isMuchBiggerThan(b, g, reqRatio)) return "blue";
 
         return "no dominant color";
 
