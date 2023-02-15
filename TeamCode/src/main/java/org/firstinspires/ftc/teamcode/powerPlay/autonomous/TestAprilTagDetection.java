@@ -20,6 +20,7 @@
          telemetry.addLine("Executing opMode...");
 
          Robot.tag = Robot.camera.getTag();
+
          telemetry.addData("Robot.tag", Robot.tag);
          telemetry.update();
 

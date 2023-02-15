@@ -1,11 +1,13 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.oldCode.autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 @Autonomous(name="Left 1+1", group="competition")
+@Disabled
 public class Left1Plus1 extends LinearOpMode {
 
     double DRIVE_SPEED = 0.5;

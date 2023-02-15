@@ -25,7 +25,7 @@ public class Robot {
 
     public static String mode = "assist";
     public static String side = "";
-    public static int numCycles = 0;
+//    public static int numCycles = 0;
     public static int tag = 0;
 
     // initialize
@@ -43,6 +43,8 @@ public class Robot {
 
                 1. fix servo_rotate_claw
                 2. fix servo_claw
+                3. 3D print beacon
+                4. finalize method of pulling back the horizontal lift
 
             PROGRAMMERS TO-DO ASAP:
 
@@ -50,26 +52,26 @@ public class Robot {
                 4. make sure servo_claw actually holds onto the cone
                 5. make sure servo_rotate_claw aligns with servo_rotate_hook
                 6. test FSM w/ everything
+                    a. improve code for collecting a cone with the FSM (make it more controllable, more accurate)
+                7. test auton opModes
+                8. test beacon (assist mode and FSM mode)
 
-                7. work on auton
-                    a. make sure everything is up-to-date
-                    b. test all values
-                    c. generalize to other auton situations (see globalAuton.java and Robot.configureAuton())
-                    d. consider what to do w/ the extra time
-
-                8. ask FTC discord server for help
+                9. ask FTC discord server for help
                     a. ask about servo_rotate_claw
-                    b. ask how the 90 degree gearbox affects encoder values (rn its making the wheel slower)
+                    b. ask about 90 degree gearbox
 
             PROGRAMMERS OPTIONAL TO-DO
 
-                9.  add color/range sensor to claw (again)
-                10. create helper methods for scoring
+                10. add color/range sensor to claw (again)
+                11. create helper methods for scoring
                     a. Robot.transferToCollect(): extends horizontal lift, rotates claw down, opens claw
                     b. Robot.collectToTransfer(): closes claw, rotates claw up, retracts horizontal lift, opens claw
                     c. Robot.transferToDeposit(): closes hook, raises lift to max height, rotates hook to score, opens hook
                     d. Robot.depositToTransfer(): rotates hook to transfer, lowers lift to zero
-                11. test inchesToTicks() and degreesToTicks()
+                12. test inchesToTicks() and degreesToTicks()
+                13. add more to auton
+                    a. check out globalAuton.java and Robot.configureAuton()
+                    b. consider what to do w/ the extra time
 
         */
 
@@ -140,7 +142,7 @@ public class Robot {
     public static void resetRandomization() {
         mode = "assist";
         side = "";
-        numCycles = 0;
+//        numCycles = 0;
         tag = 0;
     }
 
@@ -159,14 +161,14 @@ public class Robot {
 
             telemetry.addLine("Configuring auton...");
 
-            if (opMode.gamepad1.a) side = "left";
-            if (opMode.gamepad1.y) side = "right";
+            if (opMode.gamepad1.x) side = "left";
+            if (opMode.gamepad1.b) side = "right";
 
-            if (opMode.gamepad2.a) numCycles++;
-            if (opMode.gamepad2.y) numCycles = 0;
+//            if (opMode.gamepad2.a) numCycles++;
+//            if (opMode.gamepad2.y) numCycles = 0;
 
             telemetry.addData("side", side);
-            telemetry.addData("numCycles", numCycles);
+//            telemetry.addData("numCycles", numCycles);
             telemetry.update();
 
         }

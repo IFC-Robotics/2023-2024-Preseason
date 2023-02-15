@@ -70,6 +70,10 @@ public class Drivetrain {
 
     // autonomous
 
+    public void drive (double distance, double speed) { drive(distance, speed, true); }
+    public void strafe(double distance, double speed) { drive(distance, speed, true); }
+    public void turn  (double angle,    double speed) { drive(angle,    speed, true); }
+
     public void drive(double distance, double speed, boolean isSynchronous) {
 
         telemetry.addLine(String.format("\ndriving %s inches", distance));

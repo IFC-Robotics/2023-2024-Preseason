@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@Autonomous(name="Left 1+0", group="competition")
-public class Left1Plus0 extends LinearOpMode {
+@Autonomous(name="Configurable Auton", group="competition")
+public class ConfigurableAuton extends LinearOpMode {
 
     double DRIVE_SPEED = 0.3;
     double STRAFE_SPEED = 0.3;
@@ -19,11 +19,14 @@ public class Left1Plus0 extends LinearOpMode {
         telemetry.update();
 
         Robot.init(this);
+        Robot.configureAuton(this);
 
         waitForStart();
 
         telemetry.addLine("Executing opMode...");
         telemetry.update();
+
+        double sideMult = (Robot.side == "left") ? 1 : -1;
 
         // secure preloaded cone & read AprilTag
 
@@ -34,7 +37,7 @@ public class Left1Plus0 extends LinearOpMode {
 
         Robot.drivetrain.drive(-64, DRIVE_SPEED, true);
         Robot.drivetrain.drive(8, DRIVE_SPEED, true);
-        Robot.drivetrain.turn(45, TURN_SPEED, true);
+        Robot.drivetrain.turn(sideMult * 45, TURN_SPEED, true);
 
         // raise lift
 
@@ -56,7 +59,7 @@ public class Left1Plus0 extends LinearOpMode {
 
         // park in correct zone
 
-        Robot.drivetrain.turn(-45, TURN_SPEED, true);
+        Robot.drivetrain.turn(sideMult * -45, TURN_SPEED, true);
         Robot.drivetrain.drive(24, DRIVE_SPEED, true);
 
         if (Robot.tag == 1) Robot.drivetrain.strafe(-24, STRAFE_SPEED, true);
