@@ -76,7 +76,7 @@ public class Robot {
         */
 
         drivetrain      = new Drivetrain("cone", SLEEP_TIME);
-        servoClaw       = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
+        servoClaw       = new ServoClass("servo_claw", "release", 0.35, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
         servoHook       = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
         servoRotateClaw = new ServoClass("servo_rotate_claw", "collect",  0.00, "transfer", 1.00, SERVO_SPEED, SERVO_TIME, false);
         servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",    0.84, SERVO_SPEED, SERVO_TIME, false);
