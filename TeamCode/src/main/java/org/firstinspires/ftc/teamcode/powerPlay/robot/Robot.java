@@ -44,39 +44,36 @@ public class Robot {
                 1. fix servo_rotate_claw
                 2. fix servo_claw
                 3. 3D print beacon
-                4. finalize method of pulling back the horizontal lift
+                4. fix front right motor
+                5. add color/range sensor to claw (again)
+
+                6. ask FTC discord server about...
+                    a. servo_rotate_claw
+                    b. 90 degree gearbox
 
             PROGRAMMERS TO-DO ASAP:
 
-                3. test the horizontal_lift predetermined distances
-                4. make sure servo_claw actually holds onto the cone
-                5. make sure servo_rotate_claw aligns with servo_rotate_hook
-                6. test FSM w/ everything
-                    a. improve code for collecting a cone with the FSM (make it more controllable, more accurate)
-                7. test auton opModes
-                8. test beacon (assist mode and FSM mode)
+                1. update FSM
+                    a. add code for claw color/range sensor
+                    b. add "rotate claw down" position for horizontal lift
+                    c. add "middle" position for servo_rotate_hook
+                    d. make it so multiple commands can run in one state
 
-                9. ask FTC discord server for help
-                    a. ask about servo_rotate_claw
-                    b. ask about 90 degree gearbox
+                2. test the horizontal_lift predetermined distances
+                3. make sure servo_claw actually holds onto the cone
+                4. make sure servo_rotate_claw aligns with servo_rotate_hook
+                5. test auton opMode(s)
+                6. test beacon (assist mode and FSM mode)
 
-            PROGRAMMERS OPTIONAL TO-DO
+            PROGRAMMERS OPTIONAL TO-DO:
 
-                10. add color/range sensor to claw (again)
-                11. create helper methods for scoring
-                    a. Robot.transferToCollect(): extends horizontal lift, rotates claw down, opens claw
-                    b. Robot.collectToTransfer(): closes claw, rotates claw up, retracts horizontal lift, opens claw
-                    c. Robot.transferToDeposit(): closes hook, raises lift to max height, rotates hook to score, opens hook
-                    d. Robot.depositToTransfer(): rotates hook to transfer, lowers lift to zero
-                12. test inchesToTicks() and degreesToTicks()
-                13. add more to auton
-                    a. check out globalAuton.java and Robot.configureAuton()
-                    b. consider what to do w/ the extra time
+                1. test inchesToTicks() and degreesToTicks()
+                2. consider adding more to auton
 
         */
 
         drivetrain      = new Drivetrain("cone", SLEEP_TIME);
-        servoClaw       = new ServoClass("servo_claw", "release", 0.35, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
+        servoClaw       = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
         servoHook       = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
         servoRotateClaw = new ServoClass("servo_rotate_claw", "collect",  0.00, "transfer", 1.00, SERVO_SPEED, SERVO_TIME, false);
         servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",    0.84, SERVO_SPEED, SERVO_TIME, false);
@@ -147,7 +144,7 @@ public class Robot {
     }
 
     public static void resetScoring() {
-        servoClaw.runToPosition("hold");
+        servoClaw.runToPosition("release");
         servoHook.runToPosition("release");
         servoRotateClaw.runToPosition("transfer");
         servoRotateHook.runToPosition("transfer");
@@ -174,5 +171,34 @@ public class Robot {
         }
 
     }
+
+    /*
+
+        import java.util.function.Consumer;
+
+        interface Interface {
+            void run(String str);
+        }
+
+        interface Interface2 {
+            void run();
+        }
+
+        public class Main {
+
+            public static void main(String[] args) {
+            
+                Interface method = (s) -> System.out.println(s + "!");
+                method.run("Hello");
+                
+                Interface2 method2 = () -> System.out.println("Hi");
+                method2.run();
+            
+            }
+        
+        }
+
+    */
+
 
 }
