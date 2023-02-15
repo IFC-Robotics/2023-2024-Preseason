@@ -15,6 +15,7 @@ public class Robot {
     public static ServoClass servoRotateHook;
     public static LiftClass horizontalLift;
     public static LiftClass verticalLift;
+    public static SensorClass clawSensor;
     public static SensorClass hookSensor;
     public static Camera camera;
 
@@ -79,6 +80,7 @@ public class Robot {
         servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",    0.84, SERVO_SPEED, SERVO_TIME, false);
         horizontalLift  = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
         verticalLift    = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
+        clawSensor      = new SensorClass("claw_sensor");
         hookSensor      = new SensorClass("hook_sensor");
         camera          = new Camera();
 
@@ -89,6 +91,7 @@ public class Robot {
         servoRotateHook.init(opMode);
         horizontalLift .init(opMode);
         verticalLift   .init(opMode);
+        clawSensor     .init(opMode);
         hookSensor     .init(opMode);
         camera         .init(opMode);
 
@@ -121,18 +124,18 @@ public class Robot {
 
     }
 
-    public static void closeHookUsingColorSensor() {
+    public static void closeServoUsingSensor(SensorClass sensorClass, ServoClass servoClass, double desiredDistance, double error) {
 
-        String currentColor = Robot.hookSensor.getDominantColor();
-        double currentDistance = Robot.hookSensor.getDistance("mm");
+        String currentColor = sensorClass.getDominantColor();
+        double currentDistance = sensorClass.getDistance("mm");
 
-        double desiredDistance = 55;
-        double error = 20;
+        // double desiredDistance = 55;
+        // double error = 20;
 
         boolean correctColor = (currentColor == "red" || currentColor == "blue");
         boolean correctDistance = (desiredDistance - error < currentDistance && currentDistance < desiredDistance + error);
 
-        if (correctColor && correctDistance) Robot.servoHook.runToPosition("hold");
+        if (correctColor && correctDistance) servoClass.runToPosition("hold");
 
     }
 

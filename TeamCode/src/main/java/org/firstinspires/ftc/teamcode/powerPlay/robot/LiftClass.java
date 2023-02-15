@@ -50,6 +50,7 @@ public class LiftClass {
         if (this.name == "motor_horizontal_lift") {
 
             if (position == "transfer" || position == "zero") return 0;
+            if (position == "rotate claw down") return 300;
             if (position == "wait to collect") return 750;
             if (position == "collect" || position == "high") return 900;
 
@@ -88,6 +89,13 @@ public class LiftClass {
         opMode.sleep(this.sleepTime);
     }
 
+    public void stop() {
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setTargetPosition(motor.getCurrentPosition());
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(this.idleSpeed);
+    }
+
     // teleOp
 
     public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4) {
@@ -99,8 +107,9 @@ public class LiftClass {
             if (this.name == "motor_horizontal_lift") {
 
                 if (button1) position = "zero";
-                if (button2) position = "wait to collect";
-                if (button3) position = "collect";
+                if (button2) position = "rotate claw down";
+                if (button3) position = "wait to collect";
+                if (button4) position = "collect";
 
             } else if (this.name == "motor_vertical_lift") {
 

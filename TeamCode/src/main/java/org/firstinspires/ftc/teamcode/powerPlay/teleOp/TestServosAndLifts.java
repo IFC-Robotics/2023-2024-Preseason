@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
+closeServoUsingSensorpackage org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -38,7 +38,7 @@ public class TestServosAndLifts extends LinearOpMode {
             Robot.servoHook.teleOpAssistMode(gamepad2.a, gamepad2.y);
             telemetry.addData("servo_hook position", Robot.servoHook.servo.getPosition());
 
-            Robot.closeHookUsingColorSensor();
+            Robot.closeHookUsingColorSensor(Robot.hookSensor, Robot.servoHook, 55, 20);
 
             // rotate hook servo
 

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
+closeServoUsingSensorpackage org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -123,7 +123,7 @@ public class FSMteleOp extends LinearOpMode {
                     Robot.servoHook.teleOpAssistMode(gamepad1.y, gamepad1.a);
                     Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
 
-                    Robot.closeHookUsingColorSensor();
+                    Robot.closeHookUsingColorSensor(Robot.hookSensor, Robot.servoHook, 55, 20);
 
                 } else if (Robot.mode == "manual") { // manual mode
 
