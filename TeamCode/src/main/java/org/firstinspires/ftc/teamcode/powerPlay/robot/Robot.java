@@ -57,15 +57,19 @@ public class Robot {
                     c. generalize to other auton situations (see globalAuton.java and Robot.configureAuton())
                     d. consider what to do w/ the extra time
 
+                8. ask FTC discord server for help
+                    a. ask about servo_rotate_claw
+                    b. ask how the 90 degree gearbox affects encoder values (rn its making the wheel slower)
+
             PROGRAMMERS OPTIONAL TO-DO
 
-                7. add color/range sensor to claw (again)
-                8. create helper methods for scoring
+                9.  add color/range sensor to claw (again)
+                10. create helper methods for scoring
                     a. Robot.transferToCollect(): extends horizontal lift, rotates claw down, opens claw
                     b. Robot.collectToTransfer(): closes claw, rotates claw up, retracts horizontal lift, opens claw
                     c. Robot.transferToDeposit(): closes hook, raises lift to max height, rotates hook to score, opens hook
                     d. Robot.depositToTransfer(): rotates hook to transfer, lowers lift to zero
-                9. test inchesToTicks() and degreesToTicks()
+                11. test inchesToTicks() and degreesToTicks()
 
         */
 

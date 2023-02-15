@@ -4,8 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.powerPlay.robot.LiftClass;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.LiftClass;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.ServoClass;
 
 @TeleOp(name="FSM teleOp", group="competition")
 public class FSMteleOp extends LinearOpMode {
@@ -70,23 +71,26 @@ public class FSMteleOp extends LinearOpMode {
 
                     case START:
                         if (gamepad1.x) { // start FSM
-                            state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
+//                            state = RobotState.MOVE_HORIZONTAL_TO_COLLECT;
+                            state = RobotState.MOVE_VERTICAL_TO_SCORE;
                         }
                         break;
                     
-                    case MOVE_HORIZONTAL_TO_COLLECT:  liftToLift  (Robot.verticalLift,    Robot.horizontalLift,  "wait to collect", RobotState.LOWER_CLAW          ); break;
-                    case LOWER_CLAW:                  liftToServo (Robot.horizontalLift,  Robot.servoRotateClaw, "collect",  RobotState.MOVE_HORIZONTAL_INTO_CONE  ); break;
-                    case MOVE_HORIZONTAL_INTO_CONE:   servoToLift (Robot.servoRotateClaw, Robot.horizontalLift,  "collect",  RobotState.COLLECT_CONE               ); break;
-                    case COLLECT_CONE:                liftToServo (Robot.horizontalLift,  Robot.servoClaw,       "hold",     RobotState.RAISE_CLAW                 ); break;
-                    case RAISE_CLAW:                  servoToServo(Robot.servoClaw,       Robot.servoRotateClaw, "transfer", RobotState.MOVE_HORIZONTAL_TO_TRANSFER); break;
-                    case MOVE_HORIZONTAL_TO_TRANSFER: servoToLift (Robot.servoRotateClaw, Robot.horizontalLift,  "transfer", RobotState.TRANSFER_CONE              ); break;
-                    case TRANSFER_CONE:               liftToServo (Robot.horizontalLift,  Robot.servoHook,       "hold",     RobotState.RELEASE_CONE               ); break;
-                    case RELEASE_CONE:                servoToServo(Robot.servoHook,       Robot.servoClaw,       "release",  RobotState.MOVE_VERTICAL_TO_SCORE     ); break;
-                    case MOVE_VERTICAL_TO_SCORE:      servoToLift (Robot.servoClaw,       Robot.verticalLift,    "high",     RobotState.ROTATE_HOOK_TO_SCORE       ); break;
-                    case ROTATE_HOOK_TO_SCORE:        liftToServo (Robot.verticalLift,    Robot.servoRotateHook, "score",    RobotState.SCORE_CONE                 ); break;
+//                    case MOVE_HORIZONTAL_TO_COLLECT:  liftToLift  (Robot.verticalLift,    "transfer", Robot.horizontalLift,  "wait to collect", RobotState.LOWER_CLAW          ); break;
+//                    case LOWER_CLAW:                  liftToServo (Robot.horizontalLift,  "wait to collect", Robot.servoRotateClaw, "collect",  RobotState.MOVE_HORIZONTAL_INTO_CONE  ); break;
+//                    case MOVE_HORIZONTAL_INTO_CONE:   servoToLift (Robot.servoRotateClaw, Robot.horizontalLift,  "collect",  RobotState.COLLECT_CONE               ); break;
+//                    case COLLECT_CONE:                liftToServo (Robot.horizontalLift,  "collect", Robot.servoClaw,       "hold",     RobotState.RAISE_CLAW                 ); break;
+//                    case RAISE_CLAW:                  servoToServo(Robot.servoClaw,       Robot.servoRotateClaw, "transfer", RobotState.MOVE_HORIZONTAL_TO_TRANSFER); break;
+//                    case MOVE_HORIZONTAL_TO_TRANSFER: servoToLift (Robot.servoRotateClaw, Robot.horizontalLift,  "transfer", RobotState.TRANSFER_CONE              ); break;
+//                    case TRANSFER_CONE:               liftToServo (Robot.horizontalLift,  "transfer", Robot.servoHook,       "hold",     RobotState.RELEASE_CONE               ); break;
+//                    case RELEASE_CONE:                servoToServo(Robot.servoHook,       Robot.servoClaw,       "release",  RobotState.MOVE_VERTICAL_TO_SCORE     ); break;
+//                    case MOVE_VERTICAL_TO_SCORE:      servoToLift (Robot.servoClaw,       Robot.verticalLift,    "high",     RobotState.ROTATE_HOOK_TO_SCORE       ); break;
+                    case MOVE_VERTICAL_TO_SCORE:      liftToLift  (Robot.verticalLift,    "transfer", Robot.verticalLift,    "high",     RobotState.ROTATE_HOOK_TO_SCORE       ); break;
+                    case ROTATE_HOOK_TO_SCORE:        liftToServo (Robot.verticalLift,    "high", Robot.servoRotateHook, "score",    RobotState.SCORE_CONE                 ); break;
                     case SCORE_CONE:                  servoToServo(Robot.servoRotateHook, Robot.servoHook,       "release",  RobotState.ROTATE_HOOK_TO_TRANSFER    ); break;
                     case ROTATE_HOOK_TO_TRANSFER:     servoToServo(Robot.servoHook,       Robot.servoRotateHook, "transfer", RobotState.MOVE_VERTICAL_TO_TRANSFER  ); break;
-                    case MOVE_VERTICAL_TO_TRANSFER:   servoToLift (Robot.servoRotateHook, Robot.verticalLift,    "transfer", RobotState.MOVE_HORIZONTAL_TO_COLLECT ); break;
+//                    case MOVE_VERTICAL_TO_TRANSFER:   servoToLift (Robot.servoRotateHook, Robot.verticalLift,    "transfer", RobotState.MOVE_HORIZONTAL_TO_COLLECT ); break;
+                    case MOVE_VERTICAL_TO_TRANSFER:   servoToLift (Robot.servoRotateHook, Robot.verticalLift,    "transfer",   RobotState.MOVE_VERTICAL_TO_SCORE     ); break;
 
                     default:
                         state = RobotState.START;
@@ -154,37 +158,37 @@ public class FSMteleOp extends LinearOpMode {
 
     }
 
-    public void liftToLift(LiftClass liftClass, LiftClass nextLiftClass, double position, RobotState nextState) {
-        if (!liftClass.motorIsMoving) {
-            nextLiftClass.runToPosition(position);
+    public void liftToLift(LiftClass liftClass, String liftPosition, LiftClass nextLiftClass, String nextLiftPosition, RobotState nextState) {
+        if (liftIsntMoving(liftClass, liftPosition)) {
+            nextLiftClass.runToPosition(nextLiftPosition);
             state = nextState;
         }
     }
 
-    public void liftToServo(LiftClass liftClass, ServoClass servoClass, double position, RobotState nextState) {
-        if (!liftClass.motorIsMoving) {
-            servoClass.runToPosition(position);
+    public void liftToServo(LiftClass liftClass, String liftPosition, ServoClass servoClass, String servoPosition, RobotState nextState) {
+        if (liftIsntMoving(liftClass, liftPosition)) {
+            servoClass.runToPosition(servoPosition);
             timer.reset();
             state = nextState;
         }
     }
 
-    public void servoToLift(ServoClass servoClass, LiftClass liftClass, double position, RobotState nextState) {
+    public void servoToLift(ServoClass servoClass, LiftClass liftClass, String liftPosition, RobotState nextState) {
         if (timer.milliseconds() >= servoClass.time) {
-            liftClass.runToPosition(position);
+            liftClass.runToPosition(liftPosition);
             state = nextState;
         }
     }
 
-    public void servoToServo(ServoClass servoClass, ServoClass newServoClass, double position, RobotState nextState) {
+    public void servoToServo(ServoClass servoClass, ServoClass newServoClass, String servoPosition, RobotState nextState) {
         if (timer.milliseconds() >= servoClass.time) {
-            newServoClass.runToPosition(position);
+            newServoClass.runToPosition(servoPosition);
             timer.reset();
             state = nextState;
         }
     }
 
-    public boolean liftIsMoving(LiftClass liftClass, String position) {
+    public boolean liftIsntMoving(LiftClass liftClass, String position) {
         int currentPos = liftClass.motor.getCurrentPosition();
         int wantedPos = liftClass.positionToDistance(position);
         return Math.abs(currentPos - wantedPos) < 10;

@@ -23,8 +23,8 @@ public class TestLifts extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            Robot.horizontalLift.teleOp(-gamepad2.left_stick_y, gamepad2.left_bumper, gamepad1.dpad_down, gamepad1.dpad_left, gamepad1.dpad_right, gamepad1.dpad_up);
-            Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
+            Robot.horizontalLift.teleOp(-gamepad2.left_stick_y, gamepad2.left_bumper, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.dpad_up);
+//            Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad1.a, gamepad1.x, gamepad1.b, gamepad1.y);
 
             telemetry.addData("horizontal lift position", Robot.horizontalLift.motor.getCurrentPosition());
             telemetry.addData("vertical lift position", Robot.verticalLift.motor.getCurrentPosition());

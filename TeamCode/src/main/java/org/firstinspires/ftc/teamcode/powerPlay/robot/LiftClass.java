@@ -68,9 +68,7 @@ public class LiftClass {
 
     // autonomous
 
-    public void runToPosition(String position) {
-        runToPosition(position, false, this.maxSpeed);
-    }
+    public void runToPosition(String position) { runToPosition(position, false, this.maxSpeed); }
     public void runToPosition(String position, boolean isSynchronous) { runToPosition(position, isSynchronous, this.maxSpeed); }
 
     public void runToPosition(String position, boolean isSynchronous, double speed) {
