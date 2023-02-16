@@ -46,19 +46,12 @@ public class Robot {
                 2. fix servo_claw
                 3. 3D print beacon
                 4. fix front right motor
-                5. add color/range sensor to claw (again)
 
                 6. ask FTC discord server about...
                     a. servo_rotate_claw
                     b. 90 degree gearbox
 
             PROGRAMMERS TO-DO ASAP:
-
-                1. update FSM
-                    a. add code for claw color/range sensor
-                    b. add "rotate claw down" position for horizontal lift
-                    c. add "middle" position for servo_rotate_hook
-                    d. make it so multiple commands can run in one state
 
                 2. test the horizontal_lift predetermined distances
                 3. make sure servo_claw actually holds onto the cone
@@ -124,18 +117,21 @@ public class Robot {
 
     }
 
-    public static void closeServoUsingSensor(SensorClass sensorClass, ServoClass servoClass, double desiredDistance, double error) {
+    public static boolean checkForConeInClaw() { return checkForCone(Robot.clawSensor, 60, 7); }
+    public static boolean checkForConeInHook() { return checkForCone(Robot.hookSensor, 55, 20); }
+
+    public static void closeClawUsingSensor() { if (checkForConeInClaw()) Robot.servoClaw.runToPosition("hold"); } // make this only happen if the claw/hook is open. Aka if its already closed, dont close it again
+    public static void closeHookUsingSensor() { if (checkForConeInHook()) Robot.servoHook.runToPosition("hold"); }
+
+    public static boolean checkForCone(SensorClass sensorClass, double desiredDistance, double error) {
 
         String currentColor = sensorClass.getDominantColor();
         double currentDistance = sensorClass.getDistance("mm");
 
-        // double desiredDistance = 55;
-        // double error = 20;
-
         boolean correctColor = (currentColor == "red" || currentColor == "blue");
         boolean correctDistance = (desiredDistance - error < currentDistance && currentDistance < desiredDistance + error);
 
-        if (correctColor && correctDistance) servoClass.runToPosition("hold");
+        return correctColor && correctDistance;
 
     }
 

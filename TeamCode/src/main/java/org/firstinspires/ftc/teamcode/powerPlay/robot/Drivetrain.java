@@ -46,8 +46,8 @@ public class Drivetrain {
         if (this.forwardDirection == "hook") {
             motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
             motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        } else {
             motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        } else {
             motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         }
 
@@ -133,9 +133,26 @@ public class Drivetrain {
     }
 
     public void waitForDrivetrain() {
-        while (drivetrainIsBusy()) {}
+
+        while (drivetrainIsBusy()) {
+
+            telemetry.addData("\nmotorFrontRight position", motorFrontRight.getCurrentPosition());
+            telemetry.addData("motorFrontLeft position", motorFrontLeft.getCurrentPosition());
+            telemetry.addData("motorBackRight position", motorBackRight.getCurrentPosition());
+            telemetry.addData("motorBackLeft position", motorBackLeft.getCurrentPosition());
+
+            telemetry.addData("\nmotorFrontRight power", motorFrontRight.getPower());
+            telemetry.addData("motorFrontLeft power", motorFrontLeft.getPower());
+            telemetry.addData("motorBackRight power", motorBackRight.getPower());
+            telemetry.addData("motorBackLeft power", motorBackLeft.getPower());
+
+            telemetry.update();
+
+        }
+
         resetDrivetrain();
         opMode.sleep(this.sleepTime);
+
     }
 
     // teleOp

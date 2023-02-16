@@ -93,8 +93,13 @@ public class SensorClass {
     }
 
     public void printImportantData() {
+
+        boolean thereIsACone = (this.name == "claw_sensor") ? Robot.checkForConeInClaw() : Robot.checkForConeInHook();
+
         telemetry.addLine(String.format("\n%1$s distance (mm): %2$s", this.name, getDistance("mm")));
         telemetry.addLine(String.format("%1$s dominant color: %2$s", this.name, getDominantColor()));
+        telemetry.addLine(String.format("%1$s checkForCone(): %2$s", this.name, thereIsACone));
+
     }
 
     public double round(double value, double roundTo) {

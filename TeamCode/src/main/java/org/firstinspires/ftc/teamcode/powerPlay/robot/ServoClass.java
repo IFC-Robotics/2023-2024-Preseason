@@ -56,8 +56,16 @@ public class ServoClass {
     }
 
     public void runToPosition(String position, boolean isSynchronous) {
+
         teleOpAssistMode((position == this.minPositionName), (position == this.maxPositionName));
+
+        if (this.name == "servo_rotate_hook" && position == "middle") { // special case
+            servoPosition = 0.7;
+            servo.setPosition(servoPosition);
+        }
+
         if (isSynchronous) opMode.sleep(this.time);
+
     }
     
     // teleOp
