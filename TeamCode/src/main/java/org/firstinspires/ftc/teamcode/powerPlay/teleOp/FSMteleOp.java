@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.powerPlay.teleOp;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.powerPlay.robot.LiftClass;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.ServoClass;
 
 @TeleOp(name="FSM teleOp", group="competition")
+@Disabled
 public class FSMteleOp extends LinearOpMode {
 
     public enum RobotState {
@@ -209,6 +211,34 @@ public class FSMteleOp extends LinearOpMode {
     public boolean servoIsntMoving(ServoClass servoClass) {
         return timer.milliseconds() > servoClass.time;
     }
+
+    /*
+
+        import java.util.function.Consumer;
+
+        interface Interface {
+            void run(String str);
+        }
+
+        interface Interface2 {
+            void run();
+        }
+
+        public class Main {
+
+            public static void main(String[] args) {
+            
+                Interface method = (s) -> System.out.println(s + "!");
+                method.run("Hello");
+                
+                Interface2 method2 = () -> System.out.println("Hi");
+                method2.run();
+            
+            }
+        
+        }
+
+    */
 
 }
 

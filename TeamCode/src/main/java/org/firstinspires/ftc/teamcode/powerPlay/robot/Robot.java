@@ -26,7 +26,6 @@ public class Robot {
 
     public static String mode = "assist";
     public static String side = "";
-//    public static int numCycles = 0;
     public static int tag = 0;
 
     // initialize
@@ -44,19 +43,18 @@ public class Robot {
 
                 1. fix servo_rotate_claw
                 2. fix servo_claw
-                3. 3D print beacon
-                4. fix front right motor
+                3. 3D print 2nd beacon
 
                 6. ask FTC discord server about...
                     a. servo_rotate_claw
-                    b. 90 degree gearbox
 
             PROGRAMMERS TO-DO ASAP:
 
+                1. test FSM
                 2. test the horizontal_lift predetermined distances
                 3. make sure servo_claw actually holds onto the cone
                 4. make sure servo_rotate_claw aligns with servo_rotate_hook
-                5. test auton opMode(s)
+                5. test ConfigurableAuton.java
                 6. test beacon (assist mode and FSM mode)
 
             PROGRAMMERS OPTIONAL TO-DO:
@@ -95,6 +93,8 @@ public class Robot {
 
     }
 
+    // inches & degrees to ticks
+
     public static double inchesToTicks(double inches) {
 
         double TICKS_PER_REV = 1120;
@@ -117,11 +117,13 @@ public class Robot {
 
     }
 
+    // cone detection algorithm & automatic closing
+
     public static boolean checkForConeInClaw() { return checkForCone(Robot.clawSensor, 60, 7); }
     public static boolean checkForConeInHook() { return checkForCone(Robot.hookSensor, 55, 20); }
 
-    public static void closeClawUsingSensor() { if (checkForConeInClaw()) Robot.servoClaw.runToPosition("hold"); } // make this only happen if the claw/hook is open. Aka if its already closed, dont close it again
-    public static void closeHookUsingSensor() { if (checkForConeInHook()) Robot.servoHook.runToPosition("hold"); }
+    public static void closeClawUsingSensor() { closeServoUsingSensor(Robot.servoHook, checkForConeInClaw()); }
+    public static void closeHookUsingSensor() { closeServoUsingSensor(Robot.servoHook, checkForConeInHook()); }
 
     public static boolean checkForCone(SensorClass sensorClass, double desiredDistance, double error) {
 
@@ -135,10 +137,17 @@ public class Robot {
 
     }
 
+    public static void closeServoUsingSensor(SensorClass sensorClass, boolean thereIsACone) {
+        if (thereIsACone && sensorClass.servo.getPosition() == 0) {
+            sensorClass.runToPosition("hold");
+        }
+    }
+
+    // resetting robot
+
     public static void resetRandomization() {
         mode = "assist";
         side = "";
-//        numCycles = 0;
         tag = 0;
     }
 
@@ -151,6 +160,8 @@ public class Robot {
         verticalLift.runToPosition("zero");
     }
 
+    // configure autonomous (left/right side)
+
     public static void configureAuton(LinearOpMode opMode) {
 
         while (opMode.opModeInInit()) {
@@ -160,44 +171,11 @@ public class Robot {
             if (opMode.gamepad1.x) side = "left";
             if (opMode.gamepad1.b) side = "right";
 
-//            if (opMode.gamepad2.a) numCycles++;
-//            if (opMode.gamepad2.y) numCycles = 0;
-
             telemetry.addData("side", side);
-//            telemetry.addData("numCycles", numCycles);
             telemetry.update();
 
         }
 
     }
-
-    /*
-
-        import java.util.function.Consumer;
-
-        interface Interface {
-            void run(String str);
-        }
-
-        interface Interface2 {
-            void run();
-        }
-
-        public class Main {
-
-            public static void main(String[] args) {
-            
-                Interface method = (s) -> System.out.println(s + "!");
-                method.run("Hello");
-                
-                Interface2 method2 = () -> System.out.println("Hi");
-                method2.run();
-            
-            }
-        
-        }
-
-    */
-
 
 }

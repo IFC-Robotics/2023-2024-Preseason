@@ -30,7 +30,7 @@ public class ConfigurableAuton extends LinearOpMode {
 
         // secure preloaded cone & read AprilTag
 
-        Robot.servoHook.runToPosition("hold", false);
+        Robot.servoHook.runToPosition("hold", true);
         Robot.tag = Robot.camera.getTag();
 
         // drive to high junction

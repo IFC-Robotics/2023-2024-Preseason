@@ -19,8 +19,8 @@ public class NewFSMteleOp extends LinearOpMode {
         COLLECT,                       // move claw to "close"
         RETRACT_INTAKE,                // rotate claw to "transfer" & move horizontal lift to "transfer"
         TRANSFER_CONE,                 // move claw to "open"
-        HOLD_CONE,                     // when sensor detects a cone OR after a certain amount of time, move hook to "hold"
-        MOVE_VERTICAL_TO_SCORE,        // raise vertical lift to "high" & rotate hook to "middle"
+        HOLD_CONE,                     // move hook to "hold"
+        MOVE_VERTICAL_TO_SCORE,        // raise vertical lift to "high", rotate hook to "middle", move horizontal lift to "wait to collect", and rotate claw to "collect"
         ROTATE_HOOK_TO_SCORE,          // rotate hook to "score"
         SCORE_CONE,                    // move hook to "release"
         ROTATE_HOOK_TO_MIDDLE,         // rotate hook to "middle"
@@ -79,7 +79,7 @@ public class NewFSMteleOp extends LinearOpMode {
                     // move horizontal lift to "rotate claw down"
 
                     case MOVE_HORIZONTAL_TO_LOWER_CLAW:
-                        if (gamepad2.x && liftIsntMoving(Robot.verticalLift)) {
+                        if (gamepad2.x && liftIsntMoving(Robot.verticalLift) && liftIsntMoving(Robot.horizontalLift)) {
                             Robot.horizontalLift.runToPosition("rotate claw down");
                             timer.reset();
                             state = RobotState.POSITION_TO_COLLECT;
@@ -89,7 +89,7 @@ public class NewFSMteleOp extends LinearOpMode {
                     // when button is pressed, move horizontal lift to "wait to collect" and rotate claw to "collect"
 
                     case POSITION_TO_COLLECT:
-                        if (gamepad2.x && liftIsntMoving(Robot.horizontalLift)) { // keep button here
+                        if (gamepad2.x && liftIsntMoving(Robot.horizontalLift) && servoIsntMoving(Robot.servoRotateClaw)) { // keep button here
                             Robot.horizontalLift.runToPosition("wait to collect");
                             Robot.servoRotateClaw.runToPosition("collect");
                             timer.reset();
@@ -149,12 +149,14 @@ public class NewFSMteleOp extends LinearOpMode {
                         }
                         break;
 
-                    // raise vertical lift to "high" & rotate hook to "middle"
+                    // raise vertical lift to "high", rotate hook to "middle", move horizontal lift to "wait to collect", and rotate claw to "collect"
 
                     case MOVE_VERTICAL_TO_SCORE:
                         if (gamepad2.x && servoIsntMoving(Robot.servoHook)) {
                             Robot.verticalLift.runToPosition("high");
                             Robot.servoRotateHook.runToPosition("middle");
+                            Robot.horizontalLift.runToPosition("wait to collect");
+                            Robot.servoRotateClaw.runToPosition("collect");
                             timer.reset();
                             state = RobotState.ROTATE_HOOK_TO_SCORE;
                         }
