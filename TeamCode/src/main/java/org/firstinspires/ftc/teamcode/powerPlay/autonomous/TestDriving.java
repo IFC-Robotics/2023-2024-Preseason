@@ -23,13 +23,13 @@
          Robot.drivetrain.drive(12.0, 0.5);
          sleep(3000);
 
-//         Robot.drivetrain.strafe(12.0, 0.5);
-//         sleep(3000);
-//
-//         Robot.drivetrain.turn(90.0, 0.5);
-//         sleep(3000);
-//
-//         Robot.drivetrain.turn(-180.0, 0.5);
+         Robot.drivetrain.strafe(12.0, 0.5);
+         sleep(3000);
+
+         Robot.drivetrain.turn(90.0, 0.5);
+         sleep(3000);
+
+         Robot.drivetrain.turn(-180.0, 0.5);
 
      }
 

@@ -39,28 +39,19 @@ public class Robot {
 
         /*
 
-            FABRICATORS TO-DO:
+            TO-DO:
 
-                1. fix servo_rotate_claw
-                2. fix servo_claw
-                3. 3D print 2nd beacon
-
-                6. ask FTC discord server about...
-                    a. servo_rotate_claw
-
-            PROGRAMMERS TO-DO ASAP:
-
-                1. test FSM
-                2. test the horizontal_lift predetermined distances
-                3. make sure servo_claw actually holds onto the cone
-                4. make sure servo_rotate_claw aligns with servo_rotate_hook
-                5. test ConfigurableAuton.java
-                6. test beacon (assist mode and FSM mode)
-
-            PROGRAMMERS OPTIONAL TO-DO:
-
-                1. test inchesToTicks() and degreesToTicks()
-                2. consider adding more to auton
+                1. make servo_rotate_claw a CR servo
+                2. test that FSM doesn't break
+                3. test the horizontal_lift predetermined distances
+                4. make sure servo_claw actually holds onto the cone
+                5. make sure servo_rotate_claw aligns with servo_rotate_hook
+                6. finalize FSM
+                6. test ConfigurableAuton.java
+                7. test beacon (assist mode and FSM mode)
+                8. test inchesToTicks() and degreesToTicks()
+                9. test overall teleOp
+                10. driver practice!!!!!!
 
         */
 
@@ -137,9 +128,9 @@ public class Robot {
 
     }
 
-    public static void closeServoUsingSensor(SensorClass sensorClass, boolean thereIsACone) {
-        if (thereIsACone && sensorClass.servo.getPosition() == 0) {
-            sensorClass.runToPosition("hold");
+    public static void closeServoUsingSensor(ServoClass servoClass, boolean thereIsACone) {
+        if (thereIsACone && servoClass.servo.getPosition() == 0) {
+            servoClass.runToPosition("hold");
         }
     }
 
