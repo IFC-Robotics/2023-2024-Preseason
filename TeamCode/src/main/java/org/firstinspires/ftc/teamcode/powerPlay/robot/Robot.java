@@ -41,17 +41,24 @@ public class Robot {
 
             TO-DO:
 
-                1. test cr_servo_rtate_claw
-                2. test that FSM doesn't break
+                1. test cr_servo_rotate_claw
+                2. make sure servo_rotate_claw aligns with servo_rotate_hook
                 3. test the horizontal_lift predetermined distances
-                4. make sure servo_claw actually holds onto the cone
-                5. make sure servo_rotate_claw aligns with servo_rotate_hook
-                6. finalize FSM
-                6. test ConfigurableAuton.java
+
+                Fabricators: fix hook
+                Fabricators: wire management
+
+                4. test that FSM doesn't break
+                5. finalize FSM
+
+                Fabricators: replace claw w/ fixed version
+
+                6. test servo_claw
                 7. test beacon (assist mode and FSM mode)
-                8. test inchesToTicks() and degreesToTicks()
-                9. test overall teleOp
-                10. driver practice!!!!!!
+                8. test overall teleOp
+                9. test inchesToTicks() and degreesToTicks()
+                10. test ConfigurableAuton.java
+                11. driver practice!!!!!!
 
         */
 
