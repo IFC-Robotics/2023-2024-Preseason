@@ -12,23 +12,20 @@ public class CRServoClass {
     Telemetry telemetry;
 
     public CRServo crServo;
-    public double crServoPower;
 
     public final String name;
     public final String minPositionName;
     public final String maxPositionName;
-    public final double speed;
     public final int time;
     public final boolean reverseDirection;
 
     ElapsedTime timer = new ElapsedTime();
 
-    public CRServoClass(String name, String minPositionName, String maxPositionName, double speed, int time, boolean reverseDirection) {
+    public CRServoClass(String name, String minPositionName, String maxPositionName, int time, boolean reverseDirection) {
 
         this.name = name;
         this.minPositionName = minPositionName;
         this.maxPositionName = maxPositionName;
-        this.speed = speed;
         this.time = time;
         this.reverseDirection = reverseDirection;
 
@@ -40,7 +37,6 @@ public class CRServoClass {
         telemetry = opMode.telemetry;
 
         crServo = opMode.hardwareMap.get(CRServo.class, this.name);
-        crServoPower = 0;
 
         if (this.reverseDirection) crServo.setDirection(CRServo.Direction.REVERSE);
 
@@ -50,30 +46,43 @@ public class CRServoClass {
 
     // autonomous
 
-    public void runToPosition(String position) {
-//        runToPosition(position, false);
+    public void runToPosition(String position) { runToPosition(position, false); }
+
+    public void runToPosition(String position, boolean isSynchronous) {
+        double downPower = (position == this.minPositionName) ? -1 : 0;
+        double upPower   = (position == this.maxPositionName) ? 1 : 0;
+        teleOpAssistMode(downPower, upPower, isSynchronous);
     }
 
-//    public void runToPosition(String position, boolean isSynchronous) {
-//        teleOpAssistMode((position == this.minPositionName), (position == this.maxPositionName));
-//    }
+    public void waitForCRServo() {
+        while (timer.milliseconds < this.time) {}
+    }
 
     public void stop() {
-        crServoPower = 0;
-        crServo.setPower(crServoPower);
+        crServo.setPower(0);
     }
 
     // teleOp
 
-//    public void teleOpAssistMode(boolean minConditionButton, boolean maxConditionButton) {
-//        teleOpManualMode(minConditionButton, maxConditionButton);
-//        if (timer.milliseconds() > this.time) stop();
-//    }
+    public void teleOpAssistMode(double downPower, double upPower) { teleOpAssistMode(downPower, upPower, false); }
+
+    public void teleOpAssistMode(double downPower, double upPower, boolean isSynchronous) {
+        
+        if (downPower > 0 || upPower > 0) {
+
+            crServo.setPower(upPower ? 1 : -1);
+
+            timer.reset();
+
+            if (isSynchronous) waitForCRServo();
+            if (timer.milliseconds() >= this.time) stop();
+        
+        }
+    
+    }
 
     public void teleOpManualMode(double downPower, double upPower) {
-        crServoPower = upPower - downPower;
-        crServo.setPower(crServoPower);
-        timer.reset();
+        crServo.setPower(upPower - downPower);
     }
 
     public void printData() {

@@ -41,7 +41,7 @@ public class Robot {
 
             TO-DO:
 
-                1. make servo_rotate_claw a CR servo
+                1. test cr_servo_rtate_claw
                 2. test that FSM doesn't break
                 3. test the horizontal_lift predetermined distances
                 4. make sure servo_claw actually holds onto the cone
@@ -55,16 +55,16 @@ public class Robot {
 
         */
 
-        drivetrain      = new Drivetrain("cone", SLEEP_TIME);
-        servoClaw       = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
-        servoHook       = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "collect", "transfer", SERVO_SPEED, SERVO_TIME, false);
-        servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",    0.84, SERVO_SPEED, SERVO_TIME, false);
-        horizontalLift  = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
-        verticalLift    = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
-        clawSensor      = new SensorClass("claw_sensor");
-        hookSensor      = new SensorClass("hook_sensor");
-        camera          = new Camera();
+        drivetrain        = new Drivetrain("cone", SLEEP_TIME);
+        servoClaw         = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
+        servoHook         = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateHook   = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score", 0.84, SERVO_SPEED, SERVO_TIME, false);
+        crServoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "collect", "transfer", SERVO_TIME, false);
+        horizontalLift    = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
+        verticalLift      = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
+        clawSensor        = new SensorClass("claw_sensor");
+        hookSensor        = new SensorClass("hook_sensor");
+        camera            = new Camera();
 
         drivetrain     .init(opMode);
         servoClaw      .init(opMode);
