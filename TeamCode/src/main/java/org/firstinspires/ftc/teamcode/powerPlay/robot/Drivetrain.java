@@ -78,7 +78,9 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\ndriving %s inches", distance));
 
-        int target = (int)(distance * DRIVE_FACTOR);
+        int target = inchesToTicks(distance);
+        // int target = (int)(distance * DRIVE_FACTOR);
+
         double power = Math.signum(distance) * speed;
 
         moveDrivetrain(target, target, target, target, power, power, power, power, isSynchronous);
@@ -89,7 +91,9 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\nstrafing %s inches", distance));
 
-        int target = (int)(distance * STRAFE_FACTOR);
+        int target = inchesToTicks(distance);
+        // int target = (int)(distance * STRAFE_FACTOR);
+
         double power = Math.signum(distance) * speed;
 
         moveDrivetrain(-target, target, target, -target, -power, power, power, -power, isSynchronous);
@@ -100,11 +104,13 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\nturning %s degrees", angle));
 
-        double radius = 2;
-        double circumference = 2 * Math.PI * radius;
-        double distance = circumference * angle / 360;
+        // double radius = 2;
+        // double circumference = 2 * Math.PI * radius;
+        // double distance = circumference * angle / 360;
+        // int target = (int)(distance * TURN_FACTOR);
 
-        int target = (int)(distance * TURN_FACTOR);
+        int target = degreesToTicks(angle);
+
         double power = Math.signum(angle) * speed;
 
         moveDrivetrain(target, -target, target, -target, -power, power, -power, power, isSynchronous);
@@ -202,6 +208,32 @@ public class Drivetrain {
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+    }
+
+    // inches & degrees to ticks
+
+    public static int inchesToTicks(double inches) {
+
+        double TICKS_PER_REV = 1120; // 28, 560, 1120
+        double WHEEL_RADIUS = 2; // measure
+        double GEAR_RATIO = 20; // 1, 20
+
+        double wheelCircumference = 2 * Math.PI * WHEEL_RADIUS;
+        double ticksPerInch = TICKS_PER_REV / (wheelCircumference * GEAR_RATIO);
+
+        return (int) inches * ticksPerInch;
+
+    }
+
+    public static int degreesToTicks(double degrees) {
+
+        double ROBOT_RADIUS = 9; // measure/test
+
+        double robotCircumference = 2 * Math.PI * ROBOT_RADIUS;
+        double arc = robotCircumference * degrees / 360;
+
+        return inchesToTicks(arc);
 
     }
 

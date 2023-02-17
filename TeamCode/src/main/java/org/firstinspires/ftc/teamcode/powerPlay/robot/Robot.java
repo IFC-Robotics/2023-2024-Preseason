@@ -84,30 +84,6 @@ public class Robot {
 
     }
 
-    // inches & degrees to ticks
-
-    public static double inchesToTicks(double inches) {
-
-        double TICKS_PER_REV = 1120;
-        double WHEEL_RADIUS = 2;
-        double GEAR_RATIO = 20;
-
-        double wheelCircumference = 2 * Math.PI * WHEEL_RADIUS;
-        double ticksPerInch = TICKS_PER_REV / (wheelCircumference * GEAR_RATIO);
-        return inches * ticksPerInch;
-
-    }
-
-    public static double degreesToTicks(double degrees) {
-
-        double ROBOT_RADIUS = 9;
-
-        double robotCircumference = 2 * Math.PI * ROBOT_RADIUS;
-        double arc = robotCircumference * degrees / 360;
-        return inchesToTicks(arc);
-
-    }
-
     // cone detection algorithm & automatic closing
 
     public static boolean checkForConeInClaw() { return checkForCone(Robot.clawSensor, 60, 7); }
