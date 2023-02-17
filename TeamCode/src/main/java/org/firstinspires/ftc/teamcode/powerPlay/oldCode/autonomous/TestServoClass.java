@@ -24,13 +24,13 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
          Robot.servoClaw.runToPosition("open");
          telemetry.update();
          sleep(3000);
-         Robot.servoRotateClaw.runToPosition("down");
+//         Robot.servoRotateClaw.runToPosition("down");
          telemetry.update();
          sleep(3000);
          Robot.servoClaw.runToPosition("close");
          telemetry.update();
          sleep(3000);
-         Robot.servoRotateClaw.runToPosition("up");
+//         Robot.servoRotateClaw.runToPosition("up");
          telemetry.update();
          sleep(3000);
 

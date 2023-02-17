@@ -11,7 +11,7 @@ public class Robot {
     public static Drivetrain drivetrain;
     public static ServoClass servoClaw;
     public static ServoClass servoHook;
-    public static ServoClass servoRotateClaw;
+    public static CRServoClass servoRotateClaw;
     public static ServoClass servoRotateHook;
     public static LiftClass horizontalLift;
     public static LiftClass verticalLift;
@@ -58,7 +58,7 @@ public class Robot {
         drivetrain      = new Drivetrain("cone", SLEEP_TIME);
         servoClaw       = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
         servoHook       = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
-        servoRotateClaw = new ServoClass("servo_rotate_claw", "collect",  0.00, "transfer", 1.00, SERVO_SPEED, SERVO_TIME, false);
+        servoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "collect", "transfer", SERVO_SPEED, SERVO_TIME, false);
         servoRotateHook = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score",    0.84, SERVO_SPEED, SERVO_TIME, false);
         horizontalLift  = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
         verticalLift    = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);

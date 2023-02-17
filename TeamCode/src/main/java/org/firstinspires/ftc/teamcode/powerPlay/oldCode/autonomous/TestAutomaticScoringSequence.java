@@ -21,12 +21,12 @@
          telemetry.addLine("Executing opMode...");
          telemetry.update();
 
-         Robot.servoRotateClaw.runToPosition("down");
+//         Robot.servoRotateClaw.runToPosition("down");
 //         Robot.horizontalLift.autonomousRunToPosition("collect");
          Robot.servoClaw.runToPosition("close");
 
 //         Robot.horizontalLift.autonomousRunToPosition("transfer");
-         Robot.servoRotateClaw.runToPosition("up");
+//         Robot.servoRotateClaw.runToPosition("up");
 
          Robot.servoHook.runToPosition("extend");
          sleep(1000);
