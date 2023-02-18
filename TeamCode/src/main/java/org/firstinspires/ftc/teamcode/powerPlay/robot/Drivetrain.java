@@ -51,10 +51,10 @@ public class Drivetrain {
             motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         }
 
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+//        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -170,10 +170,10 @@ public class Drivetrain {
         double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1); // test this
         double speed = limitSpeed ? MAX_TELEOP_SPEED : 1;
 
-        double frontRightPower = Range.clip((drive + turn - strafe) / denominator, -speed, speed);
-        double frontLeftPower  = Range.clip((drive - turn + strafe) / denominator, -speed, speed);
-        double backRightPower  = Range.clip((drive + turn + strafe) / denominator, -speed, speed);
-        double backLeftPower   = Range.clip((drive - turn - strafe) / denominator, -speed, speed);
+        double frontRightPower = Range.clip((drive - turn - strafe) / denominator, -speed, speed);
+        double frontLeftPower  = Range.clip((drive + turn + strafe) / denominator, -speed, speed);
+        double backRightPower  = Range.clip((drive - turn + strafe) / denominator, -speed, speed);
+        double backLeftPower   = Range.clip((drive + turn - strafe) / denominator, -speed, speed);
 
         motorFrontRight.setPower(frontRightPower);
         motorFrontLeft.setPower(frontLeftPower);

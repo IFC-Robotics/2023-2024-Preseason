@@ -73,16 +73,6 @@ public class NewFSMteleOp extends LinearOpMode {
 
                     case START:
                         if (gamepad2.a) {
-                            state = RobotState.MOVE_HORIZONTAL_TO_LOWER_CLAW;
-                        }
-                        break;
-
-                    // move horizontal lift to "rotate claw down"
-
-                    case MOVE_HORIZONTAL_TO_LOWER_CLAW:
-                        if (gamepad2.x && liftIsntMoving(Robot.verticalLift) && liftIsntMoving(Robot.horizontalLift)) {
-                            Robot.horizontalLift.runToPosition("rotate claw down");
-                            timer.reset();
                             state = RobotState.POSITION_TO_COLLECT;
                         }
                         break;
@@ -90,7 +80,7 @@ public class NewFSMteleOp extends LinearOpMode {
                     // when button is pressed, move horizontal lift to "wait to collect" and rotate claw to "collect"
 
                     case POSITION_TO_COLLECT:
-                        if (gamepad2.x && liftIsntMoving(Robot.horizontalLift) && crServoIsntMoving(Robot.crServoRotateClaw)) { // keep button here
+                        if (gamepad2.x && liftIsntMoving(Robot.verticalLift) && servoIsntMoving(Robot.servoRotateHook) && liftIsntMoving(Robot.horizontalLift) && crServoIsntMoving(Robot.crServoRotateClaw)) { // keep button here
                             Robot.horizontalLift.runToPosition("wait to collect");
                             Robot.crServoRotateClaw.runToPosition("collect");
                             timer.reset();
@@ -200,13 +190,15 @@ public class NewFSMteleOp extends LinearOpMode {
                             Robot.verticalLift.runToPosition("transfer");
                             Robot.servoRotateHook.runToPosition("transfer");
                             timer.reset();
-                            state = RobotState.MOVE_HORIZONTAL_TO_LOWER_CLAW;
+                            state = RobotState.POSITION_TO_COLLECT;
                         }
                         break;
 
                     default: state = RobotState.START;
 
                 }
+
+                Robot.crServoRotateClaw.checkForStop();
 
                 // pause FSM
 
@@ -222,9 +214,10 @@ public class NewFSMteleOp extends LinearOpMode {
                     Robot.servoHook.teleOpAssistMode(gamepad1.y, gamepad1.a);
                     Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
 
-                    Robot.crServoRotateClaw.teleOpAssistMode(gamepad2.left_trigger, gamepad2.right_trigger);
+//                    Robot.crServoRotateClaw.teleOpAssistMode(gamepad2.left_trigger, gamepad2.right_trigger);
+                    Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger); // teleOpAssistMode doesnt work rn
 
-                    Robot.closeClawUsingSensor();
+//                    Robot.closeClawUsingSensor();
                     Robot.closeHookUsingSensor();
 
                 } else if (Robot.mode == "manual") { // manual mode

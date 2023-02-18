@@ -22,7 +22,7 @@ public class Robot {
     public static double MAX_LIFT_SPEED = 0.8;
     public static double SERVO_SPEED = 0.01;
     public static int SERVO_TIME = 500;
-    public static int CR_SERVO_TIME = 500;
+    public static int CR_SERVO_TIME = 1600;
     public static int SLEEP_TIME = 50;
 
     public static String mode = "assist";
@@ -42,14 +42,13 @@ public class Robot {
 
             TO-DO:
 
-                1. test servo_claw
-                2. make sure servo_rotate_claw aligns with servo_rotate_hook
+                2. make sure cr_servo_rotate_claw aligns with servo_rotate_hook
                 3. test the horizontal_lift predetermined distances
 
+                3. test cr_servo_rotate_claw in FSM
                 4. test that FSM doesn't break
                 5. finalize FSM
 
-                6. test beacon (assist mode and FSM mode)
                 7. test overall teleOp
                 8. driver practice!!!!!!
 
@@ -61,10 +60,10 @@ public class Robot {
         */
 
         drivetrain        = new Drivetrain("cone", SLEEP_TIME);
-        servoClaw         = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
+        servoClaw         = new ServoClass("servo_claw", "release", 0.5, "hold", 0.75, SERVO_SPEED, SERVO_TIME, false);
         servoHook         = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
         servoRotateHook   = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score", 0.84, SERVO_SPEED, SERVO_TIME, false);
-        crServoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "transfer", "collect", CR_SERVO_TIME, true);
+        crServoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "collect", "transfer", CR_SERVO_TIME, false);
         horizontalLift    = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
         verticalLift      = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
         clawSensor        = new SensorClass("claw_sensor");
@@ -72,15 +71,54 @@ public class Robot {
         camera            = new Camera();
 
         drivetrain       .init(opMode);
+
+        telemetry.addLine("initializing drivetrain class...");
+        telemetry.update();
+
         servoClaw        .init(opMode);
+
+        telemetry.addLine("initializing servoClaw class...");
+        telemetry.update();
+
         servoHook        .init(opMode);
+
+        telemetry.addLine("initializing servoHook class...");
+        telemetry.update();
+
         servoRotateHook  .init(opMode);
+
+        telemetry.addLine("initializing servoRotateHook class...");
+        telemetry.update();
+
         crServoRotateClaw.init(opMode);
+
+        telemetry.addLine("initializing crServoRotateClaw class...");
+        telemetry.update();
+
         horizontalLift   .init(opMode);
+
+        telemetry.addLine("initializing horizontalLift class...");
+        telemetry.update();
+
         verticalLift     .init(opMode);
+
+        telemetry.addLine("initializing verticalLift class...");
+        telemetry.update();
+
         clawSensor       .init(opMode);
+
+        telemetry.addLine("initializing clawSensor class...");
+        telemetry.update();
+
         hookSensor       .init(opMode);
+
+        telemetry.addLine("initializing hookSensor class...");
+        telemetry.update();
+
         camera           .init(opMode);
+
+        telemetry.addLine("initializing camera class...");
+        telemetry.update();
 
         resetRandomization();
 

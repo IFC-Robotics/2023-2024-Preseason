@@ -21,6 +21,8 @@ public class TestServosAndLifts extends LinearOpMode {
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
+        String mode = "assist";
+
         while(opModeIsActive()) {
 
 //             // claw servo
@@ -42,19 +44,27 @@ public class TestServosAndLifts extends LinearOpMode {
 
             // rotate claw servo
 
-//            Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger);
-            Robot.crServoRotateClaw.teleOpAssistMode(gamepad2.left_trigger, gamepad2.right_trigger);
+            if (mode == "manual") Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger);
+            if (mode == "assist") Robot.crServoRotateClaw.teleOpAssistMode(gamepad2.left_trigger, gamepad2.right_trigger);
 
-            if (gamepad2.a) Robot.crServoRotateClaw.runToPosition("collect");
-            if (gamepad2.y) Robot.crServoRotateClaw.runToPosition("transfer");
+            if (mode == "auton") {
+                if (gamepad2.a) Robot.crServoRotateClaw.runToPosition("collect");
+                if (gamepad2.y) Robot.crServoRotateClaw.runToPosition("transfer");
+                Robot.crServoRotateClaw.checkForStop();
+            }
+
+            if (gamepad2.dpad_down)  mode = "manual";
+            if (gamepad2.dpad_left)  mode = "assist";
+            if (gamepad2.dpad_right) mode = "auton";
 
             Robot.crServoRotateClaw.printData();
+            telemetry.addData("mode", mode);
 
-//            // horizontal lift
-//
+            // horizontal lift
+
 //            Robot.horizontalLift.teleOp(-gamepad2.left_stick_y, gamepad2.left_bumper, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.dpad_up);
 //            telemetry.addData("horizontal lift position", Robot.horizontalLift.motor.getCurrentPosition());
-//
+
 //            // vertical lift
 //
 //             Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
