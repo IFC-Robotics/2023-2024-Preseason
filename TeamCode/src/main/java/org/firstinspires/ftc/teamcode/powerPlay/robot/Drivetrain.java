@@ -217,12 +217,12 @@ public class Drivetrain {
 
         double TICKS_PER_REV = 1120; // 28, 560, 1120
         double WHEEL_RADIUS = 2; // measure
-        double GEAR_RATIO = 20; // 1, 20
+        double GEAR_RATIO = 20; // 1, 20, 40
 
         double wheelCircumference = 2 * Math.PI * WHEEL_RADIUS;
         double ticksPerInch = TICKS_PER_REV / (wheelCircumference * GEAR_RATIO);
 
-        return (int) inches * ticksPerInch;
+        return (int)(inches * ticksPerInch);
 
     }
 

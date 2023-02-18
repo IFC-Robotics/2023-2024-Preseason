@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.LiftClass;
 import org.firstinspires.ftc.teamcode.powerPlay.robot.ServoClass;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.CRServoClass;
 
 @TeleOp(name="new FSM teleOp", group="competition")
 public class NewFSMteleOp extends LinearOpMode {

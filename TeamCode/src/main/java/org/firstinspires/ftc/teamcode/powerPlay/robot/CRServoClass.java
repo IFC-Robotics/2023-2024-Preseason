@@ -12,6 +12,7 @@ public class CRServoClass {
     Telemetry telemetry;
 
     public CRServo crServo;
+    public String crServoPosition;
 
     public final String name;
     public final String minPositionName;
@@ -37,6 +38,7 @@ public class CRServoClass {
         telemetry = opMode.telemetry;
 
         crServo = opMode.hardwareMap.get(CRServo.class, this.name);
+        crServoPosition = this.maxPositionName;
 
         if (this.reverseDirection) crServo.setDirection(CRServo.Direction.REVERSE);
 
@@ -49,43 +51,51 @@ public class CRServoClass {
     public void runToPosition(String position) { runToPosition(position, false); }
 
     public void runToPosition(String position, boolean isSynchronous) {
-        double downPower = (position == this.minPositionName) ? -1 : 0;
-        double upPower   = (position == this.maxPositionName) ? 1 : 0;
-        teleOpAssistMode(downPower, upPower, isSynchronous);
-    }
-
-    public void waitForCRServo() {
-        while (timer.milliseconds < this.time) {}
-    }
-
-    public void stop() {
-        crServo.setPower(0);
+        if (position == this.minPositionName) teleOpAssistMode(1, 0, isSynchronous);
+        if (position == this.maxPositionName) teleOpAssistMode(0, 1, isSynchronous);
     }
 
     // teleOp
 
-    public void teleOpAssistMode(double downPower, double upPower) { teleOpAssistMode(downPower, upPower, false); }
+    public void teleOpAssistMode(double upPower, double downPower) { teleOpAssistMode(upPower, downPower, false); }
 
-    public void teleOpAssistMode(double downPower, double upPower, boolean isSynchronous) {
-        
-        if (downPower > 0 || upPower > 0) {
+    public void teleOpAssistMode(double upPower, double downPower, boolean isSynchronous) {
 
-            crServo.setPower(upPower ? 1 : -1);
+        telemetry.addData("upPower", upPower);
+        telemetry.addData("downPower", downPower);
+        telemetry.addData("crServoPosition", crServoPosition);
 
+        if (upPower > 0 && crServoPosition != this.minPositionName) {
+            crServo.setPower(-1);
+            crServoPosition = this.minPositionName;
             timer.reset();
-
             if (isSynchronous) waitForCRServo();
-            if (timer.milliseconds() >= this.time) stop();
-        
         }
-    
+
+        if (downPower > 0 && crServoPosition != this.maxPositionName) {
+            crServo.setPower(1);
+            crServoPosition = this.maxPositionName;
+            timer.reset();
+            if (isSynchronous) waitForCRServo();
+        }
+
+        if (crServo.getPower() != 0 && timer.milliseconds() >= this.time) {
+            telemetry.addLine("set the power to 0");
+            crServo.setPower(0);
+        }
+
     }
 
-    public void teleOpManualMode(double downPower, double upPower) {
+    public void waitForCRServo() {
+        while (timer.milliseconds() < this.time) {}
+    }
+
+    public void teleOpManualMode(double upPower, double downPower) {
         crServo.setPower(upPower - downPower);
     }
 
     public void printData() {
+        telemetry.addLine(String.format("\n%1$s crServoPosition: %2$s", this.name, crServoPosition));
         telemetry.addLine(String.format("%1$s power: %2$s", this.name, crServo.getPower()));
     }
 

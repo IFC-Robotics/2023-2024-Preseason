@@ -11,8 +11,8 @@ public class Robot {
     public static Drivetrain drivetrain;
     public static ServoClass servoClaw;
     public static ServoClass servoHook;
-    public static CRServoClass servoRotateClaw;
     public static ServoClass servoRotateHook;
+    public static CRServoClass crServoRotateClaw;
     public static LiftClass horizontalLift;
     public static LiftClass verticalLift;
     public static SensorClass clawSensor;
@@ -21,7 +21,8 @@ public class Robot {
 
     public static double MAX_LIFT_SPEED = 0.8;
     public static double SERVO_SPEED = 0.01;
-    public static int SERVO_TIME = 1000;
+    public static int SERVO_TIME = 500;
+    public static int CR_SERVO_TIME = 500;
     public static int SLEEP_TIME = 50;
 
     public static String mode = "assist";
@@ -41,24 +42,21 @@ public class Robot {
 
             TO-DO:
 
-                1. test cr_servo_rotate_claw
+                1. test servo_claw
                 2. make sure servo_rotate_claw aligns with servo_rotate_hook
                 3. test the horizontal_lift predetermined distances
-
-                Fabricators: fix hook
-                Fabricators: wire management
 
                 4. test that FSM doesn't break
                 5. finalize FSM
 
-                Fabricators: replace claw w/ fixed version
+                6. test beacon (assist mode and FSM mode)
+                7. test overall teleOp
+                8. driver practice!!!!!!
 
-                6. test servo_claw
-                7. test beacon (assist mode and FSM mode)
-                8. test overall teleOp
+                -------------------------------------------------------------------------------------
+
                 9. test inchesToTicks() and degreesToTicks()
                 10. test ConfigurableAuton.java
-                11. driver practice!!!!!!
 
         */
 
@@ -66,23 +64,23 @@ public class Robot {
         servoClaw         = new ServoClass("servo_claw", "release", 0.30, "hold", 0.64, SERVO_SPEED, SERVO_TIME, false);
         servoHook         = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
         servoRotateHook   = new ServoClass("servo_rotate_hook", "transfer", 0.10, "score", 0.84, SERVO_SPEED, SERVO_TIME, false);
-        crServoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "collect", "transfer", SERVO_TIME, false);
+        crServoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "transfer", "collect", CR_SERVO_TIME, true);
         horizontalLift    = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
         verticalLift      = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
         clawSensor        = new SensorClass("claw_sensor");
         hookSensor        = new SensorClass("hook_sensor");
         camera            = new Camera();
 
-        drivetrain     .init(opMode);
-        servoClaw      .init(opMode);
-        servoHook      .init(opMode);
-        servoRotateClaw.init(opMode);
-        servoRotateHook.init(opMode);
-        horizontalLift .init(opMode);
-        verticalLift   .init(opMode);
-        clawSensor     .init(opMode);
-        hookSensor     .init(opMode);
-        camera         .init(opMode);
+        drivetrain       .init(opMode);
+        servoClaw        .init(opMode);
+        servoHook        .init(opMode);
+        servoRotateHook  .init(opMode);
+        crServoRotateClaw.init(opMode);
+        horizontalLift   .init(opMode);
+        verticalLift     .init(opMode);
+        clawSensor       .init(opMode);
+        hookSensor       .init(opMode);
+        camera           .init(opMode);
 
         resetRandomization();
 
@@ -128,8 +126,8 @@ public class Robot {
     public static void resetScoring() {
         servoClaw.runToPosition("release");
         servoHook.runToPosition("release");
-        servoRotateClaw.runToPosition("transfer");
         servoRotateHook.runToPosition("transfer");
+        crServoRotateClaw.runToPosition("transfer");
         horizontalLift.runToPosition("zero");
         verticalLift.runToPosition("zero");
     }
