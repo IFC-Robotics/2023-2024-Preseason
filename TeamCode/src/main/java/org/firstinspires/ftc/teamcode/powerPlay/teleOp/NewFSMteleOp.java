@@ -14,7 +14,6 @@ public class NewFSMteleOp extends LinearOpMode {
 
     public enum RobotState {
         START,                         // start FSM
-        MOVE_HORIZONTAL_TO_LOWER_CLAW, // move horizontal lift to "rotate claw down"
         POSITION_TO_COLLECT,           // when button is pressed, move horizontal lift to "wait to collect" and rotate claw to "collect"
         ATTEMPT_TO_COLLECT,            // slowly start moving lift forward until sensor detects a cone OR until "collect"
         COLLECT,                       // move claw to "close"

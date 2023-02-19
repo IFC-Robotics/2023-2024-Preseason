@@ -20,16 +20,16 @@
          telemetry.addLine("Executing opMode...");
          telemetry.update();
 
-         Robot.drivetrain.drive(12.0, 0.5);
-         sleep(3000);
+//         Robot.drivetrain.drive(12.0, 0.5);
+//         sleep(1000);
 
          Robot.drivetrain.strafe(12.0, 0.5);
-         sleep(3000);
+         sleep(1000);
 
-         Robot.drivetrain.turn(90.0, 0.5);
-         sleep(3000);
+//         Robot.drivetrain.turn(90.0, 0.5);
+//         sleep(1000);
 
-         Robot.drivetrain.turn(-180.0, 0.5);
+//         Robot.drivetrain.turn(-180.0, 0.5);
 
      }
 

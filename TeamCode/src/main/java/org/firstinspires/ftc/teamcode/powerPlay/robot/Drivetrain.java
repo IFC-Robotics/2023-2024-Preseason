@@ -18,9 +18,9 @@ public class Drivetrain {
     public static DcMotor motorBackRight;
     public static DcMotor motorBackLeft;
 
-    public static double DRIVE_FACTOR = 38.63;
+    public static double DRIVE_FACTOR = 40.92;
     public static double STRAFE_FACTOR = 50.83;
-    public static double TURN_FACTOR = 285.91;
+    public static double TURN_FACTOR = 100.0;
 
     public static double MAX_TELEOP_SPEED = 0.7;
     public static boolean limitSpeed = true;
@@ -51,10 +51,10 @@ public class Drivetrain {
             motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         }
 
-//        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-//        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -78,9 +78,7 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\ndriving %s inches", distance));
 
-        int target = inchesToTicks(distance);
-        // int target = (int)(distance * DRIVE_FACTOR);
-
+        int target = (int)(distance * DRIVE_FACTOR);
         double power = Math.signum(distance) * speed;
 
         moveDrivetrain(target, target, target, target, power, power, power, power, isSynchronous);
@@ -91,29 +89,25 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\nstrafing %s inches", distance));
 
-        int target = inchesToTicks(distance);
-        // int target = (int)(distance * STRAFE_FACTOR);
-
+        int target = (int)(distance * STRAFE_FACTOR);
         double power = Math.signum(distance) * speed;
 
         moveDrivetrain(-target, target, target, -target, -power, power, power, -power, isSynchronous);
-        
+
     }
 
     public void turn(double angle, double speed, boolean isSynchronous) {
 
         telemetry.addLine(String.format("\nturning %s degrees", angle));
 
-        // double radius = 2;
-        // double circumference = 2 * Math.PI * radius;
-        // double distance = circumference * angle / 360;
-        // int target = (int)(distance * TURN_FACTOR);
-
-        int target = degreesToTicks(angle);
+        double radius = 2;
+        double circumference = 2 * Math.PI * radius;
+        double distance = circumference * angle / 360;
+        int target = (int)(distance * TURN_FACTOR);
 
         double power = Math.signum(angle) * speed;
 
-        moveDrivetrain(target, -target, target, -target, -power, power, -power, power, isSynchronous);
+        moveDrivetrain(target, target, target, target, power, -power, power, -power, isSynchronous);
 
     }
 

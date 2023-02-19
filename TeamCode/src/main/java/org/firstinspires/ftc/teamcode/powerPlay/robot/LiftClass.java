@@ -50,15 +50,15 @@ public class LiftClass {
         if (this.name == "motor_horizontal_lift") {
 
             if (position == "transfer" || position == "zero") return 0;
-            if (position == "wait to collect") return 600;
-            if (position == "collect" || position == "high") return 800;
+            if (position == "wait to collect") return 400;
+            if (position == "collect" || position == "high") return 400;
 
         } else if (this.name == "motor_vertical_lift") {
 
             if (position == "transfer" || position == "zero") return 0;
-            if (position == "low")    return 100;
+            if (position == "low")    return 900;
             if (position == "middle") return 1800;
-            if (position == "high")   return 2650;
+            if (position == "high")   return 2700;
 
         }
 

@@ -25,18 +25,20 @@ public class ParkAuton extends LinearOpMode {
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
+
         // secure preloaded cone & read AprilTag
 
-        Robot.servoHook.runToPosition("hold", false);
-        Robot.tag = Robot.camera.getTag();
+//        Robot.servoHook.runToPosition("hold", true);
+//        Robot.tag = Robot.camera.getTag();
 
         // park
 
-        Robot.drivetrain.drive(36, DRIVE_SPEED, true);
-        Robot.drivetrain.drive(-6, DRIVE_SPEED, true);
+        Robot.drivetrain.drive(-36, DRIVE_SPEED, true);
 
-        if (Robot.tag == 1) Robot.drivetrain.strafe(-24, STRAFE_SPEED, true);
-        if (Robot.tag == 3) Robot.drivetrain.strafe(24, STRAFE_SPEED, true);
+//        Robot.drivetrain.drive(-42, DRIVE_SPEED, true);
+//        Robot.drivetrain.drive(6, DRIVE_SPEED, true);
+//        if (Robot.tag == 1) Robot.drivetrain.strafe(-24, STRAFE_SPEED, true);
+//        if (Robot.tag == 3) Robot.drivetrain.strafe(24, STRAFE_SPEED, true);
 
     }
 

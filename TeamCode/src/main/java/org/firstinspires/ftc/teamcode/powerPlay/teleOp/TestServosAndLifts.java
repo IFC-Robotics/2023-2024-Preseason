@@ -39,8 +39,8 @@ public class TestServosAndLifts extends LinearOpMode {
 //
 //             // rotate hook servo
 //
-//             Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
-//             telemetry.addData("servo_rotate_hook position", Robot.servoRotateHook.servo.getPosition());
+             Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
+             telemetry.addData("servo_rotate_hook position", Robot.servoRotateHook.servo.getPosition());
 
             // rotate claw servo
 
