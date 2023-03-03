@@ -36,10 +36,10 @@ public class PracticeAuton extends LinearOpMode {
         // backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         // backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_WITH_ENCODER);
-        // frontRightDrive.setMode(DcMotor.RunMode.RUN_WITH_ENCODER);
-        // backLeftDrive.setMode(DcMotor.RunMode.RUN_WITH_ENCODER);
-        // backRightDrive.setMode(DcMotor.RunMode.RUN_WITH_ENCODER);
+        frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        // backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         
         waitForStart();
