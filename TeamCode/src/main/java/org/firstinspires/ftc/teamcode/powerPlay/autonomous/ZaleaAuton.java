@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name="Practice Autonomous", group="Linear Opmode")
 
-public class PracticeAuton extends LinearOpMode {
+public class ZaleaAuton extends LinearOpMode {
 
     // Declare OpMode members.
     DcMotor frontLeftDrive;
@@ -21,9 +21,9 @@ public class PracticeAuton extends LinearOpMode {
 
         // Initialize the hardware variables. 
         frontLeftDrive  = hardwareMap.get(DcMotor.class, "motor_front_left");
-        frontRightDrive = hardwareMap.get(DcMotor.class, "motor_front_right");
-        backLeftDrive   = hardwareMap.get(DcMotor.class, "motor_back_left");
-        backRightDrive  = hardwareMap.get(DcMotor.class, "motor_back_right");
+//        frontRightDrive = hardwareMap.get(DcMotor.class, "motor_front_right");
+//        backLeftDrive   = hardwareMap.get(DcMotor.class, "motor_back_left");
+//        backRightDrive  = hardwareMap.get(DcMotor.class, "motor_back_right");
 
         
         frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -44,7 +44,7 @@ public class PracticeAuton extends LinearOpMode {
         
         waitForStart();
 
-        frontLeftDrive.setTarget(2000);
+        frontLeftDrive.setTargetPosition(2000);
         // frontRightDrive.setTarget(2000);
         // backLeftDrive.setTarget(2000);
         // backRightDrive.setTarget(2000);
@@ -62,7 +62,7 @@ public class PracticeAuton extends LinearOpMode {
         // backLeftDrive.setPower(0.5);
         // backRightDrive.setPower(0.5);
         
-        while (frontLeftDrive.isBusy()){
+        while (frontLeftDrive.isBusy()) {
 
         }
 
@@ -70,5 +70,7 @@ public class PracticeAuton extends LinearOpMode {
         // frontRightDrive.setPower(0);
         // backLeftDrive.setPower(0);
         // backRightDrive.setPower(0);
+
     }
+
 }
