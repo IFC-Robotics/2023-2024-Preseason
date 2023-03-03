@@ -1,3 +1,9 @@
+package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
 @Autonomous(name="Practice Autonomous", group="Linear Opmode")
 
 public class PracticeAuton extends LinearOpMode {
