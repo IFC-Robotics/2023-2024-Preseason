@@ -5,7 +5,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import java.lang.Math;
-
 @Autonomous(name = "Autonomous Test", group = "competition")
 public class AutonomousTest extends LinearOpMode{
 
@@ -55,7 +54,7 @@ public class AutonomousTest extends LinearOpMode{
 
         }
 
-        motor.setPower(0)
+        motor.setPower(0);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -71,7 +70,7 @@ public class AutonomousTest extends LinearOpMode{
 
         }
 
-        motor.setPower(0)
+        motor.setPower(0);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
 
