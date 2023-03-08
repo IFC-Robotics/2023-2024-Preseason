@@ -9,10 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class ZaleaAuton extends LinearOpMode {
 
     // Declare OpMode members.
-    DcMotor frontLeftDrive;
-    // DcMotor frontRightDrive;
-    // DcMotor backLeftDrive;
-    // DcMotor backRightDrive;
+    DcMotor motor;
 
     @Override
     public void runOpMode() {
@@ -20,57 +17,40 @@ public class ZaleaAuton extends LinearOpMode {
         telemetry.update();
 
         // Initialize the hardware variables. 
-        frontLeftDrive  = hardwareMap.get(DcMotor.class, "motor_front_left");
-//        frontRightDrive = hardwareMap.get(DcMotor.class, "motor_front_right");
-//        backLeftDrive   = hardwareMap.get(DcMotor.class, "motor_back_left");
-//        backRightDrive  = hardwareMap.get(DcMotor.class, "motor_back_right");
+        motor  = hardwareMap.get(DcMotor.class, "motor_front_left");
 
         
-        frontLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        // frontRightDrive.setDirection(DcMotor.Direction.FORWARD);
-        // backLeftDrive.setDirection(DcMotor.Direction.REVERSE);
-        // backRightDrive.setDirection(DcMotor.Direction.FORWARD);
+        motor.setDirection(DcMotor.Direction.FORWARD);
 
-        frontLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        // frontRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        // backLeftDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-        // backRightDrive.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        // frontRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        // backLeftDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        // backRightDrive.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         
         waitForStart();
 
-        frontLeftDrive.setTargetPosition(2000);
-        // frontRightDrive.setTarget(2000);
-        // backLeftDrive.setTarget(2000);
-        // backRightDrive.setTarget(2000);
-
-        frontLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // frontRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // backLeftDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        // backRightDrive.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
         telemetry.addLine("Running autonomous");
         telemetry.update();
 
-        frontLeftDrive.setPower(0.5);
-        // frontRightDrive.setPower(0.5);
-        // backLeftDrive.setPower(0.5);
-        // backRightDrive.setPower(0.5);
+        goToPosition(1000);
+        goToPosition(5000);
+        goToPosition(1300);
+        goToPosition(8765);
+        goToPosition(1724);
+
+    }
+
+    public void goToPosition(int position){
+        motor.setTargetPosition(position);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(0.5);
         
-        while (frontLeftDrive.isBusy()) {
+        while (motor.isBusy()) {
 
         }
 
-        frontLeftDrive.setPower(0);
-        // frontRightDrive.setPower(0);
-        // backLeftDrive.setPower(0);
-        // backRightDrive.setPower(0);
-
+        motor.setPower(0);
+        sleep(1000);
     }
 
 }
