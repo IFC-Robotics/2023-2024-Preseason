@@ -40,6 +40,42 @@ public class AutonomousTest extends LinearOpMode{
 
         motor.setPower(0);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        
+
+        motor.setTargetPosition(12345);
+        
+
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(0.345);
+
+        while (motor.isBusy()){
+
+        }
+
+        motor.setPower(0)
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        
+
+        motor.setTargetPosition(58743);
+       
+
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(0.9832);
+
+        while (motor.isBusy()){
+
+        }
+
+        motor.setPower(0)
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
+
 
 
 
