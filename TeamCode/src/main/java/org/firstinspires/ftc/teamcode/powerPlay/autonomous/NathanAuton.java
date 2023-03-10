@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="Configurable Auton", group="competition")
+@Autonomous(name="Nathan Auton", group="competition")
 public class NathanAuton extends LinearOpMode {
     public void runOpMode() {
         DcMotor motor;

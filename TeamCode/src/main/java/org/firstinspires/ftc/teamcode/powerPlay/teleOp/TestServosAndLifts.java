@@ -39,26 +39,28 @@ public class TestServosAndLifts extends LinearOpMode {
 //
 //             // rotate hook servo
 //
-             Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
-             telemetry.addData("servo_rotate_hook position", Robot.servoRotateHook.servo.getPosition());
+//             Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
+//             telemetry.addData("servo_rotate_hook position", Robot.servoRotateHook.servo.getPosition());
 
             // rotate claw servo
 
-            if (mode == "manual") Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger);
-            if (mode == "assist") Robot.crServoRotateClaw.teleOpAssistMode(gamepad2.left_trigger, gamepad2.right_trigger);
+//            if (mode == "manual") Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger);
+//            if (mode == "assist") Robot.crServoRotateClaw.teleOpAssistMode(gamepad2.left_trigger, gamepad2.right_trigger);
+//
+//            if (mode == "auton") {
+//                if (gamepad2.a) Robot.crServoRotateClaw.runToPosition("collect");
+//                if (gamepad2.y) Robot.crServoRotateClaw.runToPosition("transfer");
+//                Robot.crServoRotateClaw.checkForStop();
+//            }
+//
+//            if (gamepad2.dpad_down)  mode = "manual";
+//            if (gamepad2.dpad_left)  mode = "assist";
+//            if (gamepad2.dpad_right) mode = "auton";
+//
+//            telemetry.addData("mode", mode);
 
-            if (mode == "auton") {
-                if (gamepad2.a) Robot.crServoRotateClaw.runToPosition("collect");
-                if (gamepad2.y) Robot.crServoRotateClaw.runToPosition("transfer");
-                Robot.crServoRotateClaw.checkForStop();
-            }
-
-            if (gamepad2.dpad_down)  mode = "manual";
-            if (gamepad2.dpad_left)  mode = "assist";
-            if (gamepad2.dpad_right) mode = "auton";
-
+            Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger);
             Robot.crServoRotateClaw.printData();
-            telemetry.addData("mode", mode);
 
             // horizontal lift
 
