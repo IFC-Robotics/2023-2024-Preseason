@@ -23,6 +23,20 @@ public class JoaquinAuton extends LinearOpMode{
         motor.setPower(1);
         while (motor.isBusy()){}
         motor.setPower(0);
+
+
+        motor.setTargetPosition(1564);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(0.7);
+        while (motor.isBusy()){}
+        motor.setPower(0);
+
+
+        motor.setTargetPosition(800);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motor.setPower(0.5);
+        while (motor.isBusy()){}
+        motor.setPower(0);
     }
 
 }

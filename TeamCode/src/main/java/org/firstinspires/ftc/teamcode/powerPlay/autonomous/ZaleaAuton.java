@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="Practice Autonomous", group="Linear Opmode")
+@Autonomous(name="Zalea's Practice Autonomous", group="Linear Opmode")
 
 public class ZaleaAuton extends LinearOpMode {
 
@@ -17,7 +17,7 @@ public class ZaleaAuton extends LinearOpMode {
         telemetry.update();
 
         // Initialize the hardware variables. 
-        motor  = hardwareMap.get(DcMotor.class, "motor_front_left");
+        motor  = hardwareMap.get(DcMotor.class, "motor");
 
         
         motor.setDirection(DcMotor.Direction.FORWARD);
