@@ -47,7 +47,6 @@ public class Drivetrain {
             motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
             motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
             motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        } else {
             motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         }
 

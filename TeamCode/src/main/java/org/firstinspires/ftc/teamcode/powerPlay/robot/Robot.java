@@ -57,13 +57,21 @@ public class Robot {
                 9. test inchesToTicks() and degreesToTicks()
                 10. test ConfigurableAuton.java
 
+                -------------------------------------------------------------------------------------
+
+                FOR PCC EVENT:
+
+                - test the freshmen's spinner
+                - test hook
+                - test cup
+
         */
 
         drivetrain        = new Drivetrain("cone", SLEEP_TIME);
         servoClaw         = new ServoClass("servo_claw", "release", 0.43, "hold", 0.75, SERVO_SPEED, SERVO_TIME, false);
-        servoHook         = new ServoClass("servo_hook", "release", 0.51, "hold", 0.57, SERVO_SPEED, SERVO_TIME, false);
+        servoHook         = new ServoClass("servo_hook", "release", 0.56, "hold", 0.61, SERVO_SPEED, SERVO_TIME, false);
         servoRotateHook   = new ServoClass("servo_rotate_hook", "transfer", 0.0, "score", 0.84, SERVO_SPEED, SERVO_TIME, false);
-        crServoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "collect", "transfer", CR_SERVO_TIME, false);
+        crServoRotateClaw = new CRServoClass("cr_servo_rotate_claw", "collect", "transfer", CR_SERVO_TIME, true);
         horizontalLift    = new LiftClass("motor_horizontal_lift", MAX_LIFT_SPEED, 0,      SLEEP_TIME, false);
         verticalLift      = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
         clawSensor        = new SensorClass("claw_sensor");
