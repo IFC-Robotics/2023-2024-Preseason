@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
-@TeleOp(name="steamposium code", group="competition")
-public class PCC extends LinearOpMode {
+@TeleOp(name="Demonstration code")
+public class teleOpDemonstration extends LinearOpMode {
 
     @Override
     public void runOpMode() {
@@ -24,37 +24,17 @@ public class PCC extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            // Switching modes
+            Robot.servoClaw.teleOpAssistMode(gamepad1.dpad_left, gamepad1.dpad_right);
+            Robot.servoHook.teleOpAssistMode(gamepad1.y, gamepad1.a);
+            Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
 
-            telemetry.addLine(String.format("Robot.mode: %s", Robot.mode));
+            Robot.crServoRotateClaw.teleOpAssistMode(gamepad2.left_trigger, gamepad2.right_trigger);
+            Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger);
 
-            if (gamepad1.guide) Robot.mode = "assist";
-            if (gamepad1.start) Robot.mode = "manual";
-
-            if (Robot.mode == "assist") { // assist mode
-
-                //Robot.servoClaw.teleOpAssistMode(gamepad1.dpad_left, gamepad1.dpad_right);
-                Robot.servoHook.teleOpAssistMode(gamepad1.y, gamepad1.a);
-                Robot.servoRotateHook.teleOpAssistMode(gamepad1.x, gamepad1.b);
-
-//                Robot.crServoRotateClaw.teleOpAssistMode(gamepad2.left_trigger, gamepad2.right_trigger);
-
-            } else if (Robot.mode == "manual") { // manual mode
-
-                //Robot.servoClaw.teleOpManualMode(gamepad1.dpad_left, gamepad1.dpad_right);
-                Robot.servoHook.teleOpManualMode(gamepad1.y, gamepad1.a);
-                Robot.servoRotateHook.teleOpManualMode(gamepad1.x, gamepad1.b);
-
-               // Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger);
-
-            }
-
-//            Robot.crServoRotateClaw.teleOpManualMode(gamepad2.left_trigger, gamepad2.right_trigger);
-//
-//            Robot.horizontalLift.teleOp(-gamepad2.left_stick_y, gamepad2.left_bumper, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.dpad_up);
+            Robot.horizontalLift.teleOp(-gamepad2.left_stick_y, gamepad2.left_bumper, gamepad2.dpad_down, gamepad2.dpad_left, gamepad2.dpad_right, gamepad2.dpad_up);
             Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
 
-            //Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_bumper);
+             Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_bumper);
 
             printRobotData();
 

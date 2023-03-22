@@ -78,55 +78,16 @@ public class Robot {
         hookSensor        = new SensorClass("hook_sensor");
         camera            = new Camera();
 
-        drivetrain       .init(opMode);
-
-        telemetry.addLine("initializing drivetrain class...");
-        telemetry.update();
-
-        servoClaw        .init(opMode);
-
-        telemetry.addLine("initializing servoClaw class...");
-        telemetry.update();
-
-        servoHook        .init(opMode);
-
-        telemetry.addLine("initializing servoHook class...");
-        telemetry.update();
-
-        servoRotateHook  .init(opMode);
-
-        telemetry.addLine("initializing servoRotateHook class...");
-        telemetry.update();
-
+        drivetrain.init(opMode);
+        servoClaw.init(opMode);
+        servoHook.init(opMode);
+        servoRotateHook.init(opMode);
         crServoRotateClaw.init(opMode);
-
-        telemetry.addLine("initializing crServoRotateClaw class...");
-        telemetry.update();
-
-        horizontalLift   .init(opMode);
-
-        telemetry.addLine("initializing horizontalLift class...");
-        telemetry.update();
-
-        verticalLift     .init(opMode);
-
-        telemetry.addLine("initializing verticalLift class...");
-        telemetry.update();
-
-        clawSensor       .init(opMode);
-
-        telemetry.addLine("initializing clawSensor class...");
-        telemetry.update();
-
-        hookSensor       .init(opMode);
-
-        telemetry.addLine("initializing hookSensor class...");
-        telemetry.update();
-
-        camera           .init(opMode);
-
-        telemetry.addLine("initializing camera class...");
-        telemetry.update();
+        horizontalLift.init(opMode);
+        verticalLift.init(opMode);
+        clawSensor.init(opMode);
+        hookSensor.init(opMode);
+        camera.init(opMode);
 
         resetRandomization();
 
