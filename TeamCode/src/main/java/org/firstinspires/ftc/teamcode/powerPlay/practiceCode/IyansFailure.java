@@ -8,7 +8,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.lang.Math;
 
-public class IyansFailure {
+@Autonomous(name="Iyan's Failure", group="competition")
+public class IyansFailure extends LinearOpMode {
     LinearOpMode opMode;
     Telemetry telemetry;
 
@@ -17,19 +18,13 @@ public class IyansFailure {
     public static DcMotor motorBackRight;
     public static DcMotor motorBackLeft;
 
-    public void init(LinearOpMode opModeParam) {
+    motorFrontLeft  = opMode.hardwareMap.get(DcMotor.class, "motor_front_left");
+    motorFrontRight = opMode.hardwareMap.get(DcMotor.class, "motor_front_right");
+    motorBackRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
+    motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
-        opMode = opModeParam;
-        telemetry = opMode.telemetry;
 
-        motorFrontLeft  = opMode.hardwareMap.get(DcMotor.class, "motor_front_left");
-        motorFrontRight = opMode.hardwareMap.get(DcMotor.class, "motor_front_right");
-        motorBackRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
-        motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
-    
-    }
-
-    public void drivePls(int drive, int strafe, int turn, sleepTime) {
+    public static void drivePls(int drive, int strafe, int turn, sleepTime) {
 
         // drive
 
@@ -55,9 +50,15 @@ public class IyansFailure {
 
     }
 
-    drivePls(1,0,0,1000)
-    drivePls(1,1,0,1000)
-    drivePls(1,0,-1,1000)
-    drivePls(1,-1,1,1000)
+    public void runOpMode() {
+        waitForStart()
+        drivePls(1,0,0,1000)
+        drivePls(,0.5,0,1000)
+        drivePls(0,0,0.5,1000)
+        drivePls(1,0,1,1000)
+        drivePls(1,1,0,1000)
+
+    }
+
 
 }
