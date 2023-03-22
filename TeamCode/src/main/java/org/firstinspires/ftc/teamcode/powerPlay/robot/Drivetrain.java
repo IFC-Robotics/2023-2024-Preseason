@@ -23,7 +23,6 @@ public class Drivetrain {
     public static double TURN_FACTOR = 100.0;
 
     public static double MAX_TELEOP_SPEED = 0.7;
-    public static boolean limitSpeed = true;
 
     public final String forwardDirection;
     public final int sleepTime;
@@ -43,17 +42,15 @@ public class Drivetrain {
         motorBackRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
-        if (this.forwardDirection == "hook") {
-            motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-            motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-            motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-        }
+        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
 
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+//        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -156,26 +153,22 @@ public class Drivetrain {
 
     // teleOp
 
-    public void teleOp(double drive, double strafe, double turn, boolean button) {
+    public void teleOp(double drive, double strafe, double turn) {
 
         // drive
 
-        double denominator = Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1); // test this
-        double speed = limitSpeed ? MAX_TELEOP_SPEED : 1;
+        if (drive > strafe) drive = strafe;
+        if (drive < strafe) strafe = drive;
 
-        double frontRightPower = Range.clip((drive - turn - strafe) / denominator, -speed, speed);
-        double frontLeftPower  = Range.clip((drive + turn + strafe) / denominator, -speed, speed);
-        double backRightPower  = Range.clip((drive - turn + strafe) / denominator, -speed, speed);
-        double backLeftPower   = Range.clip((drive + turn - strafe) / denominator, -speed, speed);
+        double frontRightPower = Range.clip(drive - turn - strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        double frontLeftPower  = Range.clip(drive + turn + strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        double backRightPower  = Range.clip(drive - turn + strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        double backLeftPower   = Range.clip(drive + turn - strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
 
         motorFrontRight.setPower(frontRightPower);
         motorFrontLeft.setPower(frontLeftPower);
         motorBackRight.setPower(backRightPower);
         motorBackLeft.setPower(backLeftPower);
-
-        // change speed limits
-
-        if (button) limitSpeed = !limitSpeed;
 
     }
 

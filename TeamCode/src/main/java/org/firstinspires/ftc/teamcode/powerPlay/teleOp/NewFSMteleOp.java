@@ -236,7 +236,7 @@ public class NewFSMteleOp extends LinearOpMode {
 
             }
 
-            Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.left_bumper);
+            Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
             printRobotData();
 
