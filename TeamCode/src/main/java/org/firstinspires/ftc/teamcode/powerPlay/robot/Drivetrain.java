@@ -22,7 +22,7 @@ public class Drivetrain {
     public static double STRAFE_FACTOR = 50.83;
     public static double TURN_FACTOR = 100.0;
 
-    public static double MAX_TELEOP_SPEED = 0.7;
+    public static double MAX_TELEOP_SPEED = 0.5;
 
     public final String forwardDirection;
     public final int sleepTime;
@@ -155,15 +155,22 @@ public class Drivetrain {
 
     public void teleOp(double drive, double strafe, double turn) {
 
-        // drive
+        double frontRightPower;
+        double frontLeftPower;
+        double backRightPower;
+        double backLeftPower;
 
-        if (drive > strafe) drive = strafe;
-        if (drive < strafe) strafe = drive;
-
-        double frontRightPower = Range.clip(drive - turn - strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double frontLeftPower  = Range.clip(drive + turn + strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double backRightPower  = Range.clip(drive - turn + strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-        double backLeftPower   = Range.clip(drive + turn - strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        if (Math.abs(drive) >= Math.abs(strafe)) {
+            frontRightPower = Range.clip(drive - turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+            frontLeftPower  = Range.clip(drive + turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+            backRightPower  = Range.clip(drive - turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+            backLeftPower   = Range.clip(drive + turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        } else {
+            frontRightPower = Range.clip(-turn - strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+            frontLeftPower  = Range.clip( turn + strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+            backRightPower  = Range.clip(-turn + strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+            backLeftPower   = Range.clip( turn - strafe, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+        }
 
         motorFrontRight.setPower(frontRightPower);
         motorFrontLeft.setPower(frontLeftPower);

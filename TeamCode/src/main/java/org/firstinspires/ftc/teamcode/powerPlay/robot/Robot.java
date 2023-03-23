@@ -19,7 +19,7 @@ public class Robot {
     public static SensorClass hookSensor;
     public static Camera camera;
 
-    public static double MAX_LIFT_SPEED = 0.8;
+    public static double MAX_LIFT_SPEED = 0.7;
     public static double SERVO_SPEED = 0.01;
     public static int SERVO_TIME = 500;
     public static int CR_SERVO_TIME = 1600;
