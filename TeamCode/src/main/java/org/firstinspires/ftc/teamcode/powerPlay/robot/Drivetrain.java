@@ -42,15 +42,17 @@ public class Drivetrain {
         motorBackRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
-        motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-        motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-        motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        if (this.forwardDirection == "hook") {
+            motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
+            motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+            motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        }
 
-//        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-//        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

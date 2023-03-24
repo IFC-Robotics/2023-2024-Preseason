@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 public class ServoClass {
 
@@ -71,10 +72,20 @@ public class ServoClass {
     // teleOp
 
     public void teleOpAssistMode(boolean minConditionButton, boolean maxConditionButton) {
+
         if (minConditionButton || maxConditionButton) {
+
+            // you can only move servoRotateHook from collect -> score IF verticalLift is NOT at 0
+//            if (this.name == "servo_rotate_hook" && this.robot.verticalLift.motor.getCurrentPosition() == 0.0 && maxConditionButton) {
+//                telemetry.addLine("SERVO ROTATE HOOK IS TRYING TO MOVE TO SCORE, BUT VERTICAL LIFT IS AT ZERO");
+//                return;
+//            }
+
             servoPosition = minConditionButton ? 0 : 1;
             servo.setPosition(servoPosition);
+
         }
+
     }
 
     public void teleOpManualMode(boolean minConditionButton, boolean maxConditionButton) {

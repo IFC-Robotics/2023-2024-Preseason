@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.powerPlay.robot.Robot;
 
 public class LiftClass {
 
@@ -23,11 +24,13 @@ public class LiftClass {
     public final boolean reverseDirection;
 
     public LiftClass(String name, double maxSpeed, double idleSpeed, int sleepTime, boolean reverseDirection) {
+
         this.name = name;
         this.maxSpeed = maxSpeed;
         this.idleSpeed = idleSpeed;
         this.sleepTime = sleepTime;
         this.reverseDirection = reverseDirection;
+
     }
 
     public void init(LinearOpMode opModeParam) {
@@ -97,40 +100,46 @@ public class LiftClass {
 
     // teleOp
 
-//    public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4) {
-//
-//        if (button1 || button2 || button3 || button4) {
-//
-//            String position = "";
-//
-//            if (this.name == "motor_horizontal_lift") {
-//
-//                if (button1) position = "zero";
-//                if (button2) position = "rotate claw down";
-//                if (button3) position = "wait to collect";
-//                if (button4) position = "collect";
-//
-//            } else if (this.name == "motor_vertical_lift") {
-//
-//                if (button1) position = "zero";
-//                if (button2) position = "low";
-//                if (button3) position = "middle";
-//                if (button4) position = "high";
-//
-//            }
-//
-//            motorIsMoving = true;
-//            runToPosition(position, false);
-//
-//        }
-//
-//        if (motorIsMoving && !motor.isBusy()) {
-//            motorIsMoving = false;
-//            motorCurrentSpeed = this.idleSpeed;
-//            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//        }
-//
-//    }
+    public void teleOpAssistMode(boolean button1, boolean button2, boolean button3, boolean button4) {
+
+        if (button1 || button2 || button3 || button4) {
+
+            String position = "";
+
+            if (this.name == "motor_horizontal_lift") {
+
+                if (button1) position = "zero";
+                if (button2) position = "rotate claw down";
+                if (button3) position = "wait to collect";
+                if (button4) position = "collect";
+
+            } else if (this.name == "motor_vertical_lift") {
+
+                if (button1) position = "zero";
+                if (button2) position = "low";
+                if (button3) position = "middle";
+                if (button4) position = "high";
+
+//                // you can only move verticalLift from high -> 0 IF servoRotateHook is NOT at score
+//                if (this.robot.servoRotateHook.servo.getPosition() == 0.84 && button1) {
+//                    telemetry.addLine("VERTICAL LIFT IS TRYING TO MOVE TO ZERO, BUT SERVO ROTATE HOOK IS AT SCORE POSITION");
+//                    return;
+//                }
+
+            }
+
+            motorIsMoving = true;
+            runToPosition(position, false);
+
+        }
+
+        if (motorIsMoving && !motor.isBusy()) {
+            motorIsMoving = false;
+            motorCurrentSpeed = this.idleSpeed;
+            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        }
+
+    }
 //
 //    public void teleOpManualMode(double joystick, boolean encoderButton) {
 //
@@ -162,6 +171,8 @@ public class LiftClass {
 //        }
 //
 //    }
+
+    // complete teleOp
 
     public void teleOp(double joystick, boolean encoderButton, boolean button1, boolean button2, boolean button3, boolean button4) {
 
