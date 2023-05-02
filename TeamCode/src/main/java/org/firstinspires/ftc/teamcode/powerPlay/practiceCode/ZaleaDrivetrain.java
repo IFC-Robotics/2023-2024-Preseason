@@ -48,7 +48,7 @@ public class ZaleaDrivetrain extends LinearOpMode{
     public void turn(double left, double right) {
         frontLeftPower  = left;
         frontRightPower = right;
-        backLeftPower   = left;
+        backLeftPower   = left; 
         backRightPower  = right;
 
         move();
