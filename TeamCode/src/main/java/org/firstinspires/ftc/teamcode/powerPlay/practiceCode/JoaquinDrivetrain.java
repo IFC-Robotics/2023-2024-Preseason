@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.practiceCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -26,18 +26,18 @@ public class JoaquinDrivetrain extends LinearOpMode{
        
         waitForStart();
         
-        while opModeIsActive(){
-            frontRightPower = Range.clip(drive - turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-            frontLeftPower  = Range.clip(drive + turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-            backRightPower  = Range.clip(drive - turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-            backLeftPower   = Range.clip(drive + turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
-            motor1.power(frontRightPower);
-            motor2.power(frontLeftPower);
-            motor3.power(backRightPower);
-            motor4.power(backLeftPower);
-
-
-        }
+//        while (opModeIsActive()){
+//            frontRightPower = Range.clip(drive - turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+//            frontLeftPower  = Range.clip(drive + turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+//            backRightPower  = Range.clip(drive - turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+//            backLeftPower   = Range.clip(drive + turn, -MAX_TELEOP_SPEED, MAX_TELEOP_SPEED);
+//            motor1.power(frontRightPower);
+//            motor2.power(frontLeftPower);
+//            motor3.power(backRightPower);
+//            motor4.power(backLeftPower);
+//
+//
+//        }
     }
 
 }

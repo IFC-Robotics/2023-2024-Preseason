@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.practiceCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import java.lang.Math;
-@Autonomous(name = "Meghan's Autonomous Test", group = "competition")
+@Autonomous(name = "Megan's Autonomous Test", group = "competition")
 public class AutonomousTest extends LinearOpMode{
 
     double DRIVE_SPEED = 0.3;
@@ -13,8 +13,8 @@ public class AutonomousTest extends LinearOpMode{
     private DcMotor motor;
 
     static final double COUNTS_PER_REVOLUTION    = 28.0;
-    static final double GEAR_RATIO               = 1.0;
-    static final double WHEEL_DIAMETER_IN_INCHES = 1.0;
+    static final double GEAR_RATIO               = 20.0;
+    static final double WHEEL_DIAMETER_IN_INCHES = 4.0;
     static final double COUNTS_PER_INCH = (COUNTS_PER_REVOLUTION * GEAR_RATIO) / (WHEEL_DIAMETER_IN_INCHES * Math.PI);
 
 

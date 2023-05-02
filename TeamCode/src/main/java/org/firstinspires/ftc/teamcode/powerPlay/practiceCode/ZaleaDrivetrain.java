@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.powerPlay.robot;
+package org.firstinspires.ftc.teamcode.powerPlay.practiceCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class DriveTrain {
+public class ZaleaDrivetrain extends LinearOpMode{
 
     public static DcMotor frontLeft;
     public static DcMotor frontRight;
@@ -17,16 +17,18 @@ public class DriveTrain {
     public static double backLeftPower;
     public static double backRightPower;
 
+    LinearOpMode opMode;
+
 
     public void init(LinearOpMode opModeParam) {
 
         opMode = opModeParam;
         telemetry = opMode.telemetry;
 
-        frontLeft  = opMode.get(DcMotor.class, "front_left");
-        frontRight = opMode.get(DcMotor.class, "front_right");
-        backLeft   = opMode.get(DcMotor.class, "back_left");
-        backRight  = opMode.get(DcMotor.class, "back_right");
+        frontRight = opMode.hardwareMap.get(DcMotor.class, "front_right");
+        frontLeft  = opMode.hardwareMap.get(DcMotor.class, "front_left");
+        backLeft   = opMode.hardwareMap.get(DcMotor.class, "back_left");
+        backRight  = opMode.hardwareMap.get(DcMotor.class, "back_right");
 
         frontLeft.setDirection(DcMotor.Direction.FORWARD);
         frontRight.setDirection(DcMotor.Direction.REVERSE);
@@ -75,4 +77,8 @@ public class DriveTrain {
         backRight.setPower(backRightPower);
     }
 
+    @Override
+    public void runOpMode() throws InterruptedException {
+
+    }
 }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.powerPlay.autonomous;
+package org.firstinspires.ftc.teamcode.powerPlay.practiceCode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -10,6 +10,12 @@ public class ZaleaAuton extends LinearOpMode {
 
     // Declare OpMode members.
     DcMotor motor;
+
+    static final double COUNTS_PER_REVOLUTION    = 28.0;
+    static final double GEAR_RATIO               = 20.0;
+    static final double WHEEL_DIAMETER_IN_INCHES = 4.0;
+    static double TICKS_PER_INCH;
+    static int TICKS;
 
     @Override
     public void runOpMode() {
@@ -32,7 +38,7 @@ public class ZaleaAuton extends LinearOpMode {
         telemetry.addLine("Running autonomous");
         telemetry.update();
 
-        goToPosition(1000);
+        goToPosition(inchesToTicks(24));
         goToPosition(5000);
         goToPosition(1300);
         goToPosition(8765);
@@ -55,6 +61,13 @@ public class ZaleaAuton extends LinearOpMode {
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public int inchesToTicks(int inches){
+        TICKS_PER_INCH = (COUNTS_PER_REVOLUTION*GEAR_RATIO)/(Math.PI*WHEEL_DIAMETER_IN_INCHES);
+        TICKS = (int)(inches*TICKS_PER_INCH);
+
+        return TICKS;
     }
 
 }
