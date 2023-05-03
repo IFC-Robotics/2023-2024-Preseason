@@ -9,7 +9,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 public class ZaleaAuton extends LinearOpMode {
 
     // Declare OpMode members.
-    DcMotor motor;
+    DcMotor frontRight;
+    DcMotor frontLeft;
+    DcMotor backRight;
+    DcMotor backLeft;
 
     static final double COUNTS_PER_REVOLUTION    = 28.0;
     static final double GEAR_RATIO               = 20.0;
@@ -23,14 +26,26 @@ public class ZaleaAuton extends LinearOpMode {
         telemetry.update();
 
         // Initialize the hardware variables. 
-        motor  = hardwareMap.get(DcMotor.class, "motor");
+        frontRight  = hardwareMap.get(DcMotor.class, "front_right");
+        frontLeft  = hardwareMap.get(DcMotor.class, "front_left");
+        backRight  = hardwareMap.get(DcMotor.class, "back_right");
+        backLeft  = hardwareMap.get(DcMotor.class, "back_left");
 
         
-        motor.setDirection(DcMotor.Direction.FORWARD);
+        frontRight.setDirection(DcMotor.Direction.FORWARD);
+        frontLeft.setDirection(DcMotor.Direction.REVERSE);
+        backRight.setDirection(DcMotor.Direction.FORWARD);
+        backLeft.setDirection(DcMotor.Direction.REVERSE);
 
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         
         waitForStart();
@@ -47,20 +62,38 @@ public class ZaleaAuton extends LinearOpMode {
     }
 
     public void goToPosition(int position){
-        motor.setTargetPosition(position);
-        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motor.setPower(0.5);
+        frontRight.setTargetPosition(position);
+        frontLeft.setTargetPosition(position);
+        backRight.setTargetPosition(position);
+        backLeft.setTargetPosition(position);
+        frontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        backLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        frontRight.setPower(0.5);
+        frontLeft.setPower(0.5);
+        backRight.setPower(0.5);
+        backLeft.setPower(0.5);
         
-        while (motor.isBusy()) {
+        while (frontRight.isBusy() || frontLeft.isBusy() || backRight.isBusy() || backLeft.isBusy()) {
 
         }
 
-        motor.setPower(0);
+        frontRight.setPower(0);
+        frontLeft.setPower(0);
+        backRight.setPower(0);
+        backLeft.setPower(0);
         sleep(1000);
 
-        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        frontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public int inchesToTicks(int inches){
