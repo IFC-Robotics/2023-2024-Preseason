@@ -26,10 +26,10 @@ public class ZaleaAuton extends LinearOpMode {
         telemetry.update();
 
         // Initialize the hardware variables. 
-        frontRight  = hardwareMap.get(DcMotor.class, "front_right");
-        frontLeft  = hardwareMap.get(DcMotor.class, "front_left");
-        backRight  = hardwareMap.get(DcMotor.class, "back_right");
-        backLeft  = hardwareMap.get(DcMotor.class, "back_left");
+        frontRight  = hardwareMap.get(DcMotor.class, "motor_front_right");
+        frontLeft  = hardwareMap.get(DcMotor.class, "motor_front_left");
+        backRight  = hardwareMap.get(DcMotor.class, "motor_back_right");
+        backLeft  = hardwareMap.get(DcMotor.class, "motor_back_left");
 
         
         frontRight.setDirection(DcMotor.Direction.FORWARD);
