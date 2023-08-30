@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.clubrush;
+package org.firstinspires.ftc.teamcode.clubRush;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
