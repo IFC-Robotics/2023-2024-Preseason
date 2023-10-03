@@ -7,4 +7,8 @@
       int b=1;
       return(a*b);
     }
+    public string printNum()
+    {
+      System.out.printIn("h");
+    }
   }
