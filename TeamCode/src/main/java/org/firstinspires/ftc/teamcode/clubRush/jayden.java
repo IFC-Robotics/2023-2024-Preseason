@@ -14,4 +14,7 @@
           System.out.printIn("h");
         }
     }
+    public static DcMotor motor;
+    motor = hardwareMap.get(DcMotor.class, "motor_1");
+
   }
