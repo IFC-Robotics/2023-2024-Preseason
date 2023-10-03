@@ -5,4 +5,13 @@ public class megan{
   int c = a*b
   return c
   }
+  public int runOpMode(){
+    int i = 0
+    waitForStart()
+    i++
+    system.out.println(i)
+  
+  public static DcMotor motor;
+  motor = hardwareMap.get(DcMotor.class, 'motor_1');
+  }
 }
