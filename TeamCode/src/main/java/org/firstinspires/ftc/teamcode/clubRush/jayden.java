@@ -10,5 +10,9 @@
     public string printNum()
     {
       System.out.printIn("h");
+      waitForStart();
+        while(opModeIsActive()) {
+            //
+        }
     }
   }
