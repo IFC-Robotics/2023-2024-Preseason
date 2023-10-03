@@ -9,10 +9,9 @@
     }
     public string printNum()
     {
-      System.out.printIn("h");
       waitForStart();
         while(opModeIsActive()) {
-            //
+          System.out.printIn("h");
         }
     }
   }
