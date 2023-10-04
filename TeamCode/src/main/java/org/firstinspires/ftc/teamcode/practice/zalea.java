@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.clubRush;
+package org.firstinspires.ftc.teamcode.practice;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="Zalea code", group = "clubRush")
+@Autonomous(name="Zalea code", group = "Practice")
 public class zalea extends LinearOpMode{
     public int multiply(){
         int a = 45;

@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.clubRush;
+package org.firstinspires.ftc.teamcode.practice;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-@Autonomous(name="Megan code", group = "clubRush")
+@Autonomous(name="Megan code", group = "Practice")
 public class megan extends LinearOpMode{
   public int multiply(){
   int a=99;
