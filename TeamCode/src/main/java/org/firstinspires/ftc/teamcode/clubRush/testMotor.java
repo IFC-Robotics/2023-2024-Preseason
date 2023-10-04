@@ -4,7 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 
 /**
@@ -20,35 +19,30 @@ import com.qualcomm.robotcore.util.Range;
  * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Cup Pong", group="Linear Opmode")
+@Autonomous(name="Test motor", group="Linear Opmode")
 
-public class cupPong extends LinearOpMode {
+public class testMotor extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
-    private DcMotor cupMotor;
+    private DcMotor armMotor;
 
     @Override
+
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         // Initialize the hardware variables
-        cupMotor  = hardwareMap.get(DcMotor.class, "cup_motor");
+        armMotor  = hardwareMap.get(DcMotor.class, "arm_motor");
 
         // Wait for the turn to start (driver presses PLAY)
         waitForStart();
         runtime.reset();
 
-        // run for 60 seconds
-        while (runtime.seconds() < 30 && opModeIsActive()) {
-
-            // Send calculated power to wheels
-            cupMotor.setPower(0.2);
-
-            // Show the elapsed game time and wheel power.
-            telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.update();
+        // run for 1 seconds
+        while (true) {
+            armMotor.setPower(0.2);
         }
     }
 }

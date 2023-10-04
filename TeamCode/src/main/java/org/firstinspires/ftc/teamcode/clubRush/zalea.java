@@ -1,30 +1,34 @@
 package org.firstinspires.ftc.teamcode.clubRush;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
-@Autonomous(name="Basic TeleOp Code", group = "clubRush")
+@Autonomous(name="Zalea code", group = "clubRush")
 public class zalea extends LinearOpMode{
     public int multiply(){
         int a = 45;
         int b = 28;
 
-        return a*b
+        return a*b;
     }
 
     public void runOpMode() {
+        telemetry.addData("Status", "Initialized");
+        telemetry.update();
 
         int i = 0;
 
-        public static DcMotor motor;
+        DcMotor motor;
 
         motor = hardwareMap.get(DcMotor.class, "motor_1");
 
         waitForStart();
 
         while(opModeIsActive()) {
-            System.out.println(i);
+//            System.out.println(i);
+            telemetry.addData("i: ", i);
+            telemetry.update();
             i++;
         }
 
