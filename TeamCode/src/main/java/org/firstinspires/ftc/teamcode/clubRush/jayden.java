@@ -5,7 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
-  public class jayden extends LinearOpMode
+@Autonomous(name="Jayden code", group = "clubRush")
+public class jayden extends LinearOpMode
   {
     public int multiply()
     {
