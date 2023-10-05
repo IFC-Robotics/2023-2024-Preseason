@@ -53,10 +53,10 @@ public class Aiden extends LinearOpMode{
             telemetry.addData("Alpha", "%.3f", colors1.alpha);
 
             if (colors1.red+colors1.green>4*colors1.blue){
-                telemetry.addData("Duck.");
+                telemetry.addLine("Duck.");
             }
             else if (colors1.red>colors1.green+colors1.blue){
-                telemetry.addL("Cone.");
+                telemetry.addLine("Cone.");
             }
             else if (colors1.red+colors1.green>2*colors1.blue){
                 telemetry.addLine("Ring.");
