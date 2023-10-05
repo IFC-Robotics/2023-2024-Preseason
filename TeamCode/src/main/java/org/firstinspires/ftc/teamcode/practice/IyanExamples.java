@@ -26,7 +26,7 @@ public class IyanExamples extends LinearOpMode{
 
         final float[] hsvValues = new float[3];
 
-        colorSensor1 = hardwareMap.get(NormalizedColorSensor.class, "sensor_color_1");
+        colorSensor1 = hardwareMap.get(NormalizedColorSensor.class, "color_sensor_1");
 
         // If possible, turn the light on in the beginning
         if (colorSensor1 instanceof SwitchableLight) {
