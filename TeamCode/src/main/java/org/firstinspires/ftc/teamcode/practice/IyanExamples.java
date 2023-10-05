@@ -51,7 +51,7 @@ public class IyanExamples extends LinearOpMode{
                     .addData("Value", "%.3f", hsvValues[2]);
             telemetry.addData("Alpha", "%.3f", colors1.alpha);
 
-            if (colors1.red + colors1.green > 4 * colors1.blue) {
+            if (colors1.red + colors1.green > 8 * colors1.blue) {
                 telemetry.addData("could that be?","my duck??");
             }else {
                 telemetry.addData("keep searching for my duck.","I know it's around here somewhere");
