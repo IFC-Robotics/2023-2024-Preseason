@@ -35,9 +35,6 @@ public class megan extends LinearOpMode{
 
 
 
-//This is my (very much untested) code for finding my poor lost duck
-//It uses a color sensor to to determine if an object is yellow and displays all the other attributes for clarity
-// You might have to fiddle with my conditional statement to get a good yellow detector
 
 
 
@@ -80,7 +77,7 @@ public class megan extends LinearOpMode{
                 telemetry.addData("Found the duck!");
             }else if(colors1.red > colors1.green + colors1.blue){
                 telemetry.addData("It's the cone!");
-            }else if(colors1.red = colors1.green = colors1.blue){
+            }else if(colors1.red == colors1.green == colors1.blue){
                 telemetry.addData("The ball!");
             }else{
               telemetry.addData("Keep looking")
