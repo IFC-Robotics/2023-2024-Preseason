@@ -1,46 +1,25 @@
 package org.firstinspires.ftc.teamcode.practice;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import android.graphics.Color;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
 import com.qualcomm.robotcore.hardware.SwitchableLight;
 
-@Autonomous(name="Megan code", group = "Practice")
-public class megan extends LinearOpMode{
-  public int multiply(){
-  int a=99;
-  int b=20;
-  int c = a*b;
-  return c;
-  }
-  NormalizedColorSensor colorSensor1;
-  public void runOpMode() {
-    int i = 0;
-    waitForStart();
-    while (opModeIsActive()) {
-      telemetry.addData("i: ", i);
-      telemetry.update();
-      i += 1;
-      DcMotor motor;
-      motor = hardwareMap.get(DcMotor.class, "motor_1");
-    }
-  
 
+//This is my (very much untested) code for finding my poor lost duck
+//It uses a color sensor to to determine if an object is yellow and displays all the other attributes for clarity
+// You might have to fiddle with my conditional statement to get a good yellow detector
 
+@Autonomous(name="IyanExamples",group="Practice")
+public class IyanExamples extends LinearOpMode{
 
+    NormalizedColorSensor colorSensor1;
 
-
-
-
-    
-
-    
+    @Override public void runOpMode() {
 
         // This increases the raw value, must be > 1
         float gain = 2;
@@ -73,14 +52,17 @@ public class megan extends LinearOpMode{
                     .addData("Value", "%.3f", hsvValues[2]);
             telemetry.addData("Alpha", "%.3f", colors1.alpha);
 
-            if (colors1.red + colors1.green > 4 * colors1.blue) {
-                telemetry.addData("Found the duck!");
-            }else if(colors1.red > colors1.green + colors1.blue){
-                telemetry.addData("It's the cone!");
-            }else if(colors1.red == colors1.green == colors1.blue){
-                telemetry.addData("The ball!");
-            }else{
-              telemetry.addData("Keep looking")
+            if (550,colors1.red+colors1.green+colors.blue>490) {
+                telemetry.addData("could that be?","my duck??","or is it a box?");
+            } else if (500>colors1.red + colors1.green + colors1.blue >400 ){
+                telemetry.addData("is that a ring?");
+            } else if (300>colors1.red + colors1.green + colors1.blue >220 ){
+                telemetry.addData("is that a cone?");
+            } else if (800>colors1.red + colors1.green + colors1.blue >710 ){
+                telemetry.addData("is that a ball?")
+            }
+            else {
+                telemetry.addData("Keep searching for my duck, or any of potential friends.","I know it's around here somewhere");
             }
 
             telemetry.update();
