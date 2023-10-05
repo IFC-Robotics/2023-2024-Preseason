@@ -20,7 +20,7 @@ public class colorSensor extends LinearOpMode {
  
         // While the Op Mode is running, update the telemetry values.
         while (opModeIsActive()) {
-            final float[] hsvValues = new float[3];
+            float[] hsvValues = new float[3];
 
             NormalizedRGBA colors = colorSensor.getNormalizedColors();
             Color.colorToHSV(colors.toColor(), hsvValues);
