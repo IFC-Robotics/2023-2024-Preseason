@@ -59,7 +59,7 @@ public class IyanExamples extends LinearOpMode{
             } else if (300>colors1.red + colors1.green + colors1.blue >220 ){
                 telemetry.addData("is that a cone?");
             } else if (800>colors1.red + colors1.green + colors1.blue >710 ){
-                telemetry.addData("is that a ball?")
+                telemetry.addData("is that a ball?");
             }
             else {
                 telemetry.addData("Keep searching for my duck, or any of potential friends.","I know it's around here somewhere");
