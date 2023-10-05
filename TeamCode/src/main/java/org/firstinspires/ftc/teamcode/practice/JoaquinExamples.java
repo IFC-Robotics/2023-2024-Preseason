@@ -52,13 +52,17 @@ public class IyanExamples extends LinearOpMode{
                     .addData("Value", "%.3f", hsvValues[2]);
             telemetry.addData("Alpha", "%.3f", colors1.alpha);
 
-            if (colors1.red + colors1.green > 4 * colors1.blue) {
-                telemetry.addData("could that be?","my duck??");
-            } else if (colors1.red ){
-
+            if (550,colors1.red+colors1.green+colors.blue>490) {
+                telemetry.addData("could that be?","my duck??","or is it a box?");
+            } else if (500>colors1.red + colors1.green + colors1.blue >400 ){
+                telemetry.addData("is that a ring?");
+            } else if (300>colors1.red + colors1.green + colors1.blue >220 ){
+                telemetry.addData("is that a cone?");
+            } else if (800>colors1.red + colors1.green + colors1.blue >710 ){
+                telemetry.addData("is that a ball?")
             }
             else {
-                telemetry.addData("keep searching for my duck.","I know it's around here somewhere");
+                telemetry.addData("Keep searching for my duck, or any of potential friends.","I know it's around here somewhere");
             }
 
             telemetry.update();
