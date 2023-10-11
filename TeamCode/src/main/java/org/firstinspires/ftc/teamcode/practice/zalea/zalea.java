@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.practice;
+package org.firstinspires.ftc.teamcode.practice.zalea;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;

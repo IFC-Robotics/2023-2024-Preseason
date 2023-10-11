@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 // You might have to fiddle with my conditional statement to get a good yellow detector
 
 @Autonomous(name="IyanExamples",group="Practice")
-public class IyanExamples extends LinearOpMode{
+public class JoaquinExamples extends LinearOpMode{
 
     NormalizedColorSensor colorSensor1;
 
@@ -52,14 +52,14 @@ public class IyanExamples extends LinearOpMode{
                     .addData("Value", "%.3f", hsvValues[2]);
             telemetry.addData("Alpha", "%.3f", colors1.alpha);
 
-            if (550,colors1.red+colors1.green+colors.blue>490) {
-                telemetry.addData("could that be?","my duck??","or is it a box?");
-            } else if (500>colors1.red + colors1.green + colors1.blue >400 ){
-                telemetry.addData("is that a ring?");
-            } else if (300>colors1.red + colors1.green + colors1.blue >220 ){
-                telemetry.addData("is that a cone?");
-            } else if (800>colors1.red + colors1.green + colors1.blue >710 ){
-                telemetry.addData("is that a ball?")
+            if (colors1.red>235 && colors1.green >235 && colors1.blue < 20) {
+                telemetry.addData("could that be?","my duck?? or maybe a box...");
+            } else if (colors1.red>235 && colors1.green >144 && colors1.blue < 20 && colors1.green <186){
+                telemetry.addData("is that a ring?", "");
+            } else if (colors1.red>235 && colors1.green <20 && colors1.blue < 20){
+                telemetry.addData("is that a cone?","");
+            } else if (colors1.red>235 && colors1.green >235 && colors1.blue >235){
+                telemetry.addData("is that a ball?","");
             }
             else {
                 telemetry.addData("Keep searching for my duck, or any of potential friends.","I know it's around here somewhere");
