@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 //It uses a color sensor to to determine if an object is yellow and displays all the other attributes for clarity
 // You might have to fiddle with my conditional statement to get a good yellow detector
 
-@Autonomous(name="IyanExamples",group="Practice")
+@Autonomous(name="JoaquinExamples",group="Practice")
 public class JoaquinExamples extends LinearOpMode{
 
     NormalizedColorSensor colorSensor1;
