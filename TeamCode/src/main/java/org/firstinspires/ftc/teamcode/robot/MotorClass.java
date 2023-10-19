@@ -14,8 +14,7 @@ public class MotorClass {
 
     public DcMotor motor;
     public double  motorCurrentSpeed = 0;
-    public boolean motorIsMoving = false;
-    public boolean enableEncoderLimits = true;
+    public boolean continuous = false;
 
     public final String name;
     public final double maxSpeed;
@@ -81,20 +80,23 @@ public class MotorClass {
 
     public void teleOp(float button1) {
 
-        if (button1 > 0 && motor.isBusy()) {
-            motor.setPower(0);
-
-        } else if (button1 > 0 && !motor.isBusy()) {
-            motor.setPower(maxSpeed);
+        if (button1 > 0) {
+            if (motor.isBusy()) {
+                motor.setPower(0);
+                continuous = false;
+            }else {
+                motor.setPower(maxSpeed);
+                continuous = true;
+            }
 
         }
     }
 
 
     public void printData() {
+        telemetry.addLine(String.format("\n%1$s Continuous: %2$s", this.name, continuous));
         telemetry.addLine(String.format("\n%1$s position: %2$s", this.name, motor.getCurrentPosition()));
         telemetry.addLine(String.format("%1$s speed: %2$s", this.name, motorCurrentSpeed));
-        telemetry.addLine(String.format("%1$s enableEncoderLimits: %2$s", this.name, enableEncoderLimits));
     }
 
 }

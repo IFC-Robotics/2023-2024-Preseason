@@ -4,9 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
-import org.firstinspires.ftc.teamcode.robot.ServoClass;
 
-@TeleOp(name="teleOp w/out FSM", group="Meet Zero")
+@TeleOp(name="teleOp w/out FSM", group="Competition")
 public class NoFSMteleOp extends LinearOpMode {
     @Override
     public void runOpMode() {
@@ -40,6 +39,8 @@ public class NoFSMteleOp extends LinearOpMode {
         telemetry.addLine("\nRobot data:\n");
 
         Robot.verticalLift.printData();
+
+        Robot.sweeper.printData();
 
         telemetry.update();
 

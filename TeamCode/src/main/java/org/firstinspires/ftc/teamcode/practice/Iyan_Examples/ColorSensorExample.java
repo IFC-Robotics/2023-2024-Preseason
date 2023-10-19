@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.practice;
+package org.firstinspires.ftc.teamcode.practice.Iyan_Examples;
 
 
 import android.graphics.Color;
@@ -15,7 +15,7 @@ import com.qualcomm.robotcore.hardware.SwitchableLight;
 // You might have to fiddle with my conditional statement to get a good yellow detector
 
 @Autonomous(name="IyanExamples",group="Practice")
-public class IyanExamples extends LinearOpMode{
+public class ColorSensorExample extends LinearOpMode{
 
     NormalizedColorSensor colorSensor1;
 
