@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.clubRush;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -21,14 +22,13 @@ import com.qualcomm.robotcore.util.Range;
  */
 
 @Autonomous(name="Cup Pong", group="Linear Opmode")
-
+@Disabled
 public class cupPong extends LinearOpMode {
 
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor cupMotor;
 
-    @Override
     public void runOpMode() {
         telemetry.addData("Status", "Initialized");
         telemetry.update();

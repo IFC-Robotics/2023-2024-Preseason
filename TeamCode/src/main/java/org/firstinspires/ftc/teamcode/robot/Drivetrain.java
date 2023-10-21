@@ -43,10 +43,7 @@ public class Drivetrain {
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
         if (this.forwardDirection == "ramp") {
-            motorFrontLeft.setDirection(DcMotor.Direction.REVERSE); //test these once robot is done
-            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
             motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
-            motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         }
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -128,6 +125,34 @@ public class Drivetrain {
 
         if (isSynchronous) waitForDrivetrain();
 
+    }
+
+    public void moveWheel(boolean frontRightTest,boolean frontLeftTest,boolean backRightTest,boolean backLeftTest) {
+        if (frontRightTest) {
+            motorFrontRight.setPower(0.5);
+        }else {
+            motorFrontRight.setPower(0);
+        }
+        if (frontLeftTest) {
+            motorFrontLeft.setPower(0.5);
+        }else {
+            motorFrontLeft.setPower(0);
+        }
+        if (backRightTest) {
+            motorBackRight.setPower(0.5);
+        }else {
+            motorBackRight.setPower(0);
+        }
+        if (backLeftTest) {
+            motorBackLeft.setPower(0.5);
+        }else {
+            motorBackLeft.setPower(0);
+        }
+
+        telemetry.addData("motorFrontRight",motorFrontRight.getPower());
+        telemetry.addData("motorFrontLeft",motorFrontLeft.getPower());
+        telemetry.addData("motorBackRight",motorBackRight.getPower());
+        telemetry.addData("motorBackLeft",motorBackLeft.getPower());
     }
 
     public void waitForDrivetrain() {

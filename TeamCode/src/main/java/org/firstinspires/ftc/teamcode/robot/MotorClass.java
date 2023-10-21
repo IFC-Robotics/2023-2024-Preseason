@@ -94,9 +94,9 @@ public class MotorClass {
 
 
     public void printData() {
-        telemetry.addLine(String.format("\n%1$s Continuous: %2$s", this.name, continuous));
-        telemetry.addLine(String.format("\n%1$s position: %2$s", this.name, motor.getCurrentPosition()));
-        telemetry.addLine(String.format("%1$s speed: %2$s", this.name, motorCurrentSpeed));
+//        telemetry.addLine(String.format("\n%1$s Continuous: %2$s", this.name, continuous));
+//        telemetry.addLine(String.format("\n%1$s position: %2$s", this.name, motor.getCurrentPosition()));
+//        telemetry.addLine(String.format("%1$s speed: %2$s", this.name, motorCurrentSpeed));
     }
 
 }

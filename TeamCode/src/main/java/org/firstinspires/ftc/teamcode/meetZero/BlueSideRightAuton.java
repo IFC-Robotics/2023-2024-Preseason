@@ -6,8 +6,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 
-@Autonomous(name="Red Side Right Park", group="competition")
-public class RedSideRightAuton extends LinearOpMode {
+@Autonomous(name="Blue Side Right Park", group="competition")
+public class BlueSideRightAuton extends LinearOpMode {
 
     double DRIVE_SPEED = 0.3;
     double STRAFE_SPEED = 0.3;
@@ -26,8 +26,11 @@ public class RedSideRightAuton extends LinearOpMode {
         telemetry.addLine("Executing opMode...");
         telemetry.update();
 
-        //strafe right to park
-        Robot.drivetrain.strafe(200,0.5);
+        //move forward and wiggle
+        Robot.drivetrain.drive(30,0.5);
+        Robot.drivetrain.drive(-2,0.5);
+        Robot.drivetrain.drive(2,0.5);
+        Robot.drivetrain.drive(-30,0.5);
     }
 
 }
