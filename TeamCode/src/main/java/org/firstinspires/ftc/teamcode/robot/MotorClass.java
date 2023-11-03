@@ -45,23 +45,14 @@ public class MotorClass {
     }
     // helper function
 
-    public int positionToDistance(String position) {
-
-        if (this.name == "example_motor") {
-            if (position == "collect" || position == "high") return 800;
-        }
-
-        return 0;
-
-    }
 
     // autonomous
 
-    public void runToPosition(String position) { runToPosition(position, false, this.maxSpeed); }
-    public void runToPosition(String position, boolean isSynchronous) { runToPosition(position, isSynchronous, this.maxSpeed); }
+    public void runToPosition(int position) { runToPosition(position, false, this.maxSpeed); }
+    public void runToPosition(int position, boolean isSynchronous) { runToPosition(position, isSynchronous, this.maxSpeed); }
 
-    public void runToPosition(String position, boolean isSynchronous, double speed) {
-        int target = positionToDistance(position);
+    public void runToPosition(int position, boolean isSynchronous, double speed) {
+        int target = position;
         motor.setTargetPosition(target);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorCurrentSpeed = speed;
