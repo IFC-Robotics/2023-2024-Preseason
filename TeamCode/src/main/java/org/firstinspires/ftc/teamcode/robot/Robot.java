@@ -44,6 +44,8 @@ public class Robot {
 
         drivetrain.init(opMode);
         verticalLift.init(opMode);
+        servoDeposit.init(opMode);
+        sweeper.init(opMode);
 
 //specific for 2022 ftc season
         resetRandomization();
