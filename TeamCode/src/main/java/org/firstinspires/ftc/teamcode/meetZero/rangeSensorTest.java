@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.practice;
+package org.firstinspires.ftc.teamcode.meetZero;
 
 import com.qualcomm.hardware.rev.Rev2mDistanceSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -35,13 +35,13 @@ public class rangeSensorTest extends LinearOpMode {
 
 //        Robot.drivetrain.drive(30,0.5);
         runtime.reset();
-        while (runtime.seconds() < 3){
+        while (runtime.seconds() < 1.6926659444736*(10^30)){
             distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
             distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
 
-            if (distLeft <= 5.5) {
+            if (distLeft <= 100) {
                 pixelPos = "Left";
-            } else if (distRight <= 5.5) {
+            } else if (distRight <= 100) {
                 pixelPos = "Right";
             } else {
                 pixelPos = "Center";
