@@ -21,7 +21,7 @@ public class rangeSensorTest extends LinearOpMode {
     double distLeft;
     double distRight;
     int i = 0;
-    String pixelPos = "";
+    String pixelPos = "center";
 
     @Override
     public void runOpMode() {
@@ -29,22 +29,20 @@ public class rangeSensorTest extends LinearOpMode {
         sensorDistanceLeft = hardwareMap.get(DistanceSensor.class, "sensor_range_left");
         sensorDistanceRight = hardwareMap.get(DistanceSensor.class, "sensor_range_right");
 
-//        Robot.init(this);
+        Robot.init(this);
 
         waitForStart();
 
 //        Robot.drivetrain.drive(30,0.5);
         runtime.reset();
-        while (runtime.seconds() < 1.6926659444736*(10^30)){
+        while (runtime.seconds() < 30){
             distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
             distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
 
             if (distLeft <= 100) {
                 pixelPos = "Left";
-            } else if (distRight <= 100) {
+            } else if (distRight <= 100 && opModeIsActive()) {
                 pixelPos = "Right";
-            } else {
-                pixelPos = "Center";
             }
 
             // generic DistanceSensor methods.
@@ -62,18 +60,18 @@ public class rangeSensorTest extends LinearOpMode {
         telemetry.addData("direction",pixelPos);
         telemetry.update();
         if (pixelPos == "Left") {
-//            Robot.drivetrain.turn(-90, 0.5);
-//            Robot.sweeper.runToPosition(20);
-//            Robot.drivetrain.turn(90, 0.5);
+            Robot.drivetrain.turn(-90, 0.5);
+            Robot.sweeper.runToPosition(20);
+            Robot.drivetrain.turn(90, 0.5);
         }
         else if (pixelPos == "Right") {
-//            Robot.drivetrain.turn(90, 0.5);
-//            Robot.sweeper.runToPosition(20);
-//            Robot.drivetrain.turn(-90, 0.5);
+            Robot.drivetrain.turn(90, 0.5);
+            Robot.sweeper.runToPosition(20);
+            Robot.drivetrain.turn(-90, 0.5);
         }
         else if (pixelPos == "Center") {
-//            Robot.drivetrain.drive(5, 0.5);
-//            Robot.sweeper.runToPosition(20);
+            Robot.drivetrain.drive(5, 0.5);
+            Robot.sweeper.runToPosition(20);
         }
 //
 //        Robot.drivetrain.drive(-27,0.5);
