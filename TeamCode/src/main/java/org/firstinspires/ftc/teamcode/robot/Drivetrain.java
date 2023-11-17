@@ -43,7 +43,7 @@ public class Drivetrain {
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
         if (this.forwardDirection == "ramp") {
-            motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+            motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         }
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

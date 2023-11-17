@@ -56,7 +56,7 @@ import java.util.List;
 
 @Autonomous(name = "Concept: TensorFlow Object Detection Easy", group = "Concept")
 
-public class PixelAndAprilTagDetection extends LinearOpMode {
+public class tfodAuton extends LinearOpMode {
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
