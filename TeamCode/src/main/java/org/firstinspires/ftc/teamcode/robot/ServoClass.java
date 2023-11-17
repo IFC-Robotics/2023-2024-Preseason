@@ -13,6 +13,7 @@ public class ServoClass {
 
     public Servo servo;
     public double servoPosition;
+    public String servoPosName;
 
     public final String name;
     public final double minPosition;
@@ -72,7 +73,7 @@ public class ServoClass {
     // teleOp
 
     public void teleOpAssistMode(boolean minConditionButton, boolean maxConditionButton) {
-
+        servoPosName = "left";
         if (minConditionButton || maxConditionButton) {
 
             // you can only move servoRotateHook from collect -> score IF verticalLift is NOT at 0
@@ -80,8 +81,24 @@ public class ServoClass {
 //                telemetry.addLine("SERVO ROTATE HOOK IS TRYING TO MOVE TO SCORE, BUT VERTICAL LIFT IS AT ZERO");
 //                return;
 //            }
-
-            servoPosition = minConditionButton ? 0 : 0.5;
+            if (servoPosName == "left") {
+                servoPosName = maxConditionButton ? "middle" : "left";
+                servoPosition = maxConditionButton ? 0.5 : 0;
+            }
+            else if (servoPosName == "middle") {
+                if (minConditionButton) {
+                    servoPosName = "left";
+                    servoPosition = 0;
+                }
+                else if (maxConditionButton) {
+                    servoPosName = "right";
+                    servoPosition = 1;
+                }
+            }
+            else if (servoPosName == "right") {
+                servoPosName = minConditionButton ? "middle" : "right";
+                servoPosition = minConditionButton ? 0.5 : 1;
+            }            
             servo.setPosition(servoPosition);
 
         }
