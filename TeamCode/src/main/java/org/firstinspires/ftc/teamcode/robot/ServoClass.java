@@ -81,7 +81,7 @@ public class ServoClass {
 //                return;
 //            }
 
-            servoPosition = minConditionButton ? 0 : 1;
+            servoPosition = minConditionButton ? 0 : 0.5;
             servo.setPosition(servoPosition);
 
         }
