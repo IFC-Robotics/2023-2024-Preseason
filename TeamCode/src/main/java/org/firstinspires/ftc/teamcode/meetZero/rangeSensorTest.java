@@ -60,14 +60,14 @@ public class rangeSensorTest extends LinearOpMode {
         telemetry.addData("direction",pixelPos);
         telemetry.update();
         if (pixelPos == "Left") {
-            Robot.drivetrain.turn(-90, 0.5);
+            Robot.drivetrain.turn(20, 0.5);
             Robot.sweeper.runToPosition(20);
-            Robot.drivetrain.turn(90, 0.5);
+            Robot.drivetrain.turn(-20, 0.5);
         }
         else if (pixelPos == "Right") {
-            Robot.drivetrain.turn(90, 0.5);
+            Robot.drivetrain.turn(-20, 0.5);
             Robot.sweeper.runToPosition(20);
-            Robot.drivetrain.turn(-90, 0.5);
+            Robot.drivetrain.turn(20, 0.5);
         }
         else if (pixelPos == "Center") {
             Robot.drivetrain.drive(5, 0.5);
