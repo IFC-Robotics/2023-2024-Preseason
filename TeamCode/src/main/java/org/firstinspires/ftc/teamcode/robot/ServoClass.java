@@ -83,7 +83,7 @@ public class ServoClass {
 //            }
             if (servoPosName == "left") {
                 servoPosName = maxConditionButton ? "middle" : "left";
-                servoPosition = maxConditionButton ? 0.5 : 0;
+                servoPosition = maxConditionButton ? 1 : 0;
             }
             else if (servoPosName == "middle") {
                 if (minConditionButton) {
@@ -97,9 +97,10 @@ public class ServoClass {
             }
             else if (servoPosName == "right") {
                 servoPosName = minConditionButton ? "middle" : "right";
-                servoPosition = minConditionButton ? 0.5 : 1;
+                servoPosition = minConditionButton ? 0 : 1;
             }            
             servo.setPosition(servoPosition);
+
 
         }
 
@@ -114,7 +115,7 @@ public class ServoClass {
     }
 
     public void printData() {
-        telemetry.addLine(String.format("%1$s position: %2$s", this.name, servo.getPosition()));
+        telemetry.addLine(String.format("%1$s position: %2$s", this.name, servo.getPosition(),servoPosName));
     }
 
 }

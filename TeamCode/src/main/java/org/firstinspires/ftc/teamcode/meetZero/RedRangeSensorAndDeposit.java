@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 
 
 
-@Autonomous(name = "REV color/range sensor test", group = "Sensor")
+@Autonomous(name = "Red Range Auton", group = "Sensor")
 
 public class RedRangeSensorAndDeposit extends LinearOpMode {
 

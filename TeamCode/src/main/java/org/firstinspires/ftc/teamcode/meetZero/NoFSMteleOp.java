@@ -26,7 +26,7 @@ public class NoFSMteleOp extends LinearOpMode {
 
             Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x);
 
-            Robot.servoDeposit.teleOpAssistMode(gamepad1.left_bumper,gamepad1.right_bumper);
+            Robot.servoDeposit.teleOpAssistMode(gamepad2.left_trigger > 0,gamepad2.right_trigger > 0);
 
             Robot.sweeper.teleOp(gamepad1.right_trigger,gamepad1.left_trigger);
 
@@ -41,6 +41,8 @@ public class NoFSMteleOp extends LinearOpMode {
         Robot.verticalLift.printData();
 
         Robot.sweeper.printData();
+
+        Robot.servoDeposit.printData();
 
         telemetry.update();
 

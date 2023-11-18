@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -22,7 +23,7 @@ public class Drivetrain {
     public static double STRAFE_FACTOR = 50.83;
     public static double TURN_FACTOR = 100.0;
 
-    public static double MAX_TELEOP_SPEED = 0.2;
+    public static double MAX_TELEOP_SPEED = 0.5;
 
     public final String forwardDirection;
     public final int sleepTime;
@@ -43,6 +44,7 @@ public class Drivetrain {
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
         if (this.forwardDirection == "ramp") {
+            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
             motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         }
 
