@@ -20,6 +20,8 @@ public class motor_test extends LinearOpMode {
         waitForStart();
         while( opModeIsActive()) {
             Robot.drivetrain.moveWheel(gamepad1.a,gamepad1.b, gamepad1.x,gamepad1.y);
+            telemetry.addLine("Front Right: a\nFront Left: b\nBack Right: x\nBack Right: y");
+            telemetry.update();
         }
 
     }

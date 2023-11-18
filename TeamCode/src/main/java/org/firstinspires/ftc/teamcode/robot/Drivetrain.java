@@ -129,26 +129,25 @@ public class Drivetrain {
 
     public void moveWheel(boolean frontRightTest,boolean frontLeftTest,boolean backRightTest,boolean backLeftTest) {
         if (frontRightTest) {
-            motorFrontRight.setPower(0.5);
+            motorFrontRight.setPower(1);
         }else {
             motorFrontRight.setPower(0);
         }
         if (frontLeftTest) {
-            motorFrontLeft.setPower(0.5);
+            motorFrontLeft.setPower(1);
         }else {
             motorFrontLeft.setPower(0);
         }
         if (backRightTest) {
-            motorBackRight.setPower(0.5);
+            motorBackRight.setPower(1);
         }else {
             motorBackRight.setPower(0);
         }
         if (backLeftTest) {
-            motorBackLeft.setPower(0.5);
+            motorBackLeft.setPower(1);
         }else {
             motorBackLeft.setPower(0);
         }
-
         telemetry.addData("motorFrontRight",motorFrontRight.getPower());
         telemetry.addData("motorFrontLeft",motorFrontLeft.getPower());
         telemetry.addData("motorBackRight",motorBackRight.getPower());
