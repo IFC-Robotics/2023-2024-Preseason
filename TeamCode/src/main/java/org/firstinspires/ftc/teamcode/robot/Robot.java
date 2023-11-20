@@ -18,7 +18,7 @@ public class Robot {
     public static double MAX_LIFT_SPEED = 0.3;
     public static double MAX_MOTOR_SPEED = 0.7;
     public static double SERVO_SPEED = 0.01;
-    public static int SERVO_TIME = 500;
+    public static int SERVO_TIME = 600;
     public static int CR_SERVO_TIME = 1600;
     public static int SLEEP_TIME = 50;
 
@@ -38,8 +38,8 @@ public class Robot {
 
         drivetrain        = new Drivetrain("ramp", SLEEP_TIME);
         verticalLift      = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
-        servoDeposit      = new ServoClass("servo_deposit","release",0.0,"hold",1,SERVO_SPEED,SERVO_TIME, false);
-        sweeper           = new MotorClass("motor_sweeper",MAX_MOTOR_SPEED, SLEEP_TIME, false);
+        servoDeposit      = new ServoClass("servo_deposit","release",0.0,"collect",1,SERVO_SPEED,SERVO_TIME, false);
+        sweeper           = new MotorClass("motor_sweeper",MAX_MOTOR_SPEED, SLEEP_TIME, true);
 
 
         drivetrain.init(opMode);

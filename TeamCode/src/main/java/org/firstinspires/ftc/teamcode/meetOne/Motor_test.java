@@ -1,15 +1,13 @@
-package org.firstinspires.ftc.teamcode.meetZero;
+package org.firstinspires.ftc.teamcode.meetOne;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 @TeleOp(name="Motor Test", group="Competition")
 
-public class motor_test extends LinearOpMode {
+public class Motor_test extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {

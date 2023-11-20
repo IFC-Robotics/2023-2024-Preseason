@@ -21,9 +21,9 @@ public class Drivetrain {
 
     public static double DRIVE_FACTOR = 40.92;
     public static double STRAFE_FACTOR = 50.83;
-    public static double TURN_FACTOR = 100.0;
+    public static double TURN_FACTOR = 295.0;
 
-    public static double MAX_TELEOP_SPEED = 0.5;
+    public static double MAX_TELEOP_SPEED = 0.7;
 
     public final String forwardDirection;
     public final int sleepTime;
@@ -104,7 +104,7 @@ public class Drivetrain {
 
         double power = Math.signum(angle) * speed;
 
-        moveDrivetrain(target, target, target, target, power, -power, power, -power, isSynchronous);
+        moveDrivetrain(target, -target, target, -target, power, -power, power, -power, isSynchronous);
 
     }
 

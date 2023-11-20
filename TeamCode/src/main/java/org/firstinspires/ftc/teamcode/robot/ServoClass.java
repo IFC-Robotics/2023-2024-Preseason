@@ -13,7 +13,7 @@ public class ServoClass {
 
     public Servo servo;
     public double servoPosition;
-    public String servoPosName;
+    public String servoPosName = "left";
 
     public final String name;
     public final double minPosition;
@@ -23,6 +23,8 @@ public class ServoClass {
     public final double speed;
     public final int time;
     public final boolean reverseDirection;
+
+
 
     public ServoClass(String name, String minPositionName, double minPosition, String maxPositionName, double maxPosition, double speed, int time, boolean reverseDirection) {
 
@@ -59,10 +61,14 @@ public class ServoClass {
 
     public void runToPosition(String position, boolean isSynchronous) {
 
-        teleOpAssistMode((position == this.minPositionName), (position == this.maxPositionName));
+        teleOpAssistMode(position == this.minPositionName, false,position == this.maxPositionName);
 
         if (this.name == "servo_rotate_hook" && position == "middle") { // special case
             servoPosition = 0.7;
+            servo.setPosition(servoPosition);
+        }
+        if (position == "auton") { // for autonomous
+            servoPosition = 0.8;
             servo.setPosition(servoPosition);
         }
 
@@ -72,37 +78,29 @@ public class ServoClass {
     
     // teleOp
 
-    public void teleOpAssistMode(boolean minConditionButton, boolean maxConditionButton) {
-        servoPosName = "left";
-        if (minConditionButton || maxConditionButton) {
+    public void teleOpAssistMode(boolean minConditionButton, boolean medConditionButton, boolean maxConditionButton) {
 
             // you can only move servoRotateHook from collect -> score IF verticalLift is NOT at 0
 //            if (this.name == "servo_rotate_hook" && this.robot.verticalLift.motor.getCurrentPosition() == 0.0 && maxConditionButton) {
 //                telemetry.addLine("SERVO ROTATE HOOK IS TRYING TO MOVE TO SCORE, BUT VERTICAL LIFT IS AT ZERO");
 //                return;
 //            }
-            if (servoPosName == "left") {
-                servoPosName = maxConditionButton ? "middle" : "left";
-                servoPosition = maxConditionButton ? 1 : 0;
+            if (minConditionButton) {
+                servoPosName = "collect";
+                servoPosition = 0.01;
             }
-            else if (servoPosName == "middle") {
-                if (minConditionButton) {
-                    servoPosName = "left";
-                    servoPosition = 0;
+            else if (medConditionButton) {
+                servoPosName = "middle";
+                servoPosition = 0.5;
                 }
-                else if (maxConditionButton) {
-                    servoPosName = "right";
-                    servoPosition = 1;
-                }
+            else if (maxConditionButton) {
+                servoPosName = "release";
+                servoPosition = 1;
+
             }
-            else if (servoPosName == "right") {
-                servoPosName = minConditionButton ? "middle" : "right";
-                servoPosition = minConditionButton ? 0 : 1;
-            }            
             servo.setPosition(servoPosition);
 
 
-        }
 
     }
 
@@ -115,7 +113,7 @@ public class ServoClass {
     }
 
     public void printData() {
-        telemetry.addLine(String.format("%1$s position: %2$s", this.name, servo.getPosition(),servoPosName));
+        telemetry.addLine(String.format("%1$s position: %2$s %3$s", this.name, servo.getPosition(),servoPosName));
     }
 
 }

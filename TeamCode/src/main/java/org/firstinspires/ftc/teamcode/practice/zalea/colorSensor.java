@@ -1,12 +1,14 @@
 package org.firstinspires.ftc.teamcode.practice.zalea;
 
 import android.graphics.Color;
+
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.NormalizedColorSensor;
 import com.qualcomm.robotcore.hardware.NormalizedRGBA;
-
+@Disabled
 @Autonomous
 public class colorSensor extends LinearOpMode {
     // Define a variable for our color sensor

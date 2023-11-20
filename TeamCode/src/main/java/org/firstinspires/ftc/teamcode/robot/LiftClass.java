@@ -52,9 +52,9 @@ public class LiftClass {
 
         if (this.name == "motor_vertical_lift") {
 
-            if (position == "transfer" || position == "zero") return 0;
+            if (position == "transfer" || position == "zero") return 1;
             if (position == "low")    return 600;
-            if (position == "middle") return 1000;
+            if (position == "middle") return 800;
             if (position == "high")   return 1600;
 
         }
