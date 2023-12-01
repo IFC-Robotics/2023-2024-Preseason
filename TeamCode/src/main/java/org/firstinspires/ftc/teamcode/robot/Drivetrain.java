@@ -21,7 +21,7 @@ public class Drivetrain {
 
     public static double DRIVE_FACTOR = 40.92;
     public static double STRAFE_FACTOR = 50.83;
-    public static double TURN_FACTOR = 295.0;
+    public static double TURN_FACTOR = 300.0;
 
     public static double MAX_TELEOP_SPEED = 0.7;
 

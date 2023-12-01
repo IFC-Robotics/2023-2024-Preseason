@@ -37,7 +37,7 @@ public class Robot {
 
 
         drivetrain        = new Drivetrain("ramp", SLEEP_TIME);
-        verticalLift      = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, false);
+        verticalLift      = new LiftClass("motor_vertical_lift",   MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, true);
         servoDeposit      = new ServoClass("servo_deposit","release",0.0,"collect",1,SERVO_SPEED,SERVO_TIME, false);
         sweeper           = new MotorClass("motor_sweeper",MAX_MOTOR_SPEED, SLEEP_TIME, true);
 

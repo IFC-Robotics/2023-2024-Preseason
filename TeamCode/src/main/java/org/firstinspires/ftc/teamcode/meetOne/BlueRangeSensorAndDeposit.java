@@ -37,7 +37,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         waitForStart();
         Robot.drivetrain.drive(32,0.5);
         runtime.reset();
-        while (runtime.seconds() < 8 && opModeIsActive()){
+        while (runtime.seconds() < 2 && opModeIsActive()){
             distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
             distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
 
@@ -66,7 +66,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
             Robot.drivetrain.turn(-90, 0.5);
             Robot.verticalLift.runToPosition("middle", true);
             Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(4000);
+            sleep(2000);
             Robot.servoDeposit.servo.setPosition(0.1);
             Robot.verticalLift.runToPosition("zero", true);
             Robot.drivetrain.strafe(25, 0.5, true);
@@ -79,24 +79,30 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
             Robot.drivetrain.turn(90, 0.5);
             Robot.verticalLift.runToPosition("middle", true);
             Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(4000);
+            sleep(2000);
             Robot.servoDeposit.servo.setPosition(0.1);
             Robot.verticalLift.runToPosition("zero", true);
             Robot.drivetrain.strafe(-25, 0.5, true);
             Robot.drivetrain.drive(45,0.5);
 
         } else {
-            Robot.drivetrain.drive(-3.5,0.5);
-            Robot.drivetrain.turn(180, 0.5);
+            Robot.drivetrain.drive(-4,0.7);
+            Robot.drivetrain.turn(180, 0.7);
             Robot.verticalLift.runToPosition("middle", true);
             Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(4000);
+            sleep(2000);
             Robot.servoDeposit.servo.setPosition(0.1);
             Robot.verticalLift.runToPosition("zero", true);
-            Robot.drivetrain.drive(25,0.5);
-            Robot.drivetrain.strafe(45, 0.5);
-
-
+            Robot.drivetrain.turn(90,0.7);
+            Robot.drivetrain.strafe(10, 0.7);
+            Robot.drivetrain.drive(-38,0.7);
+            Robot.drivetrain.strafe(-10, 0.7);
+            Robot.sweeper.runToPosition(1000, true);
+            Robot.verticalLift.runToPosition("high", true);
+            Robot.servoDeposit.servo.setPosition(0.65);
+            sleep(2000);
+            Robot.servoDeposit.servo.setPosition(0.1);
+            Robot.verticalLift.runToPosition("zero", true);
         }
 
         //goToBackDrop();
