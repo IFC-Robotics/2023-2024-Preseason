@@ -72,21 +72,18 @@ public class MotorClass {
     public void teleOp(float button1,float button2) {
 
         if (button1 > 0) {
-            motor.setPower(maxSpeed);
-            continuous = true;
+            motor.setPower(button1 * maxSpeed);
         }else if (button2 > 0){
-            motor.setPower(-maxSpeed);
-            continuous = true;
+            motor.setPower(button2 * -maxSpeed);
         } else {
             motor.setPower(0);
-            continuous = false;
         }
 
     }
 
 
     public void printData() {
-        telemetry.addLine(String.format("\n%1$s Continuous: %2$s", this.name, continuous));
+        telemetry.addLine(String.format("\n%1$s Running: %2$s", this.name, motor.isBusy()));
         telemetry.addLine(String.format("\n%1$s position: %2$s", this.name, motor.getCurrentPosition()));
         telemetry.addLine(String.format("%1$s speed: %2$s", this.name, motorCurrentSpeed));
     }

@@ -23,8 +23,9 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     private DistanceSensor sensorDistanceRight;
     double distLeft;
     double distRight;
-    int i = 0;
     String pixelPos = "center";
+    double driveSpeed = 0.8;
+
 
     @Override
     public void runOpMode() {
@@ -37,7 +38,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         waitForStart();
         Robot.drivetrain.drive(32,0.7);
         runtime.reset();
-        while (runtime.seconds() < 2 && opModeIsActive()){
+        while (runtime.seconds() < 2 && opModeIsActive()){ //maybe shorten this for more time
             distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
             distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
 
@@ -61,56 +62,55 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         }
         telemetry.addData("direction",pixelPos);
         telemetry.update();
+
+
         if (pixelPos == "Left") {
 
-            Robot.drivetrain.turn(-90, 0.7);
-            Robot.verticalLift.runToPosition("middle", true);
-            Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(2000);
-            Robot.servoDeposit.servo.setPosition(0.1);
-            Robot.verticalLift.runToPosition("zero", true);
-            Robot.drivetrain.strafe(4, 0.7);
-
-
-
+            Robot.drivetrain.turn(-90, driveSpeed);
+            quickDeposit();
+            Robot.drivetrain.strafe(4, driveSpeed);
 
         } else if (pixelPos == "Right") {
 
-            Robot.drivetrain.turn(90, 0.7);
-            Robot.verticalLift.runToPosition("middle", true);
-            Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(2000);
-            Robot.servoDeposit.servo.setPosition(0.1);
-            Robot.verticalLift.runToPosition("zero", true);
-            Robot.drivetrain.turn(180,0.7);
-            Robot.drivetrain.strafe(4, 0.7);
-
-
+            Robot.drivetrain.turn(90, driveSpeed);
+            quickDeposit();
+            Robot.drivetrain.turn(180,driveSpeed);
+            Robot.drivetrain.strafe(4, driveSpeed);
 
         } else {
-            Robot.drivetrain.drive(-4,0.7);
-            Robot.drivetrain.turn(180, 0.7);
-            Robot.verticalLift.runToPosition("middle", true);
-            Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(2000);
-            Robot.servoDeposit.servo.setPosition(0.1);
-            Robot.verticalLift.runToPosition("zero", true);
-            Robot.drivetrain.turn(90,0.7);
+            Robot.drivetrain.drive(-4,driveSpeed);
+            Robot.drivetrain.turn(180, driveSpeed);
+            quickDeposit();
+            Robot.drivetrain.turn(90,driveSpeed);
 
         }
 
         goToBackDrop();
     }
 
+    private void quickDeposit() {
+        Robot.verticalLift.runToPosition("middle", true);
+
+//        Robot.servoDeposit.servo.setPosition(0.65);
+//            sleep(2000);
+//            Robot.servoDeposit.servo.setPosition(0.1);
+        Robot.servoDeposit.runToPosition("auton");
+        Robot.servoDeposit.runToPosition("collect");
+
+        Robot.verticalLift.runToPosition("zero", true);
+    }
+
     private void goToBackDrop() {
-        Robot.drivetrain.strafe(10, 0.7);
-        Robot.drivetrain.drive(-38,0.7);
-        Robot.drivetrain.strafe(-10, 0.7);
-        Robot.sweeper.runToPosition(1000, true);
+        Robot.drivetrain.strafe(10, driveSpeed);
+        Robot.drivetrain.drive(-38,driveSpeed);
+        Robot.drivetrain.strafe(-10, driveSpeed);
+        Robot.motorSweeper.runToPosition(1000, true);
         Robot.verticalLift.runToPosition("high", true);
-        Robot.servoDeposit.servo.setPosition(0.65);
-        sleep(2000);
-        Robot.servoDeposit.servo.setPosition(0.1);
+//        Robot.servoDeposit.servo.setPosition(0.65);
+//        sleep(2000);
+//        Robot.servoDeposit.servo.setPosition(0.1);
+        Robot.servoDeposit.runToPosition("score");
+        Robot.servoDeposit.runToPosition("collect");
         Robot.verticalLift.runToPosition("zero", true);
     }
 

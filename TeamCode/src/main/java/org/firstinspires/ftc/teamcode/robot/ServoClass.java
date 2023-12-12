@@ -63,15 +63,6 @@ public class ServoClass {
 
         teleOpAssistMode(position == this.minPositionName, false,position == this.maxPositionName);
 
-        if (this.name == "servo_rotate_hook" && position == "middle") { // special case
-            servoPosition = 0.7;
-            servo.setPosition(servoPosition);
-        }
-        if (position == "auton") { // for autonomous
-            servoPosition = 0.8;
-            servo.setPosition(servoPosition);
-        }
-
         if (isSynchronous) opMode.sleep(this.time);
 
     }
@@ -80,24 +71,22 @@ public class ServoClass {
 
     public void teleOpAssistMode(boolean minConditionButton, boolean medConditionButton, boolean maxConditionButton) {
 
-            // you can only move servoRotateHook from collect -> score IF verticalLift is NOT at 0
-//            if (this.name == "servo_rotate_hook" && this.robot.verticalLift.motor.getCurrentPosition() == 0.0 && maxConditionButton) {
-//                telemetry.addLine("SERVO ROTATE HOOK IS TRYING TO MOVE TO SCORE, BUT VERTICAL LIFT IS AT ZERO");
-//                return;
-//            }
-            if (minConditionButton) {
+            // you can only move servoDeposit from collect -> score IF verticalLift is above LOW (600)
+            if (this.name == "servo_deposit" && Robot.verticalLift.motor.getCurrentPosition() <= 600 && maxConditionButton) {
+                telemetry.addLine("SERVO DEPOSIT IS TRYING TO MOVE, BUT VERTICAL LIFT IS TOO LOW");
+                return;
+
+            } else if (minConditionButton) {
                 servoPosName = "collect";
                 servoPosition = 0.01;
             }
             else if (medConditionButton) {
-                servoPosName = "middle";
-                servoPosition = 0.55;
-                }
+                servoPosName = "score";
+                servoPosition = 0.55; // tune this
+            }
             else if (maxConditionButton) {
-                servoPosName = "release";
-                servoPosition = 0.6;
-                //bruh
-
+                servoPosName = "auton";
+                servoPosition = 0.62; //tune this
             }
             servo.setPosition(servoPosition);
 
