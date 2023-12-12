@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.meetOne;
+package org.firstinspires.ftc.teamcode.competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -84,11 +84,11 @@ public class NoParkRangeSensor extends LinearOpMode {
             Robot.drivetrain.turn(180, 0.5);
 
         } else {
-            Robot.drivetrain.drive(-3.5,0.5);
-            Robot.drivetrain.turn(180, 0.5);
+            Robot.drivetrain.drive(-4,0.7);
+            Robot.drivetrain.turn(180, 0.7);
             Robot.verticalLift.runToPosition("middle", true);
             Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(4000);
+            sleep(2000);
             Robot.servoDeposit.servo.setPosition(0.1);
             Robot.verticalLift.runToPosition("zero", true);
 

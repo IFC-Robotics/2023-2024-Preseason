@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.meetOne;
+package org.firstinspires.ftc.teamcode.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 @Disabled
-@Autonomous(name = "REV color/range sensor test", group = "Sensor")
+@Autonomous(name = "REV color/range sensor test", group = "testing")
 
 public class RangeSensorTest extends LinearOpMode {
 

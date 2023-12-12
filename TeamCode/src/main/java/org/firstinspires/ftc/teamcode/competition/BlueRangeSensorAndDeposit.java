@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.meetOne;
+package org.firstinspires.ftc.teamcode.competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -15,9 +15,9 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 
 
 
-@Autonomous(name = "Red Range Auton", group = "Competition")
+@Autonomous(name = "Blue Range Auton", group = "Competition")
 
-public class RedRangeSensorAndDeposit extends LinearOpMode {
+public class BlueRangeSensorAndDeposit extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
     private DistanceSensor sensorDistanceLeft;
     private DistanceSensor sensorDistanceRight;
@@ -35,9 +35,9 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
         Robot.init(this);
 
         waitForStart();
-        Robot.drivetrain.drive(32,0.5);
+        Robot.drivetrain.drive(32,0.7);
         runtime.reset();
-        while (runtime.seconds() < 8 && opModeIsActive()){
+        while (runtime.seconds() < 2 && opModeIsActive()){
             distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
             distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
 
@@ -63,56 +63,55 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
         telemetry.update();
         if (pixelPos == "Left") {
 
-            Robot.drivetrain.turn(-90, 0.5);
+            Robot.drivetrain.turn(-90, 0.7);
             Robot.verticalLift.runToPosition("middle", true);
             Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(4000);
+            sleep(2000);
             Robot.servoDeposit.servo.setPosition(0.1);
             Robot.verticalLift.runToPosition("zero", true);
-            Robot.drivetrain.strafe(25, 0.5, true);
-            Robot.drivetrain.drive(45,0.5);
+            Robot.drivetrain.strafe(4, 0.7);
+
 
 
 
         } else if (pixelPos == "Right") {
 
-            Robot.drivetrain.turn(90, 0.5);
+            Robot.drivetrain.turn(90, 0.7);
             Robot.verticalLift.runToPosition("middle", true);
             Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(4000);
+            sleep(2000);
             Robot.servoDeposit.servo.setPosition(0.1);
             Robot.verticalLift.runToPosition("zero", true);
-            Robot.drivetrain.strafe(-25, 0.5, true);
-            Robot.drivetrain.drive(-45,0.5);
+            Robot.drivetrain.turn(180,0.7);
+            Robot.drivetrain.strafe(4, 0.7);
+
+
 
         } else {
-            Robot.drivetrain.drive(-3.5,0.5);
-            Robot.drivetrain.turn(180, 0.5);
+            Robot.drivetrain.drive(-4,0.7);
+            Robot.drivetrain.turn(180, 0.7);
             Robot.verticalLift.runToPosition("middle", true);
             Robot.servoDeposit.servo.setPosition(0.65);
-            sleep(4000);
+            sleep(2000);
             Robot.servoDeposit.servo.setPosition(0.1);
             Robot.verticalLift.runToPosition("zero", true);
-            Robot.drivetrain.drive(25,0.5);
-            Robot.drivetrain.strafe(-45, 0.5);
-
+            Robot.drivetrain.turn(90,0.7);
 
         }
 
-        //goToBackDrop();
-        //
-//        Robot.drivetrain.drive(-27,0.5);
-//        Robot.drivetrain.strafe(-30,0.5);
+        goToBackDrop();
     }
 
     private void goToBackDrop() {
-        Robot.drivetrain.strafe(45, 0.5);
-//        Robot.drivetrain.drive(5, 0.5);
-//        Robot.drivetrain.turn(-20, 0.5);
-//        Robot.drivetrain.drive(-0.5, 0.5); // back up to the backdrop
-//        Robot.verticalLift.runToPosition("middle");
-//        Robot.servoDeposit.runToPosition("release");
-//        Robot.servoDeposit.runToPosition("hold");
+        Robot.drivetrain.strafe(10, 0.7);
+        Robot.drivetrain.drive(-38,0.7);
+        Robot.drivetrain.strafe(-10, 0.7);
+        Robot.sweeper.runToPosition(1000, true);
+        Robot.verticalLift.runToPosition("high", true);
+        Robot.servoDeposit.servo.setPosition(0.65);
+        sleep(2000);
+        Robot.servoDeposit.servo.setPosition(0.1);
+        Robot.verticalLift.runToPosition("zero", true);
     }
 
 }

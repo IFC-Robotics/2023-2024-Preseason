@@ -91,11 +91,12 @@ public class ServoClass {
             }
             else if (medConditionButton) {
                 servoPosName = "middle";
-                servoPosition = 0.5;
+                servoPosition = 0.55;
                 }
             else if (maxConditionButton) {
                 servoPosName = "release";
-                servoPosition = 1;
+                servoPosition = 0.6;
+                //bruh
 
             }
             servo.setPosition(servoPosition);

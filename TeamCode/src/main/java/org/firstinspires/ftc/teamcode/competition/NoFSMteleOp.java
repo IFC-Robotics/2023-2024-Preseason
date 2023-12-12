@@ -1,12 +1,19 @@
-package org.firstinspires.ftc.teamcode.meetOne;
+package org.firstinspires.ftc.teamcode.competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 @TeleOp(name="teleOp w/out FSM", group="Competition")
 public class NoFSMteleOp extends LinearOpMode {
+
+    DcMotor motorLauncher;
+    Servo servoLauncher;
+
     @Override
     public void runOpMode() {
 
@@ -15,6 +22,11 @@ public class NoFSMteleOp extends LinearOpMode {
 
         Robot.init(this);
         Robot.mode = "assist";
+
+        motorLauncher = hardwareMap.get(DcMotor.class, "motor_launcher");
+        servoLauncher = hardwareMap.get(Servo.class, "servo_launcher");
+
+        servoLauncher.setPosition(0.5);
 
         waitForStart();
 
@@ -29,6 +41,15 @@ public class NoFSMteleOp extends LinearOpMode {
             Robot.servoDeposit.teleOpAssistMode(gamepad2.left_trigger > 0.2 || gamepad2.dpad_left,(gamepad2.dpad_down || gamepad2.dpad_up),gamepad2.right_trigger > 0.2 || gamepad2.dpad_right);
 
             Robot.sweeper.teleOp(gamepad1.right_trigger,gamepad1.left_trigger);
+
+            motorLauncher.setPower(Range.clip(-gamepad2.left_stick_y,-0.3,0.3));
+
+            if (gamepad2.left_bumper) {
+                servoLauncher.setPosition(0.1);
+            }
+
+
+
 
             printRobotData();
         }

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.meetOne;
+package org.firstinspires.ftc.teamcode.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 @Disabled
-@TeleOp(name="Driving Practice", group="practice")
+@TeleOp(name="Driving Practice", group="testing")
 public class DrivingPractice extends LinearOpMode {
     @Override
     public void runOpMode() {
