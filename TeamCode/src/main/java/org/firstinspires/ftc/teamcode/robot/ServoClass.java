@@ -17,8 +17,10 @@ public class ServoClass {
 
     public final String name;
     public final double minPosition;
+    public final double medPosition;
     public final double maxPosition;
     public final String minPositionName;
+    public final String medPositionName;
     public final String maxPositionName;
     public final double speed;
     public final int time;
@@ -26,12 +28,14 @@ public class ServoClass {
 
 
 
-    public ServoClass(String name, String minPositionName, double minPosition, String maxPositionName, double maxPosition, double speed, int time, boolean reverseDirection) {
+    public ServoClass(String name, String minPositionName, double minPosition, String medPositionName, double medPosition, String maxPositionName, double maxPosition, double speed, int time, boolean reverseDirection) {
 
         this.name = name;
         this.minPosition = minPosition;
+        this.medPosition = medPosition;
         this.maxPosition = maxPosition;
         this.minPositionName = minPositionName;
+        this.medPositionName = medPositionName;
         this.maxPositionName = maxPositionName;
         this.speed = speed;
         this.time = time;
@@ -61,9 +65,11 @@ public class ServoClass {
 
     public void runToPosition(String position, boolean isSynchronous) {
 
-        teleOpAssistMode(position == this.minPositionName, false,position == this.maxPositionName);
+        teleOpAssistMode(position == this.minPositionName, position == this.medPositionName,position == this.maxPositionName);
 
-        if (isSynchronous) opMode.sleep(this.time);
+        if (isSynchronous) {
+            opMode.sleep(this.time); //broken
+        }
 
     }
     
@@ -72,21 +78,21 @@ public class ServoClass {
     public void teleOpAssistMode(boolean minConditionButton, boolean medConditionButton, boolean maxConditionButton) {
 
             // you can only move servoDeposit from collect -> score IF verticalLift is above LOW (600)
-            if (this.name == "servo_deposit" && Robot.verticalLift.motor.getCurrentPosition() <= 600 && maxConditionButton) {
-                telemetry.addLine("SERVO DEPOSIT IS TRYING TO MOVE, BUT VERTICAL LIFT IS TOO LOW");
-                return;
-
-            } else if (minConditionButton) {
-                servoPosName = "collect";
-                servoPosition = 0.01;
+//            if (this.name == "servo_deposit" && Robot.verticalLift.motor.getCurrentPosition() <= 10 && maxConditionButton) {
+//                telemetry.addLine("SERVO DEPOSIT IS TRYING TO MOVE, BUT VERTICAL LIFT IS TOO LOW");
+//                return;
+//            }
+            if (minConditionButton) {
+                servoPosName = minPositionName;
+                servoPosition = minPosition;
             }
             else if (medConditionButton) {
-                servoPosName = "score";
-                servoPosition = 0.55; // tune this
+                servoPosName = medPositionName;
+                servoPosition = medPosition; // tune this
             }
             else if (maxConditionButton) {
-                servoPosName = "auton";
-                servoPosition = 0.62; //tune this
+                servoPosName = maxPositionName;
+                servoPosition = maxPosition; //tune this
             }
             servo.setPosition(servoPosition);
 

@@ -38,7 +38,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         waitForStart();
         Robot.drivetrain.drive(32,0.7);
         runtime.reset();
-        while (runtime.seconds() < 2 && opModeIsActive()){ //maybe shorten this for more time
+        while (runtime.seconds() < 1.2 && opModeIsActive()){ //maybe shorten this for more time
             distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
             distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
 
@@ -67,20 +67,20 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         if (pixelPos == "Left") {
 
             Robot.drivetrain.turn(-90, driveSpeed);
-            quickDeposit();
+            quickDeposit("middle");
             Robot.drivetrain.strafe(4, driveSpeed);
 
         } else if (pixelPos == "Right") {
 
             Robot.drivetrain.turn(90, driveSpeed);
-            quickDeposit();
+            quickDeposit("middle");
             Robot.drivetrain.turn(180,driveSpeed);
             Robot.drivetrain.strafe(4, driveSpeed);
 
         } else {
             Robot.drivetrain.drive(-4,driveSpeed);
             Robot.drivetrain.turn(180, driveSpeed);
-            quickDeposit();
+            quickDeposit("middle");
             Robot.drivetrain.turn(90,driveSpeed);
 
         }
@@ -88,30 +88,20 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         goToBackDrop();
     }
 
-    private void quickDeposit() {
-        Robot.verticalLift.runToPosition("middle", true);
-
-//        Robot.servoDeposit.servo.setPosition(0.65);
-//            sleep(2000);
-//            Robot.servoDeposit.servo.setPosition(0.1);
-        Robot.servoDeposit.runToPosition("auton");
-        Robot.servoDeposit.runToPosition("collect");
-
+    private void quickDeposit(String position) {
+        Robot.verticalLift.runToPosition(position, true);
+        Robot.servoDeposit.runToPosition("auton",true);
+        sleep(1000);
+        Robot.servoDeposit.runToPosition("collect",true);
         Robot.verticalLift.runToPosition("zero", true);
     }
 
     private void goToBackDrop() {
         Robot.drivetrain.strafe(10, driveSpeed);
-        Robot.drivetrain.drive(-38,driveSpeed);
+        Robot.drivetrain.drive(-36,driveSpeed);
         Robot.drivetrain.strafe(-10, driveSpeed);
         Robot.motorSweeper.runToPosition(1000, true);
-        Robot.verticalLift.runToPosition("high", true);
-//        Robot.servoDeposit.servo.setPosition(0.65);
-//        sleep(2000);
-//        Robot.servoDeposit.servo.setPosition(0.1);
-        Robot.servoDeposit.runToPosition("score");
-        Robot.servoDeposit.runToPosition("collect");
-        Robot.verticalLift.runToPosition("zero", true);
+        quickDeposit("high");
     }
 
 }

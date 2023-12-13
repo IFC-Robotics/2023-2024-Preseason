@@ -182,14 +182,14 @@ public class Drivetrain {
 
     // teleOp
 
-    public void teleOp(double drive, double strafe, double turn) {
+    public void teleOp(double drive, double strafe, double turn, boolean turboModeToggle) {
 
         double frontRightPower;
         double frontLeftPower;
         double backRightPower;
         double backLeftPower;
 
-        double denominator = (Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1))/MAX_TELEOP_SPEED;
+        double denominator = (Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1))/(turboModeToggle ? 1.0 : MAX_TELEOP_SPEED);
         frontLeftPower = (drive + strafe + turn) / denominator ;
         backLeftPower = (drive - strafe + turn) / denominator;
         frontRightPower = (drive - strafe - turn) / denominator;

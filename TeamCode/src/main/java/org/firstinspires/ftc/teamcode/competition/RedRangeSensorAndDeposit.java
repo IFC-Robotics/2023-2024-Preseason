@@ -91,9 +91,6 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
     private void quickDeposit() {
         Robot.verticalLift.runToPosition("middle", true);
 
-//        Robot.servoDeposit.servo.setPosition(0.65);
-//            sleep(2000);
-//            Robot.servoDeposit.servo.setPosition(0.1);
         Robot.servoDeposit.runToPosition("auton");
         Robot.servoDeposit.runToPosition("collect");
 
