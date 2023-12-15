@@ -159,6 +159,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
 
     private void moveToAprilTag() {
+        telemetry.addLine("moving to aprilTag now");
         while (opModeIsActive() && runtime.seconds() < 8.0) {
             targetFound = false;
             desiredTag = null;
