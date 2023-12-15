@@ -159,7 +159,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
 
     private void moveToAprilTag() {
-        while (opModeIsActive() && runtime.seconds() < 5.0) {
+        while (opModeIsActive() && runtime.seconds() < 8.0) {
             targetFound = false;
             desiredTag = null;
 
