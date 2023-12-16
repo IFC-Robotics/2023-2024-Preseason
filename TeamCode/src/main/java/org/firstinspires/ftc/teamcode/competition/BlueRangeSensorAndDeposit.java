@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 
 
 
-@Autonomous(name = "Blue Range Auton", group = "Competition")
+@Autonomous(name = "Blue Range Auton (Run this if on BlueLeft)", group = "Competition")
 
 public class BlueRangeSensorAndDeposit extends LinearOpMode {
     private ElapsedTime runtime = new ElapsedTime();
@@ -46,7 +46,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     private AprilTagDetection desiredTag = null;
     private int desiredTagId;
 
-    final double DESIRED_DISTANCE = 6.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 0.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -55,8 +55,8 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     final double STRAFE_GAIN =  0.015 ;   //  Strafe Speed Control "Gain".  eg: Ramp up to 25% power at a 25 degree Yaw error.   (0.25 / 25.0)
     final double TURN_GAIN   =  0.01  ;   //  Turn Control "Gain".  eg: Ramp up to 25% power at a 25 degree error. (0.25 / 25.0)
 
-    final double MAX_AUTO_SPEED = 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
-    final double MAX_AUTO_STRAFE= 0.5;   //  Clip the approach speed to this max value (adjust for your robot)
+    final double MAX_AUTO_SPEED = 0.7;   //  Clip the approach speed to this max value (adjust for your robot)
+    final double MAX_AUTO_STRAFE= 0.7;   //  Clip the approach speed to this max value (adjust for your robot)
     final double MAX_AUTO_TURN  = 0.3;
 
     boolean targetFound     = false;    // Set to true when an AprilTag target is detected
@@ -113,22 +113,22 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
             desiredTagId = 1;
             Robot.drivetrain.turn(-90, driveSpeed);
             quickDeposit("middle");
-            Robot.drivetrain.strafe(4, driveSpeed);
+            Robot.drivetrain.strafe(16, driveSpeed);
 
         } else if (pixelPos == "Right") {
             desiredTagId = 2;
 
             Robot.drivetrain.turn(90, driveSpeed);
             quickDeposit("middle");
+            Robot.drivetrain.strafe(-16, driveSpeed);
             Robot.drivetrain.turn(180,driveSpeed);
-            Robot.drivetrain.strafe(4, driveSpeed);
-
         } else {
             desiredTagId = 3;
 
             Robot.drivetrain.drive(-4,driveSpeed);
             Robot.drivetrain.turn(180, driveSpeed);
             quickDeposit("middle");
+            Robot.drivetrain.drive(16, driveSpeed);
             Robot.drivetrain.turn(90,driveSpeed);
 
         }
@@ -145,22 +145,25 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     }
 
     private void goToBackDrop() {
-        Robot.drivetrain.strafe(10, driveSpeed);
-        Robot.drivetrain.drive(-20,driveSpeed);
-        Robot.drivetrain.strafe(-10, driveSpeed);
-        Robot.motorSweeper.runToPosition(1000, true);
+//        Robot.drivetrain.strafe(10, 1.2*driveSpeed);
+        Robot.drivetrain.drive(-20,1.2*driveSpeed);
+        Robot.drivetrain.strafe(-6, driveSpeed);
+        Robot.motorSweeper.runToPosition(500, true);
         // detect april tag
         runtime.reset();
-        moveToAprilTag();
-        Robot.drivetrain.strafe(-8, driveSpeed);
-        Robot.drivetrain.drive(-12, driveSpeed);
+//        moveToAprilTag();
+        Robot.drivetrain.drive(-20, driveSpeed);
+//        telemetry.addLine("Done moving to aprilTag");
+
+//        Robot.drivetrain.strafe(-8, driveSpeed);
+//        Robot.drivetrain.drive(12, driveSpeed);
         quickDeposit("high");
     }
 
 
     private void moveToAprilTag() {
-        telemetry.addLine("moving to aprilTag now");
-        while (opModeIsActive() && runtime.seconds() < 8.0) {
+        telemetry.addData("Desired Tag", "Desired tag is %d", desiredTagId);
+        while (opModeIsActive() && runtime.seconds() < 6.5) {
             targetFound = false;
             desiredTag = null;
 
@@ -200,15 +203,19 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
             } else {
 
                 // drive using manual POV Joystick mode.  Slow things down to make the robot more controlable.
-                drive = -gamepad1.left_stick_y / 2.0;  // Reduce drive rate to 50%.
-                strafe = -gamepad1.left_stick_x / 2.0;  // Reduce strafe rate to 50%.
-                turn = -gamepad1.right_stick_x / 3.0;  // Reduce turn rate to 33%.
-                telemetry.addData("Manual", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+//                drive = -gamepad1.left_stick_y / 2.0;  // Reduce drive rate to 50%.
+//                strafe = -gamepad1.left_stick_x / 2.0;  // Reduce strafe rate to 50%.
+//                turn = -gamepad1.right_stick_x / 3.0;  // Reduce turn rate to 33%.
+//                telemetry.addData("Manual", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+                drive = 0.0;
+                strafe = 0.0;
+                turn = 0.0;
+                telemetry.addLine("couldn't find right aprilTag");
             }
             telemetry.update();
 
             // Apply desired axes motions to the drivetrain.
-            Robot.drivetrain.moveRobot(drive, strafe, turn);
+            Robot.drivetrain.moveRobot(-drive, strafe, turn);
             sleep(10);
         }
     }

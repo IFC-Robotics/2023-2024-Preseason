@@ -40,7 +40,7 @@ public class Robot {
 
         drivetrain = new Drivetrain("ramp", SLEEP_TIME);
         verticalLift = new LiftClass("motor_vertical_lift", MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, true);
-        servoDeposit = new ServoClass("servo_deposit", "collect", 0.1, "score",0.5,"auton", 0.62, SERVO_SPEED, SERVO_TIME, false);
+        servoDeposit = new ServoClass("servo_deposit", "collect", 0.1, "score",0.75,"auton", 0.80, SERVO_SPEED, SERVO_TIME, false);
         servoLauncher = new ServoClass("servo_launcher", "release", 0.1, "hold",0.5 ,"medium",0.5, SERVO_SPEED, SERVO_TIME, false);
         motorSweeper = new MotorClass("motor_sweeper", MAX_MOTOR_SPEED, SLEEP_TIME, true);
         motorLauncher = new MotorClass("motor_launcher", MAX_MOTOR_SPEED, SLEEP_TIME, false);
