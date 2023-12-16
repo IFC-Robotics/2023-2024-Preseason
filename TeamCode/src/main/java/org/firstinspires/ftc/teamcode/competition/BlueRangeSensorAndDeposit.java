@@ -146,7 +146,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
     private void goToBackDrop() {
 //        Robot.drivetrain.strafe(10, 1.2*driveSpeed);
-        Robot.drivetrain.drive(-20,1.2*driveSpeed);
+        Robot.drivetrain.drive(-16,1.2*driveSpeed);
         Robot.drivetrain.strafe(-6, driveSpeed);
         Robot.motorSweeper.runToPosition(500, true);
         // detect april tag
