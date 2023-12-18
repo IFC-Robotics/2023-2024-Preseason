@@ -40,7 +40,7 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
 
     // aprilTag detection config
 
-    private static final boolean USE_WEBCAM = true;
+    private static final boolean USE_WEBCAM = false;
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;
@@ -73,7 +73,7 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
         sensorDistanceLeft = hardwareMap.get(DistanceSensor.class, "sensor_range_left");
         sensorDistanceRight = hardwareMap.get(DistanceSensor.class, "sensor_range_right");
 
-        initAprilTag();
+        //initAprilTag();
 
         Robot.init(this);
 
@@ -110,26 +110,26 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
 
 
         if (pixelPos == "Left") {
-            desiredTagId = 1;
+            desiredTagId = 4;
             Robot.drivetrain.turn(-90, driveSpeed);
             quickDeposit("middle");
             Robot.drivetrain.strafe(16, driveSpeed);
+            Robot.drivetrain.turn(180,driveSpeed);
 
         } else if (pixelPos == "Right") {
-            desiredTagId = 2;
+            desiredTagId = 5;
 
             Robot.drivetrain.turn(90, driveSpeed);
             quickDeposit("middle");
             Robot.drivetrain.strafe(-16, driveSpeed);
-            Robot.drivetrain.turn(180,driveSpeed);
         } else {
-            desiredTagId = 3;
+            desiredTagId = 6;
 
             Robot.drivetrain.drive(-4,driveSpeed);
             Robot.drivetrain.turn(180, driveSpeed);
             quickDeposit("middle");
             Robot.drivetrain.drive(16, driveSpeed);
-            Robot.drivetrain.turn(90,driveSpeed);
+            Robot.drivetrain.turn(-90,driveSpeed);
 
         }
 
@@ -146,7 +146,7 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
 
     private void goToBackDrop() {
 //        Robot.drivetrain.strafe(10, 1.2*driveSpeed);
-        Robot.drivetrain.drive(-20,1.2*driveSpeed);
+        Robot.drivetrain.drive(-16,1.2*driveSpeed);
         Robot.drivetrain.strafe(6, driveSpeed);
         Robot.motorSweeper.runToPosition(500, true);
         // detect april tag

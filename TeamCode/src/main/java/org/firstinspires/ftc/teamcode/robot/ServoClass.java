@@ -51,6 +51,11 @@ public class ServoClass {
         servo = opMode.hardwareMap.get(Servo.class, this.name);
         servo.scaleRange(this.minPosition, this.maxPosition);
 
+        // reset launching servo at initialization
+        if (this.name == "servo_launcher") {
+            servo.setPosition(this.maxPosition);
+        }
+
         servoPosition = servo.getPosition();
 
         if (this.reverseDirection) servo.setDirection(Servo.Direction.REVERSE);

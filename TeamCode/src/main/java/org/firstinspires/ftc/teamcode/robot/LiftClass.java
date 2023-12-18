@@ -78,6 +78,16 @@ public class LiftClass {
         if (isSynchronous) waitForLift();
     }
 
+    // in case we need to offset the buttons if the autonomous stops before the lift goes down all the way
+    public void runToPositionTeleop(String position, boolean isSynchronous, double speed, int offset) {
+        int target = positionToDistance(position) + offset;
+        motor.setTargetPosition(target);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorCurrentSpeed = speed;
+        motor.setPower(motorCurrentSpeed);
+        if (isSynchronous) waitForLift();
+    }
+
     public void waitForLift() {
         while (motor.isBusy()) {}
         motorCurrentSpeed = this.idleSpeed;

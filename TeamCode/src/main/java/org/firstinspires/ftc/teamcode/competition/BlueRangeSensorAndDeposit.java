@@ -40,7 +40,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
     // aprilTag detection config
 
-    private static final boolean USE_WEBCAM = true;
+    private static final boolean USE_WEBCAM = false;
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;
@@ -73,7 +73,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         sensorDistanceLeft = hardwareMap.get(DistanceSensor.class, "sensor_range_left");
         sensorDistanceRight = hardwareMap.get(DistanceSensor.class, "sensor_range_right");
 
-        initAprilTag();
+        //initAprilTag();
 
         Robot.init(this);
 

@@ -35,7 +35,9 @@ public class NoFSMteleOp extends LinearOpMode {
 
             Robot.motorSweeper.teleOp(gamepad1.right_trigger,gamepad1.left_trigger);
 
-            Robot.motorLauncher.teleOp(-gamepad2.left_stick_y,0);
+            Robot.motorLauncher.teleOp(gamepad2.left_stick_y,-gamepad2.left_stick_y);
+
+            Robot.servoLauncher.teleOpAssistMode(gamepad2.left_bumper,false, false);
 
 
 
@@ -52,6 +54,8 @@ public class NoFSMteleOp extends LinearOpMode {
         Robot.motorSweeper.printData();
 
         Robot.servoDeposit.printData();
+
+        Robot.servoLauncher.printData();
 
         telemetry.update();
 
