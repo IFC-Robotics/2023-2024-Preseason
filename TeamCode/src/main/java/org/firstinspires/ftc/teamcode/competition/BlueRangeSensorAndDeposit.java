@@ -40,13 +40,13 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
     // aprilTag detection config
 
-    private static final boolean USE_WEBCAM = false;
+    private static final boolean USE_WEBCAM = true;
     private VisionPortal visionPortal;               // Used to manage the video source.
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private AprilTagDetection desiredTag = null;
     private int desiredTagId;
 
-    final double DESIRED_DISTANCE = 0.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 6.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -73,7 +73,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         sensorDistanceLeft = hardwareMap.get(DistanceSensor.class, "sensor_range_left");
         sensorDistanceRight = hardwareMap.get(DistanceSensor.class, "sensor_range_right");
 
-        //initAprilTag();
+        initAprilTag();
 
         Robot.init(this);
 
@@ -116,14 +116,14 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
             Robot.drivetrain.strafe(16, driveSpeed);
 
         } else if (pixelPos == "Right") {
-            desiredTagId = 2;
+            desiredTagId = 3;
 
             Robot.drivetrain.turn(90, driveSpeed);
             quickDeposit("middle");
             Robot.drivetrain.strafe(-16, driveSpeed);
             Robot.drivetrain.turn(180,driveSpeed);
         } else {
-            desiredTagId = 3;
+            desiredTagId = 2;
 
             Robot.drivetrain.drive(-4,driveSpeed);
             Robot.drivetrain.turn(180, driveSpeed);
@@ -145,18 +145,18 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     }
 
     private void goToBackDrop() {
-//        Robot.drivetrain.strafe(10, 1.2*driveSpeed);
+        Robot.drivetrain.strafe(10, 1.2*driveSpeed);
         Robot.drivetrain.drive(-16,1.2*driveSpeed);
         Robot.drivetrain.strafe(-6, driveSpeed);
-        Robot.motorSweeper.runToPosition(500, true);
+        Robot.motorSweeper.runToPosition(300, true);
         // detect april tag
         runtime.reset();
-//        moveToAprilTag();
+        moveToAprilTag();
         Robot.drivetrain.drive(-20, driveSpeed);
-//        telemetry.addLine("Done moving to aprilTag");
+        telemetry.addLine("Done moving to aprilTag");
 
-//        Robot.drivetrain.strafe(-8, driveSpeed);
-//        Robot.drivetrain.drive(12, driveSpeed);
+        Robot.drivetrain.strafe(-8, driveSpeed);
+        Robot.drivetrain.drive(4, driveSpeed);
         quickDeposit("high");
     }
 
