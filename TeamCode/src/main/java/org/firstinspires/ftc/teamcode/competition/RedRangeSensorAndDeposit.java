@@ -117,13 +117,13 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
             Robot.drivetrain.turn(180,driveSpeed);
 
         } else if (pixelPos == "Right") {
-            desiredTagId = 5;
+            desiredTagId = 6;
 
             Robot.drivetrain.turn(90, driveSpeed);
             quickDeposit("middle");
             Robot.drivetrain.strafe(-16, driveSpeed);
         } else {
-            desiredTagId = 6;
+            desiredTagId = 5;
 
             Robot.drivetrain.drive(-4,driveSpeed);
             Robot.drivetrain.turn(180, driveSpeed);
