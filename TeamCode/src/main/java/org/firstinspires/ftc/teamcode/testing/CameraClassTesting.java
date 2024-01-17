@@ -47,7 +47,7 @@ public class CameraClassTesting extends LinearOpMode {
 
         waitForStart();
 
-        Robot.webcam1.beginSearch(-1,10,"orbit left");
+        Robot.webcam1.driveToTag(-1,10,"orbit left");
 
     }
 

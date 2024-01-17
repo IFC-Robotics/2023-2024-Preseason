@@ -26,6 +26,7 @@ public class CameraClass {
 
     public final String name;
     private ElapsedTime runtime = new ElapsedTime();
+    final double idleSpeed = 0.2;
 
     // Adjust these numbers to suit your robot.
     final double DESIRED_DISTANCE = 5.0; //  this is how close the camera should get to the target (inches)
@@ -76,7 +77,7 @@ public class CameraClass {
 
 
     //this is the method you would call
-    public void beginSearch(int inputID, int searchTime, String idleBehavior) {
+    public void driveToTag(int inputID, int searchTime, String idleBehavior) {
         runtime.reset();
         while (runtime.seconds() < searchTime && !opMode.isStopRequested()) {
             DESIRED_TAG_ID = inputID;
@@ -129,18 +130,18 @@ public class CameraClass {
                 strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
                 telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
-            } else if (idleBehavior == "orbit left"){
+            } else if (idleBehavior == "orbit clockwise"){
                 drive = 0;
                 strafe = 0;
-                turn = 0.5;
-            }else if (idleBehavior == "orbit right"){
+                turn = idleSpeed;
+            }else if (idleBehavior == "orbit counterclockwise"){
                 drive = 0;
                 strafe = 0;
-                turn = -0.5;
+                turn = -idleSpeed;
             } else {
                 drive = 0;
                 strafe = 0;
-                turn = 0.5;
+                turn = 0;
             }
             telemetry.update();
 
