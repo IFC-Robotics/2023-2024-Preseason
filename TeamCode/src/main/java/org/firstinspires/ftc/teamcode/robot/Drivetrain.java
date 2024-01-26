@@ -23,7 +23,7 @@ public class Drivetrain {
     public static double STRAFE_FACTOR = 50.83;
     public static double TURN_FACTOR = 296.0;
 
-    public static double MAX_TELEOP_SPEED = 0.7;
+    public static double MAX_TELEOP_SPEED = 0.3;
 
     public final String forwardDirection;
     public final int sleepTime;
@@ -215,7 +215,7 @@ public class Drivetrain {
         double backRightPower;
         double backLeftPower;
 
-        double denominator = (Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1))/(turboModeToggle ? 1.0 : MAX_TELEOP_SPEED);
+        double denominator = (Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1))/(turboModeToggle ? 0.7 : MAX_TELEOP_SPEED);
         frontLeftPower = (drive + strafe + turn) / denominator ;
         backLeftPower = (drive - strafe + turn) / denominator;
         frontRightPower = (drive - strafe - turn) / denominator;
