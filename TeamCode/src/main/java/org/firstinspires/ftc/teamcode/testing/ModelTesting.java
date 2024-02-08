@@ -57,7 +57,7 @@ public class ModelTesting extends LinearOpMode {
 
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private static final String TFOD_MODEL_ASSET = "model_red&blue_box.tflite";
+    private static final String TFOD_MODEL_ASSET = "model_red&blue_low_step.tflite";
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
 //    private static final String TFOD_MODEL_FILE = "/C:\\Users\\IFCro\\StudioProjects\\Center-Stage_2023-2024\\TeamCode\\src\\main\\res\\raw\\model_blue_box.tflite";
@@ -135,7 +135,7 @@ public class ModelTesting extends LinearOpMode {
                 .setModelLabels(LABELS)
                 .setIsModelTensorFlow2(true)
                 .setIsModelQuantized(true)
-                .setModelInputSize(300)
+                .setModelInputSize(320)
                 .setModelAspectRatio(16.0 / 9.0)
 
                 .build();
@@ -171,7 +171,7 @@ public class ModelTesting extends LinearOpMode {
         visionPortal = builder.build();
 
         // Set confidence threshold for TFOD recognitions, at any time.
-        tfod.setMinResultConfidence(0.40f);
+        tfod.setMinResultConfidence(0.55f);
 
         // Disable or re-enable the TFOD processor at any time.
         visionPortal.setProcessorEnabled(tfod, true);
@@ -190,9 +190,9 @@ public class ModelTesting extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-            if (x < 420) {
+            if (x < 440) {
                 elementPos = "Left";
-            } else if (x > 860) {
+            } else if (x > 840) {
                 elementPos = "Right";
             } else {
                 elementPos = "Center";
