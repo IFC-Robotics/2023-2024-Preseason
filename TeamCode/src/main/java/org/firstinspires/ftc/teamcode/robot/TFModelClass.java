@@ -32,6 +32,9 @@ public class TFModelClass {
     // this is used when uploading models directly to the RC using the model upload interface.
 //    private static final String TFOD_MODEL_FILE = "";
     // Define the labels recognized in the model for TFOD (must be in training order!)
+
+    public String[] elementPosList;
+    public List<Recognition> currentRecognitions;
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
@@ -117,31 +120,48 @@ public class TFModelClass {
 
     }   // end method initTfod()
 
-    public void telemetryTfod() {
+    public void telemetryTfod(String[] prefLabel) {
 
-        List<Recognition> currentRecognitions = tfod.getRecognitions();
+        currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
+
+        int i = 0;
 
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-            if (x < 440) {
-                elementPos = "Left";
-            } else if (x > 840) {
-                elementPos = "Right";
-            } else {
-                elementPos = "Center";
+            if (containsString(prefLabel, recognition.getLabel())) {
+                if ((x < 440)) {
+                    elementPosList[i] = "Left";
+                } else if (x > 840) {
+                    elementPosList[i] = "Right";
+                } else {
+                    elementPosList[i] = "Center";
+                }
             }
+
 
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("Guess",elementPos);
+            telemetry.addData("Guess", elementPos);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
+
+            i++;
         }   // end for() loop
 
     }   // end method telemetryTfod()
 
+    public static boolean containsString(String[] array, String target) {
+        for (String element : array) {
+            if (element.equals(target)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
+
+
