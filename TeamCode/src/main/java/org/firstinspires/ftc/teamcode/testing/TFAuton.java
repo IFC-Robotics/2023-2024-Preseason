@@ -4,11 +4,14 @@ package org.firstinspires.ftc.teamcode.testing;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -37,6 +40,12 @@ public class TFAuton extends LinearOpMode {
         Robot.init(this);
         Robot.mode = "assist";
         Robot.redBlueModel.initTfod();
+        Robot.drivetrain.motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
+        Robot.drivetrain.motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
+        Robot.drivetrain.motorBackRight.setDirection(DcMotor.Direction.REVERSE);
+        Robot.drivetrain.motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+
+
 
         waitForStart();
 
@@ -49,12 +58,10 @@ public class TFAuton extends LinearOpMode {
 
         while (opModeIsActive() && runtime.seconds() < 6 && !isStopRequested()) {
             Robot.redBlueModel.telemetryTfod(Labels);
-        }
-
-        while (opModeIsActive() && !isStopRequested()) {
-
             printRobotData();
         }
+
+        elementPos = findMostCommonPos(Robot.redBlueModel.elementPosList);
 
         if (elementPos == "Left") {
             desiredTagId = 1;
@@ -115,6 +122,29 @@ public class TFAuton extends LinearOpMode {
 
         telemetry.update();
 
+    }
+
+    public static String findMostCommonPos(String[] array) {
+        // Create a HashMap to store the count of each element
+        Map<String, Integer> elementCount = new HashMap<>();
+
+        // Iterate through the array and count occurrences of each element
+        for (String element : array) {
+            elementCount.put(element, elementCount.getOrDefault(element, 0) + 1);
+        }
+
+        // Find the element with the maximum count
+        String mostCommonElement = null;
+        int maxCount = 0;
+
+        for (Map.Entry<String, Integer> entry : elementCount.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                mostCommonElement = entry.getKey();
+                maxCount = entry.getValue();
+            }
+        }
+
+        return mostCommonElement;
     }
 
 }

@@ -48,6 +48,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         sensorDistanceRight = hardwareMap.get(DistanceSensor.class, "sensor_range_right");
 
 
+
         Robot.init(this);
 
         waitForStart();

@@ -41,7 +41,7 @@ public class Robot {
         telemetry.update();
 
 
-        drivetrain =        new Drivetrain("ramp", SLEEP_TIME);
+        drivetrain =        new Drivetrain("collector", SLEEP_TIME);
 //        verticalLift =      new LiftClass("motor_vertical_lift", MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, true);
 //        servoDeposit =      new ServoClass("servo_deposit", "collect", 0.1, "score",0.65,"auton", 0.80, SERVO_SPEED, SERVO_TIME, false);
 //        servoFlap =         new ServoClass("servo_flap", "closed", 0.1, "no",0.65,"open", 0.80, SERVO_SPEED, SERVO_TIME, false);
