@@ -29,69 +29,73 @@ public class TFAuton extends LinearOpMode {
     String elementPos = "Center";
     double driveSpeed = 0.5;
     int desiredTagId = -1;
-    String[] Labels = {"Red Box","Blue Box"};
-
+    String[] preflabels= {"Blue Box", "Red box"};
     @Override
     public void runOpMode() {
 
-        telemetry.addLine("Initializing opMode...");
-        telemetry.update();
+            telemetry.addLine("Initializing opMode...");
+            telemetry.update();
 
-        Robot.init(this);
-        Robot.mode = "assist";
-        Robot.redBlueModel.initTfod();
-        Robot.drivetrain.motorBackLeft.setDirection(DcMotor.Direction.FORWARD);
-        Robot.drivetrain.motorFrontRight.setDirection(DcMotor.Direction.FORWARD);
-        Robot.drivetrain.motorBackRight.setDirection(DcMotor.Direction.REVERSE);
-        Robot.drivetrain.motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            Robot.init(this);
+            Robot.mode = "assist";
+
+            waitForStart();
+
+            telemetry.addLine("Executing opMode...");
+            telemetry.update();
+
+
+//        Robot.drivetrain.drive(-20,0.1,false);
+        if (opModeIsActive()) {
+
+            Robot.redBlueModel.initTfod();
+
+            List<Recognition> objectsDetected = Robot.redBlueModel.currentRecognitions;
+
+            runtime.reset();
+            while (opModeIsActive()) {
+                Robot.redBlueModel.telemetryTfod(preflabels);
+                printRobotData();
+                sleep(20);
+
+            }
 
 
 
-        waitForStart();
-
-        telemetry.addLine("Executing opMode...");
-        telemetry.update();
-
-        List<Recognition> objectsDetected = Robot.redBlueModel.currentRecognitions;
-
-        Robot.drivetrain.drive(-12,driveSpeed,false);
-
-        while (opModeIsActive() && runtime.seconds() < 6 && !isStopRequested()) {
-            Robot.redBlueModel.telemetryTfod(Labels);
-            printRobotData();
+            elementPos = findMostCommonPos(Robot.redBlueModel.elementPosList);
+//
+//        if (elementPos == "Left") {
+//            desiredTagId = 1;
+//            Robot.drivetrain.turn(90, driveSpeed);
+//            quickDeposit("middle");
+//            Robot.drivetrain.strafe(16, driveSpeed);
+//
+//        } else if (elementPos == "Right") {
+//            desiredTagId = 3;
+//
+//            Robot.drivetrain.turn(-90, driveSpeed);
+//            quickDeposit("middle");
+//            Robot.drivetrain.strafe(-16, driveSpeed);
+//            Robot.drivetrain.turn(180,driveSpeed);
+//        } else if (elementPos == "Center"){
+//            desiredTagId = 2;
+//
+//            Robot.drivetrain.drive(4,driveSpeed);
+//            Robot.drivetrain.turn(180, driveSpeed);
+//            quickDeposit("middle");
+//            Robot.drivetrain.turn(90,driveSpeed);
+//            Robot.drivetrain.strafe(16, driveSpeed);
+//        }
         }
+        Robot.redBlueModel.visionPortal.close();
 
-        elementPos = findMostCommonPos(Robot.redBlueModel.elementPosList);
-
-        if (elementPos == "Left") {
-            desiredTagId = 1;
-            Robot.drivetrain.turn(90, driveSpeed);
-            quickDeposit("middle");
-            Robot.drivetrain.strafe(16, driveSpeed);
-
-        } else if (elementPos == "Right") {
-            desiredTagId = 3;
-
-            Robot.drivetrain.turn(-90, driveSpeed);
-            quickDeposit("middle");
-            Robot.drivetrain.strafe(-16, driveSpeed);
-            Robot.drivetrain.turn(180,driveSpeed);
-        } else if (elementPos == "Center"){
-            desiredTagId = 2;
-
-            Robot.drivetrain.drive(4,driveSpeed);
-            Robot.drivetrain.turn(180, driveSpeed);
-            quickDeposit("middle");
-            Robot.drivetrain.turn(90,driveSpeed);
-            Robot.drivetrain.strafe(16, driveSpeed);
-        }
     }
 
     private void quickDeposit(String position) {
         Robot.verticalLift.runToPosition(position, true);
-        Robot.servoDeposit.runToPosition("auton",true);
+//        Robot.servoDeposit.runToPosition("auton",true);
         sleep(1000);
-        Robot.servoDeposit.runToPosition("collect",true);
+//        Robot.servoDeposit.runToPosition("collect",true);
         Robot.verticalLift.runToPosition("zero", true);
     }
 
@@ -112,13 +116,13 @@ public class TFAuton extends LinearOpMode {
 
         telemetry.addLine("\nRobot data:\n");
 
-//        Robot.verticalLift.printData();
+        telemetry.addData("Element Position",elementPos);
 
-//        Robot.motorSweeper.printData();
+        Robot.verticalLift.printData();
+
+        Robot.motorSweeper.printData();
 
 //        Robot.servoDeposit.printData();
-
-//        Robot.servoLauncher.printData();
 
         telemetry.update();
 

@@ -31,16 +31,22 @@ package org.firstinspires.ftc.teamcode.testing;
 
 import android.util.Size;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.util.ElapsedTime;
+
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * This OpMode illustrates the basics of TensorFlow Object Detection,
@@ -49,9 +55,15 @@ import java.util.List;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@TeleOp(name = "Object Detection: Red & Blue", group = "Testing")
+@Autonomous(name = "Object Detection: Red & Blue", group = "Testing")
 
 public class ModelTesting extends LinearOpMode {
+
+    String elementPos = "Center";
+    double driveSpeed = 0.5;
+    int desiredTagId = -1;
+
+    private ElapsedTime runtime = new ElapsedTime();
 
     private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
 
@@ -66,8 +78,6 @@ public class ModelTesting extends LinearOpMode {
             "Blue Box", "Red Box"
     };
 
-
-    public String elementPos = "";
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
      */
@@ -89,8 +99,10 @@ public class ModelTesting extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        runtime.reset();
+
         if (opModeIsActive()) {
-            while (opModeIsActive()) {
+            while (opModeIsActive() && runtime.seconds() < 6) {
 
                 telemetryTfod();
 
@@ -107,12 +119,98 @@ public class ModelTesting extends LinearOpMode {
                 // Share the CPU.
                 sleep(20);
             }
+
+
         }
 
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
-    }   // end runOpMode()
+        elementPos = findMostCommonPos(Robot.redBlueModel.elementPosList);
+//
+//        if (elementPos == "Left") {
+//            desiredTagId = 1;
+//            Robot.drivetrain.turn(90, driveSpeed);
+//            quickDeposit("middle");
+//            Robot.drivetrain.strafe(16, driveSpeed);
+//
+//        } else if (elementPos == "Right") {
+//            desiredTagId = 3;
+//
+//            Robot.drivetrain.turn(-90, driveSpeed);
+//            quickDeposit("middle");
+//            Robot.drivetrain.strafe(-16, driveSpeed);
+//            Robot.drivetrain.turn(180,driveSpeed);
+//        } else if (elementPos == "Center"){
+//            desiredTagId = 2;
+//
+//            Robot.drivetrain.drive(4,driveSpeed);
+//            Robot.drivetrain.turn(180, driveSpeed);
+//            quickDeposit("middle");
+//            Robot.drivetrain.turn(90,driveSpeed);
+//            Robot.drivetrain.strafe(16, driveSpeed);
+//        }
+    }
+    private void quickDeposit(String position) {
+        Robot.verticalLift.runToPosition(position, true);
+//        Robot.servoDeposit.runToPosition("auton",true);
+        sleep(1000);
+//        Robot.servoDeposit.runToPosition("collect",true);
+        Robot.verticalLift.runToPosition("zero", true);
+    }
+
+    private void goToBackDrop() {
+        Robot.drivetrain.drive(-25,1.2*driveSpeed);
+        Robot.drivetrain.strafe(-13, 0.8*driveSpeed);
+        Robot.motorSweeper.runToPosition(300, true);
+        // detect april tag
+        runtime.reset();
+        Robot.webcam1.driveToTag(desiredTagId,5,"paurghas");
+        Robot.drivetrain.drive(-20, driveSpeed);
+        telemetry.addLine("Done moving to aprilTag");
+
+        quickDeposit("high");
+    }
+
+    public void printRobotData() {
+
+        telemetry.addLine("\nRobot data:\n");
+
+        telemetry.addData("Element Position",elementPos);
+
+        Robot.verticalLift.printData();
+
+        Robot.motorSweeper.printData();
+
+//        Robot.servoDeposit.printData();
+
+        telemetry.update();
+
+    }
+
+    public static String findMostCommonPos(String[] array) {
+        // Create a HashMap to store the count of each element
+        Map<String, Integer> elementCount = new HashMap<>();
+
+        // Iterate through the array and count occurrences of each element
+        for (String element : array) {
+            elementCount.put(element, elementCount.getOrDefault(element, 0) + 1);
+        }
+
+        // Find the element with the maximum count
+        String mostCommonElement = null;
+        int maxCount = 0;
+
+        for (Map.Entry<String, Integer> entry : elementCount.entrySet()) {
+            if (entry.getValue() > maxCount) {
+                mostCommonElement = entry.getKey();
+                maxCount = entry.getValue();
+            }
+        }
+
+        return mostCommonElement;
+    }
+
 
     /**
      * Initialize the TensorFlow Object Detection processor.

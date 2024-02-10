@@ -24,16 +24,16 @@ public class TFModelClass {
     public String elementPos = "center";
 
     public String defaultPosition = "center";
-    private static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
+    public static final boolean USE_WEBCAM = true;  // true for webcam, false for phone camera
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
-    private final String TFOD_MODEL_ASSET;
+    public final String TFOD_MODEL_ASSET;
     // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
     // this is used when uploading models directly to the RC using the model upload interface.
 //    private static final String TFOD_MODEL_FILE = "";
     // Define the labels recognized in the model for TFOD (must be in training order!)
 
-    public String[] elementPosList;
+    public String[] elementPosList = {"center"};
     public List<Recognition> currentRecognitions;
     /**
      * The variable to store our instance of the TensorFlow Object Detection processor.
@@ -43,7 +43,7 @@ public class TFModelClass {
     /**
      * The variable to store our instance of the vision portal.
      */
-    private VisionPortal visionPortal;
+    public VisionPortal visionPortal;
 
     public TFModelClass (String name, String[] labels, String modelName) {
         this.name = name;
@@ -131,7 +131,6 @@ public class TFModelClass {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-            if (containsString(prefLabel, recognition.getLabel())) {
                 if ((x < 440)) {
                     elementPosList[i] = "Left";
                 } else if (x > 840) {
@@ -139,14 +138,13 @@ public class TFModelClass {
                 } else {
                     elementPosList[i] = "Center";
                 }
-            }
 
 
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("Guess", elementPos);
+            telemetry.addData("Guess", elementPosList);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
 
             i++;
