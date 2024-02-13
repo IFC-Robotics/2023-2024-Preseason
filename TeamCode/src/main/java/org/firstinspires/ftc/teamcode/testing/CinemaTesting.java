@@ -31,7 +31,7 @@ public class CinemaTesting extends LinearOpMode {
 
             Robot.servoDeposit.teleOpAssistMode(gamepad2.left_trigger > 0.2 || gamepad2.dpad_left,(gamepad2.dpad_down || gamepad2.dpad_up),gamepad2.right_trigger > 0.2 || gamepad2.dpad_right);
 
-            Robot.motorSweeper.teleOp(gamepad1.right_trigger,gamepad1.left_trigger);
+            Robot.motorCollector.teleOp(gamepad1.right_trigger,gamepad1.left_trigger);
 
             Robot.motorLauncher.teleOp(gamepad2.left_stick_y,-gamepad2.left_stick_y);
 
@@ -49,7 +49,7 @@ public class CinemaTesting extends LinearOpMode {
 
         Robot.verticalLift.printData();
 
-        Robot.motorSweeper.printData();
+        Robot.motorCollector.printData();
 
         Robot.servoDeposit.printData();
 

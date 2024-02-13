@@ -3,17 +3,12 @@ package org.firstinspires.ftc.teamcode.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
@@ -102,7 +97,7 @@ public class TFAuton extends LinearOpMode {
     private void goToBackDrop() {
         Robot.drivetrain.drive(-25,1.2*driveSpeed);
         Robot.drivetrain.strafe(-13, 0.8*driveSpeed);
-        Robot.motorSweeper.runToPosition(300, true);
+        Robot.motorCollector.runToPosition(300, true);
         // detect april tag
         runtime.reset();
         Robot.webcam1.driveToTag(desiredTagId,5,"paurghas");
@@ -120,7 +115,7 @@ public class TFAuton extends LinearOpMode {
 
         Robot.verticalLift.printData();
 
-        Robot.motorSweeper.printData();
+        Robot.motorCollector.printData();
 
 //        Robot.servoDeposit.printData();
 

@@ -2,14 +2,13 @@ package org.firstinspires.ftc.teamcode.competition;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 @TeleOp(name="teleOp w/out FSM", group="Competition")
 public class NoFSMteleOp extends LinearOpMode {
+
+    float pulleyRatio = 1; //test
 
     @Override
     public void runOpMode() {
@@ -27,19 +26,19 @@ public class NoFSMteleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-//            Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
+            Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
 
-//            Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.right_bumper);
+            Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.right_bumper);
 
 //            Robot.servoDeposit.teleOpAssistMode(gamepad2.left_trigger > 0.2 || gamepad2.dpad_left,(gamepad2.dpad_down || gamepad2.dpad_up),gamepad2.right_trigger > 0.2 || gamepad2.dpad_right);
 
-            Robot.motorSweeper.teleOp(gamepad1.right_trigger,gamepad1.left_trigger);
+            Robot.motorCollector.teleOp(gamepad1.right_trigger,gamepad1.left_trigger);
 
 //            Robot.motorLauncher.teleOp(gamepad2.left_stick_y,-gamepad2.left_stick_y);
 
 //            Robot.servoLauncher.teleOpAssistMode(gamepad2.left_bumper,false, false);
 
-
+            Robot.motorPulley.teleOp(gamepad2.left_stick_y * pulleyRatio,-gamepad2.left_stick_y * pulleyRatio);
 
             printRobotData();
         }
@@ -51,7 +50,7 @@ public class NoFSMteleOp extends LinearOpMode {
 
 //        Robot.verticalLift.printData();
 
-        Robot.motorSweeper.printData();
+        Robot.motorCollector.printData();
 
 //        Robot.servoDeposit.printData();
 

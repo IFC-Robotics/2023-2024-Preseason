@@ -32,9 +32,7 @@ package org.firstinspires.ftc.teamcode.testing;
 import android.util.Size;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
@@ -99,6 +97,8 @@ public class ModelTesting extends LinearOpMode {
         telemetry.update();
         waitForStart();
 
+        Robot.drivetrain.drive(32,0.3);
+
         runtime.reset();
 
         if (opModeIsActive()) {
@@ -127,45 +127,48 @@ public class ModelTesting extends LinearOpMode {
         visionPortal.close();
 
         elementPos = findMostCommonPos(Robot.redBlueModel.elementPosList);
-//
-//        if (elementPos == "Left") {
-//            desiredTagId = 1;
-//            Robot.drivetrain.turn(90, driveSpeed);
-//            quickDeposit("middle");
-//            Robot.drivetrain.strafe(16, driveSpeed);
-//
-//        } else if (elementPos == "Right") {
-//            desiredTagId = 3;
-//
-//            Robot.drivetrain.turn(-90, driveSpeed);
-//            quickDeposit("middle");
-//            Robot.drivetrain.strafe(-16, driveSpeed);
-//            Robot.drivetrain.turn(180,driveSpeed);
-//        } else if (elementPos == "Center"){
-//            desiredTagId = 2;
-//
-//            Robot.drivetrain.drive(4,driveSpeed);
-//            Robot.drivetrain.turn(180, driveSpeed);
-//            quickDeposit("middle");
-//            Robot.drivetrain.turn(90,driveSpeed);
-//            Robot.drivetrain.strafe(16, driveSpeed);
-//        }
+
+        telemetry.addData("Detected Position",elementPos);
+        telemetry.update();
+
+        if (elementPos == "Left") {
+            desiredTagId = 1;
+            Robot.drivetrain.turn(90, driveSpeed);
+            quickDeposit("middle");
+            Robot.drivetrain.strafe(16, driveSpeed);
+
+        } else if (elementPos == "Right") {
+            desiredTagId = 3;
+
+            Robot.drivetrain.turn(-90, driveSpeed);
+            quickDeposit("middle");
+            Robot.drivetrain.strafe(-16, driveSpeed);
+            Robot.drivetrain.turn(180,driveSpeed);
+        } else if (elementPos == "Center"){
+            desiredTagId = 2;
+
+            Robot.drivetrain.drive(4,driveSpeed);
+            quickDeposit("middle");
+            Robot.drivetrain.turn(90,driveSpeed);
+            Robot.drivetrain.strafe(16, driveSpeed);
+        }
+        goToBackDrop();
     }
     private void quickDeposit(String position) {
         Robot.verticalLift.runToPosition(position, true);
-//        Robot.servoDeposit.runToPosition("auton",true);
+        Robot.servoDeposit.runToPosition("auton",true);
         sleep(1000);
-//        Robot.servoDeposit.runToPosition("collect",true);
+        Robot.servoDeposit.runToPosition("collect",true);
         Robot.verticalLift.runToPosition("zero", true);
     }
 
     private void goToBackDrop() {
         Robot.drivetrain.drive(-25,1.2*driveSpeed);
         Robot.drivetrain.strafe(-13, 0.8*driveSpeed);
-        Robot.motorSweeper.runToPosition(300, true);
+        Robot.motorCollector.runToPosition(300, true);
         // detect april tag
         runtime.reset();
-        Robot.webcam1.driveToTag(desiredTagId,5,"paurghas");
+        Robot.webcam1.driveToTag(desiredTagId,5,"");
         Robot.drivetrain.drive(-20, driveSpeed);
         telemetry.addLine("Done moving to aprilTag");
 
@@ -180,7 +183,7 @@ public class ModelTesting extends LinearOpMode {
 
         Robot.verticalLift.printData();
 
-        Robot.motorSweeper.printData();
+        Robot.motorCollector.printData();
 
 //        Robot.servoDeposit.printData();
 

@@ -4,22 +4,9 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.robot.Robot;
-
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.ExposureControl;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainControl;
-import org.firstinspires.ftc.vision.VisionPortal;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
-import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.teamcode.testing.RobotAutoDriveToAprilTagOmni.*;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 // DISTANCES ARE TUNED
@@ -118,7 +105,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     private void goToBackDrop() {
         Robot.drivetrain.drive(-25,1.2*driveSpeed);
         Robot.drivetrain.strafe(-13, 0.8*driveSpeed);
-        Robot.motorSweeper.runToPosition(300, true);
+        Robot.motorCollector.runToPosition(300, true);
         // detect april tag
         runtime.reset();
         Robot.webcam1.driveToTag(desiredTagId,5,"paurghas");

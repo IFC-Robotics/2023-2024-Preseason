@@ -16,7 +16,6 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainCon
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
-import org.firstinspires.ftc.teamcode.testing.RobotAutoDriveToAprilTagOmni.*;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -148,7 +147,7 @@ public class RedRangeSensorAndDeposit extends LinearOpMode {
 //        Robot.drivetrain.strafe(10, 1.2*driveSpeed);
         Robot.drivetrain.drive(-16,1.2*driveSpeed);
         Robot.drivetrain.strafe(6, driveSpeed);
-        Robot.motorSweeper.runToPosition(500, true);
+        Robot.motorCollector.runToPosition(500, true);
         // detect april tag
         runtime.reset();
 //        moveToAprilTag();
