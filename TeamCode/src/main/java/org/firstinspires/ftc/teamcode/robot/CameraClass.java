@@ -27,6 +27,7 @@ public class CameraClass {
     public final String name;
     private ElapsedTime runtime = new ElapsedTime();
     final double idleSpeed = 0.2;
+    boolean firstSearch = true;
 
     // Adjust these numbers to suit your robot.
     final double DESIRED_DISTANCE = 5.0; //  this is how close the camera should get to the target (inches)
@@ -130,25 +131,29 @@ public class CameraClass {
                 strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
                 telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
-            } else if (idleBehavior == "orbit clockwise"){
-                drive = 0;
-                strafe = 0;
-                turn = idleSpeed;
-            }else if (idleBehavior == "orbit counterclockwise"){
-                drive = 0;
-                strafe = 0;
-                turn = -idleSpeed;
-            } else {
-                drive = 0;
-                strafe = 0;
-                turn = 0;
-            }
-            telemetry.update();
+                firstSearch = false;
+            } else if (firstSearch){
+                if (idleBehavior == "clockwise"){
+                    drive = 0;
+                    strafe = 0;
+                    turn = idleSpeed;
+                }else if (idleBehavior == "counterClockwise"){
+                    drive = 0;
+                    strafe = 0;
+                    turn = -idleSpeed;
+                } else {
+                    drive = 0;
+                    strafe = 0;
+                    turn = 0;
+                }
+                telemetry.update();
 
-            // Apply desired axes motions to the drivetrain.
-            moveRobot(drive, strafe, turn);
-            opMode.sleep(10);
-        }
+                // Apply desired axes motions to the drivetrain.
+                moveRobot(drive, strafe, turn);
+                opMode.sleep(10);
+            }
+            }
+
     }
 
     /**
