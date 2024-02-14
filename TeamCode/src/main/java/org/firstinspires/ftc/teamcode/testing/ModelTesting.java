@@ -42,6 +42,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,8 +59,10 @@ import java.util.Map;
 public class ModelTesting extends LinearOpMode {
 
     String elementPos = "Center";
+    String[] elementList;
     double driveSpeed = 0.5;
     int desiredTagId = -1;
+    String desiredLabel = "Blue Box";
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -126,7 +129,7 @@ public class ModelTesting extends LinearOpMode {
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
-//        elementPos = findMostCommonPos(Robot.redBlueModel.elementPosList);
+        elementPos = findMostCommonPos(elementList);
 
         telemetry.addData("Detected Position",elementPos);
         telemetry.update();
@@ -291,15 +294,18 @@ public class ModelTesting extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-
-            if (x < 440) {
-                elementPos = "Left";
-            } else if (x > 840) {
-                elementPos = "Right";
-            } else {
-                elementPos = "Center";
+            String appendElement;
+            if (recognition.getLabel() == desiredLabel) {
+                if (x < 440) {
+                    appendElement = "Left";
+                } else if (x > 840) {
+                    appendElement = "Right";
+                } else {
+                    appendElement = "Center";
+                }
+                elementList = Arrays.copyOf(elementList, elementList.length + 1);
+                elementList[elementList.length - 1] = appendElement;
             }
-
 
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
