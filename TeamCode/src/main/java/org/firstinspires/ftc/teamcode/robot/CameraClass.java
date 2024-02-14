@@ -53,7 +53,7 @@ public class CameraClass {
     private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private org.firstinspires.ftc.vision.apriltag.AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
 
-    boolean targetFound = false;    // Set to true when an AprilTag target is detected
+    public boolean targetFound = false;    // Set to true when an AprilTag target is detected
     double drive = 0;        // Desired forward power/speed (-1 to +1)
     double strafe = 0;        // Desired strafe power/speed (-1 to +1)
     double turn = 0;        // Desired turning power/speed (-1 to +1)

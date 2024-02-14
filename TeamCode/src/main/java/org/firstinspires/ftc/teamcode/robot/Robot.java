@@ -47,7 +47,7 @@ public class Robot {
 //        servoDeposit =      new ServoClass("servo_deposit", "collect", 0.1, "score",0.65,"auton", 0.80, SERVO_SPEED, SERVO_TIME, false);
 //        servoLauncher =     new ServoClass("servo_launcher", "release", 0.1, "hold",0.5 ,"medium",0.65, SERVO_SPEED, SERVO_TIME, false);
         motorCollector =      new MotorClass("motor_collector", MAX_MOTOR_SPEED, SLEEP_TIME, true);
-//        motorLauncher =     new MotorClass("motor_launcher", 0.5*MAX_MOTOR_SPEED, SLEEP_TIME, false);
+        motorLauncher =     new MotorClass("motor_launcher", 0.5*MAX_MOTOR_SPEED, SLEEP_TIME, false);
         webcam1 =           new CameraClass("webcam_1",true);
 //        redBlueModel =      new TFModelClass("red_&_blue", new String[]{"Red Box", "Blue Box"},"model_red&blue_low_step.tflite");
         motorPulley =       new MotorClass("motor_pulley", MAX_MOTOR_SPEED,SLEEP_TIME, false);
@@ -57,7 +57,7 @@ public class Robot {
 //        servoDeposit.init(opMode);
 //        servoLauncher.init(opMode);
         motorCollector.init(opMode);
-//        motorLauncher.init(opMode);
+        motorLauncher.init(opMode);
         webcam1.init(opMode);
 //        redBlueModel.init(opMode);
         motorPulley.init(opMode);

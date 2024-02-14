@@ -9,6 +9,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 public class NoFSMteleOp extends LinearOpMode {
 
     float pulleyRatio = 1; //test
+    float pulleySpeed;
 
     @Override
     public void runOpMode() {
@@ -30,15 +31,23 @@ public class NoFSMteleOp extends LinearOpMode {
 
             Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.right_bumper);
 
-//            Robot.servoDeposit.teleOpAssistMode(gamepad2.left_trigger > 0.2 || gamepad2.dpad_left,(gamepad2.dpad_down || gamepad2.dpad_up),gamepad2.right_trigger > 0.2 || gamepad2.dpad_right);
+//            Robot.servoDeposit.teleOpAssistMode(gamepad2.left_trigger > 0.2,(gamepad2.dpad_left || gamepad2.dpad_right),gamepad2.right_trigger > 0.2);
 
             Robot.motorCollector.teleOp(gamepad1.right_trigger,gamepad1.left_trigger);
 
-//            Robot.motorLauncher.teleOp(gamepad2.left_stick_y,-gamepad2.left_stick_y);
+            Robot.motorLauncher.teleOp(gamepad2.left_stick_y,-gamepad2.left_stick_y);
 
 //            Robot.servoLauncher.teleOpAssistMode(gamepad2.left_bumper,false, false);
 
-            Robot.motorPulley.teleOp(gamepad2.left_stick_y * pulleyRatio,-gamepad2.left_stick_y * pulleyRatio);
+            if (gamepad2.dpad_down) {
+                pulleySpeed = -0.5F;
+            } else if (gamepad2.dpad_up) {
+                pulleySpeed = 0.5F;
+            } else{
+                pulleySpeed = -gamepad2.left_stick_y * pulleyRatio;
+            }
+
+            Robot.motorPulley.teleOp(pulleySpeed,-pulleySpeed);
 
             printRobotData();
         }
@@ -48,7 +57,7 @@ public class NoFSMteleOp extends LinearOpMode {
 
         telemetry.addLine("\nRobot data:\n");
 
-//        Robot.verticalLift.printData();
+        Robot.verticalLift.printData();
 
         Robot.motorCollector.printData();
 
