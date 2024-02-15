@@ -26,7 +26,7 @@ public class CameraClass {
 
     public final String name;
     private ElapsedTime runtime = new ElapsedTime();
-    final double idleSpeed = 0.2;
+    final double idleSpeed = 0.1;
     boolean firstSearch = true;
 
     // Adjust these numbers to suit your robot.

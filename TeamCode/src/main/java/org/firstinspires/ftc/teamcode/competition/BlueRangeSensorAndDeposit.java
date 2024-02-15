@@ -71,7 +71,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
 
         if (pixelPos == "Left") {
-            desiredTagId = 1;
+            desiredTagId = 3;
             Robot.drivetrain.turn(90, driveSpeed);
 //            quickDeposit("middle");
             Robot.drivetrain.strafe(16, driveSpeed);
@@ -84,7 +84,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
             Robot.drivetrain.strafe(-16, driveSpeed);
             Robot.drivetrain.turn(180,driveSpeed);
         } else {
-            desiredTagId = 2;
+            desiredTagId = 3;
 
             Robot.drivetrain.drive(-4,driveSpeed);
             Robot.drivetrain.turn(180, driveSpeed);
@@ -111,7 +111,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         Robot.motorCollector.runToPosition(300, true);
         // detect april tag
         runtime.reset();
-        Robot.webcam1.driveToTag(desiredTagId,searchTime,"paurghas");
+        Robot.webcam1.driveToTag(desiredTagId,searchTime,"clockwise");
         sleep(searchTime*1000);
         if (!Robot.webcam1.targetFound) {
             Robot.drivetrain.drive(-15, driveSpeed);

@@ -71,13 +71,14 @@ public class MotorClass {
 
     public void teleOp(float button1,float button2) {
 
-        if (button1 > 0) {
-            motor.setPower(button1 * maxSpeed);
-        }else if (button2 > 0){
-            motor.setPower(button2 * -maxSpeed);
-        } else {
-            motor.setPower(0);
+        float speed = 0;
+        if (Math.abs(button1) > Math.abs(button2)) {
+            speed = button1;
+        } else if (Math.abs(button1) < Math.abs(button2)) {
+            speed = button2;
         }
+
+        motor.setPower(speed * maxSpeed);
 
     }
 
