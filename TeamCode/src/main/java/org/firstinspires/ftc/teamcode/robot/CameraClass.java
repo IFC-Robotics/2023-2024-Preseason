@@ -80,8 +80,9 @@ public class CameraClass {
     //this is the method you would call
     public void driveToTag(int inputID, int searchTime, String idleBehavior) {
         runtime.reset();
+        DESIRED_TAG_ID = inputID;
         while (runtime.seconds() < searchTime && !opMode.isStopRequested()) {
-            DESIRED_TAG_ID = inputID;
+
             targetFound = false;
             desiredTag = null;
 
@@ -132,12 +133,12 @@ public class CameraClass {
 
                 telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
                 firstSearch = false;
-            } else if (firstSearch){
-                if (idleBehavior == "clockwise"){
+            } else if (firstSearch) {
+                if (idleBehavior == "clockwise") {
                     drive = 0;
                     strafe = 0;
                     turn = idleSpeed;
-                }else if (idleBehavior == "counterClockwise"){
+                } else if (idleBehavior == "counterClockwise") {
                     drive = 0;
                     strafe = 0;
                     turn = -idleSpeed;
@@ -146,12 +147,11 @@ public class CameraClass {
                     strafe = 0;
                     turn = 0;
                 }
-                telemetry.update();
-
+            }
                 // Apply desired axes motions to the drivetrain.
+
                 moveRobot(drive, strafe, turn);
                 opMode.sleep(10);
-            }
             }
 
     }

@@ -25,9 +25,9 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     String pixelPos = "center";
     double driveSpeed = 0.8;
 
-    int searchTime = 5;
+    int searchTime = 10;
 
-    int desiredTagId = -1;
+    int desiredTagId = 2;
 
     @Override
     public void runOpMode() {
@@ -106,20 +106,19 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     }
 
     private void goToBackDrop() {
-        Robot.drivetrain.drive(-25,1.2*driveSpeed);
+        Robot.drivetrain.drive(-30,1.2*driveSpeed);
         Robot.drivetrain.strafe(-13, 0.8*driveSpeed);
         Robot.motorCollector.runToPosition(300, true);
         // detect april tag
         runtime.reset();
         Robot.webcam1.driveToTag(desiredTagId,searchTime,"clockwise");
         sleep(searchTime*1000);
-        if (!Robot.webcam1.targetFound) {
-            Robot.drivetrain.drive(-15, driveSpeed);
+        if (Robot.webcam1.targetFound) {
+            Robot.drivetrain.drive(5, driveSpeed);
         }
         else {
-            Robot.drivetrain.drive(-7, driveSpeed);
+            Robot.drivetrain.drive(15, driveSpeed);
         }
-//        Robot.drivetrain.drive(-20, driveSpeed);
         telemetry.addLine("Done moving to aprilTag");
 
 //        quickDeposit("high");
