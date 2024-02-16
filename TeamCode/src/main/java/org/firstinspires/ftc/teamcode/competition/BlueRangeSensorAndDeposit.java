@@ -25,7 +25,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     String pixelPos = "center";
     double driveSpeed = 0.8;
 
-    int searchTime = 10;
+    int searchTime = 2;
 
     int desiredTagId = 2;
 
@@ -46,7 +46,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         while (runtime.seconds() < 1.2 && opModeIsActive()){ //maybe shorten this for more time
 //            distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
 //            distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
-            distLeft = 50;
+            distLeft = 0;
 
             if (distLeft <= 100) {
                 pixelPos = "Left";
@@ -71,13 +71,13 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
 
         if (pixelPos == "Left") {
-            desiredTagId = 3;
+            desiredTagId = 1;
             Robot.drivetrain.turn(90, driveSpeed);
 //            quickDeposit("middle");
             Robot.drivetrain.strafe(16, driveSpeed);
 
         } else if (pixelPos == "Right") {
-            desiredTagId = 3;
+            desiredTagId = 2;
 
             Robot.drivetrain.turn(-90, driveSpeed);
 //            quickDeposit("middle");
@@ -111,14 +111,14 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         Robot.motorCollector.runToPosition(300, true);
         // detect april tag
         runtime.reset();
-        Robot.webcam1.driveToTag(desiredTagId,searchTime,"clockwise");
+        Robot.webcam1.driveToTag(desiredTagId,searchTime,"");
         sleep(searchTime*1000);
-        if (Robot.webcam1.targetFound) {
-            Robot.drivetrain.drive(5, driveSpeed);
-        }
-        else {
-            Robot.drivetrain.drive(15, driveSpeed);
-        }
+//        if (Robot.webcam1.targetFound) {
+//            Robot.drivetrain.drive(5, driveSpeed);
+//        }
+//        else {
+//            Robot.drivetrain.drive(15, driveSpeed);
+//        }
         telemetry.addLine("Done moving to aprilTag");
 
 //        quickDeposit("high");

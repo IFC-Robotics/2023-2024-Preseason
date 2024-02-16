@@ -10,6 +10,7 @@ public class NoFSMteleOp extends LinearOpMode {
 
     float pulleyRatio = 0.5f; //test
     float pulleySpeed;
+    float launcherSpeed;
 
     @Override
     public void runOpMode() {
@@ -35,19 +36,29 @@ public class NoFSMteleOp extends LinearOpMode {
 
             Robot.motorCollector.teleOp(gamepad1.right_trigger,-gamepad1.left_trigger);
 
-            Robot.motorLauncher.teleOp(gamepad2.left_stick_y,0);
+
 
 //            Robot.servoLauncher.teleOpAssistMode(gamepad2.left_bumper,false, false);
 
             if (gamepad1.dpad_down) {
                 pulleySpeed = 0.5F;
+                launcherSpeed = 0.7f;
             } else if (gamepad1.dpad_up) {
                 pulleySpeed = -0.5F;
-            } else{
-                pulleySpeed = -gamepad2.left_stick_y * pulleyRatio;
+                launcherSpeed = -0.7f;
+            } else {
+                pulleySpeed = 0F;
+                launcherSpeed = 0f;
             }
 
-            Robot.motorPulley.teleOp(-pulleySpeed,pulleySpeed);
+            if (gamepad1.dpad_left) {
+                pulleySpeed = 0.5F;
+            }else if (gamepad1.dpad_right) {
+                pulleySpeed = -0.5F;
+            }
+
+            Robot.motorPulley.teleOp(pulleySpeed,0);
+            Robot.motorLauncher.teleOp(launcherSpeed,0);
 
             printRobotData();
 

@@ -79,10 +79,13 @@ public class CameraClass {
 
     //this is the method you would call
     public void driveToTag(int inputID, int searchTime, String idleBehavior) {
+        telemetry.addLine("in the camera class");
+        telemetry.update();
         runtime.reset();
         DESIRED_TAG_ID = inputID;
         while (runtime.seconds() < searchTime && !opMode.isStopRequested()) {
-
+            telemetry.addLine("in the camera loop");
+            telemetry.update();
             targetFound = false;
             desiredTag = null;
 
@@ -153,7 +156,7 @@ public class CameraClass {
                 moveRobot(drive, strafe, turn);
                 opMode.sleep(10);
             }
-
+        visionPortal.close();
     }
 
     /**

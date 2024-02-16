@@ -57,7 +57,7 @@ public class Robot {
 //        servoLauncher.init(opMode);
         motorCollector.init(opMode);
         motorLauncher.init(opMode);
-        webcam1.init(opMode);
+//        webcam1.init(opMode);
 //        redBlueModel.init(opMode);
         motorPulley.init(opMode);
 

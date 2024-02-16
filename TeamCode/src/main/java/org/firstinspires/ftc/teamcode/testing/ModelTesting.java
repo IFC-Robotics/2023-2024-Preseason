@@ -59,10 +59,12 @@ import java.util.Map;
 public class ModelTesting extends LinearOpMode {
 
     String elementPos = "Center";
-    String[] elementList;
+    String[] elementList = {"Center"};
     double driveSpeed = 0.5;
     int desiredTagId = -1;
     String desiredLabel = "Blue Box";
+    int searchTime = 2;
+
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -94,13 +96,18 @@ public class ModelTesting extends LinearOpMode {
 
         initTfod();
 
+        Robot.init(this);
+
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
         waitForStart();
 
-        Robot.drivetrain.drive(32,0.3);
+        desiredTagId = 2;
+
+
+        Robot.drivetrain.drive(-10,0.2);
 
         runtime.reset();
 
@@ -129,32 +136,42 @@ public class ModelTesting extends LinearOpMode {
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
+        Robot.webcam1.init(this);
+
+
+
         elementPos = findMostCommonPos(elementList);
 
         telemetry.addData("Detected Position",elementPos);
         telemetry.update();
+        sleep(2000);
+
+        Robot.drivetrain.drive(-22,0.7);
+
 
         if (elementPos == "Left") {
             desiredTagId = 1;
             Robot.drivetrain.turn(90, driveSpeed);
-            quickDeposit("middle");
+//            quickDeposit("middle");
             Robot.drivetrain.strafe(16, driveSpeed);
 
         } else if (elementPos == "Right") {
-            desiredTagId = 3;
-
-            Robot.drivetrain.turn(-90, driveSpeed);
-            quickDeposit("middle");
-            Robot.drivetrain.strafe(-16, driveSpeed);
-            Robot.drivetrain.turn(180,driveSpeed);
-        } else if (elementPos == "Center"){
             desiredTagId = 2;
 
+            Robot.drivetrain.turn(-90, driveSpeed);
+//            quickDeposit("middle");
+            Robot.drivetrain.strafe(-16, driveSpeed);
+            Robot.drivetrain.turn(180,driveSpeed);
+        } else {
+            desiredTagId = 3;
+
             Robot.drivetrain.drive(4,driveSpeed);
-            quickDeposit("middle");
-            Robot.drivetrain.turn(90,driveSpeed);
-            Robot.drivetrain.strafe(16, driveSpeed);
+//            quickDeposit("middle");
+            Robot.drivetrain.turn(-90,driveSpeed);
+            Robot.drivetrain.strafe(-16, driveSpeed);
+
         }
+
         goToBackDrop();
     }
     private void quickDeposit(String position) {
@@ -166,16 +183,24 @@ public class ModelTesting extends LinearOpMode {
     }
 
     private void goToBackDrop() {
-        Robot.drivetrain.drive(-25,1.2*driveSpeed);
+        Robot.drivetrain.drive(-30,1*driveSpeed);
         Robot.drivetrain.strafe(-13, 0.8*driveSpeed);
         Robot.motorCollector.runToPosition(300, true);
         // detect april tag
+        telemetry.addData("Searching for",desiredTagId);
+        telemetry.update();
         runtime.reset();
-        Robot.webcam1.driveToTag(desiredTagId,5,"");
-        Robot.drivetrain.drive(-20, driveSpeed);
+        Robot.webcam1.driveToTag(desiredTagId,searchTime,"");
+        sleep(searchTime*1000);
+//        if (Robot.webcam1.targetFound) {
+//            Robot.drivetrain.drive(5, driveSpeed);
+//        }
+//        else {
+//            Robot.drivetrain.drive(15, driveSpeed);
+//        }
         telemetry.addLine("Done moving to aprilTag");
 
-        quickDeposit("high");
+//        quickDeposit("high");
     }
 
     public void printRobotData() {
@@ -294,23 +319,23 @@ public class ModelTesting extends LinearOpMode {
         for (Recognition recognition : currentRecognitions) {
             double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
             double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
-            String appendElement;
-            if (recognition.getLabel() == desiredLabel) {
-                if (x < 440) {
+            String appendElement = "None";
+            if(recognition.getLabel() == desiredLabel) {
+                if (x < 540) {
                     appendElement = "Left";
-                } else if (x > 840) {
+                } else if (x > 760) {
                     appendElement = "Right";
                 } else {
                     appendElement = "Center";
                 }
+
                 elementList = Arrays.copyOf(elementList, elementList.length + 1);
                 elementList[elementList.length - 1] = appendElement;
             }
-
             telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("Guess",elementPos);
+            telemetry.addData("Guess",appendElement);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
         }   // end for() loop
 
