@@ -136,9 +136,6 @@ public class ModelTesting extends LinearOpMode {
         // Save more CPU resources when camera is no longer needed.
         visionPortal.close();
 
-        Robot.webcam1.init(this);
-
-
 
         elementPos = findMostCommonPos(elementList);
 
@@ -172,6 +169,7 @@ public class ModelTesting extends LinearOpMode {
 
         }
         visionPortal.setProcessorEnabled(tfod, false);
+        Robot.webcam1.init(this);
         goToBackDrop();
     }
     private void quickDeposit(String position) {
