@@ -171,7 +171,7 @@ public class ModelTesting extends LinearOpMode {
             Robot.drivetrain.strafe(-16, driveSpeed);
 
         }
-
+        visionPortal.setProcessorEnabled(tfod, false);
         goToBackDrop();
     }
     private void quickDeposit(String position) {

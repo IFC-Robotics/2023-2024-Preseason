@@ -9,11 +9,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
 
-// DISTANCES ARE TUNED
-// SERVO WON'T ROTATE BACK FOR SOME REASON IDK
-
-
-
 @Autonomous(name = "Blue Range Auton (Run this if on BlueLeft)", group = "Competition")
 
 public class BlueRangeSensorAndDeposit extends LinearOpMode {
@@ -39,6 +34,7 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
 
         Robot.init(this);
+        Robot.webcam1.init(this);
 
         waitForStart();
         Robot.drivetrain.drive(-32,0.7);
