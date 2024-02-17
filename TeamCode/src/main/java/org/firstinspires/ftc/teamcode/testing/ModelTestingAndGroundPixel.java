@@ -59,7 +59,7 @@ import java.util.Map;
 public class ModelTestingAndGroundPixel extends LinearOpMode {
 
     String elementPos = "Center";
-    String[] elementList = { "Center" };
+    String[] elementList = { "Left" };
     double driveSpeed = 0.5;
     int desiredTagId = -1;
     String desiredLabel = "Blue Box";
@@ -92,7 +92,7 @@ public class ModelTestingAndGroundPixel extends LinearOpMode {
         runtime.reset();
 
         if (opModeIsActive()) {
-            while (opModeIsActive() && runtime.seconds() < 2) {
+            while (opModeIsActive() && runtime.seconds() < 1) {
 
                 telemetryTfod();
 
@@ -129,36 +129,28 @@ public class ModelTestingAndGroundPixel extends LinearOpMode {
 
         if (elementPos == "Left") {
             desiredTagId = 1;
-            Robot.drivetrain.turn(90, driveSpeed);
 
-            Robot.drivetrain.turn(180, driveSpeed);
-            Robot.motorCollector.runToPosition(-100, true);
-            Robot.drivetrain.turn(180, driveSpeed);
+            Robot.drivetrain.turn(-90, driveSpeed);
 
-            Robot.drivetrain.strafe(16, driveSpeed);
+            Robot.motorCollector.runToPosition(-300, true);
+            Robot.drivetrain.strafe(-16, driveSpeed);
+            Robot.drivetrain.turn(180, driveSpeed);
 
         } else if (elementPos == "Right") {
             desiredTagId = 2;
 
-            Robot.drivetrain.turn(-90, driveSpeed);
-
-            Robot.drivetrain.turn(180, driveSpeed);
-            Robot.motorCollector.runToPosition(-100, true);
-            Robot.drivetrain.turn(180, driveSpeed);
-
-            Robot.drivetrain.strafe(-16, driveSpeed);
-            Robot.drivetrain.turn(180, driveSpeed);
+            Robot.drivetrain.turn(90, driveSpeed);
+            Robot.motorCollector.runToPosition(-300, true);
+            Robot.drivetrain.strafe(16, driveSpeed);
         } else {
             desiredTagId = 3;
 
             Robot.drivetrain.drive(4, driveSpeed);
 
             Robot.drivetrain.turn(180, driveSpeed);
-            Robot.motorCollector.runToPosition(-100, true);
-            Robot.drivetrain.turn(180, driveSpeed);
-
-            Robot.drivetrain.turn(90, driveSpeed);
-            Robot.drivetrain.strafe(-14, driveSpeed);
+            Robot.motorCollector.runToPosition(-300, true);
+            Robot.drivetrain.turn(-90, driveSpeed);
+            Robot.drivetrain.strafe(14, driveSpeed);
 
         }
         // visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
@@ -179,7 +171,6 @@ public class ModelTestingAndGroundPixel extends LinearOpMode {
     private void goToBackDrop() {
         Robot.drivetrain.drive(-30, 1 * driveSpeed);
         Robot.drivetrain.strafe(-14, 0.8 * driveSpeed);
-        Robot.motorCollector.runToPosition(300, true);
         // detect april tag
         telemetry.addData("Searching for", desiredTagId);
         telemetry.update();
@@ -187,13 +178,13 @@ public class ModelTestingAndGroundPixel extends LinearOpMode {
         Robot.webcam1.driveToTag(desiredTagId, searchTime, "clockwise");
         sleep(searchTime * 1000);
         if (Robot.webcam1.targetFound) {
-            Robot.drivetrain.drive(10, driveSpeed);
+            Robot.drivetrain.drive(-10, driveSpeed);
         } else {
-            Robot.drivetrain.drive(15, driveSpeed);
+            Robot.drivetrain.drive(-15, driveSpeed);
         }
         telemetry.addLine("Done moving to aprilTag");
 
-        // quickDeposit("high");
+         quickDeposit("high");
     }
 
     public void printRobotData() {

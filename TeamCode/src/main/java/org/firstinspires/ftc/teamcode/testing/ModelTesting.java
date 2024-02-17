@@ -154,12 +154,13 @@ public class ModelTesting extends LinearOpMode {
             Robot.drivetrain.drive(4,driveSpeed);
             quickDeposit("middle");
             Robot.drivetrain.turn(90,driveSpeed);
-            Robot.drivetrain.strafe(-14, driveSpeed);
+            Robot.drivetrain.strafe(14, driveSpeed);
 
         }
 //        visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
 //        visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do need AT detection
         telemetry.addData("Searching for", desiredTagId);
+        printRobotData();
         goToBackDrop();
     }
 
@@ -169,12 +170,13 @@ public class ModelTesting extends LinearOpMode {
         sleep(1000);
         Robot.servoDeposit.runToPosition("collect",true);
         Robot.verticalLift.runToPosition("zero", true);
+        printRobotData();
     }
 
     private void goToBackDrop() {
         Robot.drivetrain.drive(-30,1*driveSpeed);
         Robot.drivetrain.strafe(-14, 0.8*driveSpeed);
-        Robot.motorCollector.runToPosition(300, true);
+        Robot.motorCollector.runToPosition(600, false);
         // detect april tag
         telemetry.addData("Searching for",desiredTagId);
         telemetry.update();
@@ -182,14 +184,14 @@ public class ModelTesting extends LinearOpMode {
         Robot.webcam1.driveToTag(desiredTagId,searchTime,"clockwise");
         sleep(searchTime*1000);
         if (Robot.webcam1.targetFound) {
-            Robot.drivetrain.drive(10, driveSpeed);
+            Robot.drivetrain.drive(-10, driveSpeed);
         }
         else {
-            Robot.drivetrain.drive(15, driveSpeed);
+            Robot.drivetrain.drive(-15, driveSpeed);
         }
         telemetry.addLine("Done moving to aprilTag");
 
-//        quickDeposit("high");
+        quickDeposit("high");
     }
 
     public void printRobotData() {
