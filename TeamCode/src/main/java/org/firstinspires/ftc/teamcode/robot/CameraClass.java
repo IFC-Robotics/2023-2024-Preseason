@@ -15,6 +15,7 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.controls.GainCon
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.tfod.TfodProcessor;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -30,7 +31,7 @@ public class CameraClass {
     boolean firstSearch = true;
 
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 5.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 10.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -50,14 +51,30 @@ public class CameraClass {
 
     private static boolean USE_WEBCAM = true;  // Set true to use a webcam, or false for a phone camera
     private static int DESIRED_TAG_ID = 0;     // Choose the tag you want to approach or set to -1 for ANY tag.
-    private VisionPortal visionPortal;               // Used to manage the video source.
-    private AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
+    public VisionPortal visionPortal;               // Used to manage the video source.
+    public AprilTagProcessor aprilTag;              // Used for managing the AprilTag detection process.
     private org.firstinspires.ftc.vision.apriltag.AprilTagDetection desiredTag = null;     // Used to hold the data for a detected AprilTag
 
     public boolean targetFound = false;    // Set to true when an AprilTag target is detected
     double drive = 0;        // Desired forward power/speed (-1 to +1)
     double strafe = 0;        // Desired strafe power/speed (-1 to +1)
     double turn = 0;        // Desired turning power/speed (-1 to +1)
+
+    // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
+    // this is only used for Android Studio when using models in Assets.
+    private static final String TFOD_MODEL_ASSET = "model_red&blue_low_step.tflite";
+    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
+    // this is used when uploading models directly to the RC using the model upload interface.
+//    private static final String TFOD_MODEL_FILE = "/C:\\Users\\IFCro\\StudioProjects\\Center-Stage_2023-2024\\TeamCode\\src\\main\\res\\raw\\model_blue_box.tflite";
+    // Define the labels recognized in the model for TFOD (must be in training order!)
+    private static final String[] LABELS = {
+            "Blue Box", "Red Box"
+    };
+
+    /**
+     * The variable to store our instance of the TensorFlow Object Detection processor.
+     */
+    public TfodProcessor tfod;
 
     public CameraClass(String name, boolean isWebcam){
         this.name = name;
@@ -70,7 +87,7 @@ public class CameraClass {
         telemetry = opMode.telemetry;
 
         // Initialize the Apriltag Detection process
-        initAprilTag();
+        initAprilTagAndTfod();
 
         if (USE_WEBCAM)
             setManualExposure(6, 250);  // Use low exposure time to reduce motion blur
@@ -110,6 +127,8 @@ public class CameraClass {
                 }
             }
 
+
+
             // Tell the driver what we see, and what to do.
             if (targetFound) {
                 telemetry.addData("\n>", "HOLD Left-Bumper to Drive to Target\n");
@@ -121,6 +140,7 @@ public class CameraClass {
                 telemetry.addData("\n>", "Drive using joysticks to find valid target\n");
             }
 
+
             // If Left Bumper is being pressed, AND we have found the desired target, Drive to target Automatically .
             if (targetFound) {
 
@@ -129,12 +149,15 @@ public class CameraClass {
                 double headingError = desiredTag.ftcPose.bearing;
                 double yawError = desiredTag.ftcPose.yaw;
 
+                //this is to correct for overcorrected turning
+
                 // Use the speed and turn "gains" to calculate how we want the robot to move.
                 drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+                turn = Range.clip(0/**headingError * TURN_GAIN**/, -MAX_AUTO_TURN, MAX_AUTO_TURN);
                 strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
                 telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
+                telemetry.addData("Distance",rangeError);
                 firstSearch = false;
             } else if (firstSearch) {
                 if (idleBehavior == "clockwise") {
@@ -197,7 +220,7 @@ public class CameraClass {
     /**
      * Initialize the AprilTag processor.
      */
-    private void initAprilTag() {
+    private void initAprilTagAndTfod() {
         // Create the AprilTag processor by using a builder.
         aprilTag = new AprilTagProcessor.Builder().build();
 
@@ -210,25 +233,49 @@ public class CameraClass {
         // Note: Decimation can be changed on-the-fly to adapt during a match.
         aprilTag.setDecimation(2);
 
+        // Create the TensorFlow processor by using a builder.
+        tfod = new TfodProcessor.Builder()
+
+                // With the following lines commented out, the default TfodProcessor Builder
+                // will load the default model for the season. To define a custom model to load,
+                // choose one of the following:
+                //   Use setModelAssetName() if the custom TF Model is built in as an asset (AS only).
+                //   Use setModelFileName() if you have downloaded a custom team model to the Robot Controller.
+                .setModelAssetName(TFOD_MODEL_ASSET)
+                //.setModelFileName(TFOD_MODEL_FILE)
+
+                // The following default settings are available to un-comment and edit as needed to
+//                 set parameters for custom models.
+                .setModelLabels(LABELS)
+                .setIsModelTensorFlow2(true)
+                .setIsModelQuantized(true)
+                .setModelInputSize(320)
+                .setModelAspectRatio(16.0 / 9.0)
+
+                .build();
+
         // Create the vision portal by using a builder.
         if (USE_WEBCAM) {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(opMode.hardwareMap.get(WebcamName.class, "Webcam 1"))
-                    .addProcessor(aprilTag)
+                    .addProcessors(aprilTag, tfod)
                     .build();
         } else {
             visionPortal = new VisionPortal.Builder()
                     .setCamera(BuiltinCameraDirection.BACK)
-                    .addProcessor(aprilTag)
+                    .addProcessors(aprilTag, tfod)
                     .build();
         }
+        tfod.setMinResultConfidence(0.55f);
+
     }
+
 
     /*
      Manually set the camera gain and exposure.
      This can only be called AFTER calling initAprilTag(), and only works for Webcams;
     */
-    private void    setManualExposure(int exposureMS, int gain) {
+    private void setManualExposure(int exposureMS, int gain) {
         // Wait for the camera to be open, then use the controls
 
         if (visionPortal == null) {

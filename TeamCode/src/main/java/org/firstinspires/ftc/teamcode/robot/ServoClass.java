@@ -55,6 +55,9 @@ public class ServoClass {
         if (this.name == "servo_launcher") {
             servo.setPosition(this.maxPosition);
         }
+        if (this.name == "servo_deposit") {
+            servo.setPosition(this.minPosition);
+        }
 
         servoPosition = servo.getPosition();
 
