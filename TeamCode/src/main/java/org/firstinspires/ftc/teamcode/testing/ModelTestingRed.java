@@ -29,14 +29,10 @@
 
 package org.firstinspires.ftc.teamcode.testing;
 
-import android.util.Size;
-
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.teamcode.robot.Robot;
 import org.firstinspires.ftc.vision.VisionPortal;
@@ -54,15 +50,15 @@ import java.util.Map;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Object Detection: Blue", group = "Testing")
+@Autonomous(name = "Object Detection: Red", group = "Testing")
 
-public class ModelTesting extends LinearOpMode {
+public class ModelTestingRed extends LinearOpMode {
 
     String elementPos = "Center";
     String[] elementList = {"Center"};
     double driveSpeed = 0.5;
     int desiredTagId = -1;
-    String desiredLabel = "Blue Box";
+    String desiredLabel = "Red Box";
     int searchTime = 2;
 
 
@@ -154,7 +150,7 @@ public class ModelTesting extends LinearOpMode {
             Robot.drivetrain.drive(4,driveSpeed);
             quickDeposit("middle");
             Robot.drivetrain.turn(90,driveSpeed);
-            Robot.drivetrain.strafe(-14, driveSpeed);
+            Robot.drivetrain.strafe(-16, driveSpeed);
 
         }
 //        visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
@@ -179,14 +175,14 @@ public class ModelTesting extends LinearOpMode {
         telemetry.addData("Searching for",desiredTagId);
         telemetry.update();
         runtime.reset();
-        Robot.webcam1.driveToTag(desiredTagId,searchTime,"clockwise");
+        Robot.webcam1.driveToTag(desiredTagId,searchTime,"");
         sleep(searchTime*1000);
-        if (Robot.webcam1.targetFound) {
-            Robot.drivetrain.drive(10, driveSpeed);
-        }
-        else {
-            Robot.drivetrain.drive(15, driveSpeed);
-        }
+//        if (Robot.webcam1.targetFound) {
+//            Robot.drivetrain.drive(5, driveSpeed);
+//        }
+//        else {
+//            Robot.drivetrain.drive(15, driveSpeed);
+//        }
         telemetry.addLine("Done moving to aprilTag");
 
 //        quickDeposit("high");

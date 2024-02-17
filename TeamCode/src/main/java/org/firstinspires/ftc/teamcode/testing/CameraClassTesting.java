@@ -43,12 +43,13 @@ public class CameraClassTesting extends LinearOpMode {
 
 
         Robot.init(this);
+        Robot.webcam1.init(this);
 
 
         waitForStart();
 
 
-        Robot.webcam1.driveToTag(-1,10,"orbit left");
+        Robot.webcam1.driveToTag(1,10,"clockwise");
 
     }
 

@@ -55,7 +55,7 @@ public class LiftClass {
 
             if (position == "transfer" || position == "zero") return 0;
             if (position == "low")    return 600;
-            if (position == "middle") return 800;
+            if (position == "middle") return 600;
             if (position == "high")   return 1600;
 
         }

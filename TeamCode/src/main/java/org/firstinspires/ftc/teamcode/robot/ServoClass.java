@@ -100,7 +100,7 @@ public class ServoClass {
             }
             else if (maxConditionButton) {
                 servoPosName = maxPositionName;
-                servoPosition = maxPosition; //tune this
+                servoPosition = 0.46; //tune this
             }
             servo.setPosition(servoPosition);
 

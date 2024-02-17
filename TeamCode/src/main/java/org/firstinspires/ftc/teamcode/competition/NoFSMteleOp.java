@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.robot.Robot;
 @TeleOp(name="teleOp w/out FSM", group="Competition")
 public class NoFSMteleOp extends LinearOpMode {
 
-    float pulleyRatio = 0.5f; //test
+    float pulleyRatio = 0.2f; //test
     float pulleySpeed;
     float launcherSpeed;
 
@@ -34,6 +34,7 @@ public class NoFSMteleOp extends LinearOpMode {
 
             //Robot.servoDeposit.teleOpAssistMode(gamepad2.left_trigger > 0.2,(gamepad2.dpad_left || gamepad2.dpad_right),gamepad2.right_trigger > 0.2);
             Robot.servoDeposit.teleOpManualMode(gamepad2.left_trigger > 0.2,gamepad2.right_trigger > 0.2);
+            Robot.servoDeposit.teleOpAssistMode(gamepad2.dpad_down,(gamepad2.dpad_left||gamepad2.dpad_right),gamepad2.dpad_up);
 
             Robot.motorCollector.teleOp(gamepad1.right_trigger,-gamepad1.left_trigger);
 
@@ -42,10 +43,10 @@ public class NoFSMteleOp extends LinearOpMode {
 //            Robot.servoLauncher.teleOpAssistMode(gamepad2.left_bumper,false, false);
 
             if (gamepad1.dpad_down) {
-                pulleySpeed = 0.5F;
+                pulleySpeed = 0.2F;
                 launcherSpeed = 0.7f;
             } else if (gamepad1.dpad_up) {
-                pulleySpeed = -0.5F;
+                pulleySpeed = -0.2F;
                 launcherSpeed = -0.7f;
             } else {
                 pulleySpeed = 0F;
@@ -53,9 +54,9 @@ public class NoFSMteleOp extends LinearOpMode {
             }
 
             if (gamepad1.dpad_left) {
-                pulleySpeed = 0.5F;
+                pulleySpeed = 0.2F;
             }else if (gamepad1.dpad_right) {
-                pulleySpeed = -0.5F;
+                pulleySpeed = -0.2F;
             }
 
             Robot.motorPulley.teleOp(pulleySpeed,0);

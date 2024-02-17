@@ -31,7 +31,7 @@ public class CameraClass {
     boolean firstSearch = true;
 
     // Adjust these numbers to suit your robot.
-    final double DESIRED_DISTANCE = 10.0; //  this is how close the camera should get to the target (inches)
+    final double DESIRED_DISTANCE = 9.0; //  this is how close the camera should get to the target (inches)
 
     //  Set the GAIN constants to control the relationship between the measured position error, and how much power is
     //  applied to the drive motors to correct the error.
@@ -149,15 +149,23 @@ public class CameraClass {
                 double headingError = desiredTag.ftcPose.bearing;
                 double yawError = desiredTag.ftcPose.yaw;
 
-                //this is to correct for overcorrected turning
+//                //this is to correct for overcorrected turning
+//                if(headingError >= 0.0000005) {
+//                    turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+//                }
+////                }
+////                if(yawError <= 0.0000005) {
+////                    yawError = 0;
+////                }
+
 
                 // Use the speed and turn "gains" to calculate how we want the robot to move.
                 drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
-                turn = Range.clip(0/**headingError * TURN_GAIN**/, -MAX_AUTO_TURN, MAX_AUTO_TURN);
+                turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
                 strafe = Range.clip(-yawError * STRAFE_GAIN, -MAX_AUTO_STRAFE, MAX_AUTO_STRAFE);
 
                 telemetry.addData("Auto", "Drive %5.2f, Strafe %5.2f, Turn %5.2f ", drive, strafe, turn);
-                telemetry.addData("Distance",rangeError);
+                telemetry.addData("Distance",headingError);
                 firstSearch = false;
             } else if (firstSearch) {
                 if (idleBehavior == "clockwise") {
@@ -173,10 +181,14 @@ public class CameraClass {
                     strafe = 0;
                     turn = 0;
                 }
+            } else {
+                drive = 0;
+                strafe = 0;
+                turn = 0;
             }
                 // Apply desired axes motions to the drivetrain.
 
-                moveRobot(drive, strafe, turn);
+            moveRobot(drive, strafe, turn);
                 opMode.sleep(10);
             }
         visionPortal.close();
