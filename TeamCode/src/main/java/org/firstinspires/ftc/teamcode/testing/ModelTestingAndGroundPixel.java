@@ -59,7 +59,7 @@ import java.util.Map;
 public class ModelTestingAndGroundPixel extends LinearOpMode {
 
     String elementPos = "Center";
-    String[] elementList = { "Left" };
+    String[] elementList = { "Center" };
     double driveSpeed = 0.5;
     int desiredTagId = -1;
     String desiredLabel = "Blue Box";
@@ -125,8 +125,8 @@ public class ModelTestingAndGroundPixel extends LinearOpMode {
         telemetry.update();
         sleep(2000);
 
-        Robot.drivetrain.drive(-30, 0.7);
 
+        Robot.drivetrain.drive(-30, 0.7);
         if (elementPos == "Left") {
             desiredTagId = 1;
 
@@ -137,13 +137,13 @@ public class ModelTestingAndGroundPixel extends LinearOpMode {
             Robot.drivetrain.turn(180, driveSpeed);
 
         } else if (elementPos == "Right") {
-            desiredTagId = 2;
+            desiredTagId = 3;
 
             Robot.drivetrain.turn(90, driveSpeed);
             Robot.motorCollector.runToPosition(-300, true);
             Robot.drivetrain.strafe(16, driveSpeed);
         } else {
-            desiredTagId = 3;
+            desiredTagId = 2;
 
             Robot.drivetrain.drive(4, driveSpeed);
 
@@ -238,8 +238,8 @@ public class ModelTestingAndGroundPixel extends LinearOpMode {
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
-        int leftCutoff = 130;
-        int rightCutoff = 320;
+        int leftCutoff = 190;
+        int rightCutoff = 300;
 
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {

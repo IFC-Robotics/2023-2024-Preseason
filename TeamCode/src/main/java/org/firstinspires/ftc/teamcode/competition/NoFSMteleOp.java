@@ -42,10 +42,10 @@ public class NoFSMteleOp extends LinearOpMode {
 //            Robot.servoLauncher.teleOpAssistMode(gamepad2.left_bumper,false, false);
 
             if (gamepad1.dpad_down) {
-                pulleySpeed = 0.4F;
+                pulleySpeed = 0.3F;
                 launcherSpeed = 0.7f;
             } else if (gamepad1.dpad_up) {
-                pulleySpeed = -0.4F;
+                pulleySpeed = -0.3F;
                 launcherSpeed = -0.7f;
             } else {
                 pulleySpeed = 0F;

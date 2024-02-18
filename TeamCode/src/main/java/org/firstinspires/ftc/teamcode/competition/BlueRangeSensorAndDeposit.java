@@ -28,8 +28,8 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
     public void runOpMode() {
 
         // you can use this as a regular DistanceSensor.
-//        sensorDistanceLeft = hardwareMap.get(DistanceSensor.class, "sensor_range_left");
-//        sensorDistanceRight = hardwareMap.get(DistanceSensor.class, "sensor_range_right");
+        sensorDistanceLeft = hardwareMap.get(DistanceSensor.class, "sensor_range_left");
+        sensorDistanceRight = hardwareMap.get(DistanceSensor.class, "sensor_range_right");
 
 
 
@@ -40,9 +40,8 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
         Robot.drivetrain.drive(-32,0.7);
         runtime.reset();
         while (runtime.seconds() < 1.2 && opModeIsActive()){ //maybe shorten this for more time
-//            distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
-//            distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
-            distLeft = 0;
+            distLeft = sensorDistanceLeft.getDistance(DistanceUnit.CM);
+            distRight = sensorDistanceRight.getDistance(DistanceUnit.CM);
 
             if (distLeft <= 100) {
                 pixelPos = "Left";
@@ -68,25 +67,28 @@ public class BlueRangeSensorAndDeposit extends LinearOpMode {
 
         if (pixelPos == "Left") {
             desiredTagId = 1;
-            Robot.drivetrain.turn(90, driveSpeed);
-//            quickDeposit("middle");
-            Robot.drivetrain.strafe(16, driveSpeed);
+
+            Robot.drivetrain.turn(-90, driveSpeed);
+
+            Robot.motorCollector.runToPosition(-300, true);
+            Robot.drivetrain.strafe(-16, driveSpeed);
+            Robot.drivetrain.turn(180, driveSpeed);
 
         } else if (pixelPos == "Right") {
             desiredTagId = 3;
 
-            Robot.drivetrain.turn(-90, driveSpeed);
-//            quickDeposit("middle");
-            Robot.drivetrain.strafe(-16, driveSpeed);
-            Robot.drivetrain.turn(180,driveSpeed);
+            Robot.drivetrain.turn(90, driveSpeed);
+            Robot.motorCollector.runToPosition(-300, true);
+            Robot.drivetrain.strafe(16, driveSpeed);
         } else {
             desiredTagId = 2;
 
-            Robot.drivetrain.drive(-4,driveSpeed);
+            Robot.drivetrain.drive(4, driveSpeed);
+
             Robot.drivetrain.turn(180, driveSpeed);
-//            quickDeposit("middle");
-            Robot.drivetrain.turn(90,driveSpeed);
-            Robot.drivetrain.strafe(16, driveSpeed);
+            Robot.motorCollector.runToPosition(-300, true);
+            Robot.drivetrain.turn(-90, driveSpeed);
+            Robot.drivetrain.strafe(14, driveSpeed);
 
         }
 

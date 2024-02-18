@@ -50,9 +50,9 @@ import java.util.Map;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Object Detection: Red with ground deposit", group = "Testing")
+@Autonomous(name = "Object Detection: Red with Backdrop", group = "Testing")
 
-public class ModelTestingRedAndGroundPixel extends LinearOpMode {
+public class ModelTestingRedAndBackdrop extends LinearOpMode {
 
     String elementPos = "Center";
     String[] elementList = { "Right" };
@@ -138,37 +138,40 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
         telemetry.update();
         sleep(2000);
 
-        Robot.drivetrain.drive(-30, 0.7);
+        Robot.drivetrain.drive(-20,0.7);
+        Robot.drivetrain.turn(-90, driveSpeed);
 
-        if (elementPos == "Left") {
-            desiredTagId = 4;
 
-            Robot.drivetrain.turn(-90, driveSpeed);
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.turn(180, driveSpeed);
-
-            Robot.drivetrain.strafe(16, driveSpeed);
-
-        } else if (elementPos == "Right") {
-            desiredTagId = 6;
-
-            Robot.drivetrain.turn(90, driveSpeed);
-
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.strafe(16, driveSpeed);
-            Robot.drivetrain.turn(180, driveSpeed);
-        } else {
-            desiredTagId = 5;
-
-            Robot.drivetrain.drive(4, driveSpeed);
-
-            Robot.drivetrain.turn(180, driveSpeed);
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.turn(90, driveSpeed);
-
-            Robot.drivetrain.strafe(-14, driveSpeed);
-
-        }
+//        Robot.drivetrain.drive(-30, 0.7);
+//
+//        if (elementPos == "Left") {
+//            desiredTagId = 4;
+//
+//            Robot.drivetrain.turn(-90, driveSpeed);
+//            Robot.motorCollector.runToPosition(-300, true);
+//
+//            Robot.drivetrain.strafe(16, driveSpeed);
+//
+//        } else if (elementPos == "Right") {
+//            desiredTagId = 6;
+//
+//            Robot.drivetrain.turn(90, driveSpeed);
+//
+//            Robot.motorCollector.runToPosition(-300, true);
+//            Robot.drivetrain.strafe(16, driveSpeed);
+//            Robot.drivetrain.turn(180, driveSpeed);
+//        } else {
+//            desiredTagId = 5;
+//
+//            Robot.drivetrain.drive(4, driveSpeed);
+//
+//            Robot.drivetrain.turn(180, driveSpeed);
+//            Robot.motorCollector.runToPosition(-300, true);
+//            Robot.drivetrain.turn(90, driveSpeed);
+//
+//            Robot.drivetrain.strafe(-14, driveSpeed);
+//
+//        }
         // visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
         // visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do
         // need AT detection

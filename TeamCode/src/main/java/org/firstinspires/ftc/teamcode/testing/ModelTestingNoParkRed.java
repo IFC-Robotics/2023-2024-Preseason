@@ -50,16 +50,17 @@ import java.util.Map;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Object Detection: Red with ground deposit", group = "Testing")
+@Autonomous(name = "Object Detection: No Park Red", group = "Testing")
 
-public class ModelTestingRedAndGroundPixel extends LinearOpMode {
+public class ModelTestingNoParkRed extends LinearOpMode {
 
     String elementPos = "Center";
-    String[] elementList = { "Right" };
+    String[] elementList = {"Center"};
     double driveSpeed = 0.5;
     int desiredTagId = -1;
     String desiredLabel = "Red Box";
     int searchTime = 2;
+
 
     private ElapsedTime runtime = new ElapsedTime();
     private VisionPortal visionPortal;
@@ -74,8 +75,7 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
         visionPortal = Robot.webcam1.visionPortal;
         tfod = Robot.webcam1.tfod;
 
-        // visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, false); // we don't
-        // need AprilTag detection yet
+//        visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, false); // we don't need AprilTag detection yet
 
         // Wait for the DS start button to be touched.
         telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -86,7 +86,6 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
         desiredTagId = 2;
 
 
-        Robot.drivetrain.turn(10,0.7);
         runtime.reset();
 
         if (opModeIsActive()) {
@@ -102,7 +101,8 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
                     visionPortal.stopStreaming();
                 } else if (gamepad1.dpad_up) {
                     visionPortal.resumeStreaming();
-                }while (opModeIsActive() && runtime.seconds() < 2) {
+                }
+                while (opModeIsActive() && runtime.seconds() < 2) {
 
                     telemetryTfod();
 
@@ -117,11 +117,7 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
                     }
                 }
 
-                // Share the CPU.
-                sleep(20);
             }
-
-            Robot.drivetrain.turn(-10,0.7);
 
             mainPath();
 
@@ -129,92 +125,67 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
 
         // Save more CPU resources when camera is no longer needed.
 
+
+
     }
 
     private void mainPath() {
+        elementPos = findMostCommonPos(elementList);
+
+        telemetry.addData("Detected Position",elementPos);
+        telemetry.update();
+        sleep(2000);
+
+        Robot.drivetrain.drive(-30,0.7);
+
+
         elementPos = findMostCommonPos(elementList);
 
         telemetry.addData("Detected Position", elementPos);
         telemetry.update();
         sleep(2000);
 
-        Robot.drivetrain.drive(-30, 0.7);
-
         if (elementPos == "Left") {
-            desiredTagId = 4;
+            desiredTagId = 1;
 
             Robot.drivetrain.turn(-90, driveSpeed);
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.turn(180, driveSpeed);
 
-            Robot.drivetrain.strafe(16, driveSpeed);
+            Robot.motorCollector.runToPosition(-600, true);
+
 
         } else if (elementPos == "Right") {
-            desiredTagId = 6;
+            desiredTagId = 3;
 
             Robot.drivetrain.turn(90, driveSpeed);
-
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.strafe(16, driveSpeed);
-            Robot.drivetrain.turn(180, driveSpeed);
+            Robot.motorCollector.runToPosition(-600, true);
         } else {
-            desiredTagId = 5;
+            desiredTagId = 2;
 
             Robot.drivetrain.drive(4, driveSpeed);
 
             Robot.drivetrain.turn(180, driveSpeed);
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.turn(90, driveSpeed);
-
-            Robot.drivetrain.strafe(-14, driveSpeed);
+            Robot.motorCollector.runToPosition(-600, true);
 
         }
         // visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
         // visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do
         // need AT detection
         telemetry.addData("Searching for", desiredTagId);
-        goToBackDrop();
     }
 
-    private void quickDeposit(String position) {
-        Robot.verticalLift.runToPosition(position, true);
-        Robot.servoDeposit.runToPosition("auton", true);
-        sleep(1000);
-        Robot.servoDeposit.runToPosition("collect", true);
-        Robot.verticalLift.runToPosition("zero", true);
-    }
 
-    private void goToBackDrop() {
-        Robot.drivetrain.drive(-30, 1 * driveSpeed);
-        Robot.drivetrain.strafe(14, 0.8 * driveSpeed);
-        // detect april tag
-        telemetry.addData("Searching for", desiredTagId);
-        telemetry.update();
-        runtime.reset();
-        Robot.webcam1.driveToTag(desiredTagId, searchTime, "counterClockwise");
-        sleep(searchTime * 1000);
-         if (Robot.webcam1.targetFound) {
-         Robot.drivetrain.drive(-10, driveSpeed);
-         }
-         else {
-         Robot.drivetrain.drive(-15, driveSpeed);
-         }
-        telemetry.addLine("Done moving to aprilTag");
-
-         quickDeposit("high");
-    }
-
+// bruh moment
     public void printRobotData() {
 
         telemetry.addLine("\nRobot data:\n");
 
-        telemetry.addData("Element Position", elementPos);
+        telemetry.addData("Element Position",elementPos);
 
         Robot.verticalLift.printData();
 
         Robot.motorCollector.printData();
 
-        // Robot.servoDeposit.printData();
+//        Robot.servoDeposit.printData();
 
         telemetry.update();
 
@@ -243,6 +214,7 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
         return mostCommonElement;
     }
 
+
     /**
      * Initialize the TensorFlow Object Detection processor.
      */
@@ -260,10 +232,10 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
 
         // Step through the list of recognitions and display info for each one.
         for (Recognition recognition : currentRecognitions) {
-            double x = (recognition.getLeft() + recognition.getRight()) / 2;
-            double y = (recognition.getTop() + recognition.getBottom()) / 2;
+            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
+            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
             String appendElement = "None";
-            if (recognition.getLabel() == desiredLabel && recognition.getWidth() < 400) {
+            if(recognition.getLabel() == desiredLabel && recognition.getWidth() < 400) {
                 if (x < leftCutoff) {
                     appendElement = "Left";
                 } else if (x > rightCutoff) {
@@ -276,13 +248,13 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
                     elementList[elementList.length - 1] = appendElement;
                 }
             }
-            telemetry.addData("", " ");
+            telemetry.addData(""," ");
             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
             telemetry.addData("- Position", "%.0f / %.0f", x, y);
-            telemetry.addData("Guess", appendElement);
+            telemetry.addData("Guess",appendElement);
             telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-        } // end for() loop
+        }   // end for() loop
 
-    } // end method telemetryTfod()
+    }   // end method telemetryTfod()
 
-} // end class
+}   // end class

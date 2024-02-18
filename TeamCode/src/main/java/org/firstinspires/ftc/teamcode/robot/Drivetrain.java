@@ -23,7 +23,7 @@ public class Drivetrain {
     public static double STRAFE_FACTOR = 50.83;
     public static double TURN_FACTOR = 296.0;
 
-    public static double MAX_TELEOP_SPEED = 0.3;
+    public static double MAX_TELEOP_SPEED = 0.7;
 
     public final String forwardDirection;
     public final int sleepTime;

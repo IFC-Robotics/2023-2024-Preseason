@@ -50,15 +50,15 @@ import java.util.Map;
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
  */
-@Autonomous(name = "Object Detection: Red with ground deposit", group = "Testing")
+@Autonomous(name = "Object Detection: Blue, with Backdrop", group = "Testing")
 
-public class ModelTestingRedAndGroundPixel extends LinearOpMode {
+public class ModelTestingAndBackdrop extends LinearOpMode {
 
     String elementPos = "Center";
-    String[] elementList = { "Right" };
+    String[] elementList = { "Center" };
     double driveSpeed = 0.5;
     int desiredTagId = -1;
-    String desiredLabel = "Red Box";
+    String desiredLabel = "Blue Box";
     int searchTime = 2;
 
     private ElapsedTime runtime = new ElapsedTime();
@@ -85,8 +85,6 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
 
         desiredTagId = 2;
 
-
-        Robot.drivetrain.turn(10,0.7);
         runtime.reset();
 
         if (opModeIsActive()) {
@@ -102,26 +100,11 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
                     visionPortal.stopStreaming();
                 } else if (gamepad1.dpad_up) {
                     visionPortal.resumeStreaming();
-                }while (opModeIsActive() && runtime.seconds() < 2) {
-
-                    telemetryTfod();
-
-                    // Push telemetry to the Driver Station.
-                    telemetry.update();
-
-                    // Save CPU resources; can resume streaming when needed.
-                    if (gamepad1.dpad_down) {
-                        visionPortal.stopStreaming();
-                    } else if (gamepad1.dpad_up) {
-                        visionPortal.resumeStreaming();
-                    }
                 }
 
                 // Share the CPU.
                 sleep(20);
             }
-
-            Robot.drivetrain.turn(-10,0.7);
 
             mainPath();
 
@@ -138,37 +121,37 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
         telemetry.update();
         sleep(2000);
 
-        Robot.drivetrain.drive(-30, 0.7);
+        Robot.drivetrain.drive(-20,0.7);
+        Robot.drivetrain.turn(90,0.7);
 
-        if (elementPos == "Left") {
-            desiredTagId = 4;
 
-            Robot.drivetrain.turn(-90, driveSpeed);
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.turn(180, driveSpeed);
-
-            Robot.drivetrain.strafe(16, driveSpeed);
-
-        } else if (elementPos == "Right") {
-            desiredTagId = 6;
-
-            Robot.drivetrain.turn(90, driveSpeed);
-
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.strafe(16, driveSpeed);
-            Robot.drivetrain.turn(180, driveSpeed);
-        } else {
-            desiredTagId = 5;
-
-            Robot.drivetrain.drive(4, driveSpeed);
-
-            Robot.drivetrain.turn(180, driveSpeed);
-            Robot.motorCollector.runToPosition(-300, true);
-            Robot.drivetrain.turn(90, driveSpeed);
-
-            Robot.drivetrain.strafe(-14, driveSpeed);
-
-        }
+//        Robot.drivetrain.drive(-30, 0.7);
+//        if (elementPos == "Left") {
+//            desiredTagId = 1;
+//
+//            Robot.drivetrain.turn(-90, driveSpeed);
+//
+//            Robot.motorCollector.runToPosition(-300, true);
+//            Robot.drivetrain.strafe(-16, driveSpeed);
+//            Robot.drivetrain.turn(180, driveSpeed);
+//
+//        } else if (elementPos == "Right") {
+//            desiredTagId = 3;
+//
+//            Robot.drivetrain.turn(90, driveSpeed);
+//            Robot.motorCollector.runToPosition(-300, true);
+//            Robot.drivetrain.strafe(16, driveSpeed);
+//        } else {
+//            desiredTagId = 2;
+//
+//            Robot.drivetrain.drive(4, driveSpeed);
+//
+//            Robot.drivetrain.turn(180, driveSpeed);
+//            Robot.motorCollector.runToPosition(-300, true);
+//            Robot.drivetrain.turn(-90, driveSpeed);
+//            Robot.drivetrain.strafe(14, driveSpeed);
+//
+//        }
         // visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
         // visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do
         // need AT detection
@@ -186,19 +169,18 @@ public class ModelTestingRedAndGroundPixel extends LinearOpMode {
 
     private void goToBackDrop() {
         Robot.drivetrain.drive(-30, 1 * driveSpeed);
-        Robot.drivetrain.strafe(14, 0.8 * driveSpeed);
+        Robot.drivetrain.strafe(-14, 0.8 * driveSpeed);
         // detect april tag
         telemetry.addData("Searching for", desiredTagId);
         telemetry.update();
         runtime.reset();
-        Robot.webcam1.driveToTag(desiredTagId, searchTime, "counterClockwise");
+        Robot.webcam1.driveToTag(desiredTagId, searchTime, "clockwise");
         sleep(searchTime * 1000);
-         if (Robot.webcam1.targetFound) {
-         Robot.drivetrain.drive(-10, driveSpeed);
-         }
-         else {
-         Robot.drivetrain.drive(-15, driveSpeed);
-         }
+        if (Robot.webcam1.targetFound) {
+            Robot.drivetrain.drive(-10, driveSpeed);
+        } else {
+            Robot.drivetrain.drive(-15, driveSpeed);
+        }
         telemetry.addLine("Done moving to aprilTag");
 
          quickDeposit("high");

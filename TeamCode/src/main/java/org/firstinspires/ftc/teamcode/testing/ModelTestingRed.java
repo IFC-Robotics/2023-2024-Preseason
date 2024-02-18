@@ -240,7 +240,7 @@ public class ModelTestingRed extends LinearOpMode {
         List<Recognition> currentRecognitions = tfod.getRecognitions();
         telemetry.addData("# Objects Detected", currentRecognitions.size());
 
-        int leftCutoff = 130;
+        int leftCutoff = 190;
         int rightCutoff = 320;
 
         // Step through the list of recognitions and display info for each one.
