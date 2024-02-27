@@ -16,6 +16,7 @@ public class LiftClass {
     public double  motorCurrentSpeed = 0;
     public boolean motorIsMoving = false;
     public boolean enableEncoderLimits = true;
+    public boolean toggleReady = false;
 
     public final String name;
     public final double maxSpeed;
@@ -54,7 +55,7 @@ public class LiftClass {
 
             if (position == "transfer" || position == "zero") return 0;
             if (position == "low")    return 600;
-            if (position == "middle") return 1000;
+            if (position == "middle") return 600;
             if (position == "high")   return 1600;
 
         }
@@ -70,6 +71,16 @@ public class LiftClass {
 
     public void runToPosition(String position, boolean isSynchronous, double speed) {
         int target = positionToDistance(position);
+        motor.setTargetPosition(target);
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorCurrentSpeed = speed;
+        motor.setPower(motorCurrentSpeed);
+        if (isSynchronous) waitForLift();
+    }
+
+    // in case we need to offset the buttons if the autonomous stops before the lift goes down all the way
+    public void runToPositionTeleop(String position, boolean isSynchronous, double speed, int offset) {
+        int target = positionToDistance(position) + offset;
         motor.setTargetPosition(target);
         motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorCurrentSpeed = speed;
@@ -100,25 +111,13 @@ public class LiftClass {
 
             String position = "";
 
-            if (this.name == "motor_horizontal_lift") {
-
-                if (button1) position = "zero";
-                if (button2) position = "rotate claw down";
-                if (button3) position = "wait to collect";
-                if (button4) position = "collect";
-
-            } else if (this.name == "motor_vertical_lift") {
+            if (this.name == "motor_vertical_lift") {
 
                 if (button1) position = "zero";
                 if (button2) position = "low";
                 if (button3) position = "middle";
                 if (button4) position = "high";
 
-//                // you can only move verticalLift from high -> 0 IF servoRotateHook is NOT at score
-//                if (this.robot.servoRotateHook.servo.getPosition() == 0.84 && button1) {
-//                    telemetry.addLine("VERTICAL LIFT IS TRYING TO MOVE TO ZERO, BUT SERVO ROTATE HOOK IS AT SCORE POSITION");
-//                    return;
-//                }
 
             }
 
@@ -134,37 +133,6 @@ public class LiftClass {
         }
 
     }
-//
-//    public void teleOpManualMode(double joystick, boolean encoderButton) {
-//
-//        double liftSpeed = Range.clip(joystick, -this.maxSpeed, this.maxSpeed);
-//        int liftCurrentPosition = motor.getCurrentPosition();
-//
-//        boolean liftIsTooLow  = (liftCurrentPosition < positionToDistance("zero") && liftSpeed < 0);
-//        boolean liftIsTooHigh = (liftCurrentPosition > positionToDistance("high") && liftSpeed > 0);
-//
-//        if (liftSpeed == 0 || (enableEncoderLimits && (liftIsTooLow || liftIsTooHigh))) {
-//            motorCurrentSpeed = this.idleSpeed;
-//        } else {
-//            motorCurrentSpeed = liftSpeed;
-//        }
-//
-//        motor.setPower(motorCurrentSpeed);
-//
-//        // reset encoder value
-//
-//        if (encoderButton) {
-//
-//            enableEncoderLimits = !enableEncoderLimits;
-//
-//            if (enableEncoderLimits) {
-//                motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//                motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-//            }
-//
-//        }
-//
-//    }
 
     // complete teleOp
 
@@ -176,13 +144,7 @@ public class LiftClass {
 
             String position = "";
 
-            if (this.name == "motor_horizontal_lift") {
-
-                if (button1) position = "zero";
-                if (button2) position = "wait to collect";
-                if (button3) position = "collect";
-
-            } else if (this.name == "motor_vertical_lift") {
+            if (this.name == "motor_vertical_lift") {
 
                 if (button1) position = "zero";
                 if (button2) position = "low";
@@ -226,7 +188,12 @@ public class LiftClass {
 
         // change encoder limits
 
-        if (encoderButton) {
+        if (!encoderButton) {
+            toggleReady = true;
+        }
+
+        if (encoderButton && toggleReady) {
+            toggleReady = false;
 
             enableEncoderLimits = !enableEncoderLimits;
 

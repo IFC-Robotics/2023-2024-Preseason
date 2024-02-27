@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.robot;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -20,9 +21,9 @@ public class Drivetrain {
 
     public static double DRIVE_FACTOR = 40.92;
     public static double STRAFE_FACTOR = 50.83;
-    public static double TURN_FACTOR = 100.0;
+    public static double TURN_FACTOR = 296.0;
 
-    public static double MAX_TELEOP_SPEED = 0.2;
+    public static double MAX_TELEOP_SPEED = 0.7;
 
     public final String forwardDirection;
     public final int sleepTime;
@@ -42,7 +43,8 @@ public class Drivetrain {
         motorBackRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
-        if (this.forwardDirection == "ramp") {
+        if (this.forwardDirection == "collector") {
+            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
             motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
         }
 
@@ -102,7 +104,7 @@ public class Drivetrain {
 
         double power = Math.signum(angle) * speed;
 
-        moveDrivetrain(target, target, target, target, power, -power, power, -power, isSynchronous);
+        moveDrivetrain(target, -target, target, -target, power, -power, power, -power, isSynchronous);
 
     }
 
@@ -125,6 +127,32 @@ public class Drivetrain {
 
         if (isSynchronous) waitForDrivetrain();
 
+    }
+
+    public void moveRobot(double x, double y, double yaw) {
+        // Calculate wheel powers.
+        double leftFrontPower    =  x -y +yaw;
+        double rightFrontPower   =  x +y -yaw;
+        double leftBackPower     =  x +y +yaw;
+        double rightBackPower    =  x -y -yaw;
+
+        // Normalize wheel powers to be less than 1.0
+        double max = Math.max(Math.abs(leftFrontPower), Math.abs(rightFrontPower));
+        max = Math.max(max, Math.abs(leftBackPower));
+        max = Math.max(max, Math.abs(rightBackPower));
+
+        if (max > 1.0) {
+            leftFrontPower /= max;
+            rightFrontPower /= max;
+            leftBackPower /= max;
+            rightBackPower /= max;
+        }
+
+        // Send powers to the wheels.
+        motorFrontLeft.setPower(leftFrontPower);
+        motorFrontRight.setPower(rightFrontPower);
+        motorBackLeft.setPower(leftBackPower);
+        motorBackRight.setPower(rightBackPower);
     }
 
     public void moveWheel(boolean frontRightTest,boolean frontLeftTest,boolean backRightTest,boolean backLeftTest) {
@@ -179,14 +207,14 @@ public class Drivetrain {
 
     // teleOp
 
-    public void teleOp(double drive, double strafe, double turn) {
+    public void teleOp(double drive, double strafe, double turn, boolean turboModeToggle) {
 
         double frontRightPower;
         double frontLeftPower;
         double backRightPower;
         double backLeftPower;
 
-        double denominator = (Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1))/MAX_TELEOP_SPEED;
+        double denominator = (Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1))/(turboModeToggle ? 0.7 : MAX_TELEOP_SPEED);
         frontLeftPower = (drive + strafe + turn) / denominator ;
         backLeftPower = (drive - strafe + turn) / denominator;
         frontRightPower = (drive - strafe - turn) / denominator;
