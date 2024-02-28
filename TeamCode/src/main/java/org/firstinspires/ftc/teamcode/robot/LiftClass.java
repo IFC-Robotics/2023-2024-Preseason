@@ -47,8 +47,8 @@ public class LiftClass {
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
     }
-    // helper function
 
+    // helper function
     public int positionToDistance(String position) {
 
         if (this.name == "motor_vertical_lift") {

@@ -26,8 +26,13 @@ public class CameraClass {
     LinearOpMode opMode;
     Telemetry telemetry;
 
+
     public final String name;
     private ElapsedTime runtime = new ElapsedTime();
+
+
+    // ~~~~~~ AprilTag Variables ~~~~~~
+
     final double idleSpeed = 0.1;
     boolean firstSearch = true;
 
@@ -61,21 +66,21 @@ public class CameraClass {
     double strafe = 0;        // Desired strafe power/speed (-1 to +1)
     double turn = 0;        // Desired turning power/speed (-1 to +1)
 
+
+    // ~~~~~~ TFOD Variables~~~~~~
+
     // TFOD_MODEL_ASSET points to a model file stored in the project Asset location,
     // this is only used for Android Studio when using models in Assets.
     private static final String TFOD_MODEL_ASSET = "model_red&blue_low_step.tflite";
-    // TFOD_MODEL_FILE points to a model file stored onboard the Robot Controller's storage,
-    // this is used when uploading models directly to the RC using the model upload interface.
-//    private static final String TFOD_MODEL_FILE = "/C:\\Users\\IFCro\\StudioProjects\\Center-Stage_2023-2024\\TeamCode\\src\\main\\res\\raw\\model_blue_box.tflite";
+
     // Define the labels recognized in the model for TFOD (must be in training order!)
     private static final String[] LABELS = {
             "Blue Box", "Red Box"
     };
 
-    /**
-     * The variable to store our instance of the TensorFlow Object Detection processor.
-     */
     public TfodProcessor tfod;
+    // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
     public CameraClass(String name, boolean isWebcam){
         this.name = name;
@@ -95,8 +100,8 @@ public class CameraClass {
     }
 
 
-    //this is the method you would call
-    public void driveToTag(int inputID, int searchTime, String idleBehavior) {
+    //call this method for aprilTag based movement
+    public void driveToTag(int inputID, int searchTime, String idleBehavior, boolean isSynchronous) {
         telemetry.addLine("in the camera class");
         telemetry.update();
         runtime.reset();
@@ -150,15 +155,6 @@ public class CameraClass {
                 double headingError = desiredTag.ftcPose.bearing;
                 double yawError = desiredTag.ftcPose.yaw;
 
-//                //this is to correct for overcorrected turning
-//                if(headingError >= 0.0000005) {
-//                    turn = Range.clip(headingError * TURN_GAIN, -MAX_AUTO_TURN, MAX_AUTO_TURN);
-//                }
-////                }
-////                if(yawError <= 0.0000005) {
-////                    yawError = 0;
-////                }
-
 
                 // Use the speed and turn "gains" to calculate how we want the robot to move.
                 drive = Range.clip(rangeError * SPEED_GAIN, -MAX_AUTO_SPEED, MAX_AUTO_SPEED);
@@ -187,8 +183,8 @@ public class CameraClass {
                 strafe = 0;
                 turn = 0;
             }
-                // Apply desired axes motions to the drivetrain.
 
+            // Apply desired axes motions to the drivetrain.
             moveRobot(drive, strafe, turn);
                 opMode.sleep(10);
             }
