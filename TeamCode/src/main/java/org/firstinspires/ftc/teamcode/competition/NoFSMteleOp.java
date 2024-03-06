@@ -28,15 +28,17 @@ public class NoFSMteleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
+            Robot.scissorLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x);
 
             Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, gamepad1.right_bumper);
 
             //Robot.servoDeposit.teleOpAssistMode(gamepad2.left_trigger > 0.2,(gamepad2.dpad_left || gamepad2.dpad_right),gamepad2.right_trigger > 0.2);
-            Robot.servoDeposit.teleOpManualMode(gamepad2.left_trigger > 0.2,gamepad2.right_trigger > 0.2);
-            Robot.servoDeposit.teleOpAssistMode(gamepad2.dpad_down,(gamepad2.dpad_left||gamepad2.dpad_right),gamepad2.dpad_up);
+            Robot.servoClawL.teleOpManualMode(gamepad2.left_trigger > 0.2,gamepad2.right_trigger > 0.2);
+            Robot.servoClawL.teleOpAssistMode(gamepad2.dpad_down,(gamepad2.dpad_left||gamepad2.dpad_right),gamepad2.dpad_up);
+            Robot.servoClawR.teleOpManualMode(gamepad2.left_trigger > 0.2,gamepad2.right_trigger > 0.2);
+            Robot.servoClawR.teleOpAssistMode(gamepad2.dpad_down,(gamepad2.dpad_left||gamepad2.dpad_right),gamepad2.dpad_up);
 
-            Robot.motorCollector.teleOp(gamepad1.right_trigger,-gamepad1.left_trigger);
+            Robot.motorArm.teleOp(gamepad1.right_trigger,-gamepad1.left_trigger);
 
 
 
@@ -59,19 +61,18 @@ public class NoFSMteleOp extends LinearOpMode {
                 pulleySpeed = -0.2F;
             }
 
-            Robot.motorPulley.teleOp(pulleySpeed,0);
-            Robot.motorLauncher.teleOp(launcherSpeed,0);
+
 
             printRobotData();
 
-            if(gamepad1.y){
-                Robot.motorLauncher.runToPosition(20);
-                Robot.motorPulley.runToPosition(10);
-                sleep(2000);
-                while (opModeIsActive()) {
-                    Robot.motorPulley.teleOp(0.5f, 0);
-                }
-            }
+//            if(gamepad1.y){
+//                Robot.motorLauncher.runToPosition(20);
+//                Robot.motorPulley.runToPosition(10);
+//                sleep(2000);
+//                while (opModeIsActive()) {
+//                    Robot.motorPulley.teleOp(0.5f, 0);
+//                }
+//            }
         }
     }
 
@@ -79,11 +80,12 @@ public class NoFSMteleOp extends LinearOpMode {
 
         telemetry.addLine("\nRobot data:\n");
 
-        Robot.verticalLift.printData();
+        Robot.scissorLift.printData();
 
-        Robot.motorCollector.printData();
+        Robot.motorArm.printData();
 
-        Robot.servoDeposit.printData();
+        Robot.servoClawL.printData();
+
 
 //        Robot.servoLauncher.printData();
 
