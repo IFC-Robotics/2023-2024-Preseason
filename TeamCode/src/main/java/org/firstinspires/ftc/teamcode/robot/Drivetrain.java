@@ -39,26 +39,26 @@ public class Drivetrain {
         telemetry = opMode.telemetry;
 
         motorFrontLeft  = opMode.hardwareMap.get(DcMotor.class, "motor_front_left");
-        motorFrontRight = opMode.hardwareMap.get(DcMotor.class, "motor_front_right");
+        motorFront = opMode.hardwareMap.get(DcMotor.class, "motor_front");
         motorBackRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
-        motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
+        motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back");
 
         if (this.forwardDirection == "collector") {
             motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-            motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+            motorFront.setDirection(DcMotor.Direction.REVERSE);
         }
 
-        motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        motorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorFrontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         motorBackLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        motorFrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorFront.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motorFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motorBackLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -78,7 +78,7 @@ public class Drivetrain {
         int target = (int)(distance * DRIVE_FACTOR);
         double power = Math.signum(distance) * speed;
 
-        moveDrivetrain(target, target, target, target, power, power, power, power, isSynchronous);
+        moveDrivetrain(target, target, target, target, 0, power, power, 0, isSynchronous);
 
     }
 
@@ -86,10 +86,10 @@ public class Drivetrain {
 
         telemetry.addLine(String.format("\nstrafing %s inches", distance));
 
-        int target = (int)(distance * STRAFE_FACTOR);
+        int target = (int)(distance * DRIVE_FACTOR);
         double power = Math.signum(distance) * speed;
 
-        moveDrivetrain(-target, target, target, -target, -power, power, power, -power, isSynchronous);
+        moveDrivetrain(-target, target, target, -target, power, 0, 0, power, isSynchronous);
 
     }
 
@@ -104,26 +104,26 @@ public class Drivetrain {
 
         double power = Math.signum(angle) * speed;
 
-        moveDrivetrain(target, -target, target, -target, power, -power, power, -power, isSynchronous);
+        moveDrivetrain(0, -target, target, 0, 0, -power, power, 0, isSynchronous);
 
     }
 
-    public void moveDrivetrain(int targetFrontRight, int targetFrontLeft, int targetBackRight, int targetBackLeft, double powerFrontRight, double powerFrontLeft, double powerBackRight, double powerBackLeft, boolean isSynchronous) {
+    public void moveDrivetrain(int targetFront, int targetFrontLeft, int targetBackRight, int targetBack, double powerFront, double powerFrontLeft, double powerBackRight, double powerBack, boolean isSynchronous) {
 
-        motorFrontRight.setTargetPosition(targetFrontRight);
+        motorFront.setTargetPosition(targetFront);
         motorFrontLeft.setTargetPosition(targetFrontLeft);
         motorBackRight.setTargetPosition(targetBackRight);
-        motorBackLeft.setTargetPosition(targetBackLeft);
+        motorBack.setTargetPosition(targetBack);
 
-        motorFrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorFront.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorFrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         motorBackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        motorBackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        motorBack.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        motorFrontRight.setPower(powerFrontRight);
+        motorFront.setPower(powerFront);
         motorFrontLeft.setPower(powerFrontLeft);
         motorBackRight.setPower(powerBackRight);
-        motorBackLeft.setPower(powerBackLeft);
+        motorBack.setPower(powerBack);
 
         if (isSynchronous) waitForDrivetrain();
 
@@ -150,16 +150,16 @@ public class Drivetrain {
 
         // Send powers to the wheels.
         motorFrontLeft.setPower(leftFrontPower);
-        motorFrontRight.setPower(rightFrontPower);
-        motorBackLeft.setPower(leftBackPower);
+        motorFront.setPower(rightFrontPower);
+        motorBack.setPower(leftBackPower);
         motorBackRight.setPower(rightBackPower);
     }
 
     public void moveWheel(boolean frontRightTest,boolean frontLeftTest,boolean backRightTest,boolean backLeftTest) {
         if (frontRightTest) {
-            motorFrontRight.setPower(1);
+            motorFront.setPower(1);
         }else {
-            motorFrontRight.setPower(0);
+            motorFront.setPower(0);
         }
         if (frontLeftTest) {
             motorFrontLeft.setPower(1);
@@ -172,29 +172,29 @@ public class Drivetrain {
             motorBackRight.setPower(0);
         }
         if (backLeftTest) {
-            motorBackLeft.setPower(1);
+            motorBack.setPower(1);
         }else {
-            motorBackLeft.setPower(0);
+            motorBack.setPower(0);
         }
-        telemetry.addData("motorFrontRight",motorFrontRight.getPower());
+        telemetry.addData("motorFront",motorFront.getPower());
         telemetry.addData("motorFrontLeft",motorFrontLeft.getPower());
         telemetry.addData("motorBackRight",motorBackRight.getPower());
-        telemetry.addData("motorBackLeft",motorBackLeft.getPower());
+        telemetry.addData("motorBack",motorBack.getPower());
     }
 
     public void waitForDrivetrain() {
 
         while (drivetrainIsBusy()) {
 
-            telemetry.addData("\nmotorFrontRight position", motorFrontRight.getCurrentPosition());
+            telemetry.addData("motorFront position", motorFront.getCurrentPosition());
             telemetry.addData("motorFrontLeft position", motorFrontLeft.getCurrentPosition());
             telemetry.addData("motorBackRight position", motorBackRight.getCurrentPosition());
-            telemetry.addData("motorBackLeft position", motorBackLeft.getCurrentPosition());
+            telemetry.addData("motorBack position", motorBack.getCurrentPosition());
 
-            telemetry.addData("\nmotorFrontRight power", motorFrontRight.getPower());
+            telemetry.addData("motorFront power", motorFront.getPower());
             telemetry.addData("motorFrontLeft power", motorFrontLeft.getPower());
             telemetry.addData("motorBackRight power", motorBackRight.getPower());
-            telemetry.addData("motorBackLeft power", motorBackLeft.getPower());
+            telemetry.addData("motorBack power", motorBack.getPower());
 
             telemetry.update();
 
