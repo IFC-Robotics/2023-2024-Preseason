@@ -29,14 +29,10 @@
 //
 //package org.firstinspires.ftc.teamcode.testing;
 //
-//import android.util.Size;
-//
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
-//import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-//import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 //import org.firstinspires.ftc.teamcode.robot.Robot;
 //import org.firstinspires.ftc.vision.VisionPortal;
@@ -54,17 +50,16 @@
 // * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
 // * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
 // */
-//@Autonomous(name = "Object Detection: Blue", group = "Testing")
+//@Autonomous(name = "Object Detection: Red with ground deposit", group = "Testing")
 //
-//public class ModelTesting extends LinearOpMode {
+//public class ModelTestingRedAndGroundPixel extends LinearOpMode {
 //
 //    String elementPos = "Center";
-//    String[] elementList = {"Center"};
+//    String[] elementList = { "Right" };
 //    double driveSpeed = 0.5;
 //    int desiredTagId = -1;
-//    String desiredLabel = "Blue Box";
+//    String desiredLabel = "Red Box";
 //    int searchTime = 2;
-//
 //
 //    private ElapsedTime runtime = new ElapsedTime();
 //    private VisionPortal visionPortal;
@@ -79,7 +74,8 @@
 //        visionPortal = Robot.webcam1.visionPortal;
 //        tfod = Robot.webcam1.tfod;
 //
-////        visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, false); // we don't need AprilTag detection yet
+//        // visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, false); // we don't
+//        // need AprilTag detection yet
 //
 //        // Wait for the DS start button to be touched.
 //        telemetry.addData("DS preview on/off", "3 dots, Camera Stream");
@@ -90,13 +86,13 @@
 //        desiredTagId = 2;
 //
 //
+//        Robot.drivetrain.turn(10,0.7);
 //        runtime.reset();
 //
 //        if (opModeIsActive()) {
-//            while (opModeIsActive() && runtime.seconds() < 2) {
+//            while (opModeIsActive() && runtime.seconds() < 1) {
 //
 //                telemetryTfod();
-//
 //
 //                // Push telemetry to the Driver Station.
 //                telemetry.update();
@@ -106,14 +102,26 @@
 //                    visionPortal.stopStreaming();
 //                } else if (gamepad1.dpad_up) {
 //                    visionPortal.resumeStreaming();
-//                }
+//                }while (opModeIsActive() && runtime.seconds() < 2) {
 //
+//                    telemetryTfod();
+//
+//                    // Push telemetry to the Driver Station.
+//                    telemetry.update();
+//
+//                    // Save CPU resources; can resume streaming when needed.
+//                    if (gamepad1.dpad_down) {
+//                        visionPortal.stopStreaming();
+//                    } else if (gamepad1.dpad_up) {
+//                        visionPortal.resumeStreaming();
+//                    }
+//                }
 //
 //                // Share the CPU.
 //                sleep(20);
 //            }
 //
-//
+//            Robot.drivetrain.turn(-10,0.7);
 //
 //            mainPath();
 //
@@ -121,90 +129,92 @@
 //
 //        // Save more CPU resources when camera is no longer needed.
 //
-//
-//
 //    }
 //
 //    private void mainPath() {
 //        elementPos = findMostCommonPos(elementList);
 //
-//        telemetry.addData("Detected Position",elementPos);
+//        telemetry.addData("Detected Position", elementPos);
 //        telemetry.update();
 //        sleep(2000);
 //
-//        Robot.drivetrain.drive(-30,0.7);
-//
+//        Robot.drivetrain.drive(-30, 0.7);
 //
 //        if (elementPos == "Left") {
-//            desiredTagId = 1;
-//            Robot.drivetrain.turn(90, driveSpeed);
-//            quickDeposit("middle");
+//            desiredTagId = 4;
+//
+//            Robot.drivetrain.turn(-90, driveSpeed);
+//            Robot.motorCollector.runToPosition(-300, true);
+//            Robot.drivetrain.turn(180, driveSpeed);
+//
 //            Robot.drivetrain.strafe(16, driveSpeed);
 //
 //        } else if (elementPos == "Right") {
-//            desiredTagId = 2;
+//            desiredTagId = 6;
 //
-//            Robot.drivetrain.turn(-90, driveSpeed);
-//            quickDeposit("middle");
-//            Robot.drivetrain.strafe(-16, driveSpeed);
-//            Robot.drivetrain.turn(180,driveSpeed);
+//            Robot.drivetrain.turn(90, driveSpeed);
+//
+//            Robot.motorCollector.runToPosition(-300, true);
+//            Robot.drivetrain.strafe(16, driveSpeed);
+//            Robot.drivetrain.turn(180, driveSpeed);
 //        } else {
-//            desiredTagId = 3;
+//            desiredTagId = 5;
 //
-//            Robot.drivetrain.drive(4,driveSpeed);
-//            quickDeposit("middle");
-//            Robot.drivetrain.turn(90,driveSpeed);
-//            Robot.drivetrain.strafe(14, driveSpeed);
+//            Robot.drivetrain.drive(4, driveSpeed);
+//
+//            Robot.drivetrain.turn(180, driveSpeed);
+//            Robot.motorCollector.runToPosition(-300, true);
+//            Robot.drivetrain.turn(90, driveSpeed);
+//
+//            Robot.drivetrain.strafe(-14, driveSpeed);
 //
 //        }
-////        visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
-////        visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do need AT detection
+//        // visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
+//        // visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do
+//        // need AT detection
 //        telemetry.addData("Searching for", desiredTagId);
-//        printRobotData();
 //        goToBackDrop();
 //    }
 //
 //    private void quickDeposit(String position) {
 //        Robot.verticalLift.runToPosition(position, true);
-//        Robot.servoDeposit.runToPosition("auton",true);
+//        Robot.servoDeposit.runToPosition("auton", true);
 //        sleep(1000);
-//        Robot.servoDeposit.runToPosition("collect",true);
+//        Robot.servoDeposit.runToPosition("collect", true);
 //        Robot.verticalLift.runToPosition("zero", true);
-//        printRobotData();
 //    }
 //
 //    private void goToBackDrop() {
-//        Robot.drivetrain.drive(-30,1*driveSpeed);
-//        Robot.drivetrain.strafe(-14, 0.8*driveSpeed);
-//        Robot.motorCollector.runToPosition(600, false);
+//        Robot.drivetrain.drive(-30, 1 * driveSpeed);
+//        Robot.drivetrain.strafe(14, 0.8 * driveSpeed);
 //        // detect april tag
-//        telemetry.addData("Searching for",desiredTagId);
+//        telemetry.addData("Searching for", desiredTagId);
 //        telemetry.update();
 //        runtime.reset();
-//        Robot.webcam1.driveToTag(desiredTagId,searchTime,"clockwise");
-//        sleep(searchTime*1000);
-//        if (Robot.webcam1.targetFound) {
-//            Robot.drivetrain.drive(-10, driveSpeed);
-//        }
-//        else {
-//            Robot.drivetrain.drive(-15, driveSpeed);
-//        }
+//        Robot.webcam1.driveToTag(desiredTagId, searchTime, "counterClockwise");
+//        sleep(searchTime * 1000);
+//         if (Robot.webcam1.targetFound) {
+//         Robot.drivetrain.drive(-10, driveSpeed);
+//         }
+//         else {
+//         Robot.drivetrain.drive(-15, driveSpeed);
+//         }
 //        telemetry.addLine("Done moving to aprilTag");
 //
-//        quickDeposit("high");
+//         quickDeposit("high");
 //    }
 //
 //    public void printRobotData() {
 //
 //        telemetry.addLine("\nRobot data:\n");
 //
-//        telemetry.addData("Element Position",elementPos);
+//        telemetry.addData("Element Position", elementPos);
 //
 //        Robot.verticalLift.printData();
 //
 //        Robot.motorCollector.printData();
 //
-////        Robot.servoDeposit.printData();
+//        // Robot.servoDeposit.printData();
 //
 //        telemetry.update();
 //
@@ -233,7 +243,6 @@
 //        return mostCommonElement;
 //    }
 //
-//
 //    /**
 //     * Initialize the TensorFlow Object Detection processor.
 //     */
@@ -246,15 +255,15 @@
 //        List<Recognition> currentRecognitions = tfod.getRecognitions();
 //        telemetry.addData("# Objects Detected", currentRecognitions.size());
 //
-//        int leftCutoff = 130;
-//        int rightCutoff = 320;
+//        int leftCutoff = 190;
+//        int rightCutoff = 300;
 //
 //        // Step through the list of recognitions and display info for each one.
 //        for (Recognition recognition : currentRecognitions) {
-//            double x = (recognition.getLeft() + recognition.getRight()) / 2 ;
-//            double y = (recognition.getTop()  + recognition.getBottom()) / 2 ;
+//            double x = (recognition.getLeft() + recognition.getRight()) / 2;
+//            double y = (recognition.getTop() + recognition.getBottom()) / 2;
 //            String appendElement = "None";
-//            if(recognition.getLabel() == desiredLabel && recognition.getWidth() < 400) {
+//            if (recognition.getLabel() == desiredLabel && recognition.getWidth() < 400) {
 //                if (x < leftCutoff) {
 //                    appendElement = "Left";
 //                } else if (x > rightCutoff) {
@@ -267,13 +276,13 @@
 //                    elementList[elementList.length - 1] = appendElement;
 //                }
 //            }
-//            telemetry.addData(""," ");
+//            telemetry.addData("", " ");
 //            telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100);
 //            telemetry.addData("- Position", "%.0f / %.0f", x, y);
-//            telemetry.addData("Guess",appendElement);
+//            telemetry.addData("Guess", appendElement);
 //            telemetry.addData("- Size", "%.0f x %.0f", recognition.getWidth(), recognition.getHeight());
-//        }   // end for() loop
+//        } // end for() loop
 //
-//    }   // end method telemetryTfod()
+//    } // end method telemetryTfod()
 //
-//}   // end class
+//} // end class

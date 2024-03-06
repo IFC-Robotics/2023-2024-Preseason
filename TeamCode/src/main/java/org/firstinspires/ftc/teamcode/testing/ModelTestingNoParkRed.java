@@ -29,14 +29,10 @@
 //
 //package org.firstinspires.ftc.teamcode.testing;
 //
-//import android.util.Size;
-//
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
-//import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-//import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 //import org.firstinspires.ftc.teamcode.robot.Robot;
 //import org.firstinspires.ftc.vision.VisionPortal;
@@ -54,15 +50,15 @@
 // * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
 // * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
 // */
-//@Autonomous(name = "Object Detection: Blue", group = "Testing")
+//@Autonomous(name = "Object Detection: No Park Red", group = "Testing")
 //
-//public class ModelTesting extends LinearOpMode {
+//public class ModelTestingNoParkRed extends LinearOpMode {
 //
 //    String elementPos = "Center";
 //    String[] elementList = {"Center"};
 //    double driveSpeed = 0.5;
 //    int desiredTagId = -1;
-//    String desiredLabel = "Blue Box";
+//    String desiredLabel = "Red Box";
 //    int searchTime = 2;
 //
 //
@@ -93,10 +89,9 @@
 //        runtime.reset();
 //
 //        if (opModeIsActive()) {
-//            while (opModeIsActive() && runtime.seconds() < 2) {
+//            while (opModeIsActive() && runtime.seconds() < 1) {
 //
 //                telemetryTfod();
-//
 //
 //                // Push telemetry to the Driver Station.
 //                telemetry.update();
@@ -107,13 +102,22 @@
 //                } else if (gamepad1.dpad_up) {
 //                    visionPortal.resumeStreaming();
 //                }
+//                while (opModeIsActive() && runtime.seconds() < 2) {
 //
+//                    telemetryTfod();
 //
-//                // Share the CPU.
-//                sleep(20);
+//                    // Push telemetry to the Driver Station.
+//                    telemetry.update();
+//
+//                    // Save CPU resources; can resume streaming when needed.
+//                    if (gamepad1.dpad_down) {
+//                        visionPortal.stopStreaming();
+//                    } else if (gamepad1.dpad_up) {
+//                        visionPortal.resumeStreaming();
+//                    }
+//                }
+//
 //            }
-//
-//
 //
 //            mainPath();
 //
@@ -135,65 +139,42 @@
 //        Robot.drivetrain.drive(-30,0.7);
 //
 //
+//        elementPos = findMostCommonPos(elementList);
+//
+//        telemetry.addData("Detected Position", elementPos);
+//        telemetry.update();
+//        sleep(2000);
+//
 //        if (elementPos == "Left") {
 //            desiredTagId = 1;
-//            Robot.drivetrain.turn(90, driveSpeed);
-//            quickDeposit("middle");
-//            Robot.drivetrain.strafe(16, driveSpeed);
-//
-//        } else if (elementPos == "Right") {
-//            desiredTagId = 2;
 //
 //            Robot.drivetrain.turn(-90, driveSpeed);
-//            quickDeposit("middle");
-//            Robot.drivetrain.strafe(-16, driveSpeed);
-//            Robot.drivetrain.turn(180,driveSpeed);
-//        } else {
+//
+//            Robot.motorCollector.runToPosition(-600, true);
+//
+//
+//        } else if (elementPos == "Right") {
 //            desiredTagId = 3;
 //
-//            Robot.drivetrain.drive(4,driveSpeed);
-//            quickDeposit("middle");
-//            Robot.drivetrain.turn(90,driveSpeed);
-//            Robot.drivetrain.strafe(14, driveSpeed);
+//            Robot.drivetrain.turn(90, driveSpeed);
+//            Robot.motorCollector.runToPosition(-600, true);
+//        } else {
+//            desiredTagId = 2;
+//
+//            Robot.drivetrain.drive(4, driveSpeed);
+//
+//            Robot.drivetrain.turn(180, driveSpeed);
+//            Robot.motorCollector.runToPosition(-600, true);
 //
 //        }
-////        visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
-////        visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do need AT detection
+//        // visionPortal.setProcessorEnabled(Robot.webcam1.tfod, false);
+//        // visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do
+//        // need AT detection
 //        telemetry.addData("Searching for", desiredTagId);
-//        printRobotData();
-//        goToBackDrop();
 //    }
 //
-//    private void quickDeposit(String position) {
-//        Robot.verticalLift.runToPosition(position, true);
-//        Robot.servoDeposit.runToPosition("auton",true);
-//        sleep(1000);
-//        Robot.servoDeposit.runToPosition("collect",true);
-//        Robot.verticalLift.runToPosition("zero", true);
-//        printRobotData();
-//    }
 //
-//    private void goToBackDrop() {
-//        Robot.drivetrain.drive(-30,1*driveSpeed);
-//        Robot.drivetrain.strafe(-14, 0.8*driveSpeed);
-//        Robot.motorCollector.runToPosition(600, false);
-//        // detect april tag
-//        telemetry.addData("Searching for",desiredTagId);
-//        telemetry.update();
-//        runtime.reset();
-//        Robot.webcam1.driveToTag(desiredTagId,searchTime,"clockwise");
-//        sleep(searchTime*1000);
-//        if (Robot.webcam1.targetFound) {
-//            Robot.drivetrain.drive(-10, driveSpeed);
-//        }
-//        else {
-//            Robot.drivetrain.drive(-15, driveSpeed);
-//        }
-//        telemetry.addLine("Done moving to aprilTag");
-//
-//        quickDeposit("high");
-//    }
-//
+//// bruh moment
 //    public void printRobotData() {
 //
 //        telemetry.addLine("\nRobot data:\n");
@@ -246,8 +227,8 @@
 //        List<Recognition> currentRecognitions = tfod.getRecognitions();
 //        telemetry.addData("# Objects Detected", currentRecognitions.size());
 //
-//        int leftCutoff = 130;
-//        int rightCutoff = 320;
+//        int leftCutoff = 190;
+//        int rightCutoff = 300;
 //
 //        // Step through the list of recognitions and display info for each one.
 //        for (Recognition recognition : currentRecognitions) {

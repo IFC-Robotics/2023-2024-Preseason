@@ -29,14 +29,10 @@
 //
 //package org.firstinspires.ftc.teamcode.testing;
 //
-//import android.util.Size;
-//
 //import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 //import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 //
-//import org.firstinspires.ftc.robotcore.external.hardware.camera.BuiltinCameraDirection;
-//import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 //import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 //import org.firstinspires.ftc.teamcode.robot.Robot;
 //import org.firstinspires.ftc.vision.VisionPortal;
@@ -54,9 +50,9 @@
 // * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
 // * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
 // */
-//@Autonomous(name = "Object Detection: Blue", group = "Testing")
+//@Autonomous(name = "Object Detection: Blue Right Side, Parking", group = "Testing")
 //
-//public class ModelTesting extends LinearOpMode {
+//public class ModelBluePark extends LinearOpMode {
 //
 //    String elementPos = "Center";
 //    String[] elementList = {"Center"};
@@ -93,7 +89,7 @@
 //        runtime.reset();
 //
 //        if (opModeIsActive()) {
-//            while (opModeIsActive() && runtime.seconds() < 2) {
+//            while (opModeIsActive() && runtime.seconds() < 30) {
 //
 //                telemetryTfod();
 //
@@ -161,7 +157,8 @@
 ////        visionPortal.setProcessorEnabled(Robot.webcam1.aprilTag, true); // now we do need AT detection
 //        telemetry.addData("Searching for", desiredTagId);
 //        printRobotData();
-//        goToBackDrop();
+//
+////        goToBackDrop();
 //    }
 //
 //    private void quickDeposit(String position) {
@@ -171,6 +168,11 @@
 //        Robot.servoDeposit.runToPosition("collect",true);
 //        Robot.verticalLift.runToPosition("zero", true);
 //        printRobotData();
+//    }
+//
+//    private void park() {
+//        Robot.drivetrain.drive(-120, driveSpeed);
+//
 //    }
 //
 //    private void goToBackDrop() {
@@ -193,7 +195,7 @@
 //
 //        quickDeposit("high");
 //    }
-//
+//    // bruh moment
 //    public void printRobotData() {
 //
 //        telemetry.addLine("\nRobot data:\n");
@@ -246,8 +248,8 @@
 //        List<Recognition> currentRecognitions = tfod.getRecognitions();
 //        telemetry.addData("# Objects Detected", currentRecognitions.size());
 //
-//        int leftCutoff = 130;
-//        int rightCutoff = 320;
+//        int leftCutoff = 210;
+//        int rightCutoff = 300;
 //
 //        // Step through the list of recognitions and display info for each one.
 //        for (Recognition recognition : currentRecognitions) {
