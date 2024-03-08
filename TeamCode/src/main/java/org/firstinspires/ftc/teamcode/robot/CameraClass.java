@@ -101,7 +101,7 @@ public class CameraClass {
 
 
     //call this method for aprilTag based movement
-    public void driveToTag(int inputID, int searchTime, String idleBehavior, boolean isSynchronous) {
+    public void driveToTag(int inputID, int searchTime, String idleBehavior) {
         telemetry.addLine("in the camera class");
         telemetry.update();
         runtime.reset();
