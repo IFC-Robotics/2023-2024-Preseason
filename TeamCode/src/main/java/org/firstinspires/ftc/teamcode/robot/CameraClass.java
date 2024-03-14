@@ -220,10 +220,10 @@ public class CameraClass {
         }
 
         // Send powers to the wheels.
-        Drivetrain.motorFrontLeft.setPower(-leftFrontPower);
-        Drivetrain.motorFrontRight.setPower(-rightFrontPower);
-        Drivetrain.motorBackLeft.setPower(-leftBackPower);
-        Drivetrain.motorBackRight.setPower(-rightBackPower);
+        Drivetrain.motorLeft.setPower(-leftFrontPower);
+        Drivetrain.motorFront.setPower(-rightFrontPower);
+        Drivetrain.motorBack.setPower(-leftBackPower);
+        Drivetrain.motorRight.setPower(-rightBackPower);
     }
 
     /**

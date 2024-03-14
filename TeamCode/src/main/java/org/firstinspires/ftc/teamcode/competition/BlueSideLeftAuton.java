@@ -89,9 +89,9 @@ public class BlueSideLeftAuton extends LinearOpMode {
 
     private void quickDeposit(String position) {
         Robot.verticalLift.runToPosition(position, true);
-        Robot.servoDeposit.runToPosition("auton",true);
+        Robot.servoClaw.runToPosition("auton",true);
         sleep(1000);
-        Robot.servoDeposit.runToPosition("collect",true);
+        Robot.servoClaw.runToPosition("collect",true);
         Robot.verticalLift.runToPosition("zero", true);
     }
 
