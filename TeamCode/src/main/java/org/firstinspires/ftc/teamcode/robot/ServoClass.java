@@ -53,7 +53,7 @@ public class ServoClass {
 
         // reset launching servo at initialization
         if (this.name == "servo_launcher") {
-            servo.setPosition(this.maxPosition);
+            servo.setPosition(this.minPosition);
         }
         if (this.name == "servo_deposit") {
             servo.setPosition(this.minPosition);

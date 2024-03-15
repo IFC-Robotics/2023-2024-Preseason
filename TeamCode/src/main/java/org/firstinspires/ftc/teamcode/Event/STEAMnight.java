@@ -11,6 +11,7 @@ public class STEAMnight extends LinearOpMode {
     float pulleyRatio = 0.2f; //test
     float pulleySpeed;
     float launcherSpeed;
+    boolean LiftisUp = false;
 
     @Override
     public void runOpMode() {
@@ -38,11 +39,21 @@ public class STEAMnight extends LinearOpMode {
 
             Robot.servoLauncher.teleOpAssistMode(gamepad1.left_bumper,false,gamepad1.right_bumper);
 
-            if (Robot.verticalLift.motor.getCurrentPosition() > 600) {
+            if (LiftisUp) {
                 Robot.servoDeposit.teleOpManualMode(gamepad2.left_trigger > 0.2, gamepad2.right_trigger > 0.2);
             } else {
                 Robot.servoDeposit.servo.setPosition(0);
+                Robot.servoDeposit.servoPosition = 0;
             }
+
+            if (Robot.verticalLift.motor.getCurrentPosition() > 600) {
+                LiftisUp = true;
+
+            } else {
+                LiftisUp = false;
+            }
+
+
 
             printRobotData();
         }
