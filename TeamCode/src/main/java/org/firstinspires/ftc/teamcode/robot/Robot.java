@@ -12,7 +12,8 @@ public class Robot {
 //
 
     public static LiftClass verticalLift;
-    public static ServoClass servoClaw;
+    public static ServoClass servoClawRight;
+    public static ServoClass servoClawLeft;
   
 
 
@@ -38,12 +39,14 @@ public class Robot {
 
         drivetrain =        new Drivetrain("collector", SLEEP_TIME);
         verticalLift =      new LiftClass("motor_vertical_lift", MAX_LIFT_SPEED, 0.0005, SLEEP_TIME, true);
-        servoClaw =      new ServoClass("servo_claw", "collect", 0.13, "score",0.5,"auton", 1, SERVO_SPEED, SERVO_TIME, false);
+        servoClawLeft =      new ServoClass("servo_left", "start", 0.1, "open",0.5,"closed", 1, SERVO_SPEED, SERVO_TIME, false);
+        servoClawRight =      new ServoClass("servo_right", "start",0.12 , "open",0.5,"closed", 1, SERVO_SPEED, SERVO_TIME, false);
 //        servoLauncher =     new ServoClass("servo_launcher", "release", 0.1, "hold",0.5 ,"medium",0.65, SERVO_SPEED, SERVO_TIME, false);
         
         drivetrain.init(opMode);
         verticalLift.init(opMode);
-        servoClaw.init(opMode);
+        servoClawRight.init(opMode);
+        servoClawLeft.init(opMode);
 //        
 
     }
