@@ -46,7 +46,7 @@ public class STEAMnight extends LinearOpMode {
                 Robot.servoDeposit.servoPosition = 0;
             }
 
-            if (Robot.verticalLift.motor.getCurrentPosition() > 600) {
+            if (Robot.verticalLift.motor.getCurrentPosition() > 800) {
                 LiftisUp = true;
 
             } else {
