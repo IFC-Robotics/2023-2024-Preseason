@@ -55,10 +55,6 @@ public class ServoClass {
         if (this.name == "servo_launcher") {
             servo.setPosition(this.minPosition);
         }
-        if (this.name == "servo_deposit") {
-            servo.setPosition(this.minPosition);
-        }
-
         servoPosition = servo.getPosition();
 
         if (this.reverseDirection) servo.setDirection(Servo.Direction.REVERSE);

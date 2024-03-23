@@ -23,7 +23,7 @@ public class Drivetrain {
     public static double STRAFE_FACTOR = 50.83;
     public static double TURN_FACTOR = 296.0;
 
-    public static double MAX_TELEOP_SPEED = 0.7;
+    public static double MAX_TELEOP_SPEED = 0.4;
 
     public final String forwardDirection;
     public final int sleepTime;
@@ -44,8 +44,8 @@ public class Drivetrain {
         motorBackLeft   = opMode.hardwareMap.get(DcMotor.class, "motor_back_left");
 
         if (this.forwardDirection == "collector") {
-            motorBackLeft.setDirection(DcMotor.Direction.REVERSE);
-            motorFrontRight.setDirection(DcMotor.Direction.REVERSE);
+            motorFrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            motorBackRight.setDirection(DcMotor.Direction.REVERSE);
         }
 
         motorFrontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -215,10 +215,10 @@ public class Drivetrain {
         double backLeftPower;
 
         double denominator = (Math.max(Math.abs(drive) + Math.abs(strafe) + Math.abs(turn), 1))/(turboModeToggle ? 0.7 : MAX_TELEOP_SPEED);
-        frontLeftPower = (drive + strafe + turn) / denominator ;
-        backLeftPower = (drive - strafe + turn) / denominator;
-        frontRightPower = (drive - strafe - turn) / denominator;
-        backRightPower = (drive + strafe - turn) / denominator;
+        frontLeftPower = (drive + strafe - turn) / denominator ;
+        backLeftPower = (drive - strafe - turn) / denominator;
+        frontRightPower = (drive - strafe + turn) / denominator;
+        backRightPower = (drive + strafe + turn) / denominator;
 
         //old charlie code that locks out diagonal movement
 //        if (Math.abs(drive) >= Math.abs(strafe)) {

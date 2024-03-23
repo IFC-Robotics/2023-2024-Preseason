@@ -28,8 +28,7 @@ public class NoFSMteleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
 
-            //disabled encoder toggle for children
-            Robot.verticalLift.teleOp(-gamepad2.right_stick_y, false /**gamepad2.right_bumper **/, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
+            Robot.verticalLift.teleOp(-gamepad2.right_stick_y, gamepad2.right_bumper, gamepad2.a, gamepad2.x, gamepad2.b, gamepad2.y);
 
             //disabled turbo mode for button mapping
             Robot.drivetrain.teleOp(-gamepad1.left_stick_y, gamepad1.left_stick_x, gamepad1.right_stick_x, false/**gamepad1.right_bumper**/);
