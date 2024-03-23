@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@TeleOp(name="STEAM Night teleOp", group="Event")
-public class STEAMnight extends LinearOpMode {
+@TeleOp(name="STEAM event teleOp", group="Event")
+public class STEAMevents extends LinearOpMode {
 
     float pulleyRatio = 0.2f; //test
     float pulleySpeed;
