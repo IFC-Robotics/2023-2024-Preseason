@@ -51,11 +51,11 @@ public class ServoClass {
         servo = opMode.hardwareMap.get(Servo.class, this.name);
         servo.scaleRange(this.minPosition, this.maxPosition);
 
-        // reset launching servo at initialization
-        if (this.name == "servo_launcher") {
-            servo.setPosition(this.maxPosition);
+        // reset at initialization
+        if (this.name == "servo_right") {
+            servo.setPosition(this.minPosition);
         }
-        if (this.name == "servo_deposit") {
+        if (this.name == "servo_left") {
             servo.setPosition(this.minPosition);
         }
 
@@ -100,7 +100,7 @@ public class ServoClass {
             }
             else if (maxConditionButton) {
                 servoPosName = maxPositionName;
-                servoPosition = 0.46; //tune this
+                servoPosition = maxPosition; //tune this
             }
             servo.setPosition(servoPosition);
 

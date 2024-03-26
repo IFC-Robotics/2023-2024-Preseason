@@ -14,6 +14,7 @@ public class Drivetrain {
     LinearOpMode opMode;
     Telemetry telemetry;
 //DcMotor is a FTC based class that
+
     public static DcMotor motorFront;
     public static DcMotor motorLeft;
     public static DcMotor motorRight;
@@ -152,8 +153,8 @@ public class Drivetrain {
         motorRight.setPower(rightBackPower);
     }
 
-    public void moveWheel(boolean frontRightTest,boolean leftTest,boolean rightTest,boolean backTest) {
-        if (frontRightTest) {
+    public void moveWheel(boolean frontTest,boolean leftTest,boolean rightTest,boolean backTest) {
+        if (frontTest) {
             motorFront.setPower(1);
         }else {
             motorFront.setPower(0);
@@ -174,8 +175,8 @@ public class Drivetrain {
             motorBack.setPower(0);
         }
         telemetry.addData("motorFront",motorFront.getPower());
-        telemetry.addData("motorFrontLeft",motorLeft.getPower());
-        telemetry.addData("motorBackRight",motorRight.getPower());
+        telemetry.addData("motorLeft",motorLeft.getPower());
+        telemetry.addData("motorRight",motorRight.getPower());
         telemetry.addData("motorBack",motorBack.getPower());
     }
 
@@ -184,13 +185,13 @@ public class Drivetrain {
         while (drivetrainIsBusy()) {
 
             telemetry.addData("motorFront position", motorFront.getCurrentPosition());
-            telemetry.addData("motorFrontLeft position", motorLeft.getCurrentPosition());
-            telemetry.addData("motorBackRight position", motorRight.getCurrentPosition());
+            telemetry.addData("motorLeft position", motorLeft.getCurrentPosition());
+            telemetry.addData("motorRight position", motorRight.getCurrentPosition());
             telemetry.addData("motorBack position", motorBack.getCurrentPosition());
 
             telemetry.addData("motorFront power", motorFront.getPower());
-            telemetry.addData("motorFrontLeft power", motorLeft.getPower());
-            telemetry.addData("motorBackRight power", motorRight.getPower());
+            telemetry.addData("motorLeft power", motorLeft.getPower());
+            telemetry.addData("motorRight power", motorRight.getPower());
             telemetry.addData("motorBack power", motorBack.getPower());
 
             telemetry.update();
