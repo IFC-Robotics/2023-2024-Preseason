@@ -38,9 +38,9 @@ public class Drivetrain {
         opMode = opModeParam;
         telemetry = opMode.telemetry;
 
-        motorLeft  = opMode.hardwareMap.get(DcMotor.class, "motor_front_left");
+        motorLeft  = opMode.hardwareMap.get(DcMotor.class, "motor_left");
         motorFront = opMode.hardwareMap.get(DcMotor.class, "motor_front");
-        motorRight  = opMode.hardwareMap.get(DcMotor.class, "motor_back_right");
+        motorRight  = opMode.hardwareMap.get(DcMotor.class, "motor_right");
         motorBack   = opMode.hardwareMap.get(DcMotor.class, "motor_back");
 
         motorFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
