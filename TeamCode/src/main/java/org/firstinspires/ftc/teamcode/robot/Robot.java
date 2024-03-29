@@ -39,16 +39,16 @@ public class Robot {
 
 
         drivetrain     =    new Drivetrain("collector", SLEEP_TIME);
-        servoClaw      =    new ServoClass("servo_claw", "open", 0.1, "score",0.5,"close", 1, SERVO_SPEED, SERVO_TIME, false);
-        motorArm       =    new MotorClass("motor_arm", MAX_MOTOR_SPEED, SLEEP_TIME, true);
-        scissorLift    =    new ScissorClass("scissor_lift", 0.5*MAX_LIFT_SPEED, 0.01, SLEEP_TIME, false);
+//        servoClaw      =    new ServoClass("servo_claw", "open", 0.1, "score",0.5,"close", 1, SERVO_SPEED, SERVO_TIME, false);
+//        motorArm       =    new MotorClass("motor_arm", MAX_MOTOR_SPEED, SLEEP_TIME, true);
+//        scissorLift    =    new ScissorClass("scissor_lift", 0.5*MAX_LIFT_SPEED, 0.01, SLEEP_TIME, false);
 //        webcam1        =    new CameraClass("webcam_1",true);
 //        redBlueModel =    new TFModelClass("red_&_blue", new String[]{"Red Box", "Blue Box"},"model_red&blue_low_step.tflite");
 
         drivetrain.init(opMode);
-        servoClaw.init(opMode);
-        motorArm.init(opMode);
-        scissorLift.init(opMode);
+//        servoClaw.init(opMode);
+//        motorArm.init(opMode);
+//        scissorLift.init(opMode);
 //        webcam1.init(opMode);
 //        redBlueModel.init(opMode);
 
