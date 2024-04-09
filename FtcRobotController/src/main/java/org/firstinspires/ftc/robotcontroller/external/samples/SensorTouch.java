@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 FIRST. All rights reserved.
+/* Copyright (c) 2024 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
  * are permitted (subject to the limitations in the disclaimer below) provided that
@@ -25,7 +25,7 @@
  * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- */
+*/
 
 package org.firstinspires.ftc.robotcontroller.external.samples;
 
@@ -43,36 +43,65 @@ import com.qualcomm.robotcore.hardware.TouchSensor;
  *
  * A REV Robotics Touch Sensor must be configured on digital port number 1, 3, 5, or 7.
  * A Magnetic Limit Switch can be configured on any digital port.
+ * This OpMode demonstrates how to use a digital channel.
+ *
+ * The OpMode assumes that the digital channel is configured with a name of "digitalTouch".
  *
  * Use Android Studio to Copy this Class, and Paste it into your team's code folder with a new name.
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list.
- */
+
 @TeleOp(name = "Sensor: REV touch sensor", group = "Sensor")
 @Disabled
 public class SensorTouch extends LinearOpMode {
     TouchSensor touchSensor;  // Touch sensor Object
 
+@TeleOp(name = "Sensor: digital channel", group = "Sensor")
+@Disabled
+public class SensorDigitalTouch extends LinearOpMode {
+    DigitalChannel digitalTouch;  // Digital channel Object
+
+
     @Override
     public void runOpMode() {
 
         // get a reference to our touchSensor object.
+
         touchSensor = hardwareMap.get(TouchSensor.class, "sensor_touch");
+
+        digitalTouch = hardwareMap.get(DigitalChannel.class, "digitalTouch");
+
+        digitalTouch.setMode(DigitalChannel.Mode.INPUT);
+        telemetry.addData("DigitalTouchSensorExample", "Press start to continue...");
+        telemetry.update();
+
 
         // wait for the start button to be pressed.
         waitForStart();
 
+
         // while the OpMode is active, loop and read whether the sensor is being pressed.
+
+        // while the OpMode is active, loop and read the digital channel.
+
         // Note we use opModeIsActive() as our loop condition because it is an interruptible method.
         while (opModeIsActive()) {
 
+            // button is pressed if value returned is LOW or false.
             // send the info back to driver station using telemetry function.
+
             if (touchSensor.isPressed()) {
                 telemetry.addData("Touch Sensor", "Is Pressed");
             } else {
                 telemetry.addData("Touch Sensor", "Is Not Pressed");
+
+            if (digitalTouch.getState() == false) {
+                telemetry.addData("Button", "PRESSED");
+            } else {
+                telemetry.addData("Button", "NOT PRESSED");
             }
 
             telemetry.update();
         }
     }
 }
+*/
