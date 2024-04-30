@@ -48,7 +48,6 @@ public class Robot {
         motorCollector =      new MotorClass("motor_collector", MAX_MOTOR_SPEED, SLEEP_TIME, true);
         motorLauncher =     new MotorClass("motor_launcher", 0.5*MAX_MOTOR_SPEED, SLEEP_TIME, false);
         webcam1 =           new CameraClass("webcam_1",true);
-//        redBlueModel =      new TFModelClass("red_&_blue", new String[]{"Red Box", "Blue Box"},"model_red&blue_low_step.tflite");
         motorPulley =       new MotorClass("motor_pulley", MAX_MOTOR_SPEED,SLEEP_TIME, false);
 
         drivetrain.init(opMode);
@@ -61,10 +60,6 @@ public class Robot {
         motorPulley.init(opMode);
 
     }
-
-    //April Tag Methods
-
-
 
 
 
