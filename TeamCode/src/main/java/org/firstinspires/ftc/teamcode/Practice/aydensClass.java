@@ -25,6 +25,7 @@ public class aydensClass extends LinearOpMode{
         Robot.drivetrain.strafe(-48,0.7);
         Robot.verticalLift.runToPosition("middle");
         Robot.servoDeposit.runToPosition("score");
+        Robot.verticalLift.runToPosition("zero");
         Robot.drivetrain.drive(24,0.1);
         Robot.drivetrain.turn(-90,0.7);
         Robot.drivetrain.drive(-36,0.7);
