@@ -17,13 +17,27 @@ public class CatVideo extends LinearOpMode{
         //initialization code
 
         waitForStart();
-        Robot.motorCollector.runToPosition(100);
-        Robot.drivetrain.drive(-40,0.7);
-        Robot.drivetrain.strafe(-20,0.7);
-        Robot.drivetrain.drive(-20,0.7);
-        Robot.drivetrain.strafe(20,0.7);
-        Robot.drivetrain.drive(-20,0.7);
-//        Robot.motorPulley.runToPosition(50);
+        Robot.motorCollector.runToPosition(1000);
+        Robot.drivetrain.drive(-10,0.7);
+        Robot.motorCollector.runToPosition(1000);
+        Robot.drivetrain.drive(-10,0.7);
+        Robot.motorCollector.runToPosition(1000);
+        Robot.drivetrain.drive(-10,0.7);
+        Robot.motorCollector.runToPosition(1000);
+        Robot.drivetrain.strafe(-30,0.7);
+        Robot.drivetrain.drive(30,0.7);
+        Robot.drivetrain.strafe(10,0.7);
+        Robot.verticalLift.runToPosition("middle");
+        Robot.servoDeposit.runToPosition("score");
+        Robot.verticalLift.runToPosition("zero",true);
+        Robot.motorCollector.runToPosition(1000);
+        Robot.verticalLift.runToPosition("middle");
+        Robot.servoDeposit.runToPosition("score");
+        Robot.verticalLift.runToPosition("zero",true);
+        Robot.drivetrain.turn(540,0.7);
+        Robot.drivetrain.strafe(-10,0.7);
+        Robot.drivetrain.drive(20,0.7);
+        Robot.motorLauncher.runToPosition(50);
         // start code
     }
 }
