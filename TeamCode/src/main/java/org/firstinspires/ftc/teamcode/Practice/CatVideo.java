@@ -8,7 +8,7 @@ import org.firstinspires.ftc.teamcode.robot.MotorClass;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@Autonomous(name="Cat Video", group = "Practice")
+@Autonomous(name="Basic Autonomous Code", group = "Practice")
 
 public class CatVideo extends LinearOpMode{
     @Override
@@ -18,20 +18,20 @@ public class CatVideo extends LinearOpMode{
         Robot.init(this);
 
         waitForStart();
-        Robot.motorCollector.runToPosition(1000);
+        Robot.motorCollector.runToPosition(1000, false, 1);
         Robot.drivetrain.drive(-10,0.7);
-        Robot.motorCollector.runToPosition(1000);
+        Robot.motorCollector.runToPosition(1000, false, 1);
         Robot.drivetrain.drive(-10,0.7);
-        Robot.motorCollector.runToPosition(1000);
-        Robot.drivetrain.drive(-30,0.7);
-        Robot.motorCollector.runToPosition(2000);
-        Robot.drivetrain.strafe(30,0.7);
-        Robot.drivetrain.drive(40,0.7);
-        Robot.drivetrain.strafe(-10,0.7);
+        Robot.motorCollector.runToPosition(1000, false, 1);
+        Robot.drivetrain.drive(-10,0.7);
+        Robot.motorCollector.runToPosition(1000, false, 1);
+        Robot.drivetrain.strafe(-30,0.7);
+        Robot.drivetrain.drive(30,0.7);
+        Robot.drivetrain.strafe(10,0.7);
         Robot.verticalLift.runToPosition("middle");
         Robot.servoDeposit.runToPosition("score");
         Robot.verticalLift.runToPosition("zero",true);
-        Robot.motorCollector.runToPosition(1000);
+        Robot.motorCollector.runToPosition(1000, false, 1);
         Robot.verticalLift.runToPosition("middle");
         Robot.servoDeposit.runToPosition("score");
         Robot.verticalLift.runToPosition("zero",true);
