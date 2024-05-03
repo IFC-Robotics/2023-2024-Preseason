@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.robot.Robot;
 
-@Autonomous(name="Basic Autonomous Code", group = "Practice")
+@Autonomous(name="Iyan's code", group = "Practice")
 
 public class IyansBlankCode extends LinearOpMode{
     @Override
