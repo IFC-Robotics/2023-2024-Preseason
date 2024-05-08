@@ -23,9 +23,9 @@ public class NathanClass extends LinearOpMode{
         Robot.drivetrain.strafe(-29,.5);
         Robot.drivetrain.drive(-29,.5);
         Robot.drivetrain.strafe(29,.5);
-        Robot.verticalLift.runToPosition("high");
-        Robot.servoDeposit.runToPosition("auton");
-        Robot.servoDeposit.runToPosition("collect");
+        Robot.verticalLift.runToPosition("middle", true);
+        Robot.servoDeposit.runToPosition("auton", true );
+        Robot.servoDeposit.runToPosition("collect", true);
         Robot.drivetrain.turn(360,.5, false);
         Robot.motorCollector.runToPosition(59,false);
         Robot.verticalLift.runToPosition("zero",true);

@@ -20,17 +20,19 @@ public class aydensClass extends LinearOpMode{
         waitForStart();
 
         // start code
-        Robot.drivetrain.drive(12,0.7);
+        Robot.drivetrain.drive(14,0.7);
         Robot.motorCollector.runToPosition(4000);
         Robot.drivetrain.strafe(-60,0.7);
-        Robot.verticalLift.runToPosition("middle");
+        Robot.drivetrain.drive(3,0.76);
+        Robot.drivetrain.drive(-3,0.76);
+        Robot.verticalLift.runToPosition("middle",true);
         Robot.servoDeposit.runToPosition("score");
-        Robot.verticalLift.runToPosition("zero");
-        Robot.drivetrain.drive(36,0.1);
+        Robot.verticalLift.runToPosition("zero",true);
+        Robot.servoDeposit.runToPosition("zero");
+        Robot.drivetrain.drive(42,0.1);
         Robot.drivetrain.turn(-90,0.7);
         Robot.drivetrain.drive(-36,0.7);
-        Robot.motorLauncher.runToPosition(12);
-        Robot.motorLauncher.runToPosition(0);
-        Robot.motorPulley.runToPosition(10);
+        Robot.motorLauncher.runToPosition(-127,true);
+        Robot.motorLauncher.runToPosition(0,true);
     }
 }
